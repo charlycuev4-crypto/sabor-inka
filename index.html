@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabor Inka - ¡Bien Servido!</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #0b0f19; color: white; margin: 0; padding: 15px; }
+        h1 { color: #d4af37; text-align: center; margin-bottom: 5px; font-size: 2.2rem; text-transform: uppercase; }
+        .sub { text-align: center; color: #94a3b8; margin-bottom: 20px; font-style: italic; }
+        .promo { background: #1e293b; color: #d4af37; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 25px; border: 1px solid #d4af37; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .card { background: #1e293b; border-radius: 20px; overflow: hidden; border: 1px solid #334155; position: relative; }
+        .badge { position: absolute; top: 15px; right: 15px; background: #d4af37; color: #0b0f19; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85rem; z-index: 10; border: 1px solid #fff; }
+        .card img { width: 100%; height: 230px; object-fit: cover; }
+        .info { padding: 20px; }
+        .price { color: #fff; font-size: 1.6rem; font-weight: bold; margin: 10px 0; display: block; }
+        .btn-whatsapp { background: #25d366; color: white; text-decoration: none; display: block; text-align: center; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <h1>Sabor Inka</h1>
+    <p class="sub">¡Donde come uno, comen dos!</p>
+    <div class="promo">🛵 Delivery: Santa Brígida • San Miguel • Trujui</div>
+    <div class="grid">
+        <div class="card">
+            <div class="badge">🍴 COMEN 2</div>
+            <img src="pollo.jpg">
+            <div class="info">
+                <h3>Pollo Broaster XL</h3>
+                <span class="price">$7.500</span>
+                <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20pedir%20Pollo%20Broaster%20Abundante" class="btn-whatsapp">Pedir por WhatsApp</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="badge">🍴 COMEN 2</div>
+            <img src="lomo.jpg">
+            <div class="info">
+                <h3>Lomo Saltado Gigante</h3>
+                <span class="price">$9.500</span>
+                <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20pedir%20Lomo%20Saltado%20Gigante" class="btn-whatsapp">Pedir por WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
