@@ -79,42 +79,35 @@
             color: #d4af37;
         }
 
-        /* Carrito flotante */
+        /* NUEVO DISEÑO: Botón "Ver mi pedido" arriba */
         .cart-float {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
             background: #d4af37;
             color: #0b0f19;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+            padding: 12px 20px;
+            border-radius: 50px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            gap: 10px;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(212,175,55,0.4);
-            z-index: 100;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.5);
+            z-index: 1000;
             transition: transform 0.3s;
+            border: 2px solid #0b0f19;
         }
         
-        .cart-float:hover { transform: scale(1.1); }
+        .cart-float:hover { transform: scale(1.05); }
         
         .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
             background: #ef4444;
             color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.9rem;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         /* Modal carrito */
@@ -123,7 +116,7 @@
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.8);
-            z-index: 200;
+            z-index: 2000;
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -396,7 +389,6 @@
             font-weight: bold;
         }
 
-        /* ACLARACIÓN INDIVIDUAL */
         .aclaracion-individual {
             background: #0f172a;
             border: 2px solid #3b82f6;
@@ -454,31 +446,28 @@
             .logo { font-size: 2rem; }
             .grid { grid-template-columns: 1fr; }
             .menu-dia { flex-direction: column; text-align: center; }
+            .cart-float { padding: 10px 15px; font-size: 0.9rem; top: 15px; right: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header">
         <div class="logo">🇵🇪 Sabor Inka</div>
         <p class="lema">"Donde come uno, comen dos"</p>
         <div class="zona">🛵 Delivery: Santa Brígida • San Miguel • Trujui</div>
     </div>
 
-    <!-- Tabs -->
+    <div class="cart-float" onclick="toggleCart()">
+        <span>🛒 Ver mi pedido</span>
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+
     <div class="tabs">
         <button class="tab active" onclick="showTab('especiales')">🔥 Platos Especiales</button>
         <button class="tab" onclick="showTab('ejecutivo')">🏭 Menú Ejecutivo Fábricas</button>
     </div>
 
-    <!-- Carrito flotante -->
-    <div class="cart-float" onclick="toggleCart()">
-        🛒
-        <span class="cart-count" id="cartCount">0</span>
-    </div>
-
-    <!-- Modal Carrito -->
     <div class="modal-overlay" id="cartModal">
         <div class="modal">
             <div class="modal-header">
@@ -531,50 +520,31 @@
         </div>
     </div>
 
-    <!-- TAB 1: Platos Especiales -->
     <div class="container active" id="tab-especiales">
-        
         <h2 class="section-title">🍗 Pollo a la Brasa</h2>
         <div class="grid" id="menuPolloBrasa"></div>
-
         <h2 class="section-title">🔥 Platos Abundantes</h2>
         <div class="grid" id="menuAbundantes"></div>
-
         <h2 class="section-title">🍽️ Platos Individuales</h2>
         <div class="grid" id="menuIndividuales"></div>
-
         <h2 class="section-title">🥗 Entradas & Más</h2>
         <div class="grid" id="menuEntradas"></div>
-
     </div>
 
-    <!-- TAB 2: Menú Ejecutivo -->
     <div class="container" id="tab-ejecutivo">
-        
         <div class="promo-fabrica">
             <h3>🏭 Especial Fábricas y Talleres</h3>
             <p>Menú completo: Sopa + Segundo plato</p>
             <p style="color: #d4af37; font-weight: bold; margin-top: 10px;">🚚 Delivery directo a tu fábrica | Pedidos de 5+ menús: 10% OFF</p>
         </div>
-
-        <!-- ACLARACIÓN VISIBLE -->
         <div class="aclaracion-individual">
             <div class="icono">👤</div>
             <h3>⚠️ Menú Ejecutivo: Porción Individual</h3>
             <p>Estos menús son para <strong>1 persona solamente</strong>.<br>
-            Incluyen: Sopa del día + Segundo plato.<br>
-            Si necesitás para más personas, mirá los <strong>Platos Especiales</strong> en la otra pestaña.</p>
+            Incluyen: Sopa del día + Segundo plato.</p>
         </div>
-
         <h2 class="section-title">📅 Menú de la Semana</h2>
-        
         <div class="menu-ejecutivo" id="menuEjecutivo"></div>
-
-        <div class="promo-fabrica">
-            <h3>📞 ¿Pedido para tu fábrica?</h3>
-            <p>Escribinos por WhatsApp con la cantidad de menús y el día que necesitás.<br>¡Te llevamos todo junto a la hora del almuerzo!</p>
-        </div>
-
     </div>
 
     <div class="footer">
@@ -585,194 +555,70 @@
     </div>
 
     <script>
-        // ===== TU NÚMERO DE WHATSAPP =====
         const WHATSAPP_NUMBER = "5491167909625";
 
-        // ===== MENÚ EJECUTIVO DE FÁBRICAS =====
         const menuEjecutivo = [
-            {
-                dia: "Lunes",
-                sopa: "Sopa de fideo con pollo",
-                segundo: "Tallarines de pollo con crema de papa a la huancaína",
-                precio: 8500
-            },
-            {
-                dia: "Martes",
-                sopa: "Sopa de quinua",
-                segundo: "Estofado de pollo con arroz",
-                precio: 8500
-            },
-            {
-                dia: "Miércoles",
-                sopa: "Sopa de fideo con pollo",
-                segundo: "Arroz con bistec y papa a la huancaína",
-                precio: 9000
-            },
-            {
-                dia: "Jueves",
-                sopa: "Sopa de fideo",
-                segundo: "Lomo saltado simple con arroz",
-                precio: 9500
-            },
-            {
-                dia: "Viernes",
-                sopa: "Sopa de carne",
-                segundo: "Papa a la huancaína con huevo y aceitunas",
-                precio: 8000
-            }
+            { dia: "Lunes", sopa: "Sopa de fideo con pollo", segundo: "Tallarines de pollo con crema de papa a la huancaína", precio: 8500 },
+            { dia: "Martes", sopa: "Sopa de quinua", segundo: "Estofado de pollo con arroz", precio: 8500 },
+            { dia: "Miércoles", sopa: "Sopa de fideo con pollo", segundo: "Arroz con bistec y papa a la huancaína", precio: 9000 },
+            { dia: "Jueves", sopa: "Sopa de fideo", segundo: "Lomo saltado simple con arroz", precio: 9500 },
+            { dia: "Viernes", sopa: "Sopa de carne", segundo: "Papa a la huancaína con huevo y aceitunas", precio: 8000 }
         ];
 
-        // ===== PLATOS ESPECIALES =====
         const menu = {
             polloBrasa: [
-                {
-                    id: "pollo-1-4",
-                    nombre: "1/4 Pollo a la Brasa",
-                    desc: "1/4 pollo + papas fritas + ensalada + cremas (mayonesa, picante, vinagreta)",
-                    precio: 10000,
-                    img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp"
-                },
-                {
-                    id: "pollo-1-2",
-                    nombre: "1/2 Pollo a la Brasa",
-                    desc: "Medio pollo + papas abundantes + ensalada + cremas. ¡Comen 2!",
-                    precio: 20000,
-                    img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp",
-                    badge: "🍴 COMEN 2"
-                },
-                {
-                    id: "pollo-entero",
-                    nombre: "Pollo a la Brasa Entero",
-                    desc: "Pollo entero + papas abundantes + ensalada grande + cremas. ¡Comen 5!",
-                    precio: 35000,
-                    img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp",
-                    badge: "🍴 COMEN 5"
-                }
+                { id: "pollo-1-4", nombre: "1/4 Pollo a la Brasa", desc: "1/4 pollo + papas fritas + ensalada + cremas", precio: 10000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp" },
+                { id: "pollo-1-2", nombre: "1/2 Pollo a la Brasa", desc: "Medio pollo + papas abundantes + ensalada. ¡Comen 2!", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 2" },
+                { id: "pollo-entero", nombre: "Pollo a la Brasa Entero", desc: "Pollo entero + papas abundantes + ensalada grande. ¡Comen 5!", precio: 35000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 5" }
             ],
             abundantes: [
-                {
-                    id: "pollo-broaster-xl",
-                    nombre: "Pollo Broaster XL",
-                    desc: "1/2 pollo crocante + papas fritas + ensalada fresca. ¡Comen 2!",
-                    precio: 12000,
-                    img: "https://kimi-web-img.moonshot.cn/img/i.ytimg.com/7670b7be182062ede9d33b625a8a6b3859eb8a4d.jpg",
-                    badge: "🍴 COMEN 2"
-                },
-                {
-                    id: "lomo-xl",
-                    nombre: "Lomo Saltado Gigante",
-                    desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!",
-                    precio: 9500,
-                    img: "https://kimi-web-img.moonshot.cn/img/comedera.com/b7dd4d32277f70fb160cbb6d3289652b22bf2eba.jpg",
-                    badge: "🍴 COMEN 2"
-                }
+                { id: "pollo-broaster-xl", nombre: "Pollo Broaster XL", desc: "1/2 pollo crocante + papas fritas + ensalada fresca. ¡Comen 2!", precio: 12000, img: "https://kimi-web-img.moonshot.cn/img/i.ytimg.com/7670b7be182062ede9d33b625a8a6b3859eb8a4d.jpg", badge: "🍴 COMEN 2" },
+                { id: "lomo-xl", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/b7dd4d32277f70fb160cbb6d3289652b22bf2eba.jpg", badge: "🍴 COMEN 2" }
             ],
             individuales: [
-                {
-                    id: "lomo-pollo",
-                    nombre: "Lomo Saltado de Pollo",
-                    desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco",
-                    precio: 15000,
-                    img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/a4c8e10acb988275f63e432ef3264f27d1ed45b2.webp"
-                },
-                {
-                    id: "chaufa",
-                    nombre: "Arroz Chaufa Peruano",
-                    desc: "Arroz frito abundante con pollo, huevo, cebollín y salsa de soja. ¡Comen 2!",
-                    precio: 15000,
-                    img: "https://kimi-web-img.moonshot.cn/img/www.laylita.com/ba8e26d294a873e7b34402ca48256c726b6b4cec.jpg",
-                    badge: "🍴 COMEN 2"
-                }
+                { id: "lomo-pollo", nombre: "Lomo Saltado de Pollo", desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/a4c8e10acb988275f63e432ef3264f27d1ed45b2.webp" },
+                { id: "chaufa", nombre: "Arroz Chaufa Peruano", desc: "Arroz frito abundante con pollo y huevo. ¡Comen 2!", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/www.laylita.com/ba8e26d294a873e7b34402ca48256c726b6b4cec.jpg", badge: "🍴 COMEN 2" }
             ],
             entradas: [
-                {
-                    id: "ceviche",
-                    nombre: "Ceviche Mixto Peruano",
-                    desc: "Pescado y mariscos frescos con leche de tigre, camote, choclo y canchita",
-                    precio: 20000,
-                    img: "https://kimi-web-img.moonshot.cn/img/es.cravingsjournal.com/59935a0ac84f7ffd399f59c5456b988d8b0d8e2d.jpg",
-                    badge: "❄️ FRESCO"
-                },
-                {
-                    id: "jalea",
-                    nombre: "Jalea Mixta de Pescado",
-                    desc: "Pescado apanado, rabas, almejas, papas rebozadas fritas, con salsa criolla y leche de tigre",
-                    precio: 20000,
-                    img: "https://kimi-web-img.moonshot.cn/img/comedera.com/62e61dcd313bc41117cca86d2e69de6b300865bd.jpg",
-                    badge: "🍴 COMEN 2"
-                }
+                { id: "ceviche", nombre: "Ceviche Mixto Peruano", desc: "Pescado y mariscos frescos con leche de tigre y guarnición", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/es.cravingsjournal.com/59935a0ac84f7ffd399f59c5456b988d8b0d8e2d.jpg", badge: "❄️ FRESCO" },
+                { id: "jalea", nombre: "Jalea Mixta de Pescado", desc: "Pescado apanado, rabas, almejas y papas rebozadas fritas", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/62e61dcd313bc41117cca86d2e69de6b300865bd.jpg", badge: "🍴 COMEN 2" }
             ]
         };
 
-        // Carrito
         let cart = {};
 
         function showTab(tabName) {
             document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            
             document.getElementById('tab-' + tabName).classList.add('active');
             event.target.classList.add('active');
         }
 
         function renderMenuEjecutivo() {
             const container = document.getElementById('menuEjecutivo');
-            
             const hoy = new Date().getDay();
             const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
             const diaHoy = diasSemana[hoy];
             
             container.innerHTML = menuEjecutivo.map((item, index) => {
                 const esHoy = item.dia === diaHoy;
-                
                 return `
                     <div class="menu-dia" style="${esHoy ? 'border-left-color: #22c55e; background: #132a1a;' : ''}">
                         <div class="dia">${item.dia}</div>
-                        <div class="info">
-                            <h4>${item.segundo}</h4>
-                            <p>🍜 Sopa: ${item.sopa}</p>
-                        </div>
+                        <div class="info"><h4>${item.segundo}</h4><p>🍜 Sopa: ${item.sopa}</p></div>
                         <div class="precio">$${item.precio.toLocaleString()}</div>
-                        <button class="btn-add" onclick="addEjecutivoToCart(${index})" style="margin-left: 10px;">
-                            ➕
-                        </button>
+                        <button class="btn-add" onclick="addEjecutivoToCart(${index})" style="margin-left: 10px;">➕</button>
                     </div>
                 `;
             }).join('');
-            
-            if (hoy === 0 || hoy === 6) {
-                container.innerHTML += `
-                    <div style="text-align: center; padding: 20px; color: #94a3b8;">
-                        🎉 Sábados y Domingos: Disfrutá nuestros <b>Platos Especiales</b> en la otra pestaña
-                    </div>
-                `;
-            }
         }
 
         function addEjecutivoToCart(index) {
             const item = menuEjecutivo[index];
             const id = `ejecutivo-${index}`;
-            
-            if (cart[id]) {
-                cart[id].cantidad++;
-            } else {
-                cart[id] = {
-                    id: id,
-                    nombre: `Menú ${item.dia}: ${item.segundo}`,
-                    precio: item.precio,
-                    cantidad: 1
-                };
-            }
-            
+            if (cart[id]) cart[id].cantidad++;
+            else cart[id] = { id: id, nombre: `Menú ${item.dia}: ${item.segundo}`, precio: item.precio, cantidad: 1 };
             updateCartUI();
-            
-            const btn = event.target;
-            btn.textContent = '✓';
-            btn.style.background = '#22c55e';
-            setTimeout(() => {
-                btn.textContent = '➕';
-                btn.style.background = '#d4af37';
-            }, 1000);
         }
 
         function renderMenu() {
@@ -792,7 +638,6 @@
                     </div>
                 </div>
             `;
-
             document.getElementById('menuPolloBrasa').innerHTML = menu.polloBrasa.map(renderCard).join('');
             document.getElementById('menuAbundantes').innerHTML = menu.abundantes.map(renderCard).join('');
             document.getElementById('menuIndividuales').innerHTML = menu.individuales.map(renderCard).join('');
@@ -802,29 +647,12 @@
         function addToCart(id) {
             const allItems = [...menu.polloBrasa, ...menu.abundantes, ...menu.individuales, ...menu.entradas];
             const item = allItems.find(i => i.id === id);
-            
-            if (cart[id]) {
-                cart[id].cantidad++;
-            } else {
-                cart[id] = { ...item, cantidad: 1 };
-            }
-            
-            updateCartUI();
-            
-            const btn = event.target;
-            btn.textContent = '✓ Agregado';
-            btn.style.background = '#22c55e';
-            setTimeout(() => {
-                btn.textContent = '➕ Agregar';
-                btn.style.background = '#d4af37';
-            }, 1000);
-        }
-
-        function removeFromCart(id) {
-            delete cart[id];
+            if (cart[id]) cart[id].cantidad++;
+            else cart[id] = { ...item, cantidad: 1 };
             updateCartUI();
         }
 
+        function removeFromCart(id) { delete cart[id]; updateCartUI(); }
         function updateQty(id, delta) {
             if (cart[id]) {
                 cart[id].cantidad += delta;
@@ -834,24 +662,18 @@
         }
 
         function updateCartUI() {
-            const count = Object.values(cart).reduce((sum, item) => sum + item.cantidad, 0);
-            document.getElementById('cartCount').textContent = count;
-            
-            const container = document.getElementById('cartItems');
             const items = Object.values(cart);
-            
+            const count = items.reduce((sum, item) => sum + item.cantidad, 0);
+            document.getElementById('cartCount').textContent = count;
+            const container = document.getElementById('cartItems');
             if (items.length === 0) {
-                container.innerHTML = '<div class="empty-cart">🛒 Tu carrito está vacío<br>Agregá algunos platos del menú</div>';
+                container.innerHTML = '<div class="empty-cart">🛒 Tu carrito está vacío</div>';
                 document.getElementById('totalPrice').textContent = 'Total: $0';
                 return;
             }
-            
             container.innerHTML = items.map(item => `
                 <div class="cart-item">
-                    <div class="cart-item-info">
-                        <h4>${item.nombre}</h4>
-                        <span>$${item.precio.toLocaleString()} c/u</span>
-                    </div>
+                    <div class="cart-item-info"><h4>${item.nombre}</h4><span>$${item.precio.toLocaleString()}</span></div>
                     <div class="qty-controls">
                         <button class="qty-btn" onclick="updateQty('${item.id}', -1)">−</button>
                         <span>${item.cantidad}</span>
@@ -860,59 +682,28 @@
                     </div>
                 </div>
             `).join('');
-            
             const total = items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
             document.getElementById('totalPrice').textContent = `Total: $${total.toLocaleString()}`;
         }
 
-        function toggleCart() {
-            document.getElementById('cartModal').classList.toggle('active');
-        }
+        function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
 
         function sendOrder() {
             const nombre = document.getElementById('nombre').value.trim();
             const direccion = document.getElementById('direccion').value.trim();
             const telefono = document.getElementById('telefono').value.trim();
-            const fabrica = document.getElementById('fabrica').value.trim();
-            const pago = document.getElementById('pago').value;
-            const notas = document.getElementById('notas').value.trim();
-            
-            if (!nombre || !direccion || !telefono) {
-                alert('⚠️ Completá tu nombre, dirección y teléfono para poder enviar el pedido.');
-                return;
-            }
-            
             const items = Object.values(cart);
-            if (items.length === 0) {
-                alert('⚠️ Tu carrito está vacío.');
+            if (!nombre || !direccion || !telefono || items.length === 0) {
+                alert('⚠️ Completá tus datos y agregá platos al carrito.');
                 return;
             }
-            
             const total = items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-            
-            let mensaje = `🍽️ *PEDIDO SABOR INKA*\n\n`;
-            mensaje += `👤 *Cliente:* ${nombre}\n`;
-            mensaje += `📍 *Dirección:* ${direccion}\n`;
-            if (fabrica) mensaje += `🏭 *Fábrica/Taller:* ${fabrica}\n`;
-            mensaje += `📱 *Teléfono:* ${telefono}\n`;
-            mensaje += `💳 *Pago:* ${pago}\n\n`;
-            mensaje += `📝 *PEDIDO:*\n`;
-            
-            items.forEach(item => {
-                mensaje += `• ${item.cantidad}x ${item.nombre} - $${(item.precio * item.cantidad).toLocaleString()}\n`;
-            });
-            
-            mensaje += `\n💰 *TOTAL: $${total.toLocaleString()}*\n`;
-            
-            if (notas) mensaje += `\n🗒️ *Notas:* ${notas}\n`;
-            
-            mensaje += `\n⏰ Quiero recibirlo lo antes posible. ¡Gracias!`;
-            
-            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
+            let mensaje = `🍽️ *PEDIDO SABOR INKA*\n\n👤 *Cliente:* ${nombre}\n📍 *Dirección:* ${direccion}\n📱 *Teléfono:* ${telefono}\n\n📝 *PEDIDO:*\n`;
+            items.forEach(item => mensaje += `• ${item.cantidad}x ${item.nombre} - $${(item.precio * item.cantidad).toLocaleString()}\n`);
+            mensaje += `\n💰 *TOTAL: $${total.toLocaleString()}*`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
 
-        // Inicializar
         renderMenu();
         renderMenuEjecutivo();
     </script>
