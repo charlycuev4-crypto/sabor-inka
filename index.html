@@ -3,709 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabor Inka — ¡Donde come uno, comen dos!</title>
+    <title>Sabor Inka - Menú</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            background: #0b0f19; 
-            color: #e2e8f0;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        .header {
+        /* ESTILOS GENERALES */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0f19;
+            color: white;
+            margin: 0;
+            padding: 0;
             text-align: center;
-            padding: 30px 20px 20px;
-            background: linear-gradient(180deg, #0f172a 0%, #0b0f19 100%);
         }
-        
+
+        /* HEADER */
+        .header {
+            padding: 30px 20px;
+            background: linear-gradient(to bottom, #0f172a, #0b0f19);
+        }
+
         .logo {
-            font-size: 2.8rem;
-            font-weight: 900;
+            font-size: 2.5rem;
+            font-weight: bold;
             color: #d4af37;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 2px 10px rgba(212,175,55,0.3);
+            letter-spacing: 2px;
         }
-        
+
         .lema {
-            color: #94a3b8;
             font-style: italic;
-            font-size: 1.1rem;
-            margin-top: 5px;
+            color: #ccc;
+            margin-bottom: 15px;
         }
-        
+
         .zona {
-            background: #1e293b;
-            color: #d4af37;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-top: 15px;
-            font-weight: 600;
+            background: rgba(212, 175, 55, 0.1);
             border: 1px solid #d4af37;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .tab {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #94a3b8;
-            padding: 12px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .tab.active {
-            background: #d4af37;
-            color: #0b0f19;
-            border-color: #d4af37;
-        }
-        
-        .tab:hover:not(.active) {
-            border-color: #d4af37;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
             color: #d4af37;
         }
 
-        /* NUEVO DISEÑO: Botón "Ver mi pedido" arriba */
-        .cart-float {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        /* --- EL BOTÓN CORREGIDO (DEBAJO DEL DELIVERY) --- */
+        .cart-float-inline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             background: #d4af37;
             color: #0b0f19;
-            padding: 12px 20px;
+            padding: 12px 25px;
             border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-top: 20px; /* Espacio para que no se pegue al delivery */
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(212,175,55,0.5);
-            z-index: 1000;
-            transition: transform 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
             border: 2px solid #0b0f19;
+            transition: transform 0.2s, background 0.2s;
         }
-        
-        .cart-float:hover { transform: scale(1.05); }
-        
+
+        .cart-float-inline:active {
+            transform: scale(0.95);
+        }
+
         .cart-count {
             background: #ef4444;
             color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
+            padding: 2px 10px;
+            border-radius: 12px;
             font-size: 0.9rem;
-            font-weight: bold;
         }
 
-        /* Modal carrito */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
+        /* BOTONES DE CATEGORÍA */
+        .categories {
+            margin: 25px 0;
+            display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .modal-overlay.active { display: flex; }
-        
-        .modal {
-            background: #1e293b;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid #334155;
-        }
-        
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h2 { color: #d4af37; }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        .modal-body { padding: 20px; }
-        
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #334155;
-        }
-        
-        .cart-item-info h4 { color: #f1f5f9; margin-bottom: 4px; }
-        .cart-item-info span { color: #d4af37; font-weight: bold; }
-        
-        .qty-controls {
-            display: flex;
-            align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
-        
-        .qty-btn {
-            background: #334155;
-            border: none;
-            color: white;
-            width: 30px;
-            height: 30px;
+
+        .btn-cat {
+            padding: 10px 20px;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .qty-btn:hover { background: #475569; }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 12px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-        }
-        
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #d4af37;
-        }
-
-        .total {
-            text-align: center;
-            font-size: 1.5rem;
-            color: #d4af37;
-            font-weight: bold;
-            margin: 20px 0;
-            padding: 15px;
-            background: #0f172a;
-            border-radius: 12px;
-        }
-
-        .btn-whatsapp {
-            background: #25d366;
-            color: white;
             border: none;
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
-        
-        .btn-whatsapp:hover { background: #128c7e; }
 
-        /* Menú grid */
-        .container {
+        .btn-especiales { background-color: #1e293b; color: white; border: 1px solid #d4af37; }
+        .btn-fabrica { background-color: #d4af37; color: #0b0f19; }
+
+        /* GRILLA DE PRODUCTOS */
+        .menu-grid {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-            display: none;
-        }
-        
-        .container.active { display: block; }
-        
-        .section-title {
-            color: #d4af37;
-            font-size: 1.5rem;
-            margin: 30px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #d4af37;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
         }
 
         .card {
             background: #1e293b;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            border: 1px solid #334155;
-            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: left;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(212,175,55,0.15);
-        }
-        
-        .card-img {
+
+        .card img {
             width: 100%;
             height: 220px;
             object-fit: cover;
-            background: #334155;
         }
-        
-        .card-body { padding: 20px; }
-        
+
+        .card-content {
+            padding: 15px;
+        }
+
         .card-title {
-            font-size: 1.3rem;
-            color: #f1f5f9;
-            margin-bottom: 5px;
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+            color: #fff;
         }
-        
+
         .card-desc {
             color: #94a3b8;
             font-size: 0.9rem;
-            margin-bottom: 12px;
-            min-height: 40px;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
-        
+
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .price {
+            font-size: 1.5rem;
+            font-weight: bold;
             color: #d4af37;
-            font-size: 1.4rem;
-            font-weight: 900;
         }
-        
+
         .btn-add {
             background: #d4af37;
             color: #0b0f19;
             border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 8px 15px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
         }
-        
-        .btn-add:hover { background: #b8960c; }
 
-        .badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #d4af37;
-            color: #0b0f19;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            z-index: 10;
-        }
-        
-        .card-wrap { position: relative; }
-
-        /* Menú ejecutivo especial */
-        .menu-ejecutivo {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 2px solid #d4af37;
-        }
-        
-        .menu-dia {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
+        /* SECCIÓN DE INFO ABAJO */
+        .footer-info {
+            margin-top: 50px;
+            padding: 40px 20px;
             background: #0f172a;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border-left: 4px solid #d4af37;
-        }
-        
-        .menu-dia .dia {
-            background: #d4af37;
-            color: #0b0f19;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            min-width: 100px;
-            text-align: center;
-        }
-        
-        .menu-dia .info {
-            flex: 1;
-        }
-        
-        .menu-dia .info h4 {
-            color: #f1f5f9;
-            margin-bottom: 4px;
-        }
-        
-        .menu-dia .info p {
-            color: #94a3b8;
             font-size: 0.9rem;
-        }
-        
-        .menu-dia .precio {
-            color: #d4af37;
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-
-        .aclaracion-individual {
-            background: #0f172a;
-            border: 2px solid #3b82f6;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            margin: 25px 0;
-        }
-        
-        .aclaracion-individual h3 {
-            color: #3b82f6;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .aclaracion-individual p {
             color: #94a3b8;
-            font-size: 1rem;
-        }
-        
-        .aclaracion-individual .icono {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .promo-fabrica {
-            background: #0f172a;
-            border: 2px dashed #d4af37;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            margin: 25px 0;
-        }
-        
-        .promo-fabrica h3 {
-            color: #d4af37;
-            margin-bottom: 10px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #64748b;
-            border-top: 1px solid #334155;
-            margin-top: 40px;
-        }
-
-        .empty-cart {
-            text-align: center;
-            color: #64748b;
-            padding: 40px 20px;
-        }
-
-        @media (max-width: 600px) {
-            .logo { font-size: 2rem; }
-            .grid { grid-template-columns: 1fr; }
-            .menu-dia { flex-direction: column; text-align: center; }
-            .cart-float { padding: 10px 15px; font-size: 0.9rem; top: 15px; right: 15px; }
+            line-height: 1.8;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo">🇵🇪 Sabor Inka</div>
+        <div class="logo">🇵🇪 SABOR INKA</div>
         <p class="lema">"Donde come uno, comen dos"</p>
         <div class="zona">🛵 Delivery: Santa Brígida • San Miguel • Trujui</div>
+        
+        <br>
+        
+        <div class="cart-float-inline" onclick="alert('Abriendo pedido...')">
+            <span>🛒 Ver mi pedido</span>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
     </div>
 
-    <div class="cart-float" onclick="toggleCart()">
-        <span>🛒 Ver mi pedido</span>
-        <span class="cart-count" id="cartCount">0</span>
+    <div class="categories">
+        <button class="btn-cat btn-especiales">🔥 Platos Especiales</button>
+        <button class="btn-cat btn-fabrica">🏭 Menú Ejecutivo Fábricas</button>
     </div>
 
-    <div class="tabs">
-        <button class="tab active" onclick="showTab('especiales')">🔥 Platos Especiales</button>
-        <button class="tab" onclick="showTab('ejecutivo')">🏭 Menú Ejecutivo Fábricas</button>
-    </div>
+    <h2 style="color: #d4af37;">🍗 Pollo a la Brasa</h2>
 
-    <div class="modal-overlay" id="cartModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2>🛒 Tu Pedido</h2>
-                <button class="close-btn" onclick="toggleCart()">✕</button>
+    <div class="menu-grid">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=500&q=80" alt="1/4 Pollo">
+            <div class="card-content">
+                <h3 class="card-title">1/4 Pollo a la Brasa</h3>
+                <p class="card-desc">1/4 pollo + papas fritas + ensalada + cremas (mayonesa, picante, vinagreta)</p>
+                <div class="card-footer">
+                    <span class="price">$10,000</span>
+                    <button class="btn-add">+ Agregar</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div id="cartItems"></div>
-                
-                <div class="form-group">
-                    <label>👤 Tu nombre</label>
-                    <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
-                </div>
-                
-                <div class="form-group">
-                    <label>📍 Dirección exacta</label>
-                    <textarea id="direccion" rows="2" placeholder="Calle, número, piso, entre calles..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>🏭 Nombre de fábrica/taller (si aplica)</label>
-                    <input type="text" id="fabrica" placeholder="Ej: Taller San Miguel S.A.">
-                </div>
-                
-                <div class="form-group">
-                    <label>📱 Teléfono</label>
-                    <input type="tel" id="telefono" placeholder="11 1234-5678">
-                </div>
-                
-                <div class="form-group">
-                    <label>💳 Forma de pago</label>
-                    <select id="pago">
-                        <option value="Efectivo al recibir">💵 Efectivo al recibir</option>
-                        <option value="Transferencia">🏦 Transferencia</option>
-                        <option value="Mercado Pago">📲 Mercado Pago</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>📝 Notas (opcional)</label>
-                    <input type="text" id="notas" placeholder="Sin ají, traer cambio de $1000, etc.">
-                </div>
+        </div>
 
-                <div class="total" id="totalPrice">Total: $0</div>
-                
-                <button class="btn-whatsapp" onclick="sendOrder()">
-                    📲 Enviar pedido por WhatsApp
-                </button>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1626082896492-766af4eb6501?auto=format&fit=crop&w=500&q=80" alt="Jalea">
+            <div class="card-content">
+                <h3 class="card-title">Jalea Mixta de Pescado</h3>
+                <p class="card-desc">Pescado apanado, rabas, almejas, papas rebozadas fritas, con salsa criolla y leche de tigre.</p>
+                <div class="card-footer">
+                    <span class="price">$20,000</span>
+                    <button class="btn-add">+ Agregar</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="container active" id="tab-especiales">
-        <h2 class="section-title">🍗 Pollo a la Brasa</h2>
-        <div class="grid" id="menuPolloBrasa"></div>
-        <h2 class="section-title">🔥 Platos Abundantes</h2>
-        <div class="grid" id="menuAbundantes"></div>
-        <h2 class="section-title">🍽️ Platos Individuales</h2>
-        <div class="grid" id="menuIndividuales"></div>
-        <h2 class="section-title">🥗 Entradas & Más</h2>
-        <div class="grid" id="menuEntradas"></div>
+    <div class="footer-info">
+        🇵🇪 Sabor Inka — Auténtica comida peruana<br>
+        ⏰ Horario: 11:00 a 15:00 y 19:00 a 23:00<br>
+        📍 Solo delivery en Santa Brígida, San Miguel y Trujui<br>
+        📲 WhatsApp: +54 9 11 6790-96XX
     </div>
 
-    <div class="container" id="tab-ejecutivo">
-        <div class="promo-fabrica">
-            <h3>🏭 Especial Fábricas y Talleres</h3>
-            <p>Menú completo: Sopa + Segundo plato</p>
-            <p style="color: #d4af37; font-weight: bold; margin-top: 10px;">🚚 Delivery directo a tu fábrica | Pedidos de 5+ menús: 10% OFF</p>
-        </div>
-        <div class="aclaracion-individual">
-            <div class="icono">👤</div>
-            <h3>⚠️ Menú Ejecutivo: Porción Individual</h3>
-            <p>Estos menús son para <strong>1 persona solamente</strong>.<br>
-            Incluyen: Sopa del día + Segundo plato.</p>
-        </div>
-        <h2 class="section-title">📅 Menú de la Semana</h2>
-        <div class="menu-ejecutivo" id="menuEjecutivo"></div>
-    </div>
-
-    <div class="footer">
-        <p>🇵🇪 Sabor Inka — Auténtica comida peruana</p>
-        <p>⏰ Horario: 11:00 a 15:00 y 19:00 a 23:00</p>
-        <p>📍 Solo delivery en Santa Brígida, San Miguel y Trujui</p>
-        <p>📲 WhatsApp: +54 9 11 6790-9625</p>
-    </div>
-
-    <script>
-        const WHATSAPP_NUMBER = "5491167909625";
-
-        const menuEjecutivo = [
-            { dia: "Lunes", sopa: "Sopa de fideo con pollo", segundo: "Tallarines de pollo con crema de papa a la huancaína", precio: 8500 },
-            { dia: "Martes", sopa: "Sopa de quinua", segundo: "Estofado de pollo con arroz", precio: 8500 },
-            { dia: "Miércoles", sopa: "Sopa de fideo con pollo", segundo: "Arroz con bistec y papa a la huancaína", precio: 9000 },
-            { dia: "Jueves", sopa: "Sopa de fideo", segundo: "Lomo saltado simple con arroz", precio: 9500 },
-            { dia: "Viernes", sopa: "Sopa de carne", segundo: "Papa a la huancaína con huevo y aceitunas", precio: 8000 }
-        ];
-
-        const menu = {
-            polloBrasa: [
-                { id: "pollo-1-4", nombre: "1/4 Pollo a la Brasa", desc: "1/4 pollo + papas fritas + ensalada + cremas", precio: 10000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp" },
-                { id: "pollo-1-2", nombre: "1/2 Pollo a la Brasa", desc: "Medio pollo + papas abundantes + ensalada. ¡Comen 2!", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 2" },
-                { id: "pollo-entero", nombre: "Pollo a la Brasa Entero", desc: "Pollo entero + papas abundantes + ensalada grande. ¡Comen 5!", precio: 35000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 5" }
-            ],
-            abundantes: [
-                { id: "pollo-broaster-xl", nombre: "Pollo Broaster XL", desc: "1/2 pollo crocante + papas fritas + ensalada fresca. ¡Comen 2!", precio: 12000, img: "https://kimi-web-img.moonshot.cn/img/i.ytimg.com/7670b7be182062ede9d33b625a8a6b3859eb8a4d.jpg", badge: "🍴 COMEN 2" },
-                { id: "lomo-xl", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/b7dd4d32277f70fb160cbb6d3289652b22bf2eba.jpg", badge: "🍴 COMEN 2" }
-            ],
-            individuales: [
-                { id: "lomo-pollo", nombre: "Lomo Saltado de Pollo", desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/a4c8e10acb988275f63e432ef3264f27d1ed45b2.webp" },
-                { id: "chaufa", nombre: "Arroz Chaufa Peruano", desc: "Arroz frito abundante con pollo y huevo. ¡Comen 2!", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/www.laylita.com/ba8e26d294a873e7b34402ca48256c726b6b4cec.jpg", badge: "🍴 COMEN 2" }
-            ],
-            entradas: [
-                { id: "ceviche", nombre: "Ceviche Mixto Peruano", desc: "Pescado y mariscos frescos con leche de tigre y guarnición", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/es.cravingsjournal.com/59935a0ac84f7ffd399f59c5456b988d8b0d8e2d.jpg", badge: "❄️ FRESCO" },
-                { id: "jalea", nombre: "Jalea Mixta de Pescado", desc: "Pescado apanado, rabas, almejas y papas rebozadas fritas", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/62e61dcd313bc41117cca86d2e69de6b300865bd.jpg", badge: "🍴 COMEN 2" }
-            ]
-        };
-
-        let cart = {};
-
-        function showTab(tabName) {
-            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        function renderMenuEjecutivo() {
-            const container = document.getElementById('menuEjecutivo');
-            const hoy = new Date().getDay();
-            const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-            const diaHoy = diasSemana[hoy];
-            
-            container.innerHTML = menuEjecutivo.map((item, index) => {
-                const esHoy = item.dia === diaHoy;
-                return `
-                    <div class="menu-dia" style="${esHoy ? 'border-left-color: #22c55e; background: #132a1a;' : ''}">
-                        <div class="dia">${item.dia}</div>
-                        <div class="info"><h4>${item.segundo}</h4><p>🍜 Sopa: ${item.sopa}</p></div>
-                        <div class="precio">$${item.precio.toLocaleString()}</div>
-                        <button class="btn-add" onclick="addEjecutivoToCart(${index})" style="margin-left: 10px;">➕</button>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function addEjecutivoToCart(index) {
-            const item = menuEjecutivo[index];
-            const id = `ejecutivo-${index}`;
-            if (cart[id]) cart[id].cantidad++;
-            else cart[id] = { id: id, nombre: `Menú ${item.dia}: ${item.segundo}`, precio: item.precio, cantidad: 1 };
-            updateCartUI();
-        }
-
-        function renderMenu() {
-            const renderCard = (item) => `
-                <div class="card-wrap">
-                    <div class="card">
-                        ${item.badge ? `<span class="badge">${item.badge}</span>` : ''}
-                        <img src="${item.img}" alt="${item.nombre}" class="card-img" onerror="this.src='https://via.placeholder.com/400x220/334155/d4af37?text=${encodeURIComponent(item.nombre)}'">
-                        <div class="card-body">
-                            <h3 class="card-title">${item.nombre}</h3>
-                            <p class="card-desc">${item.desc}</p>
-                            <div class="card-footer">
-                                <span class="price">$${item.precio.toLocaleString()}</span>
-                                <button class="btn-add" onclick="addToCart('${item.id}')">➕ Agregar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('menuPolloBrasa').innerHTML = menu.polloBrasa.map(renderCard).join('');
-            document.getElementById('menuAbundantes').innerHTML = menu.abundantes.map(renderCard).join('');
-            document.getElementById('menuIndividuales').innerHTML = menu.individuales.map(renderCard).join('');
-            document.getElementById('menuEntradas').innerHTML = menu.entradas.map(renderCard).join('');
-        }
-
-        function addToCart(id) {
-            const allItems = [...menu.polloBrasa, ...menu.abundantes, ...menu.individuales, ...menu.entradas];
-            const item = allItems.find(i => i.id === id);
-            if (cart[id]) cart[id].cantidad++;
-            else cart[id] = { ...item, cantidad: 1 };
-            updateCartUI();
-        }
-
-        function removeFromCart(id) { delete cart[id]; updateCartUI(); }
-        function updateQty(id, delta) {
-            if (cart[id]) {
-                cart[id].cantidad += delta;
-                if (cart[id].cantidad <= 0) delete cart[id];
-                updateCartUI();
-            }
-        }
-
-        function updateCartUI() {
-            const items = Object.values(cart);
-            const count = items.reduce((sum, item) => sum + item.cantidad, 0);
-            document.getElementById('cartCount').textContent = count;
-            const container = document.getElementById('cartItems');
-            if (items.length === 0) {
-                container.innerHTML = '<div class="empty-cart">🛒 Tu carrito está vacío</div>';
-                document.getElementById('totalPrice').textContent = 'Total: $0';
-                return;
-            }
-            container.innerHTML = items.map(item => `
-                <div class="cart-item">
-                    <div class="cart-item-info"><h4>${item.nombre}</h4><span>$${item.precio.toLocaleString()}</span></div>
-                    <div class="qty-controls">
-                        <button class="qty-btn" onclick="updateQty('${item.id}', -1)">−</button>
-                        <span>${item.cantidad}</span>
-                        <button class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
-                        <button class="qty-btn" onclick="removeFromCart('${item.id}')" style="margin-left:10px;background:#ef4444;">🗑</button>
-                    </div>
-                </div>
-            `).join('');
-            const total = items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-            document.getElementById('totalPrice').textContent = `Total: $${total.toLocaleString()}`;
-        }
-
-        function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
-
-        function sendOrder() {
-            const nombre = document.getElementById('nombre').value.trim();
-            const direccion = document.getElementById('direccion').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const items = Object.values(cart);
-            if (!nombre || !direccion || !telefono || items.length === 0) {
-                alert('⚠️ Completá tus datos y agregá platos al carrito.');
-                return;
-            }
-            const total = items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-            let mensaje = `🍽️ *PEDIDO SABOR INKA*\n\n👤 *Cliente:* ${nombre}\n📍 *Dirección:* ${direccion}\n📱 *Teléfono:* ${telefono}\n\n📝 *PEDIDO:*\n`;
-            items.forEach(item => mensaje += `• ${item.cantidad}x ${item.nombre} - $${(item.precio * item.cantidad).toLocaleString()}\n`);
-            mensaje += `\n💰 *TOTAL: $${total.toLocaleString()}*`;
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');
-        }
-
-        renderMenu();
-        renderMenuEjecutivo();
-    </script>
 </body>
 </html>
