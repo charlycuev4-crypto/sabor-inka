@@ -12,13 +12,13 @@
             background: #0b0f19; 
             color: #e2e8f0;
             line-height: 1.6;
-            padding-top: 70px; /* Espacio para el botón fijo de arriba */
+            padding-top: 70px;
         }
 
-        /* Header */
+        /* DISEÑO DE CABECERA */
         .header {
             text-align: center;
-            padding: 20px 20px 20px;
+            padding: 20px;
             background: linear-gradient(180deg, #0f172a 0%, #0b0f19 100%);
         }
         
@@ -28,29 +28,22 @@
             color: #d4af37;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 2px 10px rgba(212,175,55,0.3);
         }
         
-        .lema {
-            color: #94a3b8;
-            font-style: italic;
-            font-size: 1rem;
-            margin-top: 5px;
-        }
+        .lema { color: #94a3b8; font-style: italic; font-size: 0.9rem; }
         
         .zona {
             background: #1e293b;
             color: #d4af37;
             padding: 8px 15px;
             border-radius: 50px;
-            display: inline-block;
-            margin-top: 15px;
-            font-weight: 600;
-            font-size: 0.9rem;
+            margin-top: 10px;
+            font-size: 0.8rem;
             border: 1px solid #d4af37;
+            display: inline-block;
         }
 
-        /* BOTÓN CARRITO FLOTANTE SUPERIOR */
+        /* BOTÓN DE PEDIDO SUPERIOR (EL GLOBITO) */
         .cart-float {
             position: fixed;
             top: 15px;
@@ -62,32 +55,27 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1rem;
             font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(212,175,55,0.4);
             z-index: 1000;
+            box-shadow: 0 4px 20px rgba(212,175,55,0.4);
             border: 2px solid #0b0f19;
-            transition: transform 0.2s;
+            cursor: pointer;
         }
-        
-        .cart-float:active { transform: scale(0.95); }
         
         .cart-count {
             background: #ef4444;
             color: white;
             padding: 2px 8px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
-        /* Tabs */
+        /* TABS / PESTAÑAS */
         .tabs {
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             padding: 15px;
-            flex-wrap: wrap;
             position: sticky;
             top: 65px;
             background: #0b0f19;
@@ -100,9 +88,8 @@
             color: #94a3b8;
             padding: 10px 15px;
             border-radius: 10px;
-            cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
+            cursor: pointer;
         }
         
         .tab.active {
@@ -111,22 +98,16 @@
             border-color: #d4af37;
         }
 
-        /* Menú grid */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px;
-            display: none;
-        }
-        
+        /* MENÚ GRID */
+        .container { max-width: 1200px; margin: 0 auto; padding: 15px; display: none; }
         .container.active { display: block; }
         
         .section-title {
             color: #d4af37;
             font-size: 1.3rem;
-            margin: 25px 0 15px;
-            padding-bottom: 8px;
+            margin: 20px 0 15px;
             border-bottom: 2px solid #d4af37;
+            padding-bottom: 5px;
         }
 
         .grid {
@@ -143,143 +124,48 @@
             position: relative;
         }
         
-        .card-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
+        .card-img { width: 100%; height: 200px; object-fit: cover; }
         .card-body { padding: 15px; }
+        .card-title { font-size: 1.1rem; color: #f1f5f9; margin-bottom: 5px; }
+        .card-desc { color: #94a3b8; font-size: 0.8rem; margin-bottom: 10px; height: 40px; overflow: hidden; }
         
-        .card-title {
-            font-size: 1.2rem;
-            color: #f1f5f9;
-            margin-bottom: 5px;
-        }
-        
-        .card-desc {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-        }
-        
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .price {
-            color: #d4af37;
-            font-size: 1.3rem;
-            font-weight: 800;
-        }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .price { color: #d4af37; font-size: 1.2rem; font-weight: 800; }
         
         .btn-add {
             background: #d4af37;
             color: #0b0f19;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 12px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        /* Modal carrito */
+        /* MODAL Y FORMULARIO */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.9);
             z-index: 2000;
             justify-content: center;
             align-items: flex-end;
         }
-        
         .modal-overlay.active { display: flex; }
+        .modal { background: #1e293b; width: 100%; max-width: 500px; border-radius: 20px 20px 0 0; padding: 20px; max-height: 90vh; overflow-y: auto; }
         
-        .modal {
-            background: #1e293b;
-            border-radius: 20px 20px 0 0;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding-bottom: 30px;
-        }
-        
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: #1e293b;
-            z-index: 10;
-        }
-        
-        .modal-body { padding: 20px; }
-        
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #334155;
-        }
-
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 4px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: white;
-            border-radius: 8px;
-        }
+        .form-group label { display: block; font-size: 0.8rem; color: #94a3b8; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 8px; }
 
-        .btn-whatsapp {
-            background: #25d366;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-top: 10px;
-        }
+        .btn-whatsapp { background: #25d366; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 10px; }
 
-        .menu-dia {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: #0f172a;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            border-left: 4px solid #d4af37;
-        }
-        
-        .aclaracion-individual {
-            background: #0f172a;
-            border: 1px solid #3b82f6;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 0.9rem;
-        }
+        /* MENÚ EJECUTIVO */
+        .menu-dia { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #0f172a; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid #d4af37; }
+        .badge { position: absolute; top: 10px; right: 10px; background: #d4af37; color: #0b0f19; padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; }
 
         .footer { text-align: center; padding: 30px; color: #64748b; font-size: 0.8rem; }
-        
-        .badge {
-            position: absolute; top: 10px; right: 10px;
-            background: #d4af37; color: #0b0f19;
-            padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 0.7rem;
-        }
     </style>
 </head>
 <body>
@@ -302,31 +188,18 @@
 
     <div class="modal-overlay" id="cartModal">
         <div class="modal">
-            <div class="modal-header">
-                <h2>Tu Pedido</h2>
-                <button onclick="toggleCart()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button>
+            <h2 style="color:#d4af37; margin-bottom:15px;">Tu Pedido</h2>
+            <div id="cartItems"></div>
+            <div id="totalPrice" style="text-align:center; font-size:1.4rem; color:#d4af37; font-weight:bold; padding:15px;">Total: $0</div>
+            
+            <div class="form-group"><label>Nombre</label><input type="text" id="nombre"></div>
+            <div class="form-group"><label>Dirección</label><input type="text" id="direccion"></div>
+            <div class="form-group">
+                <label>Pago</label>
+                <select id="pago"><option>Efectivo</option><option>Transferencia / Mercado Pago</option></select>
             </div>
-            <div class="modal-body">
-                <div id="cartItems"></div>
-                <div id="totalPrice" style="text-align:center; font-size:1.4rem; color:#d4af37; font-weight:bold; padding:15px;">Total: $0</div>
-                
-                <div class="form-group">
-                    <label>Nombre</label>
-                    <input type="text" id="nombre">
-                </div>
-                <div class="form-group">
-                    <label>Dirección y Localidad</label>
-                    <input type="text" id="direccion">
-                </div>
-                <div class="form-group">
-                    <label>Forma de Pago</label>
-                    <select id="pago">
-                        <option>Efectivo</option>
-                        <option>Transferencia / Mercado Pago</option>
-                    </select>
-                </div>
-                <button class="btn-whatsapp" onclick="sendOrder()">ENVIAR POR WHATSAPP</button>
-            </div>
+            <button class="btn-whatsapp" onclick="sendOrder()">📲 ENVIAR POR WHATSAPP</button>
+            <button onclick="toggleCart()" style="width:100%; background:none; border:none; color:#94a3b8; margin-top:10px;">Cerrar</button>
         </div>
     </div>
 
@@ -335,13 +208,11 @@
         <div class="grid" id="menuPolloBrasa"></div>
         <h2 class="section-title">🔥 Platos Abundantes</h2>
         <div class="grid" id="menuAbundantes"></div>
+        <h2 class="section-title">🍽️ Platos Individuales</h2>
+        <div class="grid" id="menuIndividuales"></div>
     </div>
 
     <div class="container" id="tab-ejecutivo">
-        <div class="aclaracion-individual">
-            <h3>⚠️ Menú Individual (Sopa + Segundo)</h3>
-            <p>Especial para trabajadores y fábricas.</p>
-        </div>
         <div id="menuEjecutivo"></div>
     </div>
 
@@ -351,102 +222,95 @@
     </div>
 
     <script>
-        // === COLOCÁ TU NÚMERO AQUÍ (Sin el +) ===
         const WHATSAPP_NUMBER = "5491167909625"; 
 
-        const menu = {
+        const menuData = {
             polloBrasa: [
-                { id: "p1", nombre: "1/4 Pollo a la Brasa", desc: "Con papas y ensalada", precio: 10000, img: "https://jameaperu.com/wp-content/uploads/2019/08/pollo-a-la-brasa_700x465.jpg" },
+                { id: "p1", nombre: "1/4 Pollo a la Brasa", desc: "Con papas, ensalada y cremas", precio: 10000, img: "https://jameaperu.com/wp-content/uploads/2019/08/pollo-a-la-brasa_700x465.jpg" },
                 { id: "p2", nombre: "1/2 Pollo a la Brasa", desc: "Con papas y ensalada. Comen 2", precio: 20000, img: "https://jameaperu.com/wp-content/uploads/2019/08/pollo-a-la-brasa_700x465.jpg", badge: "🍴 COMEN 2" },
                 { id: "p3", nombre: "Pollo Entero", desc: "Papas XL y Ensalada. Comen 4-5", precio: 35000, img: "https://jameaperu.com/wp-content/uploads/2019/08/pollo-a-la-brasa_700x465.jpg", badge: "🍴 COMEN 5" }
             ],
             abundantes: [
-                { id: "a1", nombre: "Lomo Saltado XL", desc: "Carne, papas y arroz. Muy abundante", precio: 9500, img: "https://comedera.com/wp-content/uploads/2022/05/lomo-saltado-peruano.jpg", badge: "🔥 TOP" },
-                { id: "a2", nombre: "Arroz Chaufa Pollo", desc: "Clásico peruano. Comen 2", precio: 15000, img: "https://www.laylita.com/recetas/wp-content/uploads/Arroz-chaufa-de-pollo.jpg", badge: "🍴 COMEN 2" }
+                { id: "a1", nombre: "Lomo Saltado Gigante", desc: "Carne salteada, papas y arroz", precio: 9500, img: "https://comedera.com/wp-content/uploads/2022/05/lomo-saltado-peruano.jpg", badge: "🔥 TOP" },
+                { id: "a2", nombre: "Arroz Chaufa Pollo", desc: "Clásico peruano. Porción XL", precio: 15000, img: "https://www.laylita.com/recetas/wp-content/uploads/Arroz-chaufa-de-pollo.jpg", badge: "🍴 COMEN 2" }
+            ],
+            individuales: [
+                { id: "i1", nombre: "Ceviche Mixto", desc: "Pescado fresco y mariscos", precio: 20000, img: "https://es.cravingsjournal.com/wp-content/uploads/2019/07/ceviche-peruano-1.jpg" },
+                { id: "i2", nombre: "Jalea Mixta", desc: "Fritura de mariscos y pescado", precio: 20000, img: "https://comedera.com/wp-content/uploads/2022/06/jalea-mixta.jpg" }
             ]
         };
 
         const menuEjecutivo = [
-            { dia: "Lunes", segundo: "Tallarines con Huancaína", precio: 8500 },
-            { dia: "Martes", segundo: "Estofado de Pollo", precio: 8500 },
-            { dia: "Miércoles", segundo: "Arroz con Bistec", precio: 9000 },
-            { dia: "Jueves", segundo: "Lomo Saltado Simple", precio: 9500 },
-            { dia: "Viernes", segundo: "Milanesa con Arroz", precio: 8000 }
+            { dia: "Lunes", plato: "Tallarines con Huancaína", precio: 8500 },
+            { dia: "Martes", plato: "Estofado de Pollo", precio: 8500 },
+            { dia: "Miércoles", plato: "Arroz con Bistec", precio: 9000 },
+            { dia: "Jueves", plato: "Lomo Saltado Simple", precio: 9500 },
+            { dia: "Viernes", plato: "Papa a la Huancaína Especial", precio: 8000 }
         ];
 
         let cart = {};
 
-        function renderMenu() {
-            const render = (item) => `
+        function render() {
+            const card = (i) => `
                 <div class="card">
-                    ${item.badge ? `<div class="badge">${item.badge}</div>` : ''}
-                    <img src="${item.img}" class="card-img">
+                    ${i.badge ? `<div class="badge">${i.badge}</div>` : ''}
+                    <img src="${i.img}" class="card-img" onerror="this.src='https://via.placeholder.com/400x200?text=Sabor+Inka'">
                     <div class="card-body">
-                        <h3 class="card-title">${item.nombre}</h3>
-                        <p class="card-desc">${item.desc}</p>
+                        <h3 class="card-title">${i.nombre}</h3>
+                        <p class="card-desc">${i.desc}</p>
                         <div class="card-footer">
-                            <span class="price">$${item.precio}</span>
-                            <button class="btn-add" onclick="addToCart('${item.id}', '${item.nombre}', ${item.precio})">＋</button>
+                            <span class="price">$${i.precio}</span>
+                            <button class="btn-add" onclick="add('${i.id}','${i.nombre}',${i.precio})">＋</button>
                         </div>
                     </div>
                 </div>`;
             
-            document.getElementById('menuPolloBrasa').innerHTML = menu.polloBrasa.map(render).join('');
-            document.getElementById('menuAbundantes').innerHTML = menu.abundantes.map(render).join('');
+            document.getElementById('menuPolloBrasa').innerHTML = menuData.polloBrasa.map(card).join('');
+            document.getElementById('menuAbundantes').innerHTML = menuData.abundantes.map(card).join('');
+            document.getElementById('menuIndividuales').innerHTML = menuData.individuales.map(card).join('');
             
-            document.getElementById('menuEjecutivo').innerHTML = menuEjecutivo.map(item => `
+            document.getElementById('menuEjecutivo').innerHTML = menuEjecutivo.map(i => `
                 <div class="menu-dia">
-                    <div><b>${item.dia}:</b> ${item.segundo}</div>
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span>$${item.precio}</span>
-                        <button class="btn-add" onclick="addToCart('${item.dia}', 'Menú ${item.dia}', ${item.precio})">＋</button>
-                    </div>
+                    <span><b>${i.dia}:</b> ${i.plato}</span>
+                    <button class="btn-add" onclick="add('${i.dia}','Menú ${i.dia}',${i.precio})">$${i.precio} ＋</button>
                 </div>`).join('');
         }
 
-        function addToCart(id, nombre, precio) {
-            if (cart[id]) cart[id].qty++;
-            else cart[id] = { nombre, precio, qty: 1 };
-            updateUI();
+        function add(id, n, p) {
+            if(cart[id]) cart[id].q++;
+            else cart[id] = { n, p, q: 1 };
+            update();
         }
 
-        function updateUI() {
+        function update() {
             const items = Object.values(cart);
-            const count = items.reduce((s, i) => s + i.qty, 0);
-            const total = items.reduce((s, i) => s + (i.precio * i.qty), 0);
-            
-            document.getElementById('cartCount').textContent = count;
-            document.getElementById('totalPrice').textContent = `Total: $${total}`;
-            
+            document.getElementById('cartCount').textContent = items.reduce((s,i)=>s+i.q, 0);
+            document.getElementById('totalPrice').textContent = "Total: $" + items.reduce((s,i)=>s+(i.p*i.q), 0);
             document.getElementById('cartItems').innerHTML = items.map(i => `
-                <div class="cart-item">
-                    <span>${i.qty}x ${i.nombre}</span>
-                    <span>$${i.precio * i.qty}</span>
+                <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #334155;">
+                    <span>${i.q}x ${i.n}</span>
+                    <span>$${i.p*i.q}</span>
                 </div>`).join('');
-        }
-
-        function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
-        
-        function showTab(t) {
-            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(c => c.classList.remove('active'));
-            document.getElementById('tab-'+t).classList.add('active');
-            event.target.classList.add('active');
         }
 
         function sendOrder() {
             const n = document.getElementById('nombre').value;
             const d = document.getElementById('direccion').value;
-            if (!n || !d) return alert("Por favor completa nombre y dirección");
-            
-            let txt = `*NUEVO PEDIDO - SABOR INKA*\n\n*Cliente:* ${n}\n*Dir:* ${d}\n\n*Detalle:*\n`;
-            Object.values(cart).forEach(i => txt += `- ${i.qty}x ${i.nombre}\n`);
-            txt += `\n*Total: ${document.getElementById('totalPrice').textContent}*`;
-            
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`);
+            if(!n || !d) return alert("Faltan datos");
+            let t = `*NUEVO PEDIDO - SABOR INKA*\n\n*Cliente:* ${n}\n*Dir:* ${d}\n\n*Detalle:*\n`;
+            Object.values(cart).forEach(i => t += `- ${i.q}x ${i.n}\n`);
+            t += `\n*${document.getElementById('totalPrice').textContent}*`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t)}`);
         }
 
-        renderMenu();
+        function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
+        function showTab(t) {
+            document.querySelectorAll('.container, .tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-'+t).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        render();
     </script>
 </body>
 </html>
