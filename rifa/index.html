@@ -2,139 +2,125 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🎰 Rifa Solano - Las Catalinas</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa Solano - Barrio Las Catalinas</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root {
-            --verde: #22c55e;
-            --amarillo: #eab308;
-            --rojo: #ef4444;
-            --azul: #3b82f6;
-            --gris: #374151;
-            --fondo: #0f172a;
-            --card: #1e293b;
-            --twitch: #9146ff;
-            --youtube: #ff0000;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--fondo);
-            color: #e2e8f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-
-        /* LOGIN */
-        .login-screen {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; min-height: 100vh; gap: 20px;
-            padding: 20px;
-        }
-        .login-screen h1 { font-size: 2rem; color: var(--verde); text-align: center; }
-        .login-screen p { color: #94a3b8; text-align: center; max-width: 300px; line-height: 1.5; }
-        .login-screen input {
-            padding: 16px 20px; font-size: 1.1rem; border-radius: 12px;
-            border: 2px solid #334155; background: var(--card); color: white;
-            width: 100%; max-width: 300px; text-align: center;
-            outline: none;
-        }
-        .login-screen input:focus { border-color: var(--verde); }
-        .login-screen button {
-            padding: 16px 50px; font-size: 1.1rem; border-radius: 12px;
-            border: none; background: var(--verde); color: white; cursor: pointer;
-            font-weight: bold; width: 100%; max-width: 300px;
-            transition: opacity 0.2s;
-        }
-        .login-screen button:active { opacity: 0.8; transform: scale(0.98); }
-
-        /* ===== VIDEO + CHAT FIJO ARRIBA EN MÓVIL ===== */
-        .video-fixed-mobile {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: var(--fondo);
-            padding: 8px 16px 12px 16px;
-            border-bottom: 1px solid #334155;
-        }
-        .video-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .video-header {
+        .header {
+            background: #16213e;
+            padding: 12px 16px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            justify-content: space-between;
+            border-bottom: 2px solid #0f3460;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .video-header h3 {
-            font-size: 0.85rem;
-            color: var(--verde);
+        .header h1 {
+            font-size: 18px;
+            color: #e94560;
         }
-        .video-toggle {
+        .platform-btns {
             display: flex;
-            gap: 4px;
-            background: #0f172a;
-            padding: 3px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-        }
-        .toggle-btn {
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: none;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #94a3b8;
-            background: transparent;
-        }
-        .toggle-btn.active {
-            color: white;
-        }
-        .toggle-btn.youtube.active {
-            background: var(--youtube);
-        }
-        .toggle-btn.twitch.active {
-            background: var(--twitch);
-        }
-
-        /* Video y Chat layout */
-        .video-chat-layout {
-            display: grid;
-            grid-template-columns: 1fr;
             gap: 8px;
         }
-        .video-container {
+        .platform-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .platform-btn.youtube {
+            background: #ff0000;
+            color: #fff;
+        }
+        .platform-btn.twitch {
+            background: #9146ff;
+            color: #fff;
+        }
+        .platform-btn.active {
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+        .video-section {
+            background: #0f3460;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .video-wrapper {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 10px;
-            background: #000;
-            max-height: 200px;
         }
-        .video-container iframe {
+        .video-wrapper iframe {
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
-            border-radius: 10px;
         }
-
-        /* Chat container */
+        .title-section {
+            text-align: center;
+            padding: 20px 16px 10px;
+        }
+        .title-section .barrio {
+            font-size: 22px;
+            color: #e94560;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .title-section .rifa-title {
+            font-size: 36px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .chat-section {
+            background: #16213e;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .chat-toggle-btn {
+            width: 100%;
+            padding: 12px;
+            background: #9146ff;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .chat-toggle-btn:hover {
+            background: #7c3aed;
+        }
         .chat-container {
             display: none;
-            height: 200px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #334155;
+            height: 400px;
         }
         .chat-container.active {
             display: block;
@@ -144,929 +130,489 @@
             height: 100%;
             border: none;
         }
-
-        .video-info {
-            margin-top: 6px;
-            font-size: 0.7rem;
-            color: #64748b;
+        .chat-placeholder {
+            padding: 20px;
             text-align: center;
-            line-height: 1.4;
+            color: #aaa;
         }
-        .live-badge {
-            display: inline-block;
-            background: var(--rojo);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.65rem;
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: bold;
-            text-transform: uppercase;
-            animation: blink 1s infinite;
-            margin-left: 6px;
-        }
-        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-        /* Botón mostrar chat */
-        .chat-toggle-btn {
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 8px;
-            background: var(--twitch);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-            width: 100%;
-        }
-        .chat-toggle-btn:active { transform: scale(0.97); }
-
-        /* CONTENIDO SCROLLEABLE */
-        .scrollable-content {
-            padding-top: 0;
-        }
-
-        /* HEADER */
-        .header {
-            background: var(--card); border-radius: 16px; padding: 20px;
-            margin-bottom: 16px; border: 1px solid #334155;
-        }
-        .header h1 { font-size: 1.3rem; color: var(--verde); margin-bottom: 10px; }
-        .header-info { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.85rem; color: #94a3b8; }
-        .header-info span { background: #334155; padding: 5px 12px; border-radius: 8px; }
-        .stats {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 10px; margin-top: 14px;
-        }
-        .stat-box {
-            background: #0f172a; padding: 14px 10px; border-radius: 10px; text-align: center;
-            border: 1px solid #334155;
-        }
-        .stat-box .num { font-size: 1.6rem; font-weight: bold; }
-        .stat-box .label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; margin-top: 4px; }
-        .stat-verde .num { color: var(--verde); }
-        .stat-amarillo .num { color: var(--amarillo); }
-        .stat-rojo .num { color: var(--rojo); }
-        .stat-azul .num { color: var(--azul); }
-
-        /* ACTIONS */
-        .actions {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 10px; margin-bottom: 16px;
-        }
-        .btn {
-            padding: 14px 10px; border-radius: 10px; border: none;
-            font-size: 0.9rem; cursor: pointer; font-weight: 600;
-            display: flex; align-items: center; justify-content: center;
-            gap: 6px; transition: all 0.2s;
-        }
-        .btn:active { transform: scale(0.97); }
-        .btn-primary { background: var(--azul); color: white; }
-        .btn-success { background: var(--verde); color: white; }
-        .btn-warning { background: var(--amarillo); color: #1e293b; }
-        .btn-danger { background: var(--rojo); color: white; }
-        .btn-dark { background: #334155; color: white; }
-
-        /* GRID */
-        .grid-container {
-            background: var(--card); border-radius: 16px; padding: 16px;
-            border: 1px solid #334155;
-        }
-        .grid-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
-        }
-        .grid-header h2 { font-size: 1rem; }
-        .legend { display: flex; gap: 12px; font-size: 0.7rem; flex-wrap: wrap; }
-        .legend span { display: flex; align-items: center; gap: 4px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot-verde { background: var(--verde); }
-        .dot-amarillo { background: var(--amarillo); }
-        .dot-rojo { background: var(--rojo); }
-
-        .numbers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
             gap: 8px;
         }
-        .num-card {
-            aspect-ratio: 1; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; border-radius: 10px;
-            cursor: pointer; transition: all 0.15s; font-size: 0.8rem;
-            border: 2px solid transparent; position: relative;
-            padding: 4px;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-        .num-card:active { transform: scale(0.92); }
-        .num-card .n { font-size: 1rem; font-weight: bold; }
-        .num-card .owner { font-size: 0.55rem; margin-top: 2px; max-width: 95%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
-
-        .num-disponible { background: rgba(34,197,94,0.12); border-color: var(--verde); color: var(--verde); }
-        .num-reservado { background: rgba(234,179,8,0.12); border-color: var(--amarillo); color: var(--amarillo); }
-        .num-vendido { background: rgba(239,68,68,0.12); border-color: var(--rojo); color: var(--rojo); }
-
-        /* MODAL */
+        .btn-agregar { background: #22c55e; color: #fff; }
+        .btn-whatsapp { background: #25d366; color: #fff; }
+        .btn-sortear { background: #f59e0b; color: #fff; }
+        .btn-salir { background: #64748b; color: #fff; }
+        .board-section {
+            background: #16213e;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .board-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .board-title {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-disp { background: #22c55e; }
+        .dot-res { background: #f59e0b; }
+        .dot-vend { background: #ef4444; }
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .number-card {
+            background: #0f3460;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .number-card:hover {
+            transform: scale(1.05);
+        }
+        .number-card.disp { border-color: #22c55e; }
+        .number-card.res { border-color: #f59e0b; }
+        .number-card.vend { border-color: #ef4444; }
+        .number-card .num {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .number-card.disp .num { color: #22c55e; }
+        .number-card.res .num { color: #f59e0b; }
+        .number-card.vend .num { color: #ef4444; }
+        .number-card .name {
+            font-size: 12px;
+            color: #aaa;
+        }
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
-            display: none; align-items: center; justify-content: center;
-            z-index: 2000; padding: 16px;
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active {
+            display: flex;
+        }
         .modal {
-            background: var(--card); border-radius: 16px; padding: 24px;
-            max-width: 400px; width: 100%; border: 1px solid #334155;
-            animation: modalIn 0.2s ease;
+            background: #16213e;
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 400px;
         }
-        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal h3 { margin-bottom: 16px; font-size: 1.1rem; }
-        .modal label { display: block; margin-bottom: 4px; font-size: 0.8rem; color: #94a3b8; }
-        .modal input, .modal select {
-            width: 100%; padding: 14px; border-radius: 10px;
-            border: 1px solid #334155; background: #0f172a; color: white;
-            margin-bottom: 14px; font-size: 1rem; outline: none;
+        .modal h2 {
+            margin-bottom: 16px;
+            text-align: center;
         }
-        .modal input:focus, .modal select:focus { border-color: var(--verde); }
-        .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
-        .modal-actions .btn { width: 100%; }
-
-        /* SORTEO */
-        .sorteo-screen {
-            display: none; flex-direction: column; align-items: center;
-            justify-content: center; min-height: 100vh; gap: 20px;
-            padding: 20px; text-align: center;
+        .modal input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #0f3460;
+            border-radius: 8px;
+            background: #0f3460;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 12px;
         }
-        .sorteo-screen.active { display: flex; }
-        .ruleta {
-            font-size: 5rem; font-weight: bold; color: var(--verde);
-            min-height: 100px; display: flex; align-items: center;
-            font-variant-numeric: tabular-nums;
+        .modal input:focus {
+            outline: none;
+            border-color: #e94560;
         }
-        .ganador-final {
-            font-size: 4rem; color: var(--verde);
-            animation: pulse 1s infinite;
-            font-variant-numeric: tabular-nums;
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
         }
-        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-        .semilla-box {
-            background: #0f172a; padding: 14px 18px; border-radius: 10px;
-            font-family: monospace; font-size: 0.75rem; color: #94a3b8;
-            border: 1px solid #334155; word-break: break-all; max-width: 100%;
-            line-height: 1.5;
+        .modal-buttons .btn {
+            flex: 1;
         }
-        .ganador-info { color: #e2e8f0; margin-top: 8px; font-size: 1rem; }
-        .ganador-info strong { color: var(--verde); }
-
-        /* WHATSAPP IMAGE */
-        .wa-preview {
-            display: none; flex-direction: column; align-items: center; gap: 16px;
-            padding: 20px; min-height: 100vh;
+        .winner-display {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #16213e;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            z-index: 300;
+            border: 4px solid #f59e0b;
+            box-shadow: 0 0 40px rgba(245,158,11,0.5);
         }
-        .wa-preview.active { display: flex; }
-        #waCanvas { border-radius: 12px; max-width: 100%; height: auto; }
-
-        /* TOAST */
-        .toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: var(--verde); color: white; padding: 14px 28px;
-            border-radius: 12px; font-weight: 600; z-index: 3000;
-            animation: slideUp 0.3s ease; white-space: nowrap;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        .winner-display.active {
+            display: block;
+            animation: pulse 1s ease-in-out;
         }
-        @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
-
-        /* EMPTY STATE */
-        .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
-        .empty-state p { margin-top: 8px; font-size: 0.9rem; }
-
-        /* ===== DESKTOP: video + chat al costado ===== */
-        @media (min-width: 900px) {
-            .video-fixed-mobile {
-                position: relative;
-                z-index: auto;
-                background: transparent;
-                padding: 0;
-                border-bottom: none;
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        .winner-number {
+            font-size: 72px;
+            font-weight: bold;
+            color: #f59e0b;
+            margin: 20px 0;
+        }
+        .winner-name {
+            font-size: 24px;
+            color: #fff;
+        }
+        @media (min-width: 768px) {
+            .desktop-layout {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 20px;
             }
-            .video-container {
-                max-height: none;
-            }
-            .video-chat-layout {
-                grid-template-columns: 1fr 300px;
-                grid-template-rows: 1fr;
-            }
-            .chat-container {
+            .chat-section {
                 display: block !important;
-                height: 100%;
-                min-height: 300px;
             }
             .chat-toggle-btn {
                 display: none;
             }
-            .scrollable-content {
-                padding-top: 0;
-                display: grid;
-                grid-template-columns: 1fr 340px;
-                gap: 16px;
-            }
-            .stats { grid-template-columns: repeat(4, 1fr); }
-            .actions { grid-template-columns: repeat(4, 1fr); }
-            .numbers-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
-            .video-wrapper {
-                position: sticky;
-                top: 16px;
-            }
-        }
-
-        @media (min-width: 640px) and (max-width: 899px) {
-            .video-fixed-mobile {
-                position: relative;
-                z-index: auto;
-                background: transparent;
-                padding: 0;
-                border-bottom: none;
-            }
-            .video-container {
-                max-height: none;
-            }
-            .video-chat-layout {
-                grid-template-columns: 1fr 250px;
-            }
             .chat-container {
                 display: block !important;
-                height: 100%;
-                min-height: 250px;
+                height: 500px;
             }
-            .chat-toggle-btn {
-                display: none;
+            .numbers-grid {
+                grid-template-columns: repeat(5, 1fr);
             }
-            .scrollable-content {
-                padding-top: 0;
-                display: grid;
-                grid-template-columns: 1fr 280px;
-                gap: 16px;
+            .title-section .barrio {
+                font-size: 26px;
             }
-            .stats { grid-template-columns: repeat(4, 1fr); }
-            .actions { grid-template-columns: repeat(4, 1fr); }
-            .video-wrapper {
-                position: sticky;
-                top: 16px;
+            .title-section .rifa-title {
+                font-size: 42px;
+            }
+        }
+        @media (max-width: 767px) {
+            .desktop-layout {
+                display: block;
+            }
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            .numbers-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .title-section .barrio {
+                font-size: 18px;
+            }
+            .title-section .rifa-title {
+                font-size: 28px;
             }
         }
     </style>
 </head>
 <body>
-
-<!-- LOGIN -->
-<div class="login-screen" id="loginScreen">
-    <h1>🎰 Rifa Solano</h1>
-    <p>Sistema de gestión de rifas<br>Barrio Las Catalinas</p>
-    <input type="password" id="claveInput" placeholder="Clave de administrador" autocomplete="off">
-    <button onclick="login()" id="btnLogin">Entrar</button>
-    <p style="color:#64748b; font-size:0.8rem; margin-top:8px;">
-        Clave por defecto: <code style="background:#1e293b;padding:2px 6px;border-radius:4px;">solano2024</code>
-    </p>
-</div>
-
-<!-- APP -->
-<div id="appScreen" style="display:none;">
-
-    <!-- VIDEO + CHAT FIJO ARRIBA -->
-    <div class="video-fixed-mobile">
-        <div class="video-wrapper">
-            <div class="video-header">
-                <h3 id="videoTitle">🎬 Música en Vivo</h3>
-                <div class="video-toggle">
-                    <button class="toggle-btn youtube active" id="btnYoutube" onclick="cambiarVideo('youtube')">
-                        ▶️ YouTube
-                    </button>
-                    <button class="toggle-btn twitch" id="btnTwitch" onclick="cambiarVideo('twitch')">
-                        📺 Twitch
-                    </button>
-                </div>
-            </div>
-            <div class="video-chat-layout">
-                <div class="video-container">
-                    <iframe
-                        id="videoFrame"
-                        src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=0&rel=0"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <div class="chat-container" id="chatContainer">
-                    <iframe
-                        id="chatFrame"
-                        src=""
-                        frameborder="0">
-                    </iframe>
-                </div>
-            </div>
-            <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
-                💬 Mostrar Chat
+    <div class="header">
+        <h1>🎬 Música en Vivo</h1>
+        <div class="platform-btns">
+            <button class="platform-btn youtube active" onclick="switchPlatform('youtube')">
+                ▶️ YouTube
             </button>
-            <div class="video-info" id="videoInfo">
-                🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión
-            </div>
+            <button class="platform-btn twitch" onclick="switchPlatform('twitch')">
+                📺 Twitch
+            </button>
         </div>
     </div>
 
-    <!-- CONTENIDO SCROLLEABLE -->
-    <div class="scrollable-content">
-        <div class="container">
-
-            <div class="header">
-                <h1>🎰 Rifa Solano - Asfalto en Frío</h1>
-                <div class="header-info">
-                    <span>💰 $10.000 c/u</span>
-                    <span>🚲 2 Bicicletas</span>
-                    <span>📅 Sorteo: 6/6</span>
-                    <span>🏘️ Las Catalinas</span>
-                </div>
-                <div class="stats">
-                    <div class="stat-box stat-verde">
-                        <div class="num" id="statDisp">0</div>
-                        <div class="label">Disponibles</div>
-                    </div>
-                    <div class="stat-box stat-amarillo">
-                        <div class="num" id="statRes">0</div>
-                        <div class="label">Reservados</div>
-                    </div>
-                    <div class="stat-box stat-rojo">
-                        <div class="num" id="statVen">0</div>
-                        <div class="label">Vendidos</div>
-                    </div>
-                    <div class="stat-box stat-azul">
-                        <div class="num" id="statRec">$0</div>
-                        <div class="label">Recaudado</div>
+    <div class="main-container">
+        <div class="desktop-layout">
+            <div class="left-content">
+                <div class="video-section">
+                    <div class="video-wrapper" id="videoContainer">
+                        <iframe id="videoFrame" src="https://www.youtube.com/embed/live_stream?channel=UCr0Q5a0nV1VhSbEh6E0VzYw" allowfullscreen></iframe>
                     </div>
                 </div>
-            </div>
 
-            <div class="actions">
-                <button class="btn btn-success" onclick="agregarRango()">➕ Agregar números</button>
-                <button class="btn btn-primary" onclick="generarImagenWA()">📱 Imagen WhatsApp</button>
-                <button class="btn btn-warning" onclick="irSorteo()">🎲 Sortear</button>
-                <button class="btn btn-dark" onclick="logout()">🚪 Salir</button>
-            </div>
+                <div class="title-section">
+                    <div class="barrio">🏘️ Barrio Las Catalinas</div>
+                    <div class="rifa-title">🎰 Rifa Solano</div>
+                </div>
 
-            <div class="grid-container">
-                <div class="grid-header">
-                    <h2>📋 Tablero de Números</h2>
-                    <div class="legend">
-                        <span><div class="dot dot-verde"></div> Disp.</span>
-                        <span><div class="dot dot-amarillo"></div> Res.</span>
-                        <span><div class="dot dot-rojo"></div> Vend.</span>
+                <div class="chat-section" id="chatSection">
+                    <button class="chat-toggle-btn" id="chatToggle" onclick="toggleChat()">
+                        💬 Mostrar Chat
+                    </button>
+                    <div class="chat-container" id="chatContainer">
+                        <div class="chat-placeholder" id="chatPlaceholder">
+                            💬 Chat no disponible en YouTube<br><br>
+                            🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión
+                        </div>
+                        <iframe id="chatFrame" style="display: none;"></iframe>
                     </div>
                 </div>
-                <div class="numbers-grid" id="numbersGrid"></div>
+
+                <div class="controls">
+                    <button class="btn btn-agregar" onclick="openModal('agregar')">
+                        ➕ Agregar números
+                    </button>
+                    <button class="btn btn-whatsapp" onclick="generateWhatsApp()">
+                        📱 Imagen WhatsApp
+                    </button>
+                    <button class="btn btn-sortear" onclick="sortear()">
+                        🎲 Sortear
+                    </button>
+                    <button class="btn btn-salir" onclick="salir()">
+                        🚪 Salir
+                    </button>
+                </div>
+
+                <div class="board-section">
+                    <div class="board-header">
+                        <div class="board-title">📋 Tablero de Números</div>
+                        <div class="legend">
+                            <div class="legend-item">
+                                <div class="dot dot-disp"></div> Disp.
+                            </div>
+                            <div class="legend-item">
+                                <div class="dot dot-res"></div> Res.
+                            </div>
+                            <div class="legend-item">
+                                <div class="dot dot-vend"></div> Vend.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="numbers-grid" id="numbersGrid">
+                        <!-- Los números se generan con JS -->
+                    </div>
+                </div>
             </div>
 
+            <div class="chat-sidebar" id="chatSidebar" style="display: none;">
+                <div class="chat-section" style="height: 100%;">
+                    <div class="chat-container" style="display: block; height: calc(100vh - 100px);">
+                        <iframe id="chatFrameDesktop" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-</div>
-
-<!-- SORTEO SCREEN -->
-<div class="sorteo-screen" id="sorteoScreen">
-    <h2 style="font-size:1.4rem;">🎲 Sorteo en curso...</h2>
-    <div class="ruleta" id="ruleta">---</div>
-    <div id="ganadorBox" style="display:none;">
-        <div class="ganador-final" id="numGanador">0</div>
-        <p style="color:#94a3b8; margin-top:8px; font-size:1.1rem;">¡Número ganador!</p>
-        <div class="ganador-info" id="ganadorInfo"></div>
-        <div class="semilla-box" id="semillaBox" style="margin-top:16px;"></div>
-        <p style="color:#64748b; font-size:0.7rem; margin-top:8px;">
-            Semilla pública — cualquiera puede verificar este resultado
-        </p>
-    </div>
-    <div class="modal-actions" style="margin-top:24px; max-width:320px; width:100%;">
-        <button class="btn btn-success" id="btnSortear" onclick="ejecutarSorteo()">🎲 Iniciar Sorteo</button>
-        <button class="btn btn-dark" onclick="volverApp()">↩️ Volver</button>
-    </div>
-</div>
-
-<!-- WHATSAPP PREVIEW -->
-<div class="wa-preview" id="waPreview">
-    <h2 style="font-size:1.3rem; margin-bottom:8px;">📱 Imagen para WhatsApp</h2>
-    <canvas id="waCanvas" width="800" height="900"></canvas>
-    <div class="modal-actions" style="max-width:320px; width:100%;">
-        <button class="btn btn-success" onclick="descargarImagen()">⬇️ Descargar</button>
-        <button class="btn btn-dark" onclick="volverApp()">↩️ Volver</button>
-    </div>
-</div>
-
-<!-- MODAL EDITAR NÚMERO -->
-<div class="modal-overlay" id="modalEditar">
-    <div class="modal">
-        <h3>✏️ Número <span id="modalNumero"></span></h3>
-        <label>Estado</label>
-        <select id="modalEstado">
-            <option value="disponible">🟢 Disponible</option>
-            <option value="reservado">🟡 Reservado</option>
-            <option value="vendido">🔴 Vendido</option>
-        </select>
-        <label>Nombre del comprador</label>
-        <input type="text" id="modalNombre" placeholder="Ej: Juan Pérez" autocomplete="off">
-        <label>Método de pago / Nota</label>
-        <input type="text" id="modalNota" placeholder="Ej: Transferencia, Efectivo" autocomplete="off">
-        <div class="modal-actions">
-            <button class="btn btn-success" onclick="guardarNumero()">💾 Guardar</button>
-            <button class="btn btn-dark" onclick="cerrarModal()">❌ Cancelar</button>
+    <!-- Modal para agregar números -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 id="modalTitle">Agregar Número</h2>
+            <input type="text" id="modalInput" placeholder="Nombre del comprador">
+            <div class="modal-buttons">
+                <button class="btn btn-agregar" onclick="confirmModal()">✅ Confirmar</button>
+                <button class="btn btn-salir" onclick="closeModal()">❌ Cancelar</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- MODAL AGREGAR RANGO -->
-<div class="modal-overlay" id="modalRango">
-    <div class="modal">
-        <h3>➕ Agregar rango de números</h3>
-        <label>Número inicial</label>
-        <input type="number" id="rangoInicio" placeholder="Ej: 296" inputmode="numeric">
-        <label>Número final</label>
-        <input type="number" id="rangoFin" placeholder="Ej: 310" inputmode="numeric">
-        <div class="modal-actions">
-            <button class="btn btn-success" onclick="confirmarRango()">➕ Agregar</button>
-            <button class="btn btn-dark" onclick="cerrarModalRango()">❌ Cancelar</button>
-        </div>
+    <!-- Display del ganador -->
+    <div class="winner-display" id="winnerDisplay">
+        <div style="font-size: 24px;">🎉 ¡GANADOR! 🎉</div>
+        <div class="winner-number" id="winnerNumber">000</div>
+        <div class="winner-name" id="winnerName">Nombre</div>
+        <button class="btn btn-salir" style="margin-top: 20px;" onclick="closeWinner()">Cerrar</button>
     </div>
-</div>
 
-<script>
-// ============================================
-// CONFIGURACIÓN
-// ============================================
-const CLAVE_ADMIN = 'solano2024';
-const PRECIO_NUMERO = 10000;
-const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
-const TWITCH_CHANNEL = 'lucaspowerchanel';
-const TWITCH_PARENT = 'sabor-inka.vercel.app';
+    <script>
+        // Estado de los números (0: disponible, 1: reservado, 2: vendido)
+        let numbers = JSON.parse(localStorage.getItem('rifaNumbers')) || {};
+        let currentPlatform = 'youtube';
+        let selectedNumber = null;
+        let chatVisible = false;
 
-let numeros = [];
-let numeroSeleccionado = null;
-let videoActual = 'youtube';
-let chatVisible = false;
+        // Generar números del 1 al 300
+        function generateNumbers() {
+            const grid = document.getElementById('numbersGrid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= 300; i++) {
+                const card = document.createElement('div');
+                card.className = 'number-card';
+                const status = numbers[i]?.status || 0;
+                const name = numbers[i]?.name || '';
 
-// ============================================
-// INICIALIZACIÓN
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('claveInput').addEventListener('keypress', function(e) {
-        if(e.key === 'Enter') login();
-    });
+                if (status === 0) card.classList.add('disp');
+                else if (status === 1) card.classList.add('res');
+                else if (status === 2) card.classList.add('vend');
 
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) this.classList.remove('active');
-        });
-    });
-});
-
-// ============================================
-// TOGGLE CHAT
-// ============================================
-function toggleChat() {
-    const chat = document.getElementById('chatContainer');
-    const btn = document.getElementById('chatToggleBtn');
-    chatVisible = !chatVisible;
-
-    if (chatVisible) {
-        chat.classList.add('active');
-        btn.innerHTML = '❌ Ocultar Chat';
-        // Cargar chat si no está cargado
-        const chatFrame = document.getElementById('chatFrame');
-        if (!chatFrame.src) {
-            chatFrame.src = `https://www.twitch.tv/embed/${TWITCH_CHANNEL}/chat?parent=${TWITCH_PARENT}`;
+                card.innerHTML = `
+                    <div class="num">${i}</div>
+                    <div class="name">${name}</div>
+                `;
+                card.onclick = () => selectNumber(i);
+                grid.appendChild(card);
+            }
         }
-    } else {
-        chat.classList.remove('active');
-        btn.innerHTML = '💬 Mostrar Chat';
-    }
-}
 
-// ============================================
-// CAMBIAR VIDEO (YOUTUBE / TWITCH)
-// ============================================
-function cambiarVideo(plataforma) {
-    const frame = document.getElementById('videoFrame');
-    const btnYoutube = document.getElementById('btnYoutube');
-    const btnTwitch = document.getElementById('btnTwitch');
-    const title = document.getElementById('videoTitle');
-    const info = document.getElementById('videoInfo');
-    const chatFrame = document.getElementById('chatFrame');
-    const chatBtn = document.getElementById('chatToggleBtn');
+        function selectNumber(num) {
+            selectedNumber = num;
+            document.getElementById('modalTitle').textContent = `Número ${num}`;
+            document.getElementById('modalInput').value = numbers[num]?.name || '';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
 
-    if (plataforma === 'youtube') {
-        frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
-        btnYoutube.classList.add('active');
-        btnTwitch.classList.remove('active');
-        title.innerHTML = '🎬 Música en Vivo';
-        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión';
-        // Ocultar chat en YouTube
-        document.getElementById('chatContainer').classList.remove('active');
-        chatVisible = false;
-        chatBtn.innerHTML = '💬 Chat no disponible en YouTube';
-        chatBtn.style.opacity = '0.5';
-        chatBtn.disabled = true;
-        videoActual = 'youtube';
-    } else {
-        frame.src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
-        btnTwitch.classList.add('active');
-        btnYoutube.classList.remove('active');
-        title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
-        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente. Usá el chat para hablar con los vecinos!';
-        // Habilitar chat en Twitch
-        chatBtn.innerHTML = '💬 Mostrar Chat';
-        chatBtn.style.opacity = '1';
-        chatBtn.disabled = false;
-        videoActual = 'twitch';
-    }
+        function openModal(type) {
+            if (type === 'agregar') {
+                document.getElementById('modalTitle').textContent = 'Agregar Números';
+                document.getElementById('modalInput').placeholder = 'Nombre del comprador';
+                document.getElementById('modalOverlay').classList.add('active');
+            }
+        }
 
-    toast(`✅ Cambiado a ${plataforma === 'youtube' ? 'YouTube' : 'Twitch'}`);
-}
+        function confirmModal() {
+            const name = document.getElementById('modalInput').value.trim();
+            if (name && selectedNumber) {
+                numbers[selectedNumber] = { status: 2, name: name };
+                saveNumbers();
+                generateNumbers();
+            }
+            closeModal();
+        }
 
-// ============================================
-// LOGIN
-// ============================================
-function login() {
-    const clave = document.getElementById('claveInput').value.trim();
-    if (clave === CLAVE_ADMIN) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('appScreen').style.display = 'block';
-        cargarDatos();
-    } else {
-        toast('❌ Clave incorrecta');
-        document.getElementById('claveInput').value = '';
-        document.getElementById('claveInput').focus();
-    }
-}
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            selectedNumber = null;
+        }
 
-function logout() {
-    document.getElementById('appScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('claveInput').value = '';
-}
+        function saveNumbers() {
+            localStorage.setItem('rifaNumbers', JSON.stringify(numbers));
+        }
 
-// ============================================
-// DATOS - localStorage
-// ============================================
-function cargarDatos() {
-    const guardado = localStorage.getItem('rifa_solano_numeros');
-    if (guardado) {
-        numeros = JSON.parse(guardado);
-    } else {
-        numeros = [];
-        for (let i = 286; i <= 295; i++) {
-            numeros.push({
-                numero: i,
-                estado: 'disponible',
-                comprador_nombre: '',
-                metodo_pago: '',
-                vendedor_nota: '',
-                updated_at: new Date().toISOString()
+        function switchPlatform(platform) {
+            currentPlatform = platform;
+            const videoFrame = document.getElementById('videoFrame');
+            const chatPlaceholder = document.getElementById('chatPlaceholder');
+            const chatFrame = document.getElementById('chatFrame');
+            const chatFrameDesktop = document.getElementById('chatFrameDesktop');
+            const chatSidebar = document.getElementById('chatSidebar');
+
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.platform-btn.${platform}`).classList.add('active');
+
+            if (platform === 'youtube') {
+                videoFrame.src = 'https://www.youtube.com/embed/live_stream?channel=UCr0Q5a0nV1VhSbEh6E0VzYw';
+                chatPlaceholder.style.display = 'block';
+                chatFrame.style.display = 'none';
+                chatSidebar.style.display = 'none';
+            } else {
+                videoFrame.src = 'https://player.twitch.tv/?channel=solano&parent=localhost';
+                chatPlaceholder.style.display = 'none';
+                chatFrame.style.display = 'block';
+                chatFrame.src = 'https://www.twitch.tv/embed/solano/chat?parent=localhost';
+                chatFrameDesktop.src = 'https://www.twitch.tv/embed/solano/chat?parent=localhost';
+                if (window.innerWidth >= 768) {
+                    chatSidebar.style.display = 'block';
+                }
+            }
+        }
+
+        function toggleChat() {
+            chatVisible = !chatVisible;
+            const container = document.getElementById('chatContainer');
+            const btn = document.getElementById('chatToggle');
+
+            if (chatVisible) {
+                container.classList.add('active');
+                btn.textContent = '💬 Ocultar Chat';
+            } else {
+                container.classList.remove('active');
+                btn.textContent = '💬 Mostrar Chat';
+            }
+        }
+
+        function sortear() {
+            const vendidos = Object.keys(numbers).filter(n => numbers[n].status === 2);
+            if (vendidos.length === 0) {
+                alert('No hay números vendidos para sortear');
+                return;
+            }
+
+            const ganador = vendidos[Math.floor(Math.random() * vendidos.length)];
+            const num = parseInt(ganador);
+
+            document.getElementById('winnerNumber').textContent = num.toString().padStart(3, '0');
+            document.getElementById('winnerName').textContent = numbers[num].name;
+            document.getElementById('winnerDisplay').classList.add('active');
+        }
+
+        function closeWinner() {
+            document.getElementById('winnerDisplay').classList.remove('active');
+        }
+
+        function generateWhatsApp() {
+            const vendidos = Object.keys(numbers).filter(n => numbers[n].status === 2);
+            let text = '🎰 *Rifa Solano - Barrio Las Catalinas*
+
+';
+            text += `📊 *Total vendidos:* ${vendidos.length}/300
+
+`;
+            text += '📋 *Números vendidos:*
+';
+            vendidos.forEach(n => {
+                text += `  ${n} - ${numbers[n].name}
+`;
             });
-        }
-        guardarDatos();
-    }
-    renderGrid();
-    updateStats();
-}
 
-function guardarDatos() {
-    localStorage.setItem('rifa_solano_numeros', JSON.stringify(numeros));
-}
-
-// ============================================
-// RENDER GRID
-// ============================================
-function renderGrid() {
-    const grid = document.getElementById('numbersGrid');
-    grid.innerHTML = '';
-
-    if (numeros.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><p>No hay números cargados</p><p>Tocá "Agregar números" para empezar</p></div>';
-        return;
-    }
-
-    numeros.forEach(n => {
-        const card = document.createElement('div');
-        card.className = `num-card num-${n.estado}`;
-        card.onclick = () => abrirModal(n);
-
-        const numSpan = document.createElement('span');
-        numSpan.className = 'n';
-        numSpan.textContent = n.numero;
-        card.appendChild(numSpan);
-
-        if (n.comprador_nombre) {
-            const owner = document.createElement('span');
-            owner.className = 'owner';
-            owner.textContent = n.comprador_nombre;
-            card.appendChild(owner);
+            const encoded = encodeURIComponent(text);
+            window.open(`https://wa.me/?text=${encoded}`, '_blank');
         }
 
-        grid.appendChild(card);
-    });
-}
-
-function updateStats() {
-    const disp = numeros.filter(n => n.estado === 'disponible').length;
-    const res = numeros.filter(n => n.estado === 'reservado').length;
-    const ven = numeros.filter(n => n.estado === 'vendido').length;
-    const rec = ven * PRECIO_NUMERO;
-
-    document.getElementById('statDisp').textContent = disp;
-    document.getElementById('statRes').textContent = res;
-    document.getElementById('statVen').textContent = ven;
-    document.getElementById('statRec').textContent = '$' + rec.toLocaleString('es-AR');
-}
-
-// ============================================
-// MODAL EDITAR
-// ============================================
-function abrirModal(n) {
-    numeroSeleccionado = n;
-    document.getElementById('modalNumero').textContent = n.numero;
-    document.getElementById('modalEstado').value = n.estado;
-    document.getElementById('modalNombre').value = n.comprador_nombre || '';
-    document.getElementById('modalNota').value = n.vendedor_nota || '';
-    document.getElementById('modalEditar').classList.add('active');
-}
-
-function cerrarModal() {
-    document.getElementById('modalEditar').classList.remove('active');
-    numeroSeleccionado = null;
-}
-
-function guardarNumero() {
-    if (!numeroSeleccionado) return;
-
-    numeroSeleccionado.estado = document.getElementById('modalEstado').value;
-    numeroSeleccionado.comprador_nombre = document.getElementById('modalNombre').value.trim();
-    numeroSeleccionado.vendedor_nota = document.getElementById('modalNota').value.trim();
-    numeroSeleccionado.updated_at = new Date().toISOString();
-
-    guardarDatos();
-    renderGrid();
-    updateStats();
-    cerrarModal();
-    toast('✅ Guardado');
-}
-
-// ============================================
-// AGREGAR RANGO
-// ============================================
-function agregarRango() {
-    document.getElementById('rangoInicio').value = '';
-    document.getElementById('rangoFin').value = '';
-    document.getElementById('modalRango').classList.add('active');
-    setTimeout(() => document.getElementById('rangoInicio').focus(), 100);
-}
-
-function cerrarModalRango() {
-    document.getElementById('modalRango').classList.remove('active');
-}
-
-function confirmarRango() {
-    const inicio = parseInt(document.getElementById('rangoInicio').value);
-    const fin = parseInt(document.getElementById('rangoFin').value);
-
-    if (!inicio || !fin || inicio > fin || inicio < 1 || fin > 9999) {
-        toast('❌ Rango inválido');
-        return;
-    }
-
-    let agregados = 0;
-    for (let i = inicio; i <= fin; i++) {
-        if (!numeros.find(n => n.numero === i)) {
-            numeros.push({
-                numero: i,
-                estado: 'disponible',
-                comprador_nombre: '',
-                metodo_pago: '',
-                vendedor_nota: '',
-                updated_at: new Date().toISOString()
-            });
-            agregados++;
+        function salir() {
+            if (confirm('¿Seguro que querés salir?')) {
+                window.close();
+            }
         }
-    }
 
-    numeros.sort((a, b) => a.numero - b.numero);
-    guardarDatos();
-    renderGrid();
-    updateStats();
-    cerrarModalRango();
-    toast(agregados > 0 ? `✅ Agregados ${agregados} números` : 'ℹ️ Esos números ya existen');
-}
+        // Inicializar
+        generateNumbers();
 
-// ============================================
-// IMAGEN WHATSAPP
-// ============================================
-function generarImagenWA() {
-    const canvas = document.getElementById('waCanvas');
-    const ctx = canvas.getContext('2d');
-    const disponibles = numeros.filter(n => n.estado === 'disponible').map(n => n.numero);
-    const vendidos = numeros.filter(n => n.estado === 'vendido').length;
-    const reservados = numeros.filter(n => n.estado === 'reservado').length;
-
-    ctx.fillStyle = '#0f172a';
-    ctx.fillRect(0, 0, 800, 900);
-
-    ctx.fillStyle = '#22c55e';
-    ctx.fillRect(0, 0, 800, 140);
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 44px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('🎰 RIFA SOLANO', 400, 65);
-    ctx.font = '24px Arial';
-    ctx.fillText('Asfalto en Frío - Calle Solano', 400, 105);
-
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '20px Arial';
-    ctx.fillText('💰 $10.000 cada número  |  🚲 2 Bicicletas  |  📅 Sorteo 6/6', 400, 175);
-
-    ctx.fillStyle = '#334155';
-    ctx.fillRect(40, 200, 720, 70);
-    ctx.font = 'bold 18px Arial';
-    ctx.fillStyle = '#22c55e';
-    ctx.fillText(`DISPONIBLES: ${disponibles.length}`, 130, 245);
-    ctx.fillStyle = '#eab308';
-    ctx.fillText(`RESERVADOS: ${reservados}`, 400, 245);
-    ctx.fillStyle = '#ef4444';
-    ctx.fillText(`VENDIDOS: ${vendidos}`, 670, 245);
-
-    ctx.fillStyle = '#22c55e';
-    ctx.font = 'bold 26px Arial';
-    ctx.fillText('✅ NÚMEROS DISPONIBLES', 400, 310);
-
-    if (disponibles.length === 0) {
-        ctx.fillStyle = '#ef4444';
-        ctx.font = '32px Arial';
-        ctx.fillText('🎉 ¡TODOS VENDIDOS!', 400, 360);
-    } else {
-        ctx.fillStyle = '#e2e8f0';
-        ctx.font = '28px Arial';
-
-        const cols = 10;
-        const cellW = 68;
-        const cellH = 50;
-        const startX = 60;
-        const startY = 340;
-
-        disponibles.forEach((num, idx) => {
-            const col = idx % cols;
-            const row = Math.floor(idx / cols);
-            const x = startX + col * cellW;
-            const y = startY + row * cellH;
-
-            ctx.fillStyle = 'rgba(34,197,94,0.2)';
-            ctx.fillRect(x, y, 60, 42);
-            ctx.strokeStyle = '#22c55e';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(x, y, 60, 42);
-
-            ctx.fillStyle = '#22c55e';
-            ctx.font = 'bold 20px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(num.toString(), x + 30, y + 28);
+        // Responsive chat sidebar
+        window.addEventListener('resize', () => {
+            if (currentPlatform === 'twitch' && window.innerWidth >= 768) {
+                document.getElementById('chatSidebar').style.display = 'block';
+            } else {
+                document.getElementById('chatSidebar').style.display = 'none';
+            }
         });
-    }
-
-    ctx.fillStyle = '#64748b';
-    ctx.font = '18px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('📲 Escribime al privado para reservar tu número', 400, 820);
-    ctx.fillText('🏘️ Barrio Las Catalinas - Todos los números tienen chances', 400, 850);
-    ctx.fillText('🎲 Sorteo grabado y compartido el 6/6', 400, 880);
-
-    document.getElementById('appScreen').style.display = 'none';
-    document.getElementById('waPreview').classList.add('active');
-}
-
-function descargarImagen() {
-    const canvas = document.getElementById('waCanvas');
-    const link = document.createElement('a');
-    link.download = 'rifa-solano-numeros.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    toast('📥 Imagen descargada');
-}
-
-function volverApp() {
-    document.getElementById('sorteoScreen').classList.remove('active');
-    document.getElementById('waPreview').classList.remove('active');
-    document.getElementById('appScreen').style.display = 'block';
-}
-
-// ============================================
-// SORTEO
-// ============================================
-function irSorteo() {
-    document.getElementById('appScreen').style.display = 'none';
-    document.getElementById('sorteoScreen').classList.add('active');
-    document.getElementById('ganadorBox').style.display = 'none';
-    document.getElementById('ruleta').style.display = 'block';
-    document.getElementById('ruleta').textContent = '---';
-    document.getElementById('btnSortear').style.display = 'block';
-    document.getElementById('btnSortear').textContent = '🎲 Iniciar Sorteo';
-}
-
-function ejecutarSorteo() {
-    const vendidos = numeros.filter(n => n.estado === 'vendido');
-    if (vendidos.length === 0) {
-        toast('❌ No hay números vendidos para sortear');
-        return;
-    }
-
-    document.getElementById('btnSortear').style.display = 'none';
-    const ruleta = document.getElementById('ruleta');
-
-    let count = 0;
-    const maxCount = 40;
-    const interval = setInterval(() => {
-        const random = vendidos[Math.floor(Math.random() * vendidos.length)];
-        ruleta.textContent = random.numero;
-        count++;
-
-        if (count >= maxCount) {
-            clearInterval(interval);
-            setTimeout(() => finalizarSorteo(vendidos), 300);
-        }
-    }, 80);
-}
-
-function finalizarSorteo(vendidos) {
-    const ahora = new Date();
-    const timestamp = ahora.toISOString();
-    const randomStr = Math.random().toString(36).substring(2, 15);
-    const semilla = timestamp + '-' + randomStr;
-
-    let hash = 0;
-    for (let i = 0; i < semilla.length; i++) {
-        hash = ((hash << 5) - hash) + semilla.charCodeAt(i);
-        hash = hash & hash;
-    }
-    const index = Math.abs(hash) % vendidos.length;
-    const ganador = vendidos[index];
-
-    document.getElementById('ruleta').style.display = 'none';
-    document.getElementById('ganadorBox').style.display = 'block';
-    document.getElementById('numGanador').textContent = ganador.numero;
-
-    const infoDiv = document.getElementById('ganadorInfo');
-    if (ganador.comprador_nombre) {
-        infoDiv.innerHTML = 'Comprador: <strong>' + escapeHtml(ganador.comprador_nombre) + '</strong>';
-    } else {
-        infoDiv.innerHTML = '';
-    }
-
-    document.getElementById('semillaBox').textContent = 'Semilla: ' + semilla;
-
-    if (typeof confetti !== 'undefined') {
-        confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#22c55e', '#eab308', '#ef4444', '#3b82f6']
-        });
-    }
-
-    toast('🎉 ¡Tenemos ganador!');
-
-    const sorteoData = {
-        fecha: new Date().toISOString(),
-        ganador: ganador.numero,
-        comprador: ganador.comprador_nombre,
-        semilla: semilla,
-        totalVendidos: vendidos.length
-    };
-    localStorage.setItem('rifa_solano_ultimo_sorteo', JSON.stringify(sorteoData));
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// ============================================
-// TOAST
-// ============================================
-function toast(msg) {
-    const existing = document.querySelector('.toast');
-    if (existing) existing.remove();
-
-    const t = document.createElement('div');
-    t.className = 'toast';
-    t.textContent = msg;
-    document.body.appendChild(t);
-    setTimeout(() => {
-        if (t.parentNode) t.remove();
-    }, 2500);
-}
-</script>
+    </script>
 </body>
 </html>
