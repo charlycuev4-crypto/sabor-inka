@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa Solano - Asfalto en Frío</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --verde: #22c55e;
+            --amarillo: #eab308;
+            --rojo: #ef4444;
+            --azul: #3b82f6;
+            --gris: #374151;
+            --fondo: #0f172a;
+            --card: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--fondo);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+        /* LOGIN */
+        .login-screen {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; min-height: 100vh; gap: 20px;
+        }
+        .login-screen h1 { font-size: 2rem; color: var(--verde); }
+        .login-screen input {
+            padding: 14px 20px; font-size: 1.1rem; border-radius: 12px;
+            border: 2px solid #334155; background: var(--card); color: white;
+            width: 280px; text-align: center;
+        }
+        .login-screen button {
+            padding: 14px 40px; font-size: 1.1rem; border-radius: 12px;
+            border: none; background: var(--verde); color: white; cursor: pointer;
+            font-weight: bold;
+        }
+        .login-screen button:hover { background: #16a34a; }
+
+        /* HEADER */
+        .header {
+            background: var(--card); border-radius: 16px; padding: 20px;
+            margin-bottom: 16px; border: 1px solid #334155;
+        }
+        .header h1 { font-size: 1.4rem; color: var(--verde); margin-bottom: 8px; }
+        .header-info { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.9rem; color: #94a3b8; }
+        .header-info span { background: #334155; padding: 4px 12px; border-radius: 8px; }
+        .stats {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px; margin-top: 12px;
+        }
+        .stat-box {
+            background: #0f172a; padding: 12px; border-radius: 10px; text-align: center;
+            border: 1px solid #334155;
+        }
+        .stat-box .num { font-size: 1.5rem; font-weight: bold; }
+        .stat-box .label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; }
+        .stat-verde .num { color: var(--verde); }
+        .stat-amarillo .num { color: var(--amarillo); }
+        .stat-rojo .num { color: var(--rojo); }
+        .stat-azul .num { color: var(--azul); }
+
+        /* ACTIONS */
+        .actions {
+            display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
+        }
+        .btn {
+            padding: 12px 20px; border-radius: 10px; border: none;
+            font-size: 0.95rem; cursor: pointer; font-weight: 600;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .btn-primary { background: var(--azul); color: white; }
+        .btn-success { background: var(--verde); color: white; }
+        .btn-warning { background: var(--amarillo); color: #1e293b; }
+        .btn-danger { background: var(--rojo); color: white; }
+        .btn-dark { background: #334155; color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* GRID */
+        .grid-container {
+            background: var(--card); border-radius: 16px; padding: 16px;
+            border: 1px solid #334155;
+        }
+        .grid-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; flex-wrap: wrap; gap: 10px;
+        }
+        .grid-header h2 { font-size: 1.1rem; }
+        .legend { display: flex; gap: 16px; font-size: 0.8rem; }
+        .legend span { display: flex; align-items: center; gap: 6px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-verde { background: var(--verde); }
+        .dot-amarillo { background: var(--amarillo); }
+        .dot-rojo { background: var(--rojo); }
+
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
+        }
+        .num-card {
+            aspect-ratio: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; border-radius: 10px;
+            cursor: pointer; transition: all 0.2s; font-size: 0.85rem;
+            border: 2px solid transparent; position: relative;
+        }
+        .num-card:hover { transform: scale(1.08); }
+        .num-card .n { font-size: 1rem; font-weight: bold; }
+        .num-card .owner { font-size: 0.6rem; margin-top: 2px; max-width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .num-disponible { background: rgba(34,197,94,0.15); border-color: var(--verde); color: var(--verde); }
+        .num-reservado { background: rgba(234,179,8,0.15); border-color: var(--amarillo); color: var(--amarillo); }
+        .num-vendido { background: rgba(239,68,68,0.15); border-color: var(--rojo); color: var(--rojo); }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000; padding: 16px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--card); border-radius: 16px; padding: 24px;
+            max-width: 420px; width: 100%; border: 1px solid #334155;
+        }
+        .modal h3 { margin-bottom: 16px; font-size: 1.2rem; }
+        .modal label { display: block; margin-bottom: 4px; font-size: 0.85rem; color: #94a3b8; }
+        .modal input, .modal select {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #334155; background: #0f172a; color: white;
+            margin-bottom: 12px; font-size: 1rem;
+        }
+        .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
+        .modal-actions .btn { flex: 1; justify-content: center; }
+
+        /* SORTEO */
+        .sorteo-screen {
+            display: none; flex-direction: column; align-items: center;
+            justify-content: center; min-height: 60vh; gap: 20px;
+        }
+        .sorteo-screen.active { display: flex; }
+        .ruleta {
+            font-size: 4rem; font-weight: bold; color: var(--verde);
+            min-height: 80px; display: flex; align-items: center;
+        }
+        .ganador-final {
+            font-size: 3rem; color: var(--verde); text-align: center;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .semilla-box {
+            background: #0f172a; padding: 12px 20px; border-radius: 10px;
+            font-family: monospace; font-size: 0.85rem; color: #94a3b8;
+            border: 1px solid #334155; word-break: break-all;
+        }
+
+        /* WHATSAPP IMAGE */
+        .wa-preview {
+            display: none; flex-direction: column; align-items: center; gap: 16px;
+            padding: 20px;
+        }
+        .wa-preview.active { display: flex; }
+        #waCanvas { border-radius: 12px; max-width: 100%; }
+
+        /* TOAST */
+        .toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--verde); color: white; padding: 14px 28px;
+            border-radius: 12px; font-weight: 600; z-index: 2000;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .numbers-grid { grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 6px; }
+            .num-card { font-size: 0.75rem; }
+            .num-card .n { font-size: 0.9rem; }
+            .header h1 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+    <h1>🎰 Rifa Solano</h1>
+    <p style="color:#94a3b8; text-align:center; max-width:300px;">
+        Sistema de gestión de rifas<br>Barrio Las Catalinas
+    </p>
+    <input type="password" id="claveInput" placeholder="Clave de administrador" onkeypress="if(event.key==='Enter')login()">
+    <button onclick="login()">Entrar</button>
+    <p style="color:#64748b; font-size:0.8rem; margin-top:8px;">
+        Clave por defecto: <code>solano2024</code>
+    </p>
+</div>
+
+<!-- APP -->
+<div class="container" id="appScreen" style="display:none;">
+
+    <div class="header">
+        <h1>🎰 Rifa Solano - Asfalto en Frío</h1>
+        <div class="header-info">
+            <span>💰 $10.000 c/u</span>
+            <span>🚲 2 Bicicletas</span>
+            <span>📅 Sorteo: 6/6</span>
+            <span>🏘️ Las Catalinas</span>
+        </div>
+        <div class="stats">
+            <div class="stat-box stat-verde">
+                <div class="num" id="statDisp">0</div>
+                <div class="label">Disponibles</div>
+            </div>
+            <div class="stat-box stat-amarillo">
+                <div class="num" id="statRes">0</div>
+                <div class="label">Reservados</div>
+            </div>
+            <div class="stat-box stat-rojo">
+                <div class="num" id="statVen">0</div>
+                <div class="label">Vendidos</div>
+            </div>
+            <div class="stat-box stat-azul">
+                <div class="num" id="statRec">$0</div>
+                <div class="label">Recaudado</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn btn-success" onclick="agregarRango()">➕ Agregar números</button>
+        <button class="btn btn-primary" onclick="generarImagenWA()">📱 Imagen WhatsApp</button>
+        <button class="btn btn-warning" onclick="irSorteo()">🎲 Sortear</button>
+        <button class="btn btn-dark" onclick="logout()">🚪 Salir</button>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-header">
+            <h2>📋 Tablero de Números</h2>
+            <div class="legend">
+                <span><div class="dot dot-verde"></div> Disponible</span>
+                <span><div class="dot dot-amarillo"></div> Reservado</span>
+                <span><div class="dot dot-rojo"></div> Vendido</span>
+            </div>
+        </div>
+        <div class="numbers-grid" id="numbersGrid"></div>
+    </div>
+
+</div>
+
+<!-- SORTEO SCREEN -->
+<div class="sorteo-screen" id="sorteoScreen">
+    <h2 style="font-size:1.5rem;">🎲 Sorteo en curso...</h2>
+    <div class="ruleta" id="ruleta">---</div>
+    <div id="ganadorBox" style="display:none; text-align:center;">
+        <div class="ganador-final" id="numGanador">0</div>
+        <p style="color:#94a3b8; margin-top:8px;">¡Número ganador!</p>
+        <div class="semilla-box" id="semillaBox" style="margin-top:16px;"></div>
+        <p style="color:#64748b; font-size:0.75rem; margin-top:8px;">
+            Semilla pública - cualquiera puede verificar este resultado
+        </p>
+    </div>
+    <div class="modal-actions" style="margin-top:20px;">
+        <button class="btn btn-success" id="btnSortear" onclick="ejecutarSorteo()">🎲 Iniciar Sorteo</button>
+        <button class="btn btn-dark" onclick="volverApp()">↩️ Volver</button>
+    </div>
+</div>
+
+<!-- WHATSAPP PREVIEW -->
+<div class="wa-preview" id="waPreview">
+    <h2>📱 Imagen para WhatsApp</h2>
+    <canvas id="waCanvas" width="800" height="800"></canvas>
+    <div class="modal-actions">
+        <button class="btn btn-success" onclick="descargarImagen()">⬇️ Descargar</button>
+        <button class="btn btn-dark" onclick="volverApp()">↩️ Volver</button>
+    </div>
+</div>
+
+<!-- MODAL EDITAR NÚMERO -->
+<div class="modal-overlay" id="modalEditar">
+    <div class="modal">
+        <h3>✏️ Número <span id="modalNumero"></span></h3>
+        <label>Estado</label>
+        <select id="modalEstado">
+            <option value="disponible">🟢 Disponible</option>
+            <option value="reservado">🟡 Reservado</option>
+            <option value="vendido">🔴 Vendido</option>
+        </select>
+        <label>Nombre del comprador</label>
+        <input type="text" id="modalNombre" placeholder="Ej: Juan Pérez">
+        <label>Método de pago / Nota</label>
+        <input type="text" id="modalNota" placeholder="Ej: Transferencia, Efectivo, etc.">
+        <div class="modal-actions">
+            <button class="btn btn-success" onclick="guardarNumero()">💾 Guardar</button>
+            <button class="btn btn-dark" onclick="cerrarModal()">❌ Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL AGREGAR RANGO -->
+<div class="modal-overlay" id="modalRango">
+    <div class="modal">
+        <h3>➕ Agregar rango de números</h3>
+        <label>Número inicial</label>
+        <input type="number" id="rangoInicio" placeholder="Ej: 296">
+        <label>Número final</label>
+        <input type="number" id="rangoFin" placeholder="Ej: 310">
+        <div class="modal-actions">
+            <button class="btn btn-success" onclick="confirmarRango()">➕ Agregar</button>
+            <button class="btn btn-dark" onclick="cerrarModalRango()">❌ Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================
+// CONFIGURACIÓN - CAMBIAR ESTAS CREDENCIALES
+// ============================================
+const SUPABASE_URL = 'https://tumovil-url.supabase.co';      // ← TU URL
+const SUPABASE_KEY = 'tu-anon-key-aqui';                      // ← TU ANON KEY
+const CLAVE_ADMIN = 'solano2024';
+// ============================================
+
+let supabase = null;
+let numeros = [];
+let numeroSeleccionado = null;
+
+// Inicializar Supabase
+function initSupabase() {
+    try {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } catch(e) {
+        console.warn('Modo demo - sin conexión a Supabase');
+        supabase = null;
+    }
+}
+
+// LOGIN
+function login() {
+    const clave = document.getElementById('claveInput').value;
+    if (clave === CLAVE_ADMIN) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appScreen').style.display = 'block';
+        initSupabase();
+        cargarDatos();
+    } else {
+        toast('❌ Clave incorrecta');
+    }
+}
+
+function logout() {
+    document.getElementById('appScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('claveInput').value = '';
+}
+
+// CARGAR DATOS
+async function cargarDatos() {
+    // Si no hay Supabase, usar datos demo
+    if (!supabase) {
+        numeros = generarDemo();
+        renderGrid();
+        updateStats();
+        return;
+    }
+
+    try {
+        const { data, error } = await supabase
+            .from('numeros_rifa')
+            .select('*')
+            .order('numero', { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+            numeros = data;
+        } else {
+            // Primera vez: crear números demo 286-295
+            numeros = generarDemo();
+            await guardarEnSupabase();
+        }
+    } catch(e) {
+        console.warn('Error Supabase, usando demo:', e);
+        numeros = generarDemo();
+    }
+
+    renderGrid();
+    updateStats();
+}
+
+function generarDemo() {
+    const arr = [];
+    for (let i = 286; i <= 295; i++) {
+        arr.push({
+            id: i,
+            numero: i,
+            estado: 'disponible',
+            comprador_nombre: '',
+            metodo_pago: '',
+            vendedor_nota: ''
+        });
+    }
+    return arr;
+}
+
+async function guardarEnSupabase() {
+    if (!supabase) return;
+    try {
+        await supabase.from('numeros_rifa').upsert(numeros);
+    } catch(e) {
+        console.warn('No se pudo guardar en Supabase');
+    }
+}
+
+// RENDER GRID
+function renderGrid() {
+    const grid = document.getElementById('numbersGrid');
+    grid.innerHTML = '';
+
+    numeros.forEach(n => {
+        const card = document.createElement('div');
+        card.className = `num-card num-${n.estado}`;
+        card.onclick = () => abrirModal(n);
+
+        const num = document.createElement('span');
+        num.className = 'n';
+        num.textContent = n.numero;
+        card.appendChild(num);
+
+        if (n.comprador_nombre) {
+            const owner = document.createElement('span');
+            owner.className = 'owner';
+            owner.textContent = n.comprador_nombre;
+            card.appendChild(owner);
+        }
+
+        grid.appendChild(card);
+    });
+}
+
+function updateStats() {
+    const disp = numeros.filter(n => n.estado === 'disponible').length;
+    const res = numeros.filter(n => n.estado === 'reservado').length;
+    const ven = numeros.filter(n => n.estado === 'vendido').length;
+    const rec = ven * 10000;
+
+    document.getElementById('statDisp').textContent = disp;
+    document.getElementById('statRes').textContent = res;
+    document.getElementById('statVen').textContent = ven;
+    document.getElementById('statRec').textContent = '$' + rec.toLocaleString('es-AR');
+}
+
+// MODAL EDITAR
+function abrirModal(n) {
+    numeroSeleccionado = n;
+    document.getElementById('modalNumero').textContent = n.numero;
+    document.getElementById('modalEstado').value = n.estado;
+    document.getElementById('modalNombre').value = n.comprador_nombre || '';
+    document.getElementById('modalNota').value = n.vendedor_nota || '';
+    document.getElementById('modalEditar').classList.add('active');
+}
+
+function cerrarModal() {
+    document.getElementById('modalEditar').classList.remove('active');
+    numeroSeleccionado = null;
+}
+
+async function guardarNumero() {
+    if (!numeroSeleccionado) return;
+
+    numeroSeleccionado.estado = document.getElementById('modalEstado').value;
+    numeroSeleccionado.comprador_nombre = document.getElementById('modalNombre').value;
+    numeroSeleccionado.vendedor_nota = document.getElementById('modalNota').value;
+
+    if (supabase) {
+        try {
+            await supabase.from('numeros_rifa').upsert(numeroSeleccionado);
+        } catch(e) {}
+    }
+
+    renderGrid();
+    updateStats();
+    cerrarModal();
+    toast('✅ Guardado');
+}
+
+// AGREGAR RANGO
+function agregarRango() {
+    document.getElementById('modalRango').classList.add('active');
+}
+
+function cerrarModalRango() {
+    document.getElementById('modalRango').classList.remove('active');
+}
+
+async function confirmarRango() {
+    const inicio = parseInt(document.getElementById('rangoInicio').value);
+    const fin = parseInt(document.getElementById('rangoFin').value);
+
+    if (!inicio || !fin || inicio > fin) {
+        toast('❌ Rango inválido');
+        return;
+    }
+
+    for (let i = inicio; i <= fin; i++) {
+        if (!numeros.find(n => n.numero === i)) {
+            numeros.push({
+                id: i,
+                numero: i,
+                estado: 'disponible',
+                comprador_nombre: '',
+                metodo_pago: '',
+                vendedor_nota: ''
+            });
+        }
+    }
+
+    numeros.sort((a, b) => a.numero - b.numero);
+    await guardarEnSupabase();
+    renderGrid();
+    updateStats();
+    cerrarModalRango();
+    toast(`✅ Agregados ${fin - inicio + 1} números`);
+}
+
+// IMAGEN WHATSAPP
+function generarImagenWA() {
+    const canvas = document.getElementById('waCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Fondo
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, 800, 800);
+
+    // Header
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(0, 0, 800, 120);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 36px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('🎰 RIFA SOLANO', 400, 55);
+    ctx.font = '22px Arial';
+    ctx.fillText('Asfalto en Frío - Calle Solano', 400, 90);
+
+    // Info
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '20px Arial';
+    ctx.fillText('💰 $10.000 cada número  |  🚲 2 Bicicletas  |  📅 Sorteo 6/6', 400, 155);
+
+    // Números disponibles
+    const disponibles = numeros.filter(n => n.estado === 'disponible').map(n => n.numero);
+
+    ctx.fillStyle = '#22c55e';
+    ctx.font = 'bold 24px Arial';
+    ctx.fillText('✅ NÚMEROS DISPONIBLES', 400, 200);
+
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '28px Arial';
+    const numsText = disponibles.length > 0 ? disponibles.join('  ') : 'SIN NÚMEROS';
+
+    // Wrap text
+    const words = numsText.split('  ');
+    let line = '';
+    let y = 250;
+    const maxWidth = 720;
+
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + '  ';
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && i > 0) {
+            ctx.fillText(line, 400, y);
+            line = words[i] + '  ';
+            y += 40;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, 400, y);
+
+    // Footer
+    ctx.fillStyle = '#64748b';
+    ctx.font = '18px Arial';
+    ctx.fillText('Escribime al privado para reservar tu número 🍀', 400, 720);
+    ctx.fillText('Barrio Las Catalinas - Todos los números tienen chances', 400, 750);
+
+    document.getElementById('appScreen').style.display = 'none';
+    document.getElementById('waPreview').classList.add('active');
+}
+
+function descargarImagen() {
+    const canvas = document.getElementById('waCanvas');
+    const link = document.createElement('a');
+    link.download = 'rifa-solano-numeros.png';
+    link.href = canvas.toDataURL();
+    link.click();
+    toast('📥 Imagen descargada');
+}
+
+function volverApp() {
+    document.getElementById('sorteoScreen').classList.remove('active');
+    document.getElementById('waPreview').classList.remove('active');
+    document.getElementById('appScreen').style.display = 'block';
+}
+
+// SORTEO
+function irSorteo() {
+    document.getElementById('appScreen').style.display = 'none';
+    document.getElementById('sorteoScreen').classList.add('active');
+    document.getElementById('ganadorBox').style.display = 'none';
+    document.getElementById('ruleta').style.display = 'block';
+    document.getElementById('ruleta').textContent = '---';
+    document.getElementById('btnSortear').style.display = 'block';
+}
+
+function ejecutarSorteo() {
+    const vendidos = numeros.filter(n => n.estado === 'vendido');
+    if (vendidos.length === 0) {
+        toast('❌ No hay números vendidos para sortear');
+        return;
+    }
+
+    document.getElementById('btnSortear').style.display = 'none';
+    const ruleta = document.getElementById('ruleta');
+
+    // Animación
+    let count = 0;
+    const maxCount = 30;
+    const interval = setInterval(() => {
+        const random = vendidos[Math.floor(Math.random() * vendidos.length)];
+        ruleta.textContent = random.numero;
+        count++;
+
+        if (count >= maxCount) {
+            clearInterval(interval);
+            finalizarSorteo(vendidos);
+        }
+    }, 100);
+}
+
+function finalizarSorteo(vendidos) {
+    // Semilla pública: timestamp + hash simple
+    const ahora = new Date();
+    const semilla = ahora.toISOString() + '-' + Math.random().toString(36).substring(2, 10);
+
+    // Seleccionar ganador usando semilla (determinístico)
+    let hash = 0;
+    for (let i = 0; i < semilla.length; i++) {
+        hash = ((hash << 5) - hash) + semilla.charCodeAt(i);
+        hash = hash & hash;
+    }
+    const index = Math.abs(hash) % vendidos.length;
+    const ganador = vendidos[index];
+
+    document.getElementById('ruleta').style.display = 'none';
+    document.getElementById('ganadorBox').style.display = 'block';
+    document.getElementById('numGanador').textContent = ganador.numero;
+    document.getElementById('semillaBox').textContent = 'Semilla: ' + semilla;
+
+    // Confetti
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#22c55e', '#eab308', '#ef4444', '#3b82f6']
+    });
+
+    toast('🎉 ¡Tenemos ganador!');
+}
+
+// TOAST
+function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2500);
+}
+
+// Cerrar modales al hacer click fuera
+window.onclick = function(e) {
+    if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
+    }
+}
+</script>
+</body>
+</html>
