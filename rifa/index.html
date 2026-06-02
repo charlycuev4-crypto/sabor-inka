@@ -27,32 +27,9 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
-        /* LOGIN */
-        .login-screen {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; min-height: 100vh; gap: 20px;
-            padding: 20px;
-        }
-        .login-screen h1 { font-size: 2rem; color: var(--verde); text-align: center; }
-        .login-screen p { color: #94a3b8; text-align: center; max-width: 300px; line-height: 1.5; }
-        .login-screen input {
-            padding: 16px 20px; font-size: 1.1rem; border-radius: 12px;
-            border: 2px solid #334155; background: var(--card); color: white;
-            width: 100%; max-width: 300px; text-align: center;
-            outline: none;
-        }
-        .login-screen input:focus { border-color: var(--verde); }
-        .login-screen button {
-            padding: 16px 50px; font-size: 1.1rem; border-radius: 12px;
-            border: none; background: var(--verde); color: white; cursor: pointer;
-            font-weight: bold; width: 100%; max-width: 300px;
-            transition: opacity 0.2s;
-        }
-        .login-screen button:active { opacity: 0.8; transform: scale(0.98); }
-
-        /* ===== VIDEO + CHAT FIJO ARRIBA EN MÓVIL ===== */
-        .video-fixed-mobile {
-            position: fixed;
+        /* ===== VIDEO + CHAT STICKY ARRIBA ===== */
+        .video-sticky {
+            position: sticky;
             top: 0;
             left: 0;
             right: 0;
@@ -187,7 +164,7 @@
 
         /* CONTENIDO SCROLLEABLE */
         .scrollable-content {
-            padding-top: 0;
+            padding-top: 16px;
         }
 
         /* HEADER */
@@ -268,6 +245,15 @@
         .num-reservado { background: rgba(234,179,8,0.12); border-color: var(--amarillo); color: var(--amarillo); }
         .num-vendido { background: rgba(239,68,68,0.12); border-color: var(--rojo); color: var(--rojo); }
 
+        /* Números no disponibles: sin cursor pointer */
+        .num-reservado, .num-vendido {
+            cursor: default;
+            opacity: 0.7;
+        }
+        .num-reservado:active, .num-vendido:active {
+            transform: none;
+        }
+
         /* MODAL */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.8);
@@ -343,12 +329,13 @@
 
         /* ===== DESKTOP: video + chat al costado ===== */
         @media (min-width: 900px) {
-            .video-fixed-mobile {
-                position: relative;
-                z-index: auto;
-                background: transparent;
-                padding: 0;
-                border-bottom: none;
+            .video-sticky {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                background: var(--fondo);
+                padding: 8px 16px 12px 16px;
+                border-bottom: 1px solid #334155;
             }
             .video-container {
                 max-height: none;
@@ -366,7 +353,7 @@
                 display: none;
             }
             .scrollable-content {
-                padding-top: 0;
+                padding-top: 16px;
                 display: grid;
                 grid-template-columns: 1fr 340px;
                 gap: 16px;
@@ -381,12 +368,13 @@
         }
 
         @media (min-width: 640px) and (max-width: 899px) {
-            .video-fixed-mobile {
-                position: relative;
-                z-index: auto;
-                background: transparent;
-                padding: 0;
-                border-bottom: none;
+            .video-sticky {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                background: var(--fondo);
+                padding: 8px 16px 12px 16px;
+                border-bottom: 1px solid #334155;
             }
             .video-container {
                 max-height: none;
@@ -403,7 +391,7 @@
                 display: none;
             }
             .scrollable-content {
-                padding-top: 0;
+                padding-top: 16px;
                 display: grid;
                 grid-template-columns: 1fr 280px;
                 gap: 16px;
@@ -419,22 +407,11 @@
 </head>
 <body>
 
-<!-- LOGIN -->
-<div class="login-screen" id="loginScreen">
-    <h1>🎰 Rifa Solano</h1>
-    <p>Sistema de gestión de rifas<br>Barrio Las Catalinas</p>
-    <input type="password" id="claveInput" placeholder="Clave de administrador" autocomplete="off">
-    <button onclick="login()" id="btnLogin">Entrar</button>
-    <p style="color:#64748b; font-size:0.8rem; margin-top:8px;">
-        Clave por defecto: <code style="background:#1e293b;padding:2px 6px;border-radius:4px;">solano2024</code>
-    </p>
-</div>
+<!-- APP (sin login) -->
+<div id="appScreen">
 
-<!-- APP -->
-<div id="appScreen" style="display:none;">
-
-    <!-- VIDEO + CHAT FIJO ARRIBA -->
-    <div class="video-fixed-mobile">
+    <!-- VIDEO + CHAT STICKY ARRIBA -->
+    <div class="video-sticky">
         <div class="video-wrapper">
             <div class="video-header">
                 <h3 id="videoTitle">🎬 Música en Vivo</h3>
@@ -451,7 +428,7 @@
                 <div class="video-container">
                     <iframe
                         id="videoFrame"
-                        src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=0&rel=0"
+                        src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=1&mute=1&rel=0"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -484,7 +461,7 @@
                     <span>💰 $10.000 c/u</span>
                     <span>🚲 2 Bicicletas</span>
                     <span>📅 Sorteo: 6/6</span>
-                    <span>🏘️ Las Catalinas</span>
+                    <span>🏘️ Barrio Las Catalinas</span>
                 </div>
                 <div class="stats">
                     <div class="stat-box stat-verde">
@@ -510,7 +487,7 @@
                 <button class="btn btn-success" onclick="agregarRango()">➕ Agregar números</button>
                 <button class="btn btn-primary" onclick="generarImagenWA()">📱 Imagen WhatsApp</button>
                 <button class="btn btn-warning" onclick="irSorteo()">🎲 Sortear</button>
-                <button class="btn btn-dark" onclick="logout()">🚪 Salir</button>
+                <button class="btn btn-dark" onclick="resetDatos()">🗑️ Reset</button>
             </div>
 
             <div class="grid-container">
@@ -599,7 +576,6 @@
 // ============================================
 // CONFIGURACIÓN
 // ============================================
-const CLAVE_ADMIN = 'solano2024';
 const PRECIO_NUMERO = 10000;
 const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
 const TWITCH_CHANNEL = 'lucaspowerchanel';
@@ -614,9 +590,7 @@ let chatVisible = false;
 // INICIALIZACIÓN
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('claveInput').addEventListener('keypress', function(e) {
-        if(e.key === 'Enter') login();
-    });
+    cargarDatos();
 
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', function(e) {
@@ -636,7 +610,6 @@ function toggleChat() {
     if (chatVisible) {
         chat.classList.add('active');
         btn.innerHTML = '❌ Ocultar Chat';
-        // Cargar chat si no está cargado
         const chatFrame = document.getElementById('chatFrame');
         if (!chatFrame.src) {
             chatFrame.src = `https://www.twitch.tv/embed/${TWITCH_CHANNEL}/chat?parent=${TWITCH_PARENT}`;
@@ -656,16 +629,14 @@ function cambiarVideo(plataforma) {
     const btnTwitch = document.getElementById('btnTwitch');
     const title = document.getElementById('videoTitle');
     const info = document.getElementById('videoInfo');
-    const chatFrame = document.getElementById('chatFrame');
     const chatBtn = document.getElementById('chatToggleBtn');
 
     if (plataforma === 'youtube') {
-        frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
+        frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&mute=1&rel=0`;
         btnYoutube.classList.add('active');
         btnTwitch.classList.remove('active');
         title.innerHTML = '🎬 Música en Vivo';
         info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión';
-        // Ocultar chat en YouTube
         document.getElementById('chatContainer').classList.remove('active');
         chatVisible = false;
         chatBtn.innerHTML = '💬 Chat no disponible en YouTube';
@@ -678,7 +649,6 @@ function cambiarVideo(plataforma) {
         btnYoutube.classList.remove('active');
         title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
         info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente. Usá el chat para hablar con los vecinos!';
-        // Habilitar chat en Twitch
         chatBtn.innerHTML = '💬 Mostrar Chat';
         chatBtn.style.opacity = '1';
         chatBtn.disabled = false;
@@ -686,28 +656,6 @@ function cambiarVideo(plataforma) {
     }
 
     toast(`✅ Cambiado a ${plataforma === 'youtube' ? 'YouTube' : 'Twitch'}`);
-}
-
-// ============================================
-// LOGIN
-// ============================================
-function login() {
-    const clave = document.getElementById('claveInput').value.trim();
-    if (clave === CLAVE_ADMIN) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('appScreen').style.display = 'block';
-        cargarDatos();
-    } else {
-        toast('❌ Clave incorrecta');
-        document.getElementById('claveInput').value = '';
-        document.getElementById('claveInput').focus();
-    }
-}
-
-function logout() {
-    document.getElementById('appScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('claveInput').value = '';
 }
 
 // ============================================
@@ -739,6 +687,15 @@ function guardarDatos() {
     localStorage.setItem('rifa_solano_numeros', JSON.stringify(numeros));
 }
 
+function resetDatos() {
+    if (confirm('¿Borrar todos los datos?')) {
+        localStorage.removeItem('rifa_solano_numeros');
+        localStorage.removeItem('rifa_solano_ultimo_sorteo');
+        cargarDatos();
+        toast('🗑️ Datos borrados');
+    }
+}
+
 // ============================================
 // RENDER GRID
 // ============================================
@@ -754,7 +711,11 @@ function renderGrid() {
     numeros.forEach(n => {
         const card = document.createElement('div');
         card.className = `num-card num-${n.estado}`;
-        card.onclick = () => abrirModal(n);
+        
+        // Solo los disponibles abren modal
+        if (n.estado === 'disponible') {
+            card.onclick = () => abrirModal(n);
+        }
 
         const numSpan = document.createElement('span');
         numSpan.className = 'n';
