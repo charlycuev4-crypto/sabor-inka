@@ -295,6 +295,10 @@
         .num-reservado, .num-vendido {
             cursor: default;
             opacity: 0.7;
+        }
+        /* Solo bloquear clicks para vecinos (no admin) */
+        body:not(.modo-admin) .num-reservado,
+        body:not(.modo-admin) .num-vendido {
             pointer-events: none;
         }
 
@@ -719,6 +723,7 @@ function verificarAdmin() {
     const clave = document.getElementById('adminClaveInput').value.trim();
     if (clave === CLAVE_ADMIN) {
         esAdmin = true;
+        document.body.classList.add('modo-admin');
         cerrarAdminLogin();
         document.getElementById('actionsVecino').style.display = 'none';
         document.getElementById('actionsAdmin').classList.add('active');
