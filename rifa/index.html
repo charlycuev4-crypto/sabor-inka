@@ -50,7 +50,7 @@
         }
         .login-screen button:active { opacity: 0.8; transform: scale(0.98); }
 
-        /* ===== VIDEO FIJO ARRIBA EN MÓVIL ===== */
+        /* ===== VIDEO + CHAT FIJO ARRIBA EN MÓVIL ===== */
         .video-fixed-mobile {
             position: fixed;
             top: 0;
@@ -103,6 +103,13 @@
         .toggle-btn.twitch.active {
             background: var(--twitch);
         }
+
+        /* Video y Chat layout */
+        .video-chat-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -120,6 +127,24 @@
             border: none;
             border-radius: 10px;
         }
+
+        /* Chat container */
+        .chat-container {
+            display: none;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+        .chat-container.active {
+            display: block;
+        }
+        .chat-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         .video-info {
             margin-top: 6px;
             font-size: 0.7rem;
@@ -140,6 +165,25 @@
             margin-left: 6px;
         }
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Botón mostrar chat */
+        .chat-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px;
+            background: var(--twitch);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            width: 100%;
+        }
+        .chat-toggle-btn:active { transform: scale(0.97); }
 
         /* CONTENIDO SCROLLEABLE */
         .scrollable-content {
@@ -297,7 +341,7 @@
         .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
         .empty-state p { margin-top: 8px; font-size: 0.9rem; }
 
-        /* ===== DESKTOP ===== */
+        /* ===== DESKTOP: video + chat al costado ===== */
         @media (min-width: 900px) {
             .video-fixed-mobile {
                 position: relative;
@@ -308,6 +352,18 @@
             }
             .video-container {
                 max-height: none;
+            }
+            .video-chat-layout {
+                grid-template-columns: 1fr 300px;
+                grid-template-rows: 1fr;
+            }
+            .chat-container {
+                display: block !important;
+                height: 100%;
+                min-height: 300px;
+            }
+            .chat-toggle-btn {
+                display: none;
             }
             .scrollable-content {
                 padding-top: 0;
@@ -334,6 +390,17 @@
             }
             .video-container {
                 max-height: none;
+            }
+            .video-chat-layout {
+                grid-template-columns: 1fr 250px;
+            }
+            .chat-container {
+                display: block !important;
+                height: 100%;
+                min-height: 250px;
+            }
+            .chat-toggle-btn {
+                display: none;
             }
             .scrollable-content {
                 padding-top: 0;
@@ -366,7 +433,7 @@
 <!-- APP -->
 <div id="appScreen" style="display:none;">
 
-    <!-- VIDEO FIJO ARRIBA -->
+    <!-- VIDEO + CHAT FIJO ARRIBA -->
     <div class="video-fixed-mobile">
         <div class="video-wrapper">
             <div class="video-header">
@@ -380,17 +447,29 @@
                     </button>
                 </div>
             </div>
-            <div class="video-container">
-                <iframe
-                    id="videoFrame"
-                    src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=0&rel=0"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
+            <div class="video-chat-layout">
+                <div class="video-container">
+                    <iframe
+                        id="videoFrame"
+                        src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=0&rel=0"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="chat-container" id="chatContainer">
+                    <iframe
+                        id="chatFrame"
+                        src=""
+                        frameborder="0">
+                    </iframe>
+                </div>
             </div>
+            <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
+                💬 Mostrar Chat
+            </button>
             <div class="video-info" id="videoInfo">
-                🎵 Música en vivo - Cambiá a Twitch cuando hagas tu transmisión
+                🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión
             </div>
         </div>
     </div>
@@ -524,10 +603,12 @@ const CLAVE_ADMIN = 'solano2024';
 const PRECIO_NUMERO = 10000;
 const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
 const TWITCH_CHANNEL = 'lucaspowerchanel';
+const TWITCH_PARENT = 'sabor-inka.vercel.app';
 
 let numeros = [];
 let numeroSeleccionado = null;
 let videoActual = 'youtube';
+let chatVisible = false;
 
 // ============================================
 // INICIALIZACIÓN
@@ -545,6 +626,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
+// TOGGLE CHAT
+// ============================================
+function toggleChat() {
+    const chat = document.getElementById('chatContainer');
+    const btn = document.getElementById('chatToggleBtn');
+    chatVisible = !chatVisible;
+
+    if (chatVisible) {
+        chat.classList.add('active');
+        btn.innerHTML = '❌ Ocultar Chat';
+        // Cargar chat si no está cargado
+        const chatFrame = document.getElementById('chatFrame');
+        if (!chatFrame.src) {
+            chatFrame.src = `https://www.twitch.tv/embed/${TWITCH_CHANNEL}/chat?parent=${TWITCH_PARENT}`;
+        }
+    } else {
+        chat.classList.remove('active');
+        btn.innerHTML = '💬 Mostrar Chat';
+    }
+}
+
+// ============================================
 // CAMBIAR VIDEO (YOUTUBE / TWITCH)
 // ============================================
 function cambiarVideo(plataforma) {
@@ -553,20 +656,32 @@ function cambiarVideo(plataforma) {
     const btnTwitch = document.getElementById('btnTwitch');
     const title = document.getElementById('videoTitle');
     const info = document.getElementById('videoInfo');
+    const chatFrame = document.getElementById('chatFrame');
+    const chatBtn = document.getElementById('chatToggleBtn');
 
     if (plataforma === 'youtube') {
         frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
         btnYoutube.classList.add('active');
         btnTwitch.classList.remove('active');
         title.innerHTML = '🎬 Música en Vivo';
-        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch cuando hagas tu transmisión';
+        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión';
+        // Ocultar chat en YouTube
+        document.getElementById('chatContainer').classList.remove('active');
+        chatVisible = false;
+        chatBtn.innerHTML = '💬 Chat no disponible en YouTube';
+        chatBtn.style.opacity = '0.5';
+        chatBtn.disabled = true;
         videoActual = 'youtube';
     } else {
         frame.src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
         btnTwitch.classList.add('active');
         btnYoutube.classList.remove('active');
         title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
-        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente';
+        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente. Usá el chat para hablar con los vecinos!';
+        // Habilitar chat en Twitch
+        chatBtn.innerHTML = '💬 Mostrar Chat';
+        chatBtn.style.opacity = '1';
+        chatBtn.disabled = false;
         videoActual = 'twitch';
     }
 
