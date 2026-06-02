@@ -18,6 +18,7 @@
             --twitch: #9146ff;
             --youtube: #ff0000;
             --whatsapp: #25d366;
+            --deportes: #f97316;
         }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -28,7 +29,7 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
-        /* ===== VIDEO + WHATSAPP STICKY ARRIBA ===== */
+        /* ===== VIDEO STICKY ARRIBA ===== */
         .video-sticky {
             position: sticky;
             top: 0;
@@ -48,6 +49,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
         .video-header h3 {
             font-size: 0.85rem;
@@ -60,12 +63,13 @@
             padding: 3px;
             border-radius: 8px;
             border: 1px solid #334155;
+            flex-wrap: wrap;
         }
         .toggle-btn {
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             border: none;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -75,14 +79,12 @@
         .toggle-btn.active {
             color: white;
         }
-        .toggle-btn.youtube.active {
-            background: var(--youtube);
-        }
-        .toggle-btn.twitch.active {
-            background: var(--twitch);
-        }
+        .toggle-btn.youtube.active { background: var(--youtube); }
+        .toggle-btn.twitch.active { background: var(--twitch); }
+        .toggle-btn.deportes.active { background: var(--deportes); }
+        .toggle-btn.whatsapp-btn.active { background: var(--whatsapp); }
 
-        /* Video y WhatsApp layout */
+        /* Video y panel layout */
         .video-chat-layout {
             display: grid;
             grid-template-columns: 1fr;
@@ -106,8 +108,8 @@
             border-radius: 10px;
         }
 
-        /* WhatsApp panel */
-        .whatsapp-panel {
+        /* Panel lateral (WhatsApp o info) */
+        .side-panel {
             display: none;
             height: 200px;
             border-radius: 10px;
@@ -121,20 +123,14 @@
             padding: 20px;
             text-align: center;
         }
-        .whatsapp-panel.active {
-            display: flex;
-        }
-        .whatsapp-panel .wa-icon {
-            font-size: 3rem;
-        }
-        .whatsapp-panel p {
+        .side-panel.active { display: flex; }
+        .side-panel .panel-icon { font-size: 3rem; }
+        .side-panel p {
             color: #94a3b8;
             font-size: 0.85rem;
             line-height: 1.5;
         }
-        .whatsapp-panel .wa-btn {
-            background: var(--whatsapp);
-            color: white;
+        .side-panel .panel-btn {
             padding: 12px 24px;
             border-radius: 10px;
             text-decoration: none;
@@ -144,11 +140,11 @@
             align-items: center;
             gap: 8px;
             transition: opacity 0.2s;
+            border: none;
+            cursor: pointer;
         }
-        .whatsapp-panel .wa-btn:active {
-            opacity: 0.8;
-            transform: scale(0.97);
-        }
+        .side-panel .panel-btn:active { opacity: 0.8; transform: scale(0.97); }
+        .wa-btn { background: var(--whatsapp); color: white; }
 
         .video-info {
             margin-top: 6px;
@@ -171,16 +167,16 @@
         }
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* Botón mostrar WhatsApp */
-        .chat-toggle-btn {
+        /* Botón mostrar panel en mobile */
+        .panel-toggle-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             padding: 8px;
-            background: var(--whatsapp);
+            background: var(--card);
             color: white;
-            border: none;
+            border: 1px solid #334155;
             border-radius: 8px;
             font-size: 0.8rem;
             font-weight: 600;
@@ -188,12 +184,10 @@
             margin-top: 8px;
             width: 100%;
         }
-        .chat-toggle-btn:active { transform: scale(0.97); }
+        .panel-toggle-btn:active { transform: scale(0.97); }
 
         /* CONTENIDO SCROLLEABLE */
-        .scrollable-content {
-            padding-top: 16px;
-        }
+        .scrollable-content { padding-top: 16px; }
 
         /* HEADER */
         .header {
@@ -273,7 +267,7 @@
         .num-reservado { background: rgba(234,179,8,0.12); border-color: var(--amarillo); color: var(--amarillo); }
         .num-vendido { background: rgba(239,68,68,0.12); border-color: var(--rojo); color: var(--rojo); }
 
-        /* Números no disponibles: sin cursor pointer, sin click */
+        /* Números no disponibles: bloqueados */
         .num-reservado, .num-vendido {
             cursor: default;
             opacity: 0.7;
@@ -349,7 +343,6 @@
         }
         @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
 
-        /* EMPTY STATE */
         .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
         .empty-state p { margin-top: 8px; font-size: 0.9rem; }
 
@@ -359,25 +352,19 @@
                 position: sticky;
                 top: 0;
                 z-index: 1000;
-                background: var(--fondo);
                 padding: 8px 16px 12px 16px;
-                border-bottom: 1px solid #334155;
             }
-            .video-container {
-                max-height: none;
-            }
+            .video-container { max-height: none; }
             .video-chat-layout {
                 grid-template-columns: 1fr 300px;
                 grid-template-rows: 1fr;
             }
-            .whatsapp-panel {
+            .side-panel {
                 display: flex !important;
                 height: 100%;
                 min-height: 300px;
             }
-            .chat-toggle-btn {
-                display: none;
-            }
+            .panel-toggle-btn { display: none; }
             .scrollable-content {
                 padding-top: 16px;
                 display: grid;
@@ -394,24 +381,16 @@
                 position: sticky;
                 top: 0;
                 z-index: 1000;
-                background: var(--fondo);
                 padding: 8px 16px 12px 16px;
-                border-bottom: 1px solid #334155;
             }
-            .video-container {
-                max-height: none;
-            }
-            .video-chat-layout {
-                grid-template-columns: 1fr 250px;
-            }
-            .whatsapp-panel {
+            .video-container { max-height: none; }
+            .video-chat-layout { grid-template-columns: 1fr 250px; }
+            .side-panel {
                 display: flex !important;
                 height: 100%;
                 min-height: 250px;
             }
-            .chat-toggle-btn {
-                display: none;
-            }
+            .panel-toggle-btn { display: none; }
             .scrollable-content {
                 padding-top: 16px;
                 display: grid;
@@ -425,21 +404,19 @@
 </head>
 <body>
 
-<!-- APP (sin login) -->
+<!-- APP -->
 <div id="appScreen">
 
-    <!-- VIDEO + WHATSAPP STICKY ARRIBA -->
+    <!-- VIDEO STICKY ARRIBA -->
     <div class="video-sticky">
         <div class="video-wrapper">
             <div class="video-header">
                 <h3 id="videoTitle">🎬 Música en Vivo</h3>
                 <div class="video-toggle">
-                    <button class="toggle-btn youtube active" id="btnYoutube" onclick="cambiarVideo('youtube')">
-                        ▶️ YouTube
-                    </button>
-                    <button class="toggle-btn twitch" id="btnTwitch" onclick="cambiarVideo('twitch')">
-                        📺 Twitch
-                    </button>
+                    <button class="toggle-btn youtube active" onclick="cambiarVideo('youtube')">▶️ YouTube</button>
+                    <button class="toggle-btn twitch" onclick="cambiarVideo('twitch')">📺 Mi Twitch</button>
+                    <button class="toggle-btn deportes" onclick="cambiarVideo('deportes')">⚽ Deportes</button>
+                    <button class="toggle-btn whatsapp-btn" onclick="cambiarVideo('whatsapp')">💬 WhatsApp</button>
                 </div>
             </div>
             <div class="video-chat-layout">
@@ -452,19 +429,19 @@
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div class="whatsapp-panel" id="whatsappPanel">
-                    <div class="wa-icon">💬</div>
-                    <p>¿Tenés dudas o querés reservar?<br>Entrá al grupo de WhatsApp de la rifa</p>
-                    <a href="https://chat.whatsapp.com/TU_LINK_AQUI" class="wa-btn" target="_blank" rel="noopener">
+                <div class="side-panel" id="sidePanel">
+                    <div class="panel-icon" id="panelIcon">💬</div>
+                    <p id="panelText">¿Tenés dudas o querés reservar?<br>Entrá al grupo de WhatsApp de la rifa</p>
+                    <a href="https://chat.whatsapp.com/TU_LINK_AQUI" class="panel-btn wa-btn" id="panelBtn" target="_blank" rel="noopener">
                         📱 Entrar al grupo
                     </a>
                 </div>
             </div>
-            <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleWhatsApp()">
-                💬 Grupo de WhatsApp
+            <button class="panel-toggle-btn" id="panelToggleBtn" onclick="togglePanel()">
+                💬 Mostrar WhatsApp
             </button>
             <div class="video-info" id="videoInfo">
-                🎵 Música en vivo - Cambiá a Twitch para ver transmisiones en vivo
+                🎵 Música en vivo - Elegí otra plataforma arriba
             </div>
         </div>
     </div>
@@ -534,9 +511,7 @@
         <p style="color:#94a3b8; margin-top:8px; font-size:1.1rem;">¡Número ganador!</p>
         <div class="ganador-info" id="ganadorInfo"></div>
         <div class="semilla-box" id="semillaBox" style="margin-top:16px;"></div>
-        <p style="color:#64748b; font-size:0.7rem; margin-top:8px;">
-            Semilla pública — cualquiera puede verificar este resultado
-        </p>
+        <p style="color:#64748b; font-size:0.7rem; margin-top:8px;">Semilla pública — cualquiera puede verificar este resultado</p>
     </div>
     <div class="modal-actions" style="margin-top:24px; max-width:320px; width:100%;">
         <button class="btn btn-success" id="btnSortear" onclick="ejecutarSorteo()">🎲 Iniciar Sorteo</button>
@@ -554,7 +529,7 @@
     </div>
 </div>
 
-<!-- MODAL EDITAR NÚMERO -->
+<!-- MODAL EDITAR -->
 <div class="modal-overlay" id="modalEditar">
     <div class="modal">
         <h3>✏️ Número <span id="modalNumero"></span></h3>
@@ -592,25 +567,24 @@
 
 <script>
 // ============================================
-// CONFIGURACIÓN
+// CONFIGURACIÓN - CAMBIÁ ESTOS VALORES
 // ============================================
 const PRECIO_NUMERO = 10000;
 const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
-const TWITCH_CHANNEL = 'lucaspowerchanel';
-const TWITCH_PARENT = 'sabor-inka.vercel.app';
-const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/TU_LINK_AQUI'; // <-- CAMBIÁ ESTO
+const TWITCH_CHANNEL = 'lucaspowerchanel';        // <-- TU canal del barrio
+const TWITCH_DEPORTES = 'ESPNes';               // <-- CANAL DE DEPORTES (cambialo)
+const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/TU_LINK_AQUI';
 
 let numeros = [];
 let numeroSeleccionado = null;
 let videoActual = 'youtube';
-let whatsappVisible = false;
+let panelVisible = false;
 
 // ============================================
 // INICIALIZACIÓN
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     cargarDatos();
-
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.remove('active');
@@ -619,53 +593,90 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// TOGGLE WHATSAPP
+// TOGGLE PANEL (mobile)
 // ============================================
-function toggleWhatsApp() {
-    const panel = document.getElementById('whatsappPanel');
-    const btn = document.getElementById('chatToggleBtn');
-    whatsappVisible = !whatsappVisible;
-
-    if (whatsappVisible) {
+function togglePanel() {
+    const panel = document.getElementById('sidePanel');
+    const btn = document.getElementById('panelToggleBtn');
+    panelVisible = !panelVisible;
+    if (panelVisible) {
         panel.classList.add('active');
-        btn.innerHTML = '❌ Ocultar WhatsApp';
+        btn.innerHTML = '❌ Ocultar panel';
     } else {
         panel.classList.remove('active');
-        btn.innerHTML = '💬 Grupo de WhatsApp';
+        btn.innerHTML = '💬 Mostrar WhatsApp';
     }
 }
 
 // ============================================
-// CAMBIAR VIDEO (YOUTUBE / TWITCH)
+// CAMBIAR VIDEO (4 PLATAFORMAS)
 // ============================================
 function cambiarVideo(plataforma) {
     const frame = document.getElementById('videoFrame');
-    const btnYoutube = document.getElementById('btnYoutube');
-    const btnTwitch = document.getElementById('btnTwitch');
     const title = document.getElementById('videoTitle');
     const info = document.getElementById('videoInfo');
+    const panel = document.getElementById('sidePanel');
+    const panelIcon = document.getElementById('panelIcon');
+    const panelText = document.getElementById('panelText');
+    const panelBtn = document.getElementById('panelBtn');
+    const toggleBtn = document.getElementById('panelToggleBtn');
+
+    // Reset botones
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
 
     if (plataforma === 'youtube') {
         frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
-        btnYoutube.classList.add('active');
-        btnTwitch.classList.remove('active');
+        document.querySelector('.toggle-btn.youtube').classList.add('active');
         title.innerHTML = '🎬 Música en Vivo';
-        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver transmisiones en vivo';
+        info.innerHTML = '🎵 Música en vivo - Elegí otra plataforma arriba';
+        frame.style.display = 'block';
+        panel.classList.remove('active');
+        toggleBtn.style.display = 'flex';
+        toggleBtn.innerHTML = '💬 Mostrar WhatsApp';
         videoActual = 'youtube';
-    } else {
+
+    } else if (plataforma === 'twitch') {
         frame.src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
-        btnTwitch.classList.add('active');
-        btnYoutube.classList.remove('active');
-        title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
-        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente.';
+        document.querySelector('.toggle-btn.twitch').classList.add('active');
+        title.innerHTML = '🎬 Mi Canal <span class="live-badge">LIVE</span>';
+        info.innerHTML = '📡 Transmisión del barrio Las Catalinas';
+        frame.style.display = 'block';
+        panel.classList.remove('active');
+        toggleBtn.style.display = 'flex';
+        toggleBtn.innerHTML = '💬 Mostrar WhatsApp';
         videoActual = 'twitch';
+
+    } else if (plataforma === 'deportes') {
+        frame.src = `https://player.twitch.tv/?channel=${TWITCH_DEPORTES}&parent=${window.location.hostname}&autoplay=false`;
+        document.querySelector('.toggle-btn.deportes').classList.add('active');
+        title.innerHTML = '⚽ Deportes en Vivo <span class="live-badge">LIVE</span>';
+        info.innerHTML = `📡 Canal: ${TWITCH_DEPORTES} - Solo visible cuando está en vivo`;
+        frame.style.display = 'block';
+        panel.classList.remove('active');
+        toggleBtn.style.display = 'flex';
+        toggleBtn.innerHTML = '💬 Mostrar WhatsApp';
+        videoActual = 'deportes';
+
+    } else if (plataforma === 'whatsapp') {
+        document.querySelector('.toggle-btn.whatsapp-btn').classList.add('active');
+        title.innerHTML = '💬 Grupo de WhatsApp';
+        info.innerHTML = 'Unite al grupo para consultas y reservas';
+        frame.style.display = 'none';
+        panel.classList.add('active');
+        panelIcon.innerHTML = '💬';
+        panelText.innerHTML = '¿Tenés dudas o querés reservar?<br>Entrá al grupo de WhatsApp de la rifa';
+        panelBtn.href = WHATSAPP_GROUP_LINK;
+        panelBtn.innerHTML = '📱 Entrar al grupo';
+        panelBtn.className = 'panel-btn wa-btn';
+        toggleBtn.style.display = 'none';
+        videoActual = 'whatsapp';
     }
 
-    toast(`✅ Cambiado a ${plataforma === 'youtube' ? 'YouTube' : 'Twitch'}`);
+    toast(`✅ ${plataforma === 'whatsapp' ? 'WhatsApp' : plataforma === 'deportes' ? 'Deportes' : plataforma === 'twitch' ? 'Mi Twitch' : 'YouTube'}`);
 }
 
 // ============================================
-// DATOS - localStorage
+// DATOS
 // ============================================
 function cargarDatos() {
     const guardado = localStorage.getItem('rifa_solano_numeros');
@@ -717,24 +728,19 @@ function renderGrid() {
     numeros.forEach(n => {
         const card = document.createElement('div');
         card.className = `num-card num-${n.estado}`;
-        
-        // SOLO los disponibles tienen onclick
         if (n.estado === 'disponible') {
             card.onclick = () => abrirModal(n);
         }
-
         const numSpan = document.createElement('span');
         numSpan.className = 'n';
         numSpan.textContent = n.numero;
         card.appendChild(numSpan);
-
         if (n.comprador_nombre) {
             const owner = document.createElement('span');
             owner.className = 'owner';
             owner.textContent = n.comprador_nombre;
             card.appendChild(owner);
         }
-
         grid.appendChild(card);
     });
 }
@@ -744,7 +750,6 @@ function updateStats() {
     const res = numeros.filter(n => n.estado === 'reservado').length;
     const ven = numeros.filter(n => n.estado === 'vendido').length;
     const rec = ven * PRECIO_NUMERO;
-
     document.getElementById('statDisp').textContent = disp;
     document.getElementById('statRes').textContent = res;
     document.getElementById('statVen').textContent = ven;
@@ -770,12 +775,10 @@ function cerrarModal() {
 
 function guardarNumero() {
     if (!numeroSeleccionado) return;
-
     numeroSeleccionado.estado = document.getElementById('modalEstado').value;
     numeroSeleccionado.comprador_nombre = document.getElementById('modalNombre').value.trim();
     numeroSeleccionado.vendedor_nota = document.getElementById('modalNota').value.trim();
     numeroSeleccionado.updated_at = new Date().toISOString();
-
     guardarDatos();
     renderGrid();
     updateStats();
@@ -800,12 +803,10 @@ function cerrarModalRango() {
 function confirmarRango() {
     const inicio = parseInt(document.getElementById('rangoInicio').value);
     const fin = parseInt(document.getElementById('rangoFin').value);
-
     if (!inicio || !fin || inicio > fin || inicio < 1 || fin > 9999) {
         toast('❌ Rango inválido');
         return;
     }
-
     let agregados = 0;
     for (let i = inicio; i <= fin; i++) {
         if (!numeros.find(n => n.numero === i)) {
@@ -820,7 +821,6 @@ function confirmarRango() {
             agregados++;
         }
     }
-
     numeros.sort((a, b) => a.numero - b.numero);
     guardarDatos();
     renderGrid();
@@ -874,27 +874,21 @@ function generarImagenWA() {
         ctx.font = '32px Arial';
         ctx.fillText('🎉 ¡TODOS VENDIDOS!', 400, 360);
     } else {
-        ctx.fillStyle = '#e2e8f0';
-        ctx.font = '28px Arial';
-
         const cols = 10;
         const cellW = 68;
         const cellH = 50;
         const startX = 60;
         const startY = 340;
-
         disponibles.forEach((num, idx) => {
             const col = idx % cols;
             const row = Math.floor(idx / cols);
             const x = startX + col * cellW;
             const y = startY + row * cellH;
-
             ctx.fillStyle = 'rgba(34,197,94,0.2)';
             ctx.fillRect(x, y, 60, 42);
             ctx.strokeStyle = '#22c55e';
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, 60, 42);
-
             ctx.fillStyle = '#22c55e';
             ctx.font = 'bold 20px Arial';
             ctx.textAlign = 'center';
@@ -947,17 +941,14 @@ function ejecutarSorteo() {
         toast('❌ No hay números vendidos para sortear');
         return;
     }
-
     document.getElementById('btnSortear').style.display = 'none';
     const ruleta = document.getElementById('ruleta');
-
     let count = 0;
     const maxCount = 40;
     const interval = setInterval(() => {
         const random = vendidos[Math.floor(Math.random() * vendidos.length)];
         ruleta.textContent = random.numero;
         count++;
-
         if (count >= maxCount) {
             clearInterval(interval);
             setTimeout(() => finalizarSorteo(vendidos), 300);
@@ -970,7 +961,6 @@ function finalizarSorteo(vendidos) {
     const timestamp = ahora.toISOString();
     const randomStr = Math.random().toString(36).substring(2, 15);
     const semilla = timestamp + '-' + randomStr;
-
     let hash = 0;
     for (let i = 0; i < semilla.length; i++) {
         hash = ((hash << 5) - hash) + semilla.charCodeAt(i);
@@ -1025,14 +1015,11 @@ function escapeHtml(text) {
 function toast(msg) {
     const existing = document.querySelector('.toast');
     if (existing) existing.remove();
-
     const t = document.createElement('div');
     t.className = 'toast';
     t.textContent = msg;
     document.body.appendChild(t);
-    setTimeout(() => {
-        if (t.parentNode) t.remove();
-    }, 2500);
+    setTimeout(() => { if (t.parentNode) t.remove(); }, 2500);
 }
 </script>
 </body>
