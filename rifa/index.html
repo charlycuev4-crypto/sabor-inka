@@ -17,6 +17,7 @@
             --card: #1e293b;
             --twitch: #9146ff;
             --youtube: #ff0000;
+            --whatsapp: #25d366;
         }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -27,32 +28,8 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
-        /* LOGIN */
-        .login-screen {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; min-height: 100vh; gap: 20px;
-            padding: 20px;
-        }
-        .login-screen h1 { font-size: 2rem; color: var(--verde); text-align: center; }
-        .login-screen p { color: #94a3b8; text-align: center; max-width: 300px; line-height: 1.5; }
-        .login-screen input {
-            padding: 16px 20px; font-size: 1.1rem; border-radius: 12px;
-            border: 2px solid #334155; background: var(--card); color: white;
-            width: 100%; max-width: 300px; text-align: center;
-            outline: none;
-        }
-        .login-screen input:focus { border-color: var(--verde); }
-        .login-screen button {
-            padding: 16px 50px; font-size: 1.1rem; border-radius: 12px;
-            border: none; background: var(--verde); color: white; cursor: pointer;
-            font-weight: bold; width: 100%; max-width: 300px;
-            transition: opacity 0.2s;
-        }
-        .login-screen button:active { opacity: 0.8; transform: scale(0.98); }
-
-        /* ===== VIDEO + CHAT FIJO ARRIBA EN MÓVIL ===== */
-        .video-fixed-mobile {
-            position: fixed;
+        .video-sticky {
+            position: sticky;
             top: 0;
             left: 0;
             right: 0;
@@ -70,6 +47,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
         .video-header h3 {
             font-size: 0.85rem;
@@ -82,29 +61,23 @@
             padding: 3px;
             border-radius: 8px;
             border: 1px solid #334155;
+            flex-wrap: wrap;
         }
         .toggle-btn {
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             border: none;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             color: #94a3b8;
             background: transparent;
         }
-        .toggle-btn.active {
-            color: white;
-        }
-        .toggle-btn.youtube.active {
-            background: var(--youtube);
-        }
-        .toggle-btn.twitch.active {
-            background: var(--twitch);
-        }
+        .toggle-btn.active { color: white; }
+        .toggle-btn.youtube.active { background: var(--youtube); }
+        .toggle-btn.twitch.active { background: var(--twitch); }
 
-        /* Video y Chat layout */
         .video-chat-layout {
             display: grid;
             grid-template-columns: 1fr;
@@ -128,22 +101,40 @@
             border-radius: 10px;
         }
 
-        /* Chat container */
-        .chat-container {
+        .side-panel {
             display: none;
             height: 200px;
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid #334155;
+            background: var(--card);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            text-align: center;
         }
-        .chat-container.active {
-            display: block;
+        .side-panel.active { display: flex; }
+        .side-panel .panel-icon { font-size: 3rem; }
+        .side-panel p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
-        .chat-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .side-panel .wa-btn {
+            background: var(--whatsapp);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
+        .side-panel .wa-btn:active { opacity: 0.8; transform: scale(0.97); }
 
         .video-info {
             margin-top: 6px;
@@ -166,14 +157,13 @@
         }
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* Botón mostrar chat */
-        .chat-toggle-btn {
+        .panel-toggle-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             padding: 8px;
-            background: var(--twitch);
+            background: var(--whatsapp);
             color: white;
             border: none;
             border-radius: 8px;
@@ -183,14 +173,39 @@
             margin-top: 8px;
             width: 100%;
         }
-        .chat-toggle-btn:active { transform: scale(0.97); }
+        .panel-toggle-btn:active { transform: scale(0.97); }
 
-        /* CONTENIDO SCROLLEABLE */
-        .scrollable-content {
-            padding-top: 0;
+        .scrollable-content { padding-top: 16px; }
+
+        .barrio-header {
+            background: linear-gradient(135deg, var(--verde) 0%, #16a34a 100%);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            text-align: center;
+            border: 2px solid rgba(34,197,94,0.3);
+            position: relative;
+            user-select: none;
+        }
+        .barrio-header h2 {
+            font-size: 1.4rem;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .barrio-header p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 4px;
+        }
+        .admin-hint {
+            position: absolute;
+            bottom: 4px;
+            right: 8px;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.3);
         }
 
-        /* HEADER */
         .header {
             background: var(--card); border-radius: 16px; padding: 20px;
             margin-bottom: 16px; border: 1px solid #334155;
@@ -213,7 +228,6 @@
         .stat-rojo .num { color: var(--rojo); }
         .stat-azul .num { color: var(--azul); }
 
-        /* ACTIONS */
         .actions {
             display: grid; grid-template-columns: repeat(2, 1fr);
             gap: 10px; margin-bottom: 16px;
@@ -230,8 +244,18 @@
         .btn-warning { background: var(--amarillo); color: #1e293b; }
         .btn-danger { background: var(--rojo); color: white; }
         .btn-dark { background: #334155; color: white; }
+        .btn-whatsapp { background: var(--whatsapp); color: white; }
 
-        /* GRID */
+        .actions-admin {
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+        .actions-admin.active { display: grid; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
         .grid-container {
             background: var(--card); border-radius: 16px; padding: 16px;
             border: 1px solid #334155;
@@ -268,7 +292,12 @@
         .num-reservado { background: rgba(234,179,8,0.12); border-color: var(--amarillo); color: var(--amarillo); }
         .num-vendido { background: rgba(239,68,68,0.12); border-color: var(--rojo); color: var(--rojo); }
 
-        /* MODAL */
+        .num-reservado, .num-vendido {
+            cursor: default;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.8);
             display: none; align-items: center; justify-content: center;
@@ -288,11 +317,32 @@
             border: 1px solid #334155; background: #0f172a; color: white;
             margin-bottom: 14px; font-size: 1rem; outline: none;
         }
-        .modal input:focus, .modal select:focus { border-color: var(--verde); }
+        .modal input:focus { border-color: var(--verde); }
         .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
         .modal-actions .btn { width: 100%; }
 
-        /* SORTEO */
+        .modal-admin-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: none; align-items: center; justify-content: center;
+            z-index: 2500; padding: 16px;
+        }
+        .modal-admin-overlay.active { display: flex; }
+        .modal-admin {
+            background: var(--card); border-radius: 16px; padding: 24px;
+            max-width: 400px; width: 100%; border: 2px solid var(--verde);
+            animation: modalIn 0.2s ease;
+        }
+        .modal-admin h3 { margin-bottom: 16px; font-size: 1.1rem; color: var(--verde); }
+        .admin-code {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .admin-code input {
+            width: 100%; padding: 14px; border-radius: 10px;
+            border: 1px solid #334155; background: #0f172a; color: white;
+            font-size: 1.1rem; text-align: center; letter-spacing: 4px;
+        }
+
         .sorteo-screen {
             display: none; flex-direction: column; align-items: center;
             justify-content: center; min-height: 100vh; gap: 20px;
@@ -316,10 +366,7 @@
             border: 1px solid #334155; word-break: break-all; max-width: 100%;
             line-height: 1.5;
         }
-        .ganador-info { color: #e2e8f0; margin-top: 8px; font-size: 1rem; }
-        .ganador-info strong { color: var(--verde); }
 
-        /* WHATSAPP IMAGE */
         .wa-preview {
             display: none; flex-direction: column; align-items: center; gap: 16px;
             padding: 20px; min-height: 100vh;
@@ -327,7 +374,6 @@
         .wa-preview.active { display: flex; }
         #waCanvas { border-radius: 12px; max-width: 100%; height: auto; }
 
-        /* TOAST */
         .toast {
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             background: var(--verde); color: white; padding: 14px 28px;
@@ -337,114 +383,77 @@
         }
         @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
 
-        /* EMPTY STATE */
         .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
         .empty-state p { margin-top: 8px; font-size: 0.9rem; }
 
-        /* ===== DESKTOP: video + chat al costado ===== */
         @media (min-width: 900px) {
-            .video-fixed-mobile {
-                position: relative;
-                z-index: auto;
-                background: transparent;
-                padding: 0;
-                border-bottom: none;
+            .video-sticky {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                padding: 8px 16px 12px 16px;
             }
-            .video-container {
-                max-height: none;
-            }
+            .video-container { max-height: none; }
             .video-chat-layout {
                 grid-template-columns: 1fr 300px;
                 grid-template-rows: 1fr;
             }
-            .chat-container {
-                display: block !important;
+            .side-panel {
+                display: flex !important;
                 height: 100%;
                 min-height: 300px;
             }
-            .chat-toggle-btn {
-                display: none;
-            }
+            .panel-toggle-btn { display: none; }
             .scrollable-content {
-                padding-top: 0;
+                padding-top: 16px;
                 display: grid;
                 grid-template-columns: 1fr 340px;
                 gap: 16px;
             }
             .stats { grid-template-columns: repeat(4, 1fr); }
-            .actions { grid-template-columns: repeat(4, 1fr); }
+            .actions { grid-template-columns: repeat(2, 1fr); }
+            .actions-admin.active { grid-template-columns: repeat(4, 1fr); }
             .numbers-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
-            .video-wrapper {
-                position: sticky;
-                top: 16px;
-            }
         }
 
         @media (min-width: 640px) and (max-width: 899px) {
-            .video-fixed-mobile {
-                position: relative;
-                z-index: auto;
-                background: transparent;
-                padding: 0;
-                border-bottom: none;
+            .video-sticky {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                padding: 8px 16px 12px 16px;
             }
-            .video-container {
-                max-height: none;
-            }
-            .video-chat-layout {
-                grid-template-columns: 1fr 250px;
-            }
-            .chat-container {
-                display: block !important;
+            .video-container { max-height: none; }
+            .video-chat-layout { grid-template-columns: 1fr 250px; }
+            .side-panel {
+                display: flex !important;
                 height: 100%;
                 min-height: 250px;
             }
-            .chat-toggle-btn {
-                display: none;
-            }
+            .panel-toggle-btn { display: none; }
             .scrollable-content {
-                padding-top: 0;
+                padding-top: 16px;
                 display: grid;
                 grid-template-columns: 1fr 280px;
                 gap: 16px;
             }
             .stats { grid-template-columns: repeat(4, 1fr); }
-            .actions { grid-template-columns: repeat(4, 1fr); }
-            .video-wrapper {
-                position: sticky;
-                top: 16px;
-            }
+            .actions { grid-template-columns: repeat(2, 1fr); }
+            .actions-admin.active { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div class="login-screen" id="loginScreen">
-    <h1>🎰 Rifa Solano</h1>
-    <p>Sistema de gestión de rifas<br>Barrio Las Catalinas</p>
-    <input type="password" id="claveInput" placeholder="Clave de administrador" autocomplete="off">
-    <button onclick="login()" id="btnLogin">Entrar</button>
-    <p style="color:#64748b; font-size:0.8rem; margin-top:8px;">
-        Clave por defecto: <code style="background:#1e293b;padding:2px 6px;border-radius:4px;">solano2024</code>
-    </p>
-</div>
+<div id="appScreen">
 
-<!-- APP -->
-<div id="appScreen" style="display:none;">
-
-    <!-- VIDEO + CHAT FIJO ARRIBA -->
-    <div class="video-fixed-mobile">
+    <div class="video-sticky">
         <div class="video-wrapper">
             <div class="video-header">
                 <h3 id="videoTitle">🎬 Música en Vivo</h3>
                 <div class="video-toggle">
-                    <button class="toggle-btn youtube active" id="btnYoutube" onclick="cambiarVideo('youtube')">
-                        ▶️ YouTube
-                    </button>
-                    <button class="toggle-btn twitch" id="btnTwitch" onclick="cambiarVideo('twitch')">
-                        📺 Twitch
-                    </button>
+                    <button class="toggle-btn youtube active" onclick="cambiarVideo('youtube')">▶️ YouTube</button>
+                    <button class="toggle-btn twitch" onclick="cambiarVideo('twitch')">📺 Mi Twitch</button>
                 </div>
             </div>
             <div class="video-chat-layout">
@@ -457,34 +466,38 @@
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div class="chat-container" id="chatContainer">
-                    <iframe
-                        id="chatFrame"
-                        src=""
-                        frameborder="0">
-                    </iframe>
+                <div class="side-panel" id="sidePanel">
+                    <div class="panel-icon">💬</div>
+                    <p>¿Tenés dudas o querés reservar?<br>Entrá al grupo de WhatsApp</p>
+                    <a href="https://chat.whatsapp.com/I71TyME1nTjGPhF28w0SZX" class="wa-btn" target="_blank" rel="noopener">
+                        📱 Entrar al grupo
+                    </a>
                 </div>
             </div>
-            <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
-                💬 Mostrar Chat
+            <button class="panel-toggle-btn" id="panelToggleBtn" onclick="toggleWhatsApp()">
+                💬 Grupo de WhatsApp
             </button>
             <div class="video-info" id="videoInfo">
-                🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión
+                🎵 Música en vivo - Elegí otra plataforma arriba
             </div>
         </div>
     </div>
 
-    <!-- CONTENIDO SCROLLEABLE -->
     <div class="scrollable-content">
         <div class="container">
 
+            <div class="barrio-header" id="barrioHeader" ondblclick="abrirAdminLogin()">
+                <h2>🏘️ Barrio Las Catalinas</h2>
+                <p>Rifa Solidaria - Asfalto en Frío</p>
+                <span class="admin-hint">admin</span>
+            </div>
+
             <div class="header">
-                <h1>🎰 Rifa Solano - Asfalto en Frío</h1>
+                <h1>🎰 Rifa Solano</h1>
                 <div class="header-info">
                     <span>💰 $10.000 c/u</span>
                     <span>🚲 2 Bicicletas</span>
                     <span>📅 Sorteo: 6/6</span>
-                    <span>🏘️ Las Catalinas</span>
                 </div>
                 <div class="stats">
                     <div class="stat-box stat-verde">
@@ -506,11 +519,20 @@
                 </div>
             </div>
 
-            <div class="actions">
-                <button class="btn btn-success" onclick="agregarRango()">➕ Agregar números</button>
-                <button class="btn btn-primary" onclick="generarImagenWA()">📱 Imagen WhatsApp</button>
+            <div class="actions" id="actionsVecino">
+                <button class="btn btn-whatsapp" onclick="window.open('https://chat.whatsapp.com/I71TyME1nTjGPhF28w0SZX','_blank')">
+                    💬 WhatsApp
+                </button>
+                <button class="btn btn-primary" onclick="generarImagenWA()">
+                    📱 Compartir
+                </button>
+            </div>
+
+            <div class="actions-admin" id="actionsAdmin">
+                <button class="btn btn-success" onclick="agregarRango()">➕ Agregar</button>
+                <button class="btn btn-primary" onclick="generarImagenWA()">📱 Imagen WA</button>
                 <button class="btn btn-warning" onclick="irSorteo()">🎲 Sortear</button>
-                <button class="btn btn-dark" onclick="logout()">🚪 Salir</button>
+                <button class="btn btn-dark" onclick="resetDatos()">🗑️ Reset</button>
             </div>
 
             <div class="grid-container">
@@ -530,7 +552,6 @@
 
 </div>
 
-<!-- SORTEO SCREEN -->
 <div class="sorteo-screen" id="sorteoScreen">
     <h2 style="font-size:1.4rem;">🎲 Sorteo en curso...</h2>
     <div class="ruleta" id="ruleta">---</div>
@@ -539,9 +560,7 @@
         <p style="color:#94a3b8; margin-top:8px; font-size:1.1rem;">¡Número ganador!</p>
         <div class="ganador-info" id="ganadorInfo"></div>
         <div class="semilla-box" id="semillaBox" style="margin-top:16px;"></div>
-        <p style="color:#64748b; font-size:0.7rem; margin-top:8px;">
-            Semilla pública — cualquiera puede verificar este resultado
-        </p>
+        <p style="color:#64748b; font-size:0.7rem; margin-top:8px;">Semilla pública — cualquiera puede verificar este resultado</p>
     </div>
     <div class="modal-actions" style="margin-top:24px; max-width:320px; width:100%;">
         <button class="btn btn-success" id="btnSortear" onclick="ejecutarSorteo()">🎲 Iniciar Sorteo</button>
@@ -549,7 +568,6 @@
     </div>
 </div>
 
-<!-- WHATSAPP PREVIEW -->
 <div class="wa-preview" id="waPreview">
     <h2 style="font-size:1.3rem; margin-bottom:8px;">📱 Imagen para WhatsApp</h2>
     <canvas id="waCanvas" width="800" height="900"></canvas>
@@ -559,28 +577,57 @@
     </div>
 </div>
 
-<!-- MODAL EDITAR NÚMERO -->
-<div class="modal-overlay" id="modalEditar">
+<div class="modal-overlay" id="modalVecino">
     <div class="modal">
-        <h3>✏️ Número <span id="modalNumero"></span></h3>
+        <h3>📝 Reservar Número <span id="modalVecinoNum"></span></h3>
+        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:12px;">
+            Completá tu nombre para reservar. El administrador te contactará por WhatsApp para confirmar el pago.
+        </p>
+        <label>Tu nombre completo</label>
+        <input type="text" id="vecinoNombre" placeholder="Ej: Juan Pérez" autocomplete="off">
+        <div class="modal-actions">
+            <button class="btn btn-success" onclick="reservarNumero()">✅ Reservar</button>
+            <button class="btn btn-dark" onclick="cerrarModalVecino()">❌ Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-admin-overlay" id="modalAdminLogin">
+    <div class="modal-admin">
+        <h3>🔐 Panel de Administrador</h3>
+        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:12px;">
+            Doble clic detectado. Ingresá la clave para acceder al panel admin.
+        </p>
+        <div class="admin-code">
+            <input type="password" id="adminClaveInput" placeholder="••••••••" autocomplete="off">
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-success" onclick="verificarAdmin()">🔓 Entrar</button>
+            <button class="btn btn-dark" onclick="cerrarAdminLogin()">❌ Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalAdmin">
+    <div class="modal" style="border: 2px solid var(--verde);">
+        <h3 style="color:var(--verde);">🔧 Gestionar Número <span id="modalAdminNum"></span></h3>
         <label>Estado</label>
-        <select id="modalEstado">
+        <select id="modalAdminEstado">
             <option value="disponible">🟢 Disponible</option>
             <option value="reservado">🟡 Reservado</option>
             <option value="vendido">🔴 Vendido</option>
         </select>
         <label>Nombre del comprador</label>
-        <input type="text" id="modalNombre" placeholder="Ej: Juan Pérez" autocomplete="off">
+        <input type="text" id="modalAdminNombre" placeholder="Ej: Juan Pérez" autocomplete="off">
         <label>Método de pago / Nota</label>
-        <input type="text" id="modalNota" placeholder="Ej: Transferencia, Efectivo" autocomplete="off">
+        <input type="text" id="modalAdminNota" placeholder="Ej: Transferencia, Efectivo" autocomplete="off">
         <div class="modal-actions">
-            <button class="btn btn-success" onclick="guardarNumero()">💾 Guardar</button>
-            <button class="btn btn-dark" onclick="cerrarModal()">❌ Cancelar</button>
+            <button class="btn btn-success" onclick="guardarAdmin()">💾 Guardar</button>
+            <button class="btn btn-dark" onclick="cerrarModalAdmin()">❌ Cancelar</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL AGREGAR RANGO -->
 <div class="modal-overlay" id="modalRango">
     <div class="modal">
         <h3>➕ Agregar rango de números</h3>
@@ -596,123 +643,94 @@
 </div>
 
 <script>
-// ============================================
-// CONFIGURACIÓN
-// ============================================
 const CLAVE_ADMIN = 'solano2024';
 const PRECIO_NUMERO = 10000;
 const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
 const TWITCH_CHANNEL = 'lucaspowerchanel';
-const TWITCH_PARENT = 'sabor-inka.vercel.app';
+const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/I71TyME1nTjGPhF28w0SZX';
 
 let numeros = [];
 let numeroSeleccionado = null;
 let videoActual = 'youtube';
-let chatVisible = false;
+let panelVisible = false;
+let esAdmin = false;
 
-// ============================================
-// INICIALIZACIÓN
-// ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('claveInput').addEventListener('keypress', function(e) {
-        if(e.key === 'Enter') login();
+    cargarDatos();
+    document.getElementById('adminClaveInput').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') verificarAdmin();
     });
-
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    document.getElementById('vecinoNombre').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') reservarNumero();
+    });
+    document.querySelectorAll('.modal-overlay, .modal-admin-overlay').forEach(overlay => {
         overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.remove('active');
         });
     });
 });
 
-// ============================================
-// TOGGLE CHAT
-// ============================================
-function toggleChat() {
-    const chat = document.getElementById('chatContainer');
-    const btn = document.getElementById('chatToggleBtn');
-    chatVisible = !chatVisible;
-
-    if (chatVisible) {
-        chat.classList.add('active');
-        btn.innerHTML = '❌ Ocultar Chat';
-        // Cargar chat si no está cargado
-        const chatFrame = document.getElementById('chatFrame');
-        if (!chatFrame.src) {
-            chatFrame.src = `https://www.twitch.tv/embed/${TWITCH_CHANNEL}/chat?parent=${TWITCH_PARENT}`;
-        }
+function toggleWhatsApp() {
+    const panel = document.getElementById('sidePanel');
+    const btn = document.getElementById('panelToggleBtn');
+    panelVisible = !panelVisible;
+    if (panelVisible) {
+        panel.classList.add('active');
+        btn.innerHTML = '❌ Ocultar WhatsApp';
     } else {
-        chat.classList.remove('active');
-        btn.innerHTML = '💬 Mostrar Chat';
+        panel.classList.remove('active');
+        btn.innerHTML = '💬 Grupo de WhatsApp';
     }
 }
 
-// ============================================
-// CAMBIAR VIDEO (YOUTUBE / TWITCH)
-// ============================================
 function cambiarVideo(plataforma) {
     const frame = document.getElementById('videoFrame');
-    const btnYoutube = document.getElementById('btnYoutube');
-    const btnTwitch = document.getElementById('btnTwitch');
     const title = document.getElementById('videoTitle');
     const info = document.getElementById('videoInfo');
-    const chatFrame = document.getElementById('chatFrame');
-    const chatBtn = document.getElementById('chatToggleBtn');
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
 
     if (plataforma === 'youtube') {
         frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
-        btnYoutube.classList.add('active');
-        btnTwitch.classList.remove('active');
+        document.querySelector('.toggle-btn.youtube').classList.add('active');
         title.innerHTML = '🎬 Música en Vivo';
-        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión';
-        // Ocultar chat en YouTube
-        document.getElementById('chatContainer').classList.remove('active');
-        chatVisible = false;
-        chatBtn.innerHTML = '💬 Chat no disponible en YouTube';
-        chatBtn.style.opacity = '0.5';
-        chatBtn.disabled = true;
+        info.innerHTML = '🎵 Música en vivo - Elegí otra plataforma arriba';
         videoActual = 'youtube';
     } else {
         frame.src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
-        btnTwitch.classList.add('active');
-        btnYoutube.classList.remove('active');
-        title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
-        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente. Usá el chat para hablar con los vecinos!';
-        // Habilitar chat en Twitch
-        chatBtn.innerHTML = '💬 Mostrar Chat';
-        chatBtn.style.opacity = '1';
-        chatBtn.disabled = false;
+        document.querySelector('.toggle-btn.twitch').classList.add('active');
+        title.innerHTML = '🎬 Mi Canal <span class="live-badge">LIVE</span>';
+        info.innerHTML = '📡 Transmisión del barrio Las Catalinas';
         videoActual = 'twitch';
     }
-
-    toast(`✅ Cambiado a ${plataforma === 'youtube' ? 'YouTube' : 'Twitch'}`);
+    toast(`✅ ${plataforma === 'youtube' ? 'YouTube' : 'Twitch'}`);
 }
 
-// ============================================
-// LOGIN
-// ============================================
-function login() {
-    const clave = document.getElementById('claveInput').value.trim();
+function abrirAdminLogin() {
+    document.getElementById('modalAdminLogin').classList.add('active');
+    setTimeout(() => document.getElementById('adminClaveInput').focus(), 100);
+}
+
+function cerrarAdminLogin() {
+    document.getElementById('modalAdminLogin').classList.remove('active');
+    document.getElementById('adminClaveInput').value = '';
+}
+
+function verificarAdmin() {
+    const clave = document.getElementById('adminClaveInput').value.trim();
     if (clave === CLAVE_ADMIN) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('appScreen').style.display = 'block';
-        cargarDatos();
+        esAdmin = true;
+        cerrarAdminLogin();
+        document.getElementById('actionsVecino').style.display = 'none';
+        document.getElementById('actionsAdmin').classList.add('active');
+        toast('🔓 Modo Administrador activado');
+        renderGrid();
     } else {
         toast('❌ Clave incorrecta');
-        document.getElementById('claveInput').value = '';
-        document.getElementById('claveInput').focus();
+        document.getElementById('adminClaveInput').value = '';
+        document.getElementById('adminClaveInput').focus();
     }
 }
 
-function logout() {
-    document.getElementById('appScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('claveInput').value = '';
-}
-
-// ============================================
-// DATOS - localStorage
-// ============================================
 function cargarDatos() {
     const guardado = localStorage.getItem('rifa_solano_numeros');
     if (guardado) {
@@ -739,35 +757,44 @@ function guardarDatos() {
     localStorage.setItem('rifa_solano_numeros', JSON.stringify(numeros));
 }
 
-// ============================================
-// RENDER GRID
-// ============================================
+function resetDatos() {
+    if (confirm('¿Borrar todos los datos?')) {
+        localStorage.removeItem('rifa_solano_numeros');
+        localStorage.removeItem('rifa_solano_ultimo_sorteo');
+        cargarDatos();
+        toast('🗑️ Datos borrados');
+    }
+}
+
 function renderGrid() {
     const grid = document.getElementById('numbersGrid');
     grid.innerHTML = '';
-
     if (numeros.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><p>No hay números cargados</p><p>Tocá "Agregar números" para empezar</p></div>';
+        grid.innerHTML = '<div class="empty-state"><p>No hay números cargados</p></div>';
         return;
     }
-
     numeros.forEach(n => {
         const card = document.createElement('div');
         card.className = `num-card num-${n.estado}`;
-        card.onclick = () => abrirModal(n);
-
+        if (esAdmin || n.estado === 'disponible') {
+            card.onclick = () => {
+                if (esAdmin) {
+                    abrirModalAdmin(n);
+                } else {
+                    abrirModalVecino(n);
+                }
+            };
+        }
         const numSpan = document.createElement('span');
         numSpan.className = 'n';
         numSpan.textContent = n.numero;
         card.appendChild(numSpan);
-
         if (n.comprador_nombre) {
             const owner = document.createElement('span');
             owner.className = 'owner';
             owner.textContent = n.comprador_nombre;
             card.appendChild(owner);
         }
-
         grid.appendChild(card);
     });
 }
@@ -777,48 +804,74 @@ function updateStats() {
     const res = numeros.filter(n => n.estado === 'reservado').length;
     const ven = numeros.filter(n => n.estado === 'vendido').length;
     const rec = ven * PRECIO_NUMERO;
-
     document.getElementById('statDisp').textContent = disp;
     document.getElementById('statRes').textContent = res;
     document.getElementById('statVen').textContent = ven;
     document.getElementById('statRec').textContent = '$' + rec.toLocaleString('es-AR');
 }
 
-// ============================================
-// MODAL EDITAR
-// ============================================
-function abrirModal(n) {
+function abrirModalVecino(n) {
+    if (n.estado !== 'disponible') {
+        toast('❌ Este número no está disponible');
+        return;
+    }
     numeroSeleccionado = n;
-    document.getElementById('modalNumero').textContent = n.numero;
-    document.getElementById('modalEstado').value = n.estado;
-    document.getElementById('modalNombre').value = n.comprador_nombre || '';
-    document.getElementById('modalNota').value = n.vendedor_nota || '';
-    document.getElementById('modalEditar').classList.add('active');
+    document.getElementById('modalVecinoNum').textContent = n.numero;
+    document.getElementById('vecinoNombre').value = '';
+    document.getElementById('modalVecino').classList.add('active');
+    setTimeout(() => document.getElementById('vecinoNombre').focus(), 100);
 }
 
-function cerrarModal() {
-    document.getElementById('modalEditar').classList.remove('active');
+function cerrarModalVecino() {
+    document.getElementById('modalVecino').classList.remove('active');
     numeroSeleccionado = null;
 }
 
-function guardarNumero() {
+function reservarNumero() {
     if (!numeroSeleccionado) return;
-
-    numeroSeleccionado.estado = document.getElementById('modalEstado').value;
-    numeroSeleccionado.comprador_nombre = document.getElementById('modalNombre').value.trim();
-    numeroSeleccionado.vendedor_nota = document.getElementById('modalNota').value.trim();
+    const nombre = document.getElementById('vecinoNombre').value.trim();
+    if (!nombre) {
+        toast('❌ Ingresá tu nombre');
+        return;
+    }
+    numeroSeleccionado.estado = 'reservado';
+    numeroSeleccionado.comprador_nombre = nombre;
+    numeroSeleccionado.vendedor_nota = 'Reservado por vecino';
     numeroSeleccionado.updated_at = new Date().toISOString();
-
     guardarDatos();
     renderGrid();
     updateStats();
-    cerrarModal();
+    cerrarModalVecino();
+    toast(`✅ Número ${numeroSeleccionado.numero} reservado a nombre de ${nombre}`);
+}
+
+function abrirModalAdmin(n) {
+    numeroSeleccionado = n;
+    document.getElementById('modalAdminNum').textContent = n.numero;
+    document.getElementById('modalAdminEstado').value = n.estado;
+    document.getElementById('modalAdminNombre').value = n.comprador_nombre || '';
+    document.getElementById('modalAdminNota').value = n.vendedor_nota || '';
+    document.getElementById('modalAdmin').classList.add('active');
+}
+
+function cerrarModalAdmin() {
+    document.getElementById('modalAdmin').classList.remove('active');
+    numeroSeleccionado = null;
+}
+
+function guardarAdmin() {
+    if (!numeroSeleccionado) return;
+    numeroSeleccionado.estado = document.getElementById('modalAdminEstado').value;
+    numeroSeleccionado.comprador_nombre = document.getElementById('modalAdminNombre').value.trim();
+    numeroSeleccionado.vendedor_nota = document.getElementById('modalAdminNota').value.trim();
+    numeroSeleccionado.updated_at = new Date().toISOString();
+    guardarDatos();
+    renderGrid();
+    updateStats();
+    cerrarModalAdmin();
     toast('✅ Guardado');
 }
 
-// ============================================
-// AGREGAR RANGO
-// ============================================
 function agregarRango() {
     document.getElementById('rangoInicio').value = '';
     document.getElementById('rangoFin').value = '';
@@ -833,12 +886,10 @@ function cerrarModalRango() {
 function confirmarRango() {
     const inicio = parseInt(document.getElementById('rangoInicio').value);
     const fin = parseInt(document.getElementById('rangoFin').value);
-
     if (!inicio || !fin || inicio > fin || inicio < 1 || fin > 9999) {
         toast('❌ Rango inválido');
         return;
     }
-
     let agregados = 0;
     for (let i = inicio; i <= fin; i++) {
         if (!numeros.find(n => n.numero === i)) {
@@ -853,7 +904,6 @@ function confirmarRango() {
             agregados++;
         }
     }
-
     numeros.sort((a, b) => a.numero - b.numero);
     guardarDatos();
     renderGrid();
@@ -862,9 +912,6 @@ function confirmarRango() {
     toast(agregados > 0 ? `✅ Agregados ${agregados} números` : 'ℹ️ Esos números ya existen');
 }
 
-// ============================================
-// IMAGEN WHATSAPP
-// ============================================
 function generarImagenWA() {
     const canvas = document.getElementById('waCanvas');
     const ctx = canvas.getContext('2d');
@@ -907,27 +954,21 @@ function generarImagenWA() {
         ctx.font = '32px Arial';
         ctx.fillText('🎉 ¡TODOS VENDIDOS!', 400, 360);
     } else {
-        ctx.fillStyle = '#e2e8f0';
-        ctx.font = '28px Arial';
-
         const cols = 10;
         const cellW = 68;
         const cellH = 50;
         const startX = 60;
         const startY = 340;
-
         disponibles.forEach((num, idx) => {
             const col = idx % cols;
             const row = Math.floor(idx / cols);
             const x = startX + col * cellW;
             const y = startY + row * cellH;
-
             ctx.fillStyle = 'rgba(34,197,94,0.2)';
             ctx.fillRect(x, y, 60, 42);
             ctx.strokeStyle = '#22c55e';
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, 60, 42);
-
             ctx.fillStyle = '#22c55e';
             ctx.font = 'bold 20px Arial';
             ctx.textAlign = 'center';
@@ -961,9 +1002,6 @@ function volverApp() {
     document.getElementById('appScreen').style.display = 'block';
 }
 
-// ============================================
-// SORTEO
-// ============================================
 function irSorteo() {
     document.getElementById('appScreen').style.display = 'none';
     document.getElementById('sorteoScreen').classList.add('active');
@@ -980,17 +1018,14 @@ function ejecutarSorteo() {
         toast('❌ No hay números vendidos para sortear');
         return;
     }
-
     document.getElementById('btnSortear').style.display = 'none';
     const ruleta = document.getElementById('ruleta');
-
     let count = 0;
     const maxCount = 40;
     const interval = setInterval(() => {
         const random = vendidos[Math.floor(Math.random() * vendidos.length)];
         ruleta.textContent = random.numero;
         count++;
-
         if (count >= maxCount) {
             clearInterval(interval);
             setTimeout(() => finalizarSorteo(vendidos), 300);
@@ -1003,7 +1038,6 @@ function finalizarSorteo(vendidos) {
     const timestamp = ahora.toISOString();
     const randomStr = Math.random().toString(36).substring(2, 15);
     const semilla = timestamp + '-' + randomStr;
-
     let hash = 0;
     for (let i = 0; i < semilla.length; i++) {
         hash = ((hash << 5) - hash) + semilla.charCodeAt(i);
@@ -1022,7 +1056,6 @@ function finalizarSorteo(vendidos) {
     } else {
         infoDiv.innerHTML = '';
     }
-
     document.getElementById('semillaBox').textContent = 'Semilla: ' + semilla;
 
     if (typeof confetti !== 'undefined') {
@@ -1033,7 +1066,6 @@ function finalizarSorteo(vendidos) {
             colors: ['#22c55e', '#eab308', '#ef4444', '#3b82f6']
         });
     }
-
     toast('🎉 ¡Tenemos ganador!');
 
     const sorteoData = {
@@ -1052,20 +1084,14 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// ============================================
-// TOAST
-// ============================================
 function toast(msg) {
     const existing = document.querySelector('.toast');
     if (existing) existing.remove();
-
     const t = document.createElement('div');
     t.className = 'toast';
     t.textContent = msg;
     document.body.appendChild(t);
-    setTimeout(() => {
-        if (t.parentNode) t.remove();
-    }, 2500);
+    setTimeout(() => { if (t.parentNode) t.remove(); }, 2500);
 }
 </script>
 </body>
