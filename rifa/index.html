@@ -17,8 +17,6 @@
             --card: #1e293b;
             --twitch: #9146ff;
             --youtube: #ff0000;
-            --whatsapp: #25d366;
-            --deportes: #f97316;
         }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -29,9 +27,32 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
-        /* ===== VIDEO STICKY ARRIBA ===== */
-        .video-sticky {
-            position: sticky;
+        /* LOGIN */
+        .login-screen {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; min-height: 100vh; gap: 20px;
+            padding: 20px;
+        }
+        .login-screen h1 { font-size: 2rem; color: var(--verde); text-align: center; }
+        .login-screen p { color: #94a3b8; text-align: center; max-width: 300px; line-height: 1.5; }
+        .login-screen input {
+            padding: 16px 20px; font-size: 1.1rem; border-radius: 12px;
+            border: 2px solid #334155; background: var(--card); color: white;
+            width: 100%; max-width: 300px; text-align: center;
+            outline: none;
+        }
+        .login-screen input:focus { border-color: var(--verde); }
+        .login-screen button {
+            padding: 16px 50px; font-size: 1.1rem; border-radius: 12px;
+            border: none; background: var(--verde); color: white; cursor: pointer;
+            font-weight: bold; width: 100%; max-width: 300px;
+            transition: opacity 0.2s;
+        }
+        .login-screen button:active { opacity: 0.8; transform: scale(0.98); }
+
+        /* ===== VIDEO + CHAT FIJO ARRIBA EN MÓVIL ===== */
+        .video-fixed-mobile {
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
@@ -49,8 +70,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
-            flex-wrap: wrap;
-            gap: 6px;
         }
         .video-header h3 {
             font-size: 0.85rem;
@@ -63,13 +82,12 @@
             padding: 3px;
             border-radius: 8px;
             border: 1px solid #334155;
-            flex-wrap: wrap;
         }
         .toggle-btn {
-            padding: 6px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
             border: none;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -79,12 +97,14 @@
         .toggle-btn.active {
             color: white;
         }
-        .toggle-btn.youtube.active { background: var(--youtube); }
-        .toggle-btn.twitch.active { background: var(--twitch); }
-        .toggle-btn.deportes.active { background: var(--deportes); }
-        .toggle-btn.whatsapp-btn.active { background: var(--whatsapp); }
+        .toggle-btn.youtube.active {
+            background: var(--youtube);
+        }
+        .toggle-btn.twitch.active {
+            background: var(--twitch);
+        }
 
-        /* Video y panel layout */
+        /* Video y Chat layout */
         .video-chat-layout {
             display: grid;
             grid-template-columns: 1fr;
@@ -108,43 +128,22 @@
             border-radius: 10px;
         }
 
-        /* Panel lateral (WhatsApp o info) */
-        .side-panel {
+        /* Chat container */
+        .chat-container {
             display: none;
             height: 200px;
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid #334155;
-            background: var(--card);
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 20px;
-            text-align: center;
         }
-        .side-panel.active { display: flex; }
-        .side-panel .panel-icon { font-size: 3rem; }
-        .side-panel p {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            line-height: 1.5;
+        .chat-container.active {
+            display: block;
         }
-        .side-panel .panel-btn {
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: opacity 0.2s;
+        .chat-container iframe {
+            width: 100%;
+            height: 100%;
             border: none;
-            cursor: pointer;
         }
-        .side-panel .panel-btn:active { opacity: 0.8; transform: scale(0.97); }
-        .wa-btn { background: var(--whatsapp); color: white; }
 
         .video-info {
             margin-top: 6px;
@@ -167,16 +166,16 @@
         }
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* Botón mostrar panel en mobile */
-        .panel-toggle-btn {
+        /* Botón mostrar chat */
+        .chat-toggle-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             padding: 8px;
-            background: var(--card);
+            background: var(--twitch);
             color: white;
-            border: 1px solid #334155;
+            border: none;
             border-radius: 8px;
             font-size: 0.8rem;
             font-weight: 600;
@@ -184,10 +183,12 @@
             margin-top: 8px;
             width: 100%;
         }
-        .panel-toggle-btn:active { transform: scale(0.97); }
+        .chat-toggle-btn:active { transform: scale(0.97); }
 
         /* CONTENIDO SCROLLEABLE */
-        .scrollable-content { padding-top: 16px; }
+        .scrollable-content {
+            padding-top: 0;
+        }
 
         /* HEADER */
         .header {
@@ -267,13 +268,6 @@
         .num-reservado { background: rgba(234,179,8,0.12); border-color: var(--amarillo); color: var(--amarillo); }
         .num-vendido { background: rgba(239,68,68,0.12); border-color: var(--rojo); color: var(--rojo); }
 
-        /* Números no disponibles: bloqueados */
-        .num-reservado, .num-vendido {
-            cursor: default;
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
         /* MODAL */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.8);
@@ -343,30 +337,36 @@
         }
         @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
 
+        /* EMPTY STATE */
         .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
         .empty-state p { margin-top: 8px; font-size: 0.9rem; }
 
-        /* ===== DESKTOP ===== */
+        /* ===== DESKTOP: video + chat al costado ===== */
         @media (min-width: 900px) {
-            .video-sticky {
-                position: sticky;
-                top: 0;
-                z-index: 1000;
-                padding: 8px 16px 12px 16px;
+            .video-fixed-mobile {
+                position: relative;
+                z-index: auto;
+                background: transparent;
+                padding: 0;
+                border-bottom: none;
             }
-            .video-container { max-height: none; }
+            .video-container {
+                max-height: none;
+            }
             .video-chat-layout {
                 grid-template-columns: 1fr 300px;
                 grid-template-rows: 1fr;
             }
-            .side-panel {
-                display: flex !important;
+            .chat-container {
+                display: block !important;
                 height: 100%;
                 min-height: 300px;
             }
-            .panel-toggle-btn { display: none; }
+            .chat-toggle-btn {
+                display: none;
+            }
             .scrollable-content {
-                padding-top: 16px;
+                padding-top: 0;
                 display: grid;
                 grid-template-columns: 1fr 340px;
                 gap: 16px;
@@ -374,49 +374,77 @@
             .stats { grid-template-columns: repeat(4, 1fr); }
             .actions { grid-template-columns: repeat(4, 1fr); }
             .numbers-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
+            .video-wrapper {
+                position: sticky;
+                top: 16px;
+            }
         }
 
         @media (min-width: 640px) and (max-width: 899px) {
-            .video-sticky {
-                position: sticky;
-                top: 0;
-                z-index: 1000;
-                padding: 8px 16px 12px 16px;
+            .video-fixed-mobile {
+                position: relative;
+                z-index: auto;
+                background: transparent;
+                padding: 0;
+                border-bottom: none;
             }
-            .video-container { max-height: none; }
-            .video-chat-layout { grid-template-columns: 1fr 250px; }
-            .side-panel {
-                display: flex !important;
+            .video-container {
+                max-height: none;
+            }
+            .video-chat-layout {
+                grid-template-columns: 1fr 250px;
+            }
+            .chat-container {
+                display: block !important;
                 height: 100%;
                 min-height: 250px;
             }
-            .panel-toggle-btn { display: none; }
+            .chat-toggle-btn {
+                display: none;
+            }
             .scrollable-content {
-                padding-top: 16px;
+                padding-top: 0;
                 display: grid;
                 grid-template-columns: 1fr 280px;
                 gap: 16px;
             }
             .stats { grid-template-columns: repeat(4, 1fr); }
             .actions { grid-template-columns: repeat(4, 1fr); }
+            .video-wrapper {
+                position: sticky;
+                top: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- APP -->
-<div id="appScreen">
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+    <h1>🎰 Rifa Solano</h1>
+    <p>Sistema de gestión de rifas<br>Barrio Las Catalinas</p>
+    <input type="password" id="claveInput" placeholder="Clave de administrador" autocomplete="off">
+    <button onclick="login()" id="btnLogin">Entrar</button>
+    <p style="color:#64748b; font-size:0.8rem; margin-top:8px;">
+        Clave por defecto: <code style="background:#1e293b;padding:2px 6px;border-radius:4px;">solano2024</code>
+    </p>
+</div>
 
-    <!-- VIDEO STICKY ARRIBA -->
-    <div class="video-sticky">
+<!-- APP -->
+<div id="appScreen" style="display:none;">
+
+    <!-- VIDEO + CHAT FIJO ARRIBA -->
+    <div class="video-fixed-mobile">
         <div class="video-wrapper">
             <div class="video-header">
                 <h3 id="videoTitle">🎬 Música en Vivo</h3>
                 <div class="video-toggle">
-                    <button class="toggle-btn youtube active" onclick="cambiarVideo('youtube')">▶️ YouTube</button>
-                    <button class="toggle-btn twitch" onclick="cambiarVideo('twitch')">📺 Mi Twitch</button>
-                    <button class="toggle-btn deportes" onclick="cambiarVideo('deportes')">⚽ Deportes</button>
-                    <button class="toggle-btn whatsapp-btn" onclick="cambiarVideo('whatsapp')">💬 WhatsApp</button>
+                    <button class="toggle-btn youtube active" id="btnYoutube" onclick="cambiarVideo('youtube')">
+                        ▶️ YouTube
+                    </button>
+                    <button class="toggle-btn twitch" id="btnTwitch" onclick="cambiarVideo('twitch')">
+                        📺 Twitch
+                    </button>
                 </div>
             </div>
             <div class="video-chat-layout">
@@ -429,19 +457,19 @@
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div class="side-panel" id="sidePanel">
-                    <div class="panel-icon" id="panelIcon">💬</div>
-                    <p id="panelText">¿Tenés dudas o querés reservar?<br>Entrá al grupo de WhatsApp de la rifa</p>
-                    <a href="https://chat.whatsapp.com/TU_LINK_AQUI" class="panel-btn wa-btn" id="panelBtn" target="_blank" rel="noopener">
-                        📱 Entrar al grupo
-                    </a>
+                <div class="chat-container" id="chatContainer">
+                    <iframe
+                        id="chatFrame"
+                        src=""
+                        frameborder="0">
+                    </iframe>
                 </div>
             </div>
-            <button class="panel-toggle-btn" id="panelToggleBtn" onclick="togglePanel()">
-                💬 Mostrar WhatsApp
+            <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
+                💬 Mostrar Chat
             </button>
             <div class="video-info" id="videoInfo">
-                🎵 Música en vivo - Elegí otra plataforma arriba
+                🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión
             </div>
         </div>
     </div>
@@ -456,7 +484,7 @@
                     <span>💰 $10.000 c/u</span>
                     <span>🚲 2 Bicicletas</span>
                     <span>📅 Sorteo: 6/6</span>
-                    <span>🏘️ Barrio Las Catalinas</span>
+                    <span>🏘️ Las Catalinas</span>
                 </div>
                 <div class="stats">
                     <div class="stat-box stat-verde">
@@ -482,7 +510,7 @@
                 <button class="btn btn-success" onclick="agregarRango()">➕ Agregar números</button>
                 <button class="btn btn-primary" onclick="generarImagenWA()">📱 Imagen WhatsApp</button>
                 <button class="btn btn-warning" onclick="irSorteo()">🎲 Sortear</button>
-                <button class="btn btn-dark" onclick="resetDatos()">🗑️ Reset</button>
+                <button class="btn btn-dark" onclick="logout()">🚪 Salir</button>
             </div>
 
             <div class="grid-container">
@@ -511,7 +539,9 @@
         <p style="color:#94a3b8; margin-top:8px; font-size:1.1rem;">¡Número ganador!</p>
         <div class="ganador-info" id="ganadorInfo"></div>
         <div class="semilla-box" id="semillaBox" style="margin-top:16px;"></div>
-        <p style="color:#64748b; font-size:0.7rem; margin-top:8px;">Semilla pública — cualquiera puede verificar este resultado</p>
+        <p style="color:#64748b; font-size:0.7rem; margin-top:8px;">
+            Semilla pública — cualquiera puede verificar este resultado
+        </p>
     </div>
     <div class="modal-actions" style="margin-top:24px; max-width:320px; width:100%;">
         <button class="btn btn-success" id="btnSortear" onclick="ejecutarSorteo()">🎲 Iniciar Sorteo</button>
@@ -529,7 +559,7 @@
     </div>
 </div>
 
-<!-- MODAL EDITAR -->
+<!-- MODAL EDITAR NÚMERO -->
 <div class="modal-overlay" id="modalEditar">
     <div class="modal">
         <h3>✏️ Número <span id="modalNumero"></span></h3>
@@ -567,24 +597,27 @@
 
 <script>
 // ============================================
-// CONFIGURACIÓN - CAMBIÁ ESTOS VALORES
+// CONFIGURACIÓN
 // ============================================
+const CLAVE_ADMIN = 'solano2024';
 const PRECIO_NUMERO = 10000;
 const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
-const TWITCH_CHANNEL = 'lucaspowerchanel';        // <-- TU canal del barrio
-const TWITCH_DEPORTES = 'ESPNes';               // <-- CANAL DE DEPORTES (cambialo)
-const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/TU_LINK_AQUI';
+const TWITCH_CHANNEL = 'lucaspowerchanel';
+const TWITCH_PARENT = 'sabor-inka.vercel.app';
 
 let numeros = [];
 let numeroSeleccionado = null;
 let videoActual = 'youtube';
-let panelVisible = false;
+let chatVisible = false;
 
 // ============================================
 // INICIALIZACIÓN
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    cargarDatos();
+    document.getElementById('claveInput').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') login();
+    });
+
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.remove('active');
@@ -593,90 +626,92 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// TOGGLE PANEL (mobile)
+// TOGGLE CHAT
 // ============================================
-function togglePanel() {
-    const panel = document.getElementById('sidePanel');
-    const btn = document.getElementById('panelToggleBtn');
-    panelVisible = !panelVisible;
-    if (panelVisible) {
-        panel.classList.add('active');
-        btn.innerHTML = '❌ Ocultar panel';
+function toggleChat() {
+    const chat = document.getElementById('chatContainer');
+    const btn = document.getElementById('chatToggleBtn');
+    chatVisible = !chatVisible;
+
+    if (chatVisible) {
+        chat.classList.add('active');
+        btn.innerHTML = '❌ Ocultar Chat';
+        // Cargar chat si no está cargado
+        const chatFrame = document.getElementById('chatFrame');
+        if (!chatFrame.src) {
+            chatFrame.src = `https://www.twitch.tv/embed/${TWITCH_CHANNEL}/chat?parent=${TWITCH_PARENT}`;
+        }
     } else {
-        panel.classList.remove('active');
-        btn.innerHTML = '💬 Mostrar WhatsApp';
+        chat.classList.remove('active');
+        btn.innerHTML = '💬 Mostrar Chat';
     }
 }
 
 // ============================================
-// CAMBIAR VIDEO (4 PLATAFORMAS)
+// CAMBIAR VIDEO (YOUTUBE / TWITCH)
 // ============================================
 function cambiarVideo(plataforma) {
     const frame = document.getElementById('videoFrame');
+    const btnYoutube = document.getElementById('btnYoutube');
+    const btnTwitch = document.getElementById('btnTwitch');
     const title = document.getElementById('videoTitle');
     const info = document.getElementById('videoInfo');
-    const panel = document.getElementById('sidePanel');
-    const panelIcon = document.getElementById('panelIcon');
-    const panelText = document.getElementById('panelText');
-    const panelBtn = document.getElementById('panelBtn');
-    const toggleBtn = document.getElementById('panelToggleBtn');
-
-    // Reset botones
-    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    const chatFrame = document.getElementById('chatFrame');
+    const chatBtn = document.getElementById('chatToggleBtn');
 
     if (plataforma === 'youtube') {
         frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
-        document.querySelector('.toggle-btn.youtube').classList.add('active');
+        btnYoutube.classList.add('active');
+        btnTwitch.classList.remove('active');
         title.innerHTML = '🎬 Música en Vivo';
-        info.innerHTML = '🎵 Música en vivo - Elegí otra plataforma arriba';
-        frame.style.display = 'block';
-        panel.classList.remove('active');
-        toggleBtn.style.display = 'flex';
-        toggleBtn.innerHTML = '💬 Mostrar WhatsApp';
+        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión';
+        // Ocultar chat en YouTube
+        document.getElementById('chatContainer').classList.remove('active');
+        chatVisible = false;
+        chatBtn.innerHTML = '💬 Chat no disponible en YouTube';
+        chatBtn.style.opacity = '0.5';
+        chatBtn.disabled = true;
         videoActual = 'youtube';
-
-    } else if (plataforma === 'twitch') {
+    } else {
         frame.src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
-        document.querySelector('.toggle-btn.twitch').classList.add('active');
-        title.innerHTML = '🎬 Mi Canal <span class="live-badge">LIVE</span>';
-        info.innerHTML = '📡 Transmisión del barrio Las Catalinas';
-        frame.style.display = 'block';
-        panel.classList.remove('active');
-        toggleBtn.style.display = 'flex';
-        toggleBtn.innerHTML = '💬 Mostrar WhatsApp';
+        btnTwitch.classList.add('active');
+        btnYoutube.classList.remove('active');
+        title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
+        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente. Usá el chat para hablar con los vecinos!';
+        // Habilitar chat en Twitch
+        chatBtn.innerHTML = '💬 Mostrar Chat';
+        chatBtn.style.opacity = '1';
+        chatBtn.disabled = false;
         videoActual = 'twitch';
-
-    } else if (plataforma === 'deportes') {
-        frame.src = `https://player.twitch.tv/?channel=${TWITCH_DEPORTES}&parent=${window.location.hostname}&autoplay=false`;
-        document.querySelector('.toggle-btn.deportes').classList.add('active');
-        title.innerHTML = '⚽ Deportes en Vivo <span class="live-badge">LIVE</span>';
-        info.innerHTML = `📡 Canal: ${TWITCH_DEPORTES} - Solo visible cuando está en vivo`;
-        frame.style.display = 'block';
-        panel.classList.remove('active');
-        toggleBtn.style.display = 'flex';
-        toggleBtn.innerHTML = '💬 Mostrar WhatsApp';
-        videoActual = 'deportes';
-
-    } else if (plataforma === 'whatsapp') {
-        document.querySelector('.toggle-btn.whatsapp-btn').classList.add('active');
-        title.innerHTML = '💬 Grupo de WhatsApp';
-        info.innerHTML = 'Unite al grupo para consultas y reservas';
-        frame.style.display = 'none';
-        panel.classList.add('active');
-        panelIcon.innerHTML = '💬';
-        panelText.innerHTML = '¿Tenés dudas o querés reservar?<br>Entrá al grupo de WhatsApp de la rifa';
-        panelBtn.href = WHATSAPP_GROUP_LINK;
-        panelBtn.innerHTML = '📱 Entrar al grupo';
-        panelBtn.className = 'panel-btn wa-btn';
-        toggleBtn.style.display = 'none';
-        videoActual = 'whatsapp';
     }
 
-    toast(`✅ ${plataforma === 'whatsapp' ? 'WhatsApp' : plataforma === 'deportes' ? 'Deportes' : plataforma === 'twitch' ? 'Mi Twitch' : 'YouTube'}`);
+    toast(`✅ Cambiado a ${plataforma === 'youtube' ? 'YouTube' : 'Twitch'}`);
 }
 
 // ============================================
-// DATOS
+// LOGIN
+// ============================================
+function login() {
+    const clave = document.getElementById('claveInput').value.trim();
+    if (clave === CLAVE_ADMIN) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appScreen').style.display = 'block';
+        cargarDatos();
+    } else {
+        toast('❌ Clave incorrecta');
+        document.getElementById('claveInput').value = '';
+        document.getElementById('claveInput').focus();
+    }
+}
+
+function logout() {
+    document.getElementById('appScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('claveInput').value = '';
+}
+
+// ============================================
+// DATOS - localStorage
 // ============================================
 function cargarDatos() {
     const guardado = localStorage.getItem('rifa_solano_numeros');
@@ -704,17 +739,8 @@ function guardarDatos() {
     localStorage.setItem('rifa_solano_numeros', JSON.stringify(numeros));
 }
 
-function resetDatos() {
-    if (confirm('¿Borrar todos los datos?')) {
-        localStorage.removeItem('rifa_solano_numeros');
-        localStorage.removeItem('rifa_solano_ultimo_sorteo');
-        cargarDatos();
-        toast('🗑️ Datos borrados');
-    }
-}
-
 // ============================================
-// RENDER GRID - SOLO VERDES EDITABLES
+// RENDER GRID
 // ============================================
 function renderGrid() {
     const grid = document.getElementById('numbersGrid');
@@ -728,19 +754,20 @@ function renderGrid() {
     numeros.forEach(n => {
         const card = document.createElement('div');
         card.className = `num-card num-${n.estado}`;
-        if (n.estado === 'disponible') {
-            card.onclick = () => abrirModal(n);
-        }
+        card.onclick = () => abrirModal(n);
+
         const numSpan = document.createElement('span');
         numSpan.className = 'n';
         numSpan.textContent = n.numero;
         card.appendChild(numSpan);
+
         if (n.comprador_nombre) {
             const owner = document.createElement('span');
             owner.className = 'owner';
             owner.textContent = n.comprador_nombre;
             card.appendChild(owner);
         }
+
         grid.appendChild(card);
     });
 }
@@ -750,6 +777,7 @@ function updateStats() {
     const res = numeros.filter(n => n.estado === 'reservado').length;
     const ven = numeros.filter(n => n.estado === 'vendido').length;
     const rec = ven * PRECIO_NUMERO;
+
     document.getElementById('statDisp').textContent = disp;
     document.getElementById('statRes').textContent = res;
     document.getElementById('statVen').textContent = ven;
@@ -775,10 +803,12 @@ function cerrarModal() {
 
 function guardarNumero() {
     if (!numeroSeleccionado) return;
+
     numeroSeleccionado.estado = document.getElementById('modalEstado').value;
     numeroSeleccionado.comprador_nombre = document.getElementById('modalNombre').value.trim();
     numeroSeleccionado.vendedor_nota = document.getElementById('modalNota').value.trim();
     numeroSeleccionado.updated_at = new Date().toISOString();
+
     guardarDatos();
     renderGrid();
     updateStats();
@@ -803,10 +833,12 @@ function cerrarModalRango() {
 function confirmarRango() {
     const inicio = parseInt(document.getElementById('rangoInicio').value);
     const fin = parseInt(document.getElementById('rangoFin').value);
+
     if (!inicio || !fin || inicio > fin || inicio < 1 || fin > 9999) {
         toast('❌ Rango inválido');
         return;
     }
+
     let agregados = 0;
     for (let i = inicio; i <= fin; i++) {
         if (!numeros.find(n => n.numero === i)) {
@@ -821,6 +853,7 @@ function confirmarRango() {
             agregados++;
         }
     }
+
     numeros.sort((a, b) => a.numero - b.numero);
     guardarDatos();
     renderGrid();
@@ -874,21 +907,27 @@ function generarImagenWA() {
         ctx.font = '32px Arial';
         ctx.fillText('🎉 ¡TODOS VENDIDOS!', 400, 360);
     } else {
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '28px Arial';
+
         const cols = 10;
         const cellW = 68;
         const cellH = 50;
         const startX = 60;
         const startY = 340;
+
         disponibles.forEach((num, idx) => {
             const col = idx % cols;
             const row = Math.floor(idx / cols);
             const x = startX + col * cellW;
             const y = startY + row * cellH;
+
             ctx.fillStyle = 'rgba(34,197,94,0.2)';
             ctx.fillRect(x, y, 60, 42);
             ctx.strokeStyle = '#22c55e';
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, 60, 42);
+
             ctx.fillStyle = '#22c55e';
             ctx.font = 'bold 20px Arial';
             ctx.textAlign = 'center';
@@ -941,14 +980,17 @@ function ejecutarSorteo() {
         toast('❌ No hay números vendidos para sortear');
         return;
     }
+
     document.getElementById('btnSortear').style.display = 'none';
     const ruleta = document.getElementById('ruleta');
+
     let count = 0;
     const maxCount = 40;
     const interval = setInterval(() => {
         const random = vendidos[Math.floor(Math.random() * vendidos.length)];
         ruleta.textContent = random.numero;
         count++;
+
         if (count >= maxCount) {
             clearInterval(interval);
             setTimeout(() => finalizarSorteo(vendidos), 300);
@@ -961,6 +1003,7 @@ function finalizarSorteo(vendidos) {
     const timestamp = ahora.toISOString();
     const randomStr = Math.random().toString(36).substring(2, 15);
     const semilla = timestamp + '-' + randomStr;
+
     let hash = 0;
     for (let i = 0; i < semilla.length; i++) {
         hash = ((hash << 5) - hash) + semilla.charCodeAt(i);
@@ -1015,11 +1058,14 @@ function escapeHtml(text) {
 function toast(msg) {
     const existing = document.querySelector('.toast');
     if (existing) existing.remove();
+
     const t = document.createElement('div');
     t.className = 'toast';
     t.textContent = msg;
     document.body.appendChild(t);
-    setTimeout(() => { if (t.parentNode) t.remove(); }, 2500);
+    setTimeout(() => {
+        if (t.parentNode) t.remove();
+    }, 2500);
 }
 </script>
 </body>
