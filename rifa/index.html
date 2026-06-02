@@ -17,6 +17,7 @@
             --card: #1e293b;
             --twitch: #9146ff;
             --youtube: #ff0000;
+            --whatsapp: #25d366;
         }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -27,7 +28,7 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
-        /* ===== VIDEO + CHAT STICKY ARRIBA ===== */
+        /* ===== VIDEO + WHATSAPP STICKY ARRIBA ===== */
         .video-sticky {
             position: sticky;
             top: 0;
@@ -81,7 +82,7 @@
             background: var(--twitch);
         }
 
-        /* Video y Chat layout */
+        /* Video y WhatsApp layout */
         .video-chat-layout {
             display: grid;
             grid-template-columns: 1fr;
@@ -105,21 +106,48 @@
             border-radius: 10px;
         }
 
-        /* Chat container */
-        .chat-container {
+        /* WhatsApp panel */
+        .whatsapp-panel {
             display: none;
             height: 200px;
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid #334155;
+            background: var(--card);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            text-align: center;
         }
-        .chat-container.active {
-            display: block;
+        .whatsapp-panel.active {
+            display: flex;
         }
-        .chat-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .whatsapp-panel .wa-icon {
+            font-size: 3rem;
+        }
+        .whatsapp-panel p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .whatsapp-panel .wa-btn {
+            background: var(--whatsapp);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+        .whatsapp-panel .wa-btn:active {
+            opacity: 0.8;
+            transform: scale(0.97);
         }
 
         .video-info {
@@ -143,14 +171,14 @@
         }
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* Botón mostrar chat */
+        /* Botón mostrar WhatsApp */
         .chat-toggle-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             padding: 8px;
-            background: var(--twitch);
+            background: var(--whatsapp);
             color: white;
             border: none;
             border-radius: 8px;
@@ -245,13 +273,11 @@
         .num-reservado { background: rgba(234,179,8,0.12); border-color: var(--amarillo); color: var(--amarillo); }
         .num-vendido { background: rgba(239,68,68,0.12); border-color: var(--rojo); color: var(--rojo); }
 
-        /* Números no disponibles: sin cursor pointer */
+        /* Números no disponibles: sin cursor pointer, sin click */
         .num-reservado, .num-vendido {
             cursor: default;
             opacity: 0.7;
-        }
-        .num-reservado:active, .num-vendido:active {
-            transform: none;
+            pointer-events: none;
         }
 
         /* MODAL */
@@ -327,7 +353,7 @@
         .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
         .empty-state p { margin-top: 8px; font-size: 0.9rem; }
 
-        /* ===== DESKTOP: video + chat al costado ===== */
+        /* ===== DESKTOP ===== */
         @media (min-width: 900px) {
             .video-sticky {
                 position: sticky;
@@ -344,8 +370,8 @@
                 grid-template-columns: 1fr 300px;
                 grid-template-rows: 1fr;
             }
-            .chat-container {
-                display: block !important;
+            .whatsapp-panel {
+                display: flex !important;
                 height: 100%;
                 min-height: 300px;
             }
@@ -361,10 +387,6 @@
             .stats { grid-template-columns: repeat(4, 1fr); }
             .actions { grid-template-columns: repeat(4, 1fr); }
             .numbers-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
-            .video-wrapper {
-                position: sticky;
-                top: 16px;
-            }
         }
 
         @media (min-width: 640px) and (max-width: 899px) {
@@ -382,8 +404,8 @@
             .video-chat-layout {
                 grid-template-columns: 1fr 250px;
             }
-            .chat-container {
-                display: block !important;
+            .whatsapp-panel {
+                display: flex !important;
                 height: 100%;
                 min-height: 250px;
             }
@@ -398,10 +420,6 @@
             }
             .stats { grid-template-columns: repeat(4, 1fr); }
             .actions { grid-template-columns: repeat(4, 1fr); }
-            .video-wrapper {
-                position: sticky;
-                top: 16px;
-            }
         }
     </style>
 </head>
@@ -410,7 +428,7 @@
 <!-- APP (sin login) -->
 <div id="appScreen">
 
-    <!-- VIDEO + CHAT STICKY ARRIBA -->
+    <!-- VIDEO + WHATSAPP STICKY ARRIBA -->
     <div class="video-sticky">
         <div class="video-wrapper">
             <div class="video-header">
@@ -428,25 +446,25 @@
                 <div class="video-container">
                     <iframe
                         id="videoFrame"
-                        src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=1&mute=1&rel=0"
+                        src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=0&rel=0"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div class="chat-container" id="chatContainer">
-                    <iframe
-                        id="chatFrame"
-                        src=""
-                        frameborder="0">
-                    </iframe>
+                <div class="whatsapp-panel" id="whatsappPanel">
+                    <div class="wa-icon">💬</div>
+                    <p>¿Tenés dudas o querés reservar?<br>Entrá al grupo de WhatsApp de la rifa</p>
+                    <a href="https://chat.whatsapp.com/TU_LINK_AQUI" class="wa-btn" target="_blank" rel="noopener">
+                        📱 Entrar al grupo
+                    </a>
                 </div>
             </div>
-            <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
-                💬 Mostrar Chat
+            <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleWhatsApp()">
+                💬 Grupo de WhatsApp
             </button>
             <div class="video-info" id="videoInfo">
-                🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión
+                🎵 Música en vivo - Cambiá a Twitch para ver transmisiones en vivo
             </div>
         </div>
     </div>
@@ -580,11 +598,12 @@ const PRECIO_NUMERO = 10000;
 const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
 const TWITCH_CHANNEL = 'lucaspowerchanel';
 const TWITCH_PARENT = 'sabor-inka.vercel.app';
+const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/TU_LINK_AQUI'; // <-- CAMBIÁ ESTO
 
 let numeros = [];
 let numeroSeleccionado = null;
 let videoActual = 'youtube';
-let chatVisible = false;
+let whatsappVisible = false;
 
 // ============================================
 // INICIALIZACIÓN
@@ -600,23 +619,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// TOGGLE CHAT
+// TOGGLE WHATSAPP
 // ============================================
-function toggleChat() {
-    const chat = document.getElementById('chatContainer');
+function toggleWhatsApp() {
+    const panel = document.getElementById('whatsappPanel');
     const btn = document.getElementById('chatToggleBtn');
-    chatVisible = !chatVisible;
+    whatsappVisible = !whatsappVisible;
 
-    if (chatVisible) {
-        chat.classList.add('active');
-        btn.innerHTML = '❌ Ocultar Chat';
-        const chatFrame = document.getElementById('chatFrame');
-        if (!chatFrame.src) {
-            chatFrame.src = `https://www.twitch.tv/embed/${TWITCH_CHANNEL}/chat?parent=${TWITCH_PARENT}`;
-        }
+    if (whatsappVisible) {
+        panel.classList.add('active');
+        btn.innerHTML = '❌ Ocultar WhatsApp';
     } else {
-        chat.classList.remove('active');
-        btn.innerHTML = '💬 Mostrar Chat';
+        panel.classList.remove('active');
+        btn.innerHTML = '💬 Grupo de WhatsApp';
     }
 }
 
@@ -629,29 +644,20 @@ function cambiarVideo(plataforma) {
     const btnTwitch = document.getElementById('btnTwitch');
     const title = document.getElementById('videoTitle');
     const info = document.getElementById('videoInfo');
-    const chatBtn = document.getElementById('chatToggleBtn');
 
     if (plataforma === 'youtube') {
-        frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&mute=1&rel=0`;
+        frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
         btnYoutube.classList.add('active');
         btnTwitch.classList.remove('active');
         title.innerHTML = '🎬 Música en Vivo';
-        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver el chat de tu transmisión';
-        document.getElementById('chatContainer').classList.remove('active');
-        chatVisible = false;
-        chatBtn.innerHTML = '💬 Chat no disponible en YouTube';
-        chatBtn.style.opacity = '0.5';
-        chatBtn.disabled = true;
+        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch para ver transmisiones en vivo';
         videoActual = 'youtube';
     } else {
         frame.src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
         btnTwitch.classList.add('active');
         btnYoutube.classList.remove('active');
         title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
-        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente. Usá el chat para hablar con los vecinos!';
-        chatBtn.innerHTML = '💬 Mostrar Chat';
-        chatBtn.style.opacity = '1';
-        chatBtn.disabled = false;
+        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente.';
         videoActual = 'twitch';
     }
 
@@ -697,7 +703,7 @@ function resetDatos() {
 }
 
 // ============================================
-// RENDER GRID
+// RENDER GRID - SOLO VERDES EDITABLES
 // ============================================
 function renderGrid() {
     const grid = document.getElementById('numbersGrid');
@@ -712,7 +718,7 @@ function renderGrid() {
         const card = document.createElement('div');
         card.className = `num-card num-${n.estado}`;
         
-        // Solo los disponibles abren modal
+        // SOLO los disponibles tienen onclick
         if (n.estado === 'disponible') {
             card.onclick = () => abrirModal(n);
         }
