@@ -15,6 +15,8 @@
             --gris: #374151;
             --fondo: #0f172a;
             --card: #1e293b;
+            --twitch: #9146ff;
+            --youtube: #ff0000;
         }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -63,11 +65,43 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        .video-wrapper h3 {
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .video-header h3 {
             font-size: 0.85rem;
             color: var(--verde);
-            margin-bottom: 8px;
-            text-align: center;
+        }
+        .video-toggle {
+            display: flex;
+            gap: 4px;
+            background: #0f172a;
+            padding: 3px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+        .toggle-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #94a3b8;
+            background: transparent;
+        }
+        .toggle-btn.active {
+            color: white;
+        }
+        .toggle-btn.youtube.active {
+            background: var(--youtube);
+        }
+        .toggle-btn.twitch.active {
+            background: var(--twitch);
         }
         .video-container {
             position: relative;
@@ -107,7 +141,7 @@
         }
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* CONTENIDO SCROLLEABLE - con padding para no tapar el video */
+        /* CONTENIDO SCROLLEABLE */
         .scrollable-content {
             padding-top: 0;
         }
@@ -263,7 +297,7 @@
         .empty-state { text-align: center; padding: 40px 20px; color: #64748b; }
         .empty-state p { margin-top: 8px; font-size: 0.9rem; }
 
-        /* ===== DESKTOP: video al costado, NO fijo arriba ===== */
+        /* ===== DESKTOP ===== */
         @media (min-width: 900px) {
             .video-fixed-mobile {
                 position: relative;
@@ -290,7 +324,6 @@
             }
         }
 
-        /* TABLET */
         @media (min-width: 640px) and (max-width: 899px) {
             .video-fixed-mobile {
                 position: relative;
@@ -333,23 +366,31 @@
 <!-- APP -->
 <div id="appScreen" style="display:none;">
 
-    <!-- VIDEO FIJO ARRIBA EN MÓVIL -->
+    <!-- VIDEO FIJO ARRIBA -->
     <div class="video-fixed-mobile">
         <div class="video-wrapper">
-            <h3>🎬 Transmisión en Vivo <span class="live-badge">LIVE</span></h3>
+            <div class="video-header">
+                <h3 id="videoTitle">🎬 Música en Vivo</h3>
+                <div class="video-toggle">
+                    <button class="toggle-btn youtube active" id="btnYoutube" onclick="cambiarVideo('youtube')">
+                        ▶️ YouTube
+                    </button>
+                    <button class="toggle-btn twitch" id="btnTwitch" onclick="cambiarVideo('twitch')">
+                        📺 Twitch
+                    </button>
+                </div>
+            </div>
             <div class="video-container">
                 <iframe
-                    id="twitchEmbed"
-                    src="https://player.twitch.tv/?channel=lucaspowerchanel&parent=sabor-inka.vercel.app&autoplay=false"
+                    id="videoFrame"
+                    src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=0&rel=0"
                     frameborder="0"
-                    allowfullscreen="true"
-                    scrolling="no"
-                    height="100%"
-                    width="100%">
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
                 </iframe>
             </div>
-            <div class="video-info">
-                📡 Cuando estés en vivo, aparece acá automáticamente
+            <div class="video-info" id="videoInfo">
+                🎵 Música en vivo - Cambiá a Twitch cuando hagas tu transmisión
             </div>
         </div>
     </div>
@@ -481,10 +522,12 @@
 // ============================================
 const CLAVE_ADMIN = 'solano2024';
 const PRECIO_NUMERO = 10000;
+const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
 const TWITCH_CHANNEL = 'lucaspowerchanel';
 
 let numeros = [];
 let numeroSeleccionado = null;
+let videoActual = 'youtube';
 
 // ============================================
 // INICIALIZACIÓN
@@ -500,6 +543,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// ============================================
+// CAMBIAR VIDEO (YOUTUBE / TWITCH)
+// ============================================
+function cambiarVideo(plataforma) {
+    const frame = document.getElementById('videoFrame');
+    const btnYoutube = document.getElementById('btnYoutube');
+    const btnTwitch = document.getElementById('btnTwitch');
+    const title = document.getElementById('videoTitle');
+    const info = document.getElementById('videoInfo');
+
+    if (plataforma === 'youtube') {
+        frame.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
+        btnYoutube.classList.add('active');
+        btnTwitch.classList.remove('active');
+        title.innerHTML = '🎬 Música en Vivo';
+        info.innerHTML = '🎵 Música en vivo - Cambiá a Twitch cuando hagas tu transmisión';
+        videoActual = 'youtube';
+    } else {
+        frame.src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
+        btnTwitch.classList.add('active');
+        btnYoutube.classList.remove('active');
+        title.innerHTML = '🎬 Transmisión en Vivo <span class="live-badge">LIVE</span>';
+        info.innerHTML = '📡 Cuando estés en vivo, aparece acá automáticamente';
+        videoActual = 'twitch';
+    }
+
+    toast(`✅ Cambiado a ${plataforma === 'youtube' ? 'YouTube' : 'Twitch'}`);
+}
 
 // ============================================
 // LOGIN
