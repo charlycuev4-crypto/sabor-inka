@@ -536,6 +536,7 @@
                 <button class="btn btn-primary" onclick="generarImagenWA()">📱 Imagen WA</button>
                 <button class="btn btn-warning" onclick="irSorteo()">🎲 Sortear</button>
                 <button class="btn btn-dark" onclick="resetDatos()">🗑️ Reset</button>
+                <button class="btn btn-danger" onclick="abrirModalVideo()" style="grid-column: span 2; background: var(--youtube);">📺 Cambiar Video</button>
             </div>
 
             <div class="grid-container">
@@ -681,12 +682,19 @@ let panelVisible = false;
 let esAdmin = false;
 
 document.addEventListener('DOMContentLoaded', function() {
+    cargarVideosGuardados();
     cargarDatos();
     document.getElementById('adminClaveInput').addEventListener('keypress', function(e) {
         if(e.key === 'Enter') verificarAdmin();
     });
     document.getElementById('vecinoNombre').addEventListener('keypress', function(e) {
         if(e.key === 'Enter') reservarNumero();
+    });
+    document.getElementById('inputYoutube').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') guardarVideo();
+    });
+    document.getElementById('inputTwitch').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') guardarVideo();
     });
     document.querySelectorAll('.modal-overlay, .modal-admin-overlay').forEach(overlay => {
         overlay.addEventListener('click', function(e) {
@@ -908,6 +916,59 @@ function guardarAdmin() {
     updateStats();
     cerrarModalAdmin();
     toast('✅ Guardado');
+}
+
+// ============================================
+// CAMBIAR VIDEO
+// ============================================
+function abrirModalVideo() {
+    document.getElementById('inputYoutube').value = YOUTUBE_VIDEO_ID;
+    document.getElementById('inputTwitch').value = TWITCH_CHANNEL;
+    document.getElementById('modalVideo').classList.add('active');
+    setTimeout(() => document.getElementById('inputYoutube').focus(), 100);
+}
+
+function cerrarModalVideo() {
+    document.getElementById('modalVideo').classList.remove('active');
+}
+
+function extraerYoutubeID(url) {
+    if (url.length === 11 && !url.includes('/') && !url.includes('.')) {
+        return url;
+    }
+    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : url;
+}
+
+function guardarVideo() {
+    const yt = document.getElementById('inputYoutube').value.trim();
+    const tw = document.getElementById('inputTwitch').value.trim();
+
+    if (yt) {
+        YOUTUBE_VIDEO_ID = extraerYoutubeID(yt);
+        localStorage.setItem('rifa_solano_youtube', YOUTUBE_VIDEO_ID);
+    }
+    if (tw) {
+        TWITCH_CHANNEL = tw;
+        localStorage.setItem('rifa_solano_twitch', TWITCH_CHANNEL);
+    }
+
+    if (videoActual === 'youtube') {
+        document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=0&rel=0`;
+    } else {
+        document.getElementById('videoFrame').src = `https://player.twitch.tv/?channel=${TWITCH_CHANNEL}&parent=${window.location.hostname}&autoplay=false`;
+    }
+
+    cerrarModalVideo();
+    toast(yt || tw ? '✅ Video actualizado' : 'ℹ️ No se cambió nada');
+}
+
+function cargarVideosGuardados() {
+    const ytGuardado = localStorage.getItem('rifa_solano_youtube');
+    const twGuardado = localStorage.getItem('rifa_solano_twitch');
+    if (ytGuardado) YOUTUBE_VIDEO_ID = ytGuardado;
+    if (twGuardado) TWITCH_CHANNEL = twGuardado;
 }
 
 function agregarRango() {
