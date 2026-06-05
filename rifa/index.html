@@ -462,7 +462,7 @@
                 <div class="video-container">
                     <iframe
                         id="videoFrame"
-                        src="https://www.youtube.com/embed/vGNglKWqwcQ?autoplay=0&rel=0"
+                        src="https://www.youtube.com/embed/8sMSZZmI0c4?autoplay=0&rel=0"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -668,11 +668,27 @@
     </div>
 </div>
 
+<!-- ✅ MODAL PARA CAMBIAR VIDEO (AGREGADO) -->
+<div class="modal-overlay" id="modalVideo">
+    <div class="modal">
+        <h3>📺 Cambiar Video</h3>
+        <label>ID de YouTube (o URL completa)</label>
+        <input type="text" id="inputYoutube" placeholder="Ej: 8sMSZZmI0c4 o https://youtu.be/..." autocomplete="off">
+        <label>Canal de Twitch</label>
+        <input type="text" id="inputTwitch" placeholder="Ej: lucaspowerchanel" autocomplete="off">
+        <div class="modal-actions">
+            <button class="btn btn-success" onclick="guardarVideo()">💾 Guardar</button>
+            <button class="btn btn-dark" onclick="cerrarModalVideo()">❌ Cancelar</button>
+        </div>
+    </div>
+</div>
+
 <script>
 const CLAVE_ADMIN = 'solano2024';
 const PRECIO_NUMERO = 10000;
-const YOUTUBE_VIDEO_ID = 'vGNglKWqwcQ';
-const TWITCH_CHANNEL = 'lucaspowerchanel';
+// ✅ CAMBIADO A let PARA PODER MODIFICAR
+let YOUTUBE_VIDEO_ID = '8sMSZZmI0c4';
+let TWITCH_CHANNEL = 'lucaspowerchanel';
 const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/I71TyME1nTjGPhF28w0SZX';
 
 let numeros = [];
@@ -797,6 +813,8 @@ function resetDatos() {
     if (confirm('¿Borrar todos los datos?')) {
         localStorage.removeItem('rifa_solano_numeros');
         localStorage.removeItem('rifa_solano_ultimo_sorteo');
+        localStorage.removeItem('rifa_solano_youtube');
+        localStorage.removeItem('rifa_solano_twitch');
         esAdmin = false;
         document.getElementById('actionsVecino').style.display = 'grid';
         document.getElementById('actionsAdmin').classList.remove('active');
