@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏘️ Calle Solano - Barrio Las Catalinas</title>
+    <title>🏘️ Calle Solano TV - Las Catalinas</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root {
             --verde: #22c55e;
-            --amarillo: #eab308;
             --rojo: #ef4444;
             --azul: #3b82f6;
             --morado: #8b5cf6;
@@ -24,7 +23,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Login Screen */
+        /* Login */
         .login-screen {
             display: flex;
             flex-direction: column;
@@ -34,20 +33,9 @@
             padding: 20px;
             gap: 20px;
         }
-        .login-logo {
-            font-size: 4rem;
-            margin-bottom: 10px;
-        }
-        .login-title {
-            font-size: 1.8rem;
-            color: var(--verde);
-            text-align: center;
-        }
-        .login-subtitle {
-            color: #94a3b8;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        .login-logo { font-size: 4rem; margin-bottom: 10px; }
+        .login-title { font-size: 1.8rem; color: var(--verde); text-align: center; }
+        .login-subtitle { color: #94a3b8; text-align: center; margin-bottom: 20px; }
         .login-form {
             width: 100%;
             max-width: 320px;
@@ -55,10 +43,7 @@
             flex-direction: column;
             gap: 15px;
         }
-        .login-form label {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
+        .login-form label { color: #94a3b8; font-size: 0.9rem; }
         .login-form input {
             width: 100%;
             padding: 14px;
@@ -69,9 +54,7 @@
             font-size: 1rem;
             outline: none;
         }
-        .login-form input:focus {
-            border-color: var(--verde);
-        }
+        .login-form input:focus { border-color: var(--verde); }
         .btn-login {
             background: var(--verde);
             color: white;
@@ -81,20 +64,12 @@
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
         }
-        .btn-login:active {
-            transform: scale(0.97);
-        }
+        .btn-login:active { transform: scale(0.97); }
 
-        /* App Screen */
-        .app-screen {
-            display: none;
-            min-height: 100vh;
-        }
-        .app-screen.active {
-            display: block;
-        }
+        /* App */
+        .app-screen { display: none; min-height: 100vh; }
+        .app-screen.active { display: block; }
 
         /* Header */
         .app-header {
@@ -112,14 +87,8 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        .app-title {
-            font-size: 1.2rem;
-            color: var(--verde);
-        }
-        .user-info {
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
+        .app-title { font-size: 1.2rem; color: var(--verde); }
+        .user-info { font-size: 0.8rem; color: #94a3b8; }
 
         /* Tabs */
         .tabs {
@@ -150,9 +119,6 @@
             color: white;
             border-color: var(--verde);
         }
-        .tab:active {
-            transform: scale(0.95);
-        }
 
         /* Content */
         .content {
@@ -161,8 +127,49 @@
             padding: 16px;
             display: none;
         }
-        .content.active {
-            display: block;
+        .content.active { display: block; }
+
+        /* TV Section */
+        .tv-section {
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            margin-bottom: 16px;
+        }
+        .tv-header {
+            padding: 12px 16px;
+            background: rgba(34,197,94,0.1);
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tv-header h3 { color: var(--verde); font-size: 1rem; }
+        .tv-badge {
+            background: var(--rojo);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* Chat */
@@ -201,16 +208,8 @@
             color: #e2e8f0;
             border-bottom-left-radius: 4px;
         }
-        .chat-message .author {
-            font-size: 0.75rem;
-            opacity: 0.8;
-            margin-bottom: 4px;
-        }
-        .chat-message .time {
-            font-size: 0.65rem;
-            opacity: 0.6;
-            margin-top: 4px;
-        }
+        .chat-message .author { font-size: 0.75rem; opacity: 0.8; margin-bottom: 4px; }
+        .chat-message .time { font-size: 0.65rem; opacity: 0.6; margin-top: 4px; }
         .chat-input-area {
             display: flex;
             gap: 8px;
@@ -228,9 +227,6 @@
             font-size: 1rem;
             outline: none;
         }
-        .chat-input:focus {
-            border-color: var(--verde);
-        }
         .btn-send {
             background: var(--verde);
             color: white;
@@ -244,15 +240,9 @@
             align-items: center;
             justify-content: center;
         }
-        .btn-send:active {
-            transform: scale(0.95);
-        }
 
         /* Anuncios */
-        .anuncios-grid {
-            display: grid;
-            gap: 12px;
-        }
+        .anuncios-grid { display: grid; gap: 12px; }
         .anuncio-card {
             background: var(--card);
             border-radius: 16px;
@@ -276,21 +266,12 @@
         .cat-vendo { background: rgba(34,197,94,0.2); color: var(--verde); }
         .cat-compro { background: rgba(59,130,246,0.2); color: var(--azul); }
         .cat-servicios { background: rgba(139,92,246,0.2); color: var(--morado); }
-        .cat-eventos { background: rgba(234,179,8,0.2); color: var(--amarillo); }
+        .cat-eventos { background: rgba(234,179,8,0.2); color: #eab308; }
         .cat-avisos { background: rgba(100,116,139,0.2); color: #94a3b8; }
         .cat-emergencia { background: rgba(239,68,68,0.2); color: var(--rojo); }
 
-        .anuncio-titulo {
-            font-size: 1.1rem;
-            color: white;
-            margin-bottom: 6px;
-        }
-        .anuncio-desc {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
+        .anuncio-titulo { font-size: 1.1rem; color: white; margin-bottom: 6px; }
+        .anuncio-desc { color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px; }
         .anuncio-footer {
             display: flex;
             justify-content: space-between;
@@ -307,6 +288,8 @@
             font-weight: 600;
             font-size: 0.85rem;
         }
+
+        /* Buttons */
         .btn-nuevo {
             position: fixed;
             bottom: 20px;
@@ -325,9 +308,6 @@
             align-items: center;
             justify-content: center;
         }
-        .btn-nuevo:active {
-            transform: scale(0.95);
-        }
 
         /* Modal */
         .modal-overlay {
@@ -340,9 +320,7 @@
             z-index: 200;
             padding: 20px;
         }
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
         .modal {
             background: var(--card);
             border-radius: 20px;
@@ -353,17 +331,8 @@
             overflow-y: auto;
             border: 1px solid #334155;
         }
-        .modal h3 {
-            color: var(--verde);
-            margin-bottom: 16px;
-            font-size: 1.2rem;
-        }
-        .modal label {
-            display: block;
-            margin-bottom: 6px;
-            color: #94a3b8;
-            font-size: 0.85rem;
-        }
+        .modal h3 { color: var(--verde); margin-bottom: 16px; font-size: 1.2rem; }
+        .modal label { display: block; margin-bottom: 6px; color: #94a3b8; font-size: 0.85rem; }
         .modal input, .modal textarea, .modal select {
             width: 100%;
             padding: 14px;
@@ -375,13 +344,7 @@
             font-size: 1rem;
             outline: none;
         }
-        .modal input:focus, .modal textarea:focus, .modal select:focus {
-            border-color: var(--verde);
-        }
-        .modal textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+        .modal textarea { min-height: 100px; resize: vertical; }
         .modal-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -398,25 +361,7 @@
         }
         .btn-success { background: var(--verde); color: white; }
         .btn-dark { background: #334155; color: white; }
-
-        /* Fotos */
-        .fotos-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        .foto-card {
-            aspect-ratio: 1;
-            border-radius: 12px;
-            overflow: hidden;
-            background: var(--card);
-            border: 1px solid #334155;
-        }
-        .foto-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .btn-danger { background: var(--rojo); color: white; }
 
         /* Admin hint */
         .admin-hint {
@@ -451,12 +396,9 @@
             animation: slideUp 0.3s ease;
             white-space: nowrap;
         }
-        @keyframes slideUp {
-            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
-        }
+        @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
 
         @media (min-width: 768px) {
-            .fotos-grid { grid-template-columns: repeat(3, 1fr); }
             .chat-message { max-width: 60%; }
         }
     </style>
@@ -466,16 +408,13 @@
 <!-- LOGIN SCREEN -->
 <div class="login-screen" id="loginScreen">
     <div class="login-logo">🏘️</div>
-    <h1 class="login-title">Calle Solano</h1>
+    <h1 class="login-title">Calle Solano TV</h1>
     <p class="login-subtitle">Barrio Las Catalinas<br>Conectá con tus vecinos</p>
-    
     <div class="login-form">
         <label>👤 ¿Cómo te llamás?</label>
         <input type="text" id="loginNombre" placeholder="Ej: Juan Pérez" autocomplete="off">
-        
         <label>🏠 ¿En qué número vivís?</label>
         <input type="text" id="loginDireccion" placeholder="Ej: 1234" autocomplete="off">
-        
         <button class="btn-login" onclick="entrar()">🚀 Entrar al barrio</button>
     </div>
 </div>
@@ -484,20 +423,56 @@
 <div class="app-screen" id="appScreen">
     <div class="app-header">
         <div class="app-header-content">
-            <div class="app-title">🏘️ Calle Solano</div>
+            <div class="app-title">🏘️ Calle Solano TV</div>
             <div class="user-info" id="userInfo"></div>
         </div>
     </div>
 
     <div class="tabs">
-        <button class="tab active" onclick="showTab('chat')">💬 Chat</button>
+        <button class="tab active" onclick="showTab('tv')">📺 TV</button>
+        <button class="tab" onclick="showTab('chat')">💬 Chat</button>
         <button class="tab" onclick="showTab('anuncios')">📋 Anuncios</button>
-        <button class="tab" onclick="showTab('fotos')">📷 Fotos</button>
         <button class="tab" onclick="showTab('seguridad')">🛡️ Seguridad</button>
     </div>
 
+    <!-- TV SECTION -->
+    <div class="content active" id="tab-tv">
+        <!-- YouTube Playlist - Las Catalinas -->
+        <div class="tv-section">
+            <div class="tv-header">
+                <h3>📡 Las Catalinas en Vivo</h3>
+                <span class="tv-badge">LIVE</span>
+            </div>
+            <div class="video-container">
+                <iframe
+                    id="youtubeFrame"
+                    src="https://www.youtube.com/embed?listType=playlist&list=PLXXXXXXXXXXXXXXXXXXXXX&autoplay=1&loop=1&mute=1"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Pluto TV -->
+        <div class="tv-section">
+            <div class="tv-header" style="background: rgba(139,92,246,0.1);">
+                <h3 style="color: var(--morado);">🎬 Pluto TV - Películas y Series</h3>
+            </div>
+            <div class="video-container">
+                <iframe
+                    id="plutoFrame"
+                    src="https://pluto.tv/latam/live-tv/pluto-tv-cine"
+                    frameborder="0"
+                    allow="autoplay; fullscreen"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
     <!-- CHAT -->
-    <div class="content active" id="tab-chat">
+    <div class="content" id="tab-chat">
         <div class="chat-container">
             <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-area">
@@ -510,13 +485,7 @@
     <!-- ANUNCIOS -->
     <div class="content" id="tab-anuncios">
         <div class="anuncios-grid" id="anunciosGrid"></div>
-        <button class="btn-nuevo" onclick="abrirModalAnuncio()">➕</button>
-    </div>
-
-    <!-- FOTOS -->
-    <div class="content" id="tab-fotos">
-        <div class="fotos-grid" id="fotosGrid"></div>
-        <button class="btn-nuevo" onclick="abrirModalFoto()">📷</button>
+        <button class="btn-nuevo" onclick="abrirModal('modalAnuncio')">➕</button>
     </div>
 
     <!-- SEGURIDAD -->
@@ -526,6 +495,9 @@
             <h2 style="color:var(--verde); margin-bottom:10px;">Centro de Seguridad</h2>
             <p>Próximamente: Cámaras de vigilancia 24/7</p>
             <p style="margin-top:20px; font-size:0.85rem;">Mientras tanto, usá el chat para alertar a los vecinos</p>
+            <button class="btn btn-danger" onclick="alertaEmergencia()" style="margin-top:20px; width:100%; max-width:300px;">
+                🚨 ALERTA DE EMERGENCIA
+            </button>
         </div>
     </div>
 </div>
@@ -536,7 +508,6 @@
         <h3>📋 Nuevo Anuncio</h3>
         <label>Título</label>
         <input type="text" id="anuncioTitulo" placeholder="Ej: Vendo bicicleta">
-        
         <label>Categoría</label>
         <select id="anuncioCategoria">
             <option value="vendo">🏷️ Vendo</option>
@@ -546,13 +517,10 @@
             <option value="avisos">📢 Avisos</option>
             <option value="emergencia">🚨 Emergencia</option>
         </select>
-        
         <label>Descripción</label>
         <textarea id="anuncioDesc" placeholder="Describí tu anuncio..."></textarea>
-        
         <label>Teléfono (opcional)</label>
         <input type="tel" id="anuncioTelefono" placeholder="11 1234-5678">
-        
         <div class="modal-actions">
             <button class="btn btn-success" onclick="publicarAnuncio()">📢 Publicar</button>
             <button class="btn btn-dark" onclick="cerrarModal('modalAnuncio')">❌ Cancelar</button>
@@ -560,28 +528,10 @@
     </div>
 </div>
 
-<!-- MODAL NUEVA FOTO -->
-<div class="modal-overlay" id="modalFoto">
-    <div class="modal">
-        <h3>📷 Subir Foto</h3>
-        <label>Link de la foto (URL)</label>
-        <input type="url" id="fotoUrl" placeholder="https://...">
-        <p style="color:#64748b; font-size:0.8rem; margin-bottom:14px;">💡 Subí la foto a Imgur o similar y pegá el link</p>
-        
-        <label>Descripción</label>
-        <input type="text" id="fotoDesc" placeholder="Ej: Fiesta del barrio 2026">
-        
-        <div class="modal-actions">
-            <button class="btn btn-success" onclick="subirFoto()">📷 Subir</button>
-            <button class="btn btn-dark" onclick="cerrarModal('modalFoto')">❌ Cancelar</button>
-        </div>
-    </div>
-</div>
-
-<!-- ADMIN LOGIN -->
+<!-- MODAL ADMIN -->
 <div class="modal-overlay" id="modalAdmin">
     <div class="modal">
-        <h3>🔐 Panel Admin</h3>
+        <h3>🔐 Panel de Administrador</h3>
         <label>Clave de administrador</label>
         <input type="password" id="adminClave" placeholder="••••••••">
         <div class="modal-actions">
@@ -591,18 +541,46 @@
     </div>
 </div>
 
+<!-- MODAL CONFIGURACIÓN (solo admin) -->
+<div class="modal-overlay" id="modalConfig">
+    <div class="modal">
+        <h3>⚙️ Configuración</h3>
+        <label>ID de Playlist de YouTube</label>
+        <input type="text" id="configPlaylist" placeholder="PLXXXXXXXXXXXXXXXXXXXXX">
+        <label>Canal de Pluto TV (opcional)</label>
+        <input type="text" id="configPluto" placeholder="pluto-tv-cine">
+        <div class="modal-actions">
+            <button class="btn btn-success" onclick="guardarConfig()">💾 Guardar</button>
+            <button class="btn btn-dark" onclick="cerrarModal('modalConfig')">❌ Cancelar</button>
+        </div>
+    </div>
+</div>
+
 <button class="admin-hint" onclick="abrirModal('modalAdmin')">⚙️</button>
 
 <script>
+// ============================================
+// CONFIGURACIÓN - CAMBIAR ESTO
+// ============================================
 const CLAVE_ADMIN = 'solano2024';
 const DATOS_URL = 'datos.json';
-const WHATSAPP_GROUP = 'https://chat.whatsapp.com/I71TyME1nTjGPhF28w0SZX';
 
+// ✅ REEMPLAZÁ ESTO CON TU PLAYLIST ID
+let YOUTUBE_PLAYLIST_ID = 'PLXXXXXXXXXXXXXXXXXXXXX';
+let PLUTO_CANAL = 'pluto-tv-cine';
+
+// ============================================
+// VARIABLES GLOBALES
+// ============================================
 let usuario = null;
 let datos = { chat: [], anuncios: [] };
 let esAdmin = false;
 
+// ============================================
+// INICIALIZACIÓN
+// ============================================
 document.addEventListener('DOMContentLoaded', function() {
+    cargarConfigGuardada();
     const guardado = localStorage.getItem('calle_solano_user');
     if (guardado) {
         usuario = JSON.parse(guardado);
@@ -623,18 +601,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// ============================================
+// LOGIN
+// ============================================
 function entrar() {
     const nombre = document.getElementById('loginNombre').value.trim();
     const direccion = document.getElementById('loginDireccion').value.trim();
     
-    if (!nombre) {
-        toast('❌ Ingresá tu nombre');
-        return;
-    }
-    if (!direccion) {
-        toast('❌ Ingresá tu dirección');
-        return;
-    }
+    if (!nombre) { toast('❌ Ingresá tu nombre'); return; }
+    if (!direccion) { toast('❌ Ingresá tu dirección'); return; }
     
     usuario = { nombre, direccion };
     localStorage.setItem('calle_solano_user', JSON.stringify(usuario));
@@ -646,33 +621,59 @@ function mostrarApp() {
     document.getElementById('appScreen').classList.add('active');
     document.getElementById('userInfo').textContent = `${usuario.nombre} (${usuario.direccion})`;
     cargarDatos();
+    actualizarVideos();
 }
 
+// ============================================
+// NAVEGACIÓN
+// ============================================
 function showTab(tabName) {
     document.querySelectorAll('.content, .tab').forEach(el => el.classList.remove('active'));
     document.getElementById('tab-' + tabName).classList.add('active');
     event.target.classList.add('active');
 }
 
+// ============================================
+// VIDEOS
+// ============================================
+function actualizarVideos() {
+    const ytFrame = document.getElementById('youtubeFrame');
+    const plutoFrame = document.getElementById('plutoFrame');
+    
+    if (ytFrame) {
+        ytFrame.src = `https://www.youtube.com/embed?listType=playlist&list=${YOUTUBE_PLAYLIST_ID}&autoplay=1&loop=1&mute=1`;
+    }
+    if (plutoFrame) {
+        plutoFrame.src = `https://pluto.tv/latam/live-tv/${PLUTO_CANAL}`;
+    }
+}
+
+// ============================================
+// DATOS (JSON)
+// ============================================
 async function cargarDatos() {
     try {
         const response = await fetch(DATOS_URL + '?t=' + Date.now());
         datos = await response.json();
         renderChat();
         renderAnuncios();
-        renderFotos();
     } catch (e) {
         console.error('Error cargando datos:', e);
-        toast('⚠️ Error al cargar datos');
+        // Usar datos locales si no hay internet
+        datos = { chat: [], anuncios: [] };
     }
 }
 
+// ============================================
+// CHAT
+// ============================================
 function renderChat() {
     const container = document.getElementById('chatMessages');
+    if (!container) return;
     container.innerHTML = '';
     
     datos.chat.forEach(msg => {
-        const isMine = msg.autor === usuario.nombre && msg.direccion === usuario.direccion;
+        const isMine = msg.autor === usuario?.nombre && msg.direccion === usuario?.direccion;
         const div = document.createElement('div');
         div.className = `chat-message ${isMine ? 'mine' : 'other'}`;
         
@@ -694,17 +695,13 @@ function enviarMensaje() {
     const texto = input.value.trim();
     
     if (!texto) return;
-    if (!usuario) {
-        toast('❌ Tenés que iniciar sesión');
-        return;
-    }
+    if (!usuario) { toast('❌ Tenés que iniciar sesión'); return; }
     
     const nuevoMensaje = {
         id: Date.now(),
         autor: usuario.nombre,
         direccion: usuario.direccion,
         texto: texto,
-        foto: null,
         timestamp: new Date().toISOString()
     };
     
@@ -712,13 +709,15 @@ function enviarMensaje() {
     input.value = '';
     renderChat();
     guardarDatos();
-    
-    // Simular que se guarda (en realidad hay que editar el JSON en GitHub)
-    toast('💬 Mensaje enviado (se verá al recargar)');
+    toast('💬 Mensaje enviado');
 }
 
+// ============================================
+// ANUNCIOS
+// ============================================
 function renderAnuncios() {
     const container = document.getElementById('anunciosGrid');
+    if (!container) return;
     container.innerHTML = '';
     
     const ahora = new Date();
@@ -754,18 +753,6 @@ function renderAnuncios() {
     });
 }
 
-function abrirModalAnuncio() {
-    if (!usuario) {
-        toast('❌ Tenés que iniciar sesión');
-        return;
-    }
-    document.getElementById('anuncioTitulo').value = '';
-    document.getElementById('anuncioCategoria').value = 'vendo';
-    document.getElementById('anuncioDesc').value = '';
-    document.getElementById('anuncioTelefono').value = '';
-    abrirModal('modalAnuncio');
-}
-
 function publicarAnuncio() {
     const titulo = document.getElementById('anuncioTitulo').value.trim();
     const categoria = document.getElementById('anuncioCategoria').value;
@@ -797,74 +784,77 @@ function publicarAnuncio() {
     toast('📢 Anuncio publicado');
 }
 
-function renderFotos() {
-    const container = document.getElementById('fotosGrid');
-    container.innerHTML = '';
+// ============================================
+// SEGURIDAD
+// ============================================
+function alertaEmergencia() {
+    if (!usuario) { toast('❌ Tenés que iniciar sesión'); return; }
     
-    // Fotos de anuncios y chat
-    const fotos = [];
-    datos.anuncios.forEach(ad => {
-        if (ad.fotos && ad.fotos.length > 0) {
-            ad.fotos.forEach(foto => {
-                fotos.push({ url: foto, desc: ad.titulo });
-            });
-        }
-    });
+    const confirmar = confirm('🚨 ¿Enviar ALERTA DE EMERGENCIA a todos los vecinos?');
+    if (!confirmar) return;
     
-    if (fotos.length === 0) {
-        container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#64748b;">No hay fotos aún</div>';
-        return;
-    }
-    
-    fotos.forEach(f => {
-        const div = document.createElement('div');
-        div.className = 'foto-card';
-        div.innerHTML = `<img src="${f.url}" alt="${escapeHtml(f.desc)}" onerror="this.style.display='none'">`;
-        container.appendChild(div);
-    });
-}
-
-function abrirModalFoto() {
-    if (!usuario) {
-        toast('❌ Tenés que iniciar sesión');
-        return;
-    }
-    document.getElementById('fotoUrl').value = '';
-    document.getElementById('fotoDesc').value = '';
-    abrirModal('modalFoto');
-}
-
-function subirFoto() {
-    const url = document.getElementById('fotoUrl').value.trim();
-    const desc = document.getElementById('fotoDesc').value.trim();
-    
-    if (!url) {
-        toast('❌ Pegá el link de la foto');
-        return;
-    }
-    
-    // Agregar como anuncio con foto
-    const nuevoAnuncio = {
+    const alerta = {
         id: Date.now(),
-        titulo: desc || 'Foto del barrio',
-        categoria: 'avisos',
-        descripcion: desc || 'Foto compartida por un vecino',
-        fotos: [url],
-        telefono: '',
         autor: usuario.nombre,
         direccion: usuario.direccion,
-        timestamp: new Date().toISOString(),
-        expira: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+        texto: '🚨 ALERTA DE EMERGENCIA - Necesito ayuda urgente en mi casa',
+        timestamp: new Date().toISOString()
     };
     
-    datos.anuncios.push(nuevoAnuncio);
-    renderFotos();
-    renderAnuncios();
-    cerrarModal('modalFoto');
+    datos.chat.push(alerta);
+    renderChat();
     guardarDatos();
-    toast('📷 Foto subida');
+    toast('🚨 Alerta enviada a todos los vecinos');
+    showTab('chat');
+    document.querySelector('.tab').classList.add('active');
 }
 
+// ============================================
+// ADMIN
+// ============================================
+function verificarAdmin() {
+    const clave = document.getElementById('adminClave').value.trim();
+    if (clave === CLAVE_ADMIN) {
+        esAdmin = true;
+        cerrarModal('modalAdmin');
+        abrirModal('modalConfig');
+        document.getElementById('configPlaylist').value = YOUTUBE_PLAYLIST_ID;
+        document.getElementById('configPluto').value = PLUTO_CANAL;
+        toast('🔓 Modo admin activado');
+    } else {
+        toast('❌ Clave incorrecta');
+    }
+}
+
+function guardarConfig() {
+    const playlist = document.getElementById('configPlaylist').value.trim();
+    const pluto = document.getElementById('configPluto').value.trim();
+    
+    if (playlist) {
+        YOUTUBE_PLAYLIST_ID = playlist;
+        localStorage.setItem('calle_solano_playlist', playlist);
+    }
+    if (pluto) {
+        PLUTO_CANAL = pluto;
+        localStorage.setItem('calle_solano_pluto', pluto);
+    }
+    
+    actualizarVideos();
+    cerrarModal('modalConfig');
+    toast('✅ Configuración guardada');
+}
+
+function cargarConfigGuardada() {
+    const playlistGuardada = localStorage.getItem('calle_solano_playlist');
+    const plutoGuardado = localStorage.getItem('calle_solano_pluto');
+    
+    if (playlistGuardada) YOUTUBE_PLAYLIST_ID = playlistGuardada;
+    if (plutoGuardado) PLUTO_CANAL = plutoGuardado;
+}
+
+// ============================================
+// MODALES
+// ============================================
 function abrirModal(id) {
     document.getElementById(id).classList.add('active');
 }
@@ -873,20 +863,12 @@ function cerrarModal(id) {
     document.getElementById(id).classList.remove('active');
 }
 
-function verificarAdmin() {
-    const clave = document.getElementById('adminClave').value.trim();
-    if (clave === CLAVE_ADMIN) {
-        esAdmin = true;
-        cerrarModal('modalAdmin');
-        toast('🔓 Modo admin activado');
-    } else {
-        toast('❌ Clave incorrecta');
-    }
-}
-
+// ============================================
+// UTILIDADES
+// ============================================
 function guardarDatos() {
     // En un entorno real, esto guardaría en el servidor
-    // Por ahora, los datos se mantienen en memoria hasta recargar
+    // Por ahora, los datos se mantienen en memoria
     console.log('Datos actualizados:', datos);
 }
 
