@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏘️ Calle Solano TV - Las Catalinas</title>
+    <title>🏘️ Barrio Las Catalinas - TV</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root {
@@ -131,8 +131,8 @@
         }
         .content.active { display: block; }
 
-        /* TV Section */
-        .tv-fullscreen {
+        /* YOUTUBE PANTALLA COMPLETA */
+        .youtube-fullscreen-section {
             position: fixed;
             top: 0;
             left: 0;
@@ -142,14 +142,16 @@
             z-index: 1000;
             display: none;
         }
-        .tv-fullscreen.active { display: block; }
-        .tv-fullscreen iframe {
+        .youtube-fullscreen-section.active {
+            display: block;
+        }
+        .youtube-fullscreen-section iframe {
             width: 100%;
             height: 100%;
             border: none;
-            pointer-events: none;
+            object-fit: cover;
         }
-        .tv-exit-btn {
+        .youtube-exit-btn {
             position: fixed;
             top: 20px;
             right: 20px;
@@ -161,37 +163,33 @@
             border-radius: 12px;
             font-size: 0.9rem;
             cursor: pointer;
-            display: none;
         }
-        .tv-fullscreen.active ~ .tv-exit-btn { display: block; }
 
+        /* Video container normal - MAS GRANDE */
         .video-container {
             position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
+            width: 100%;
+            height: 70vh;
+            min-height: 400px;
             background: #000;
             border-radius: 12px;
+            overflow: hidden;
         }
         .video-container iframe {
-            position: absolute;
-            top: 0; left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
-        .video-blocked::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 10;
-            cursor: default;
+        /* Para videos verticales */
+        .video-vertical {
+            height: 80vh;
+            min-height: 500px;
+        }
+        .video-vertical iframe {
+            object-fit: cover;
         }
 
-        /* Pluto TV */
+        /* PLUTO TV */
         .pluto-section {
             background: var(--card);
             border-radius: 16px;
@@ -215,6 +213,36 @@
             border-radius: 4px;
             font-size: 0.65rem;
             font-weight: bold;
+        }
+
+        /* BOTONES DE CANAL PLUTO TV */
+        .canales-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 12px;
+        }
+        .btn-canal {
+            background: var(--card);
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 12px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .btn-canal:hover, .btn-canal:active {
+            background: var(--morado);
+            color: white;
+            border-color: var(--morado);
+        }
+        .btn-canal.active {
+            background: var(--morado);
+            color: white;
+            border-color: var(--morado);
         }
 
         /* Proximamente */
@@ -298,20 +326,18 @@
         }
         .video-card .video-container {
             position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
+            width: 100%;
+            height: 60vh;
+            min-height: 350px;
             background: #000;
         }
         .video-card .video-container iframe {
-            position: absolute;
-            top: 0; left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        /* Seguridad - BOTON PANICO */
+        /* Seguridad */
         .seguridad-container {
             text-align: center;
             padding: 20px;
@@ -344,7 +370,6 @@
             50% { transform: scale(1.08); box-shadow: 0 6px 35px rgba(239,68,68,0.7); }
         }
         .boton-panico:active { transform: scale(0.95); }
-
         .boton-panico-sub {
             font-size: 0.75rem;
             opacity: 0.9;
@@ -353,22 +378,6 @@
             font-weight: normal;
             letter-spacing: 0;
             text-transform: none;
-        }
-
-        .whatsapp-group-btn {
-            background: var(--whatsapp);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            max-width: 350px;
-            margin: 12px auto;
-            display: block;
-            text-decoration: none;
         }
 
         .info-card {
@@ -400,6 +409,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .fullscreen-btn {
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: 8px;
         }
 
         /* Modal */
@@ -491,18 +511,6 @@
         }
         @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
 
-        .fullscreen-btn {
-            background: rgba(0,0,0,0.6);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            margin-left: 8px;
-        }
-
-        /* Panico modal */
         .panico-modal p {
             color: #94a3b8;
             margin-bottom: 16px;
@@ -515,6 +523,7 @@
 
         @media (min-width: 768px) {
             .cam-preview { grid-template-columns: repeat(4, 1fr); }
+            .canales-grid { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
@@ -523,8 +532,8 @@
 <!-- LOGIN SCREEN -->
 <div class="login-screen" id="loginScreen">
     <div class="login-logo">🏘️</div>
-    <h1 class="login-title">Calle Solano TV</h1>
-    <p class="login-subtitle">Barrio Las Catalinas<br>Conectá con tus vecinos</p>
+    <h1 class="login-title">Barrio Las Catalinas</h1>
+    <p class="login-subtitle">Calle Solano<br>Conectá con tus vecinos</p>
     <div class="login-form">
         <label>👤 ¿Cómo te llamás?</label>
         <input type="text" id="loginNombre" placeholder="Ej: Juan Pérez" autocomplete="off">
@@ -538,7 +547,7 @@
 <div class="app-screen" id="appScreen">
     <div class="app-header">
         <div class="app-header-content">
-            <div class="app-title">🏘️ Calle Solano TV</div>
+            <div class="app-title">🏘️ Barrio Las Catalinas</div>
             <div class="user-info" id="userInfo"></div>
         </div>
     </div>
@@ -549,14 +558,14 @@
         <button class="tab" onclick="showTab('seguridad')">🛡️ Seguridad</button>
     </div>
 
-    <!-- TV SECTION - PLUTO TV + PROXIMAMENTE -->
+    <!-- TV SECTION - PLUTO TV + CANALES -->
     <div class="content active" id="tab-tv">
         <div class="pluto-section">
             <div class="pluto-header">
-                <h3>🎬 Pluto TV - Películas y Series</h3>
+                <h3>🎬 Pluto TV</h3>
                 <span class="pluto-badge">GRATIS</span>
             </div>
-            <div class="video-container">
+            <div class="video-container" id="plutoContainer">
                 <iframe
                     id="plutoFrame"
                     src="https://pluto.tv/latam/live-tv/pluto-tv-cine"
@@ -567,6 +576,23 @@
             </div>
         </div>
 
+        <!-- BOTONES DE CANALES -->
+        <div style="background: var(--card); border-radius: 16px; padding: 16px; border: 1px solid #334155; margin-bottom: 16px;">
+            <h3 style="color: var(--morado); font-size: 1rem; margin-bottom: 12px; text-align: center;">📺 Cambiar de Canal</h3>
+            <div class="canales-grid">
+                <button class="btn-canal active" onclick="cambiarCanal('pluto-tv-cine', this)">🎬 Cine</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-accion', this)">💥 Acción</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-comedia', this)">😂 Comedia</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-terror', this)">👻 Terror</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-romance', this)">❤️ Romance</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-nick', this)">👶 Nickelodeon</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-mtv', this)">🎵 MTV</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-deportes', this)">⚽ Deportes</button>
+                <button class="btn-canal" onclick="cambiarCanal('pluto-tv-noticias', this)">📰 Noticias</button>
+            </div>
+        </div>
+
+        <!-- Proximamente: Cámaras -->
         <div class="proximamente-section">
             <div class="proximamente-logo">🎥</div>
             <h3>🔒 Cámaras de Seguridad 24/7</h3>
@@ -590,12 +616,12 @@
                 </div>
             </div>
             <p style="margin-top:16px; font-size:0.8rem; color:#64748b;">
-                🚧 Instalación en progreso - Contactá a la administración para más info
+                🚧 Instalación en progreso
             </p>
         </div>
     </div>
 
-    <!-- VIDEOS DEL BARRIO - SIN CONTROLES, AUTOPLAY -->
+    <!-- VIDEOS DEL BARRIO - PANTALLA COMPLETA -->
     <div class="content" id="tab-videos">
         <div class="videos-grid" id="videosList">
             <div class="video-card">
@@ -603,10 +629,10 @@
                     <h3>📡 Las Catalinas en Vivo</h3>
                     <div style="display:flex; align-items:center;">
                         <span class="badge">LIVE</span>
-                        <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Pantalla</button>
+                        <button class="fullscreen-btn" onclick="toggleYoutubeFullscreen()">⛶ Pantalla</button>
                     </div>
                 </div>
-                <div class="video-container video-blocked" id="mainVideoContainer">
+                <div class="video-container video-vertical" id="mainVideoContainer">
                     <iframe
                         id="youtubeFrame"
                         src=""
@@ -623,28 +649,21 @@
         <button class="btn-nuevo" onclick="abrirModal('modalVideo')">➕</button>
     </div>
 
-    <!-- SEGURIDAD - BOTON PANICO -->
+    <!-- SEGURIDAD -->
     <div class="content" id="tab-seguridad">
         <div class="seguridad-container">
             <div class="seguridad-icon">🛡️</div>
             <h2>Centro de Seguridad</h2>
             <p>Tu seguridad es lo primero. Usá el botón de pánico para alertar a todos los vecinos.</p>
 
-            <!-- BOTON PANICO PRINCIPAL -->
             <button class="boton-panico" onclick="abrirModal('modalPanico')">
                 🚨 BOTÓN DE PÁNICO 🚨
                 <span class="boton-panico-sub">Alertar a todos los vecinos por WhatsApp</span>
             </button>
 
-            <!-- Botón 911 -->
             <button class="btn btn-danger" onclick="llamar911()" style="width:100%; max-width:350px; margin:8px auto; display:block; padding:16px;">
                 📞 LLAMAR 911 DIRECTO
             </button>
-
-            <!-- Link al grupo de WhatsApp -->
-            <a id="whatsappGroupLink" href="#" class="whatsapp-group-btn" style="display:none;">
-                📱 Abrir Grupo de Vecinos
-            </a>
 
             <div class="info-card">
                 <h4>📞 Números de Emergencia</h4>
@@ -656,7 +675,6 @@
                 <p>Barrio Las Catalinas<br>Calle Solano</p>
             </div>
 
-            <!-- Preview cámaras -->
             <div class="proximamente-section" style="margin-top:20px;">
                 <div class="proximamente-logo">📹</div>
                 <h3 style="color:var(--verde);">Cámaras del Barrio</h3>
@@ -676,17 +694,17 @@
     </div>
 </div>
 
-<!-- FULLSCREEN VIDEO OVERLAY -->
-<div class="tv-fullscreen" id="fullscreenVideo">
+<!-- YOUTUBE FULLSCREEN OVERLAY -->
+<div class="youtube-fullscreen-section" id="youtubeFullscreen">
     <iframe
-        id="fullscreenFrame"
+        id="youtubeFullscreenFrame"
         src=""
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
     </iframe>
 </div>
-<button class="tv-exit-btn" onclick="toggleFullscreen()">✕ Salir</button>
+<button class="youtube-exit-btn" onclick="toggleYoutubeFullscreen()" id="youtubeExitBtn" style="display:none;">✕ Salir</button>
 
 <!-- MODAL BOTON PANICO -->
 <div class="modal-overlay" id="modalPanico">
@@ -697,7 +715,7 @@
             Se va a enviar un mensaje de <strong>EMERGENCIA</strong> a todos los vecinos del grupo de WhatsApp.
         </p>
 
-        <label>📱 Tu nombre (para el mensaje)</label>
+        <label>📱 Tu nombre</label>
         <input type="text" id="panicoNombre" placeholder="Ej: Carlos" value="">
 
         <label>📍 Tu dirección exacta</label>
@@ -722,7 +740,7 @@
         </div>
 
         <p style="margin-top:16px; font-size:0.75rem; color:#64748b; text-align:center;">
-            💡 También podés llamar directo al 911 con el botón de arriba
+            💡 También podés llamar directo al 911
         </p>
     </div>
 </div>
@@ -766,13 +784,10 @@
         <label>Video principal del barrio (YouTube ID)</label>
         <input type="text" id="configVideoId" placeholder="Ej: ysx-5fkwjqQ">
 
-        <label>Link del grupo de WhatsApp (para botón de pánico)</label>
+        <label>Link del grupo de WhatsApp</label>
         <input type="text" id="configWhatsApp" placeholder="https://chat.whatsapp.com/...">
-        <p style="color:#64748b; font-size:0.75rem; margin-bottom:14px;">
-            📌 Pegá el link de invitación del grupo de vecinos
-        </p>
 
-        <label>Canal de Pluto TV</label>
+        <label>Canal de Pluto TV (por defecto)</label>
         <input type="text" id="configPluto" placeholder="pluto-tv-cine">
 
         <div class="modal-actions">
@@ -806,7 +821,7 @@ let esAdmin = false;
 document.addEventListener('DOMContentLoaded', function() {
     cargarConfigGuardada();
     cargarVideosGuardados();
-    const guardado = localStorage.getItem('calle_solano_user');
+    const guardado = localStorage.getItem('catalinas_user');
     if (guardado) {
         usuario = JSON.parse(guardado);
         mostrarApp();
@@ -836,7 +851,7 @@ function entrar() {
     if (!direccion) { toast('❌ Ingresá tu dirección'); return; }
 
     usuario = { nombre, direccion };
-    localStorage.setItem('calle_solano_user', JSON.stringify(usuario));
+    localStorage.setItem('catalinas_user', JSON.stringify(usuario));
     mostrarApp();
 }
 
@@ -846,7 +861,6 @@ function mostrarApp() {
     document.getElementById('userInfo').textContent = `${usuario.nombre} (${usuario.direccion})`;
     actualizarVideos();
     renderVideosBarrio();
-    actualizarLinkWhatsApp();
 }
 
 // ============================================
@@ -859,12 +873,28 @@ function showTab(tabName) {
 }
 
 // ============================================
-// VIDEOS - SIN CONTROLES, AUTOPLAY
+// CAMBIAR CANAL PLUTO TV
+// ============================================
+function cambiarCanal(canal, btn) {
+    const plutoFrame = document.getElementById('plutoFrame');
+    if (plutoFrame) {
+        plutoFrame.src = `https://pluto.tv/latam/live-tv/${canal}`;
+    }
+
+    // Actualizar botón activo
+    document.querySelectorAll('.btn-canal').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    toast(`📺 Cambiando a: ${btn.textContent}`);
+}
+
+// ============================================
+// VIDEOS - PANTALLA COMPLETA
 // ============================================
 function actualizarVideos() {
     const ytFrame = document.getElementById('youtubeFrame');
     const plutoFrame = document.getElementById('plutoFrame');
-    const fullscreenFrame = document.getElementById('fullscreenFrame');
+    const fullscreenFrame = document.getElementById('youtubeFullscreenFrame');
 
     const youtubeSrc = `https://www.youtube.com/embed/${config.youtubeVideoId}?autoplay=1&loop=1&mute=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&playlist=${config.youtubeVideoId}`;
 
@@ -880,17 +910,21 @@ function actualizarVideos() {
 }
 
 // ============================================
-// FULLSCREEN
+// YOUTUBE FULLSCREEN
 // ============================================
-function toggleFullscreen() {
-    const fs = document.getElementById('fullscreenVideo');
-    fs.classList.toggle('active');
+function toggleYoutubeFullscreen() {
+    const fs = document.getElementById('youtubeFullscreen');
+    const exitBtn = document.getElementById('youtubeExitBtn');
 
     if (fs.classList.contains('active')) {
-        const youtubeSrc = `https://www.youtube.com/embed/${config.youtubeVideoId}?autoplay=1&loop=1&mute=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&playlist=${config.youtubeVideoId}`;
-        document.getElementById('fullscreenFrame').src = youtubeSrc;
+        fs.classList.remove('active');
+        exitBtn.style.display = 'none';
+        document.getElementById('youtubeFullscreenFrame').src = '';
     } else {
-        document.getElementById('fullscreenFrame').src = '';
+        fs.classList.add('active');
+        exitBtn.style.display = 'block';
+        const youtubeSrc = `https://www.youtube.com/embed/${config.youtubeVideoId}?autoplay=1&loop=1&mute=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&playlist=${config.youtubeVideoId}`;
+        document.getElementById('youtubeFullscreenFrame').src = youtubeSrc;
     }
 }
 
@@ -898,7 +932,7 @@ function toggleFullscreen() {
 // VIDEOS DEL BARRIO
 // ============================================
 function cargarVideosGuardados() {
-    const guardados = localStorage.getItem('calle_solano_videos');
+    const guardados = localStorage.getItem('catalinas_videos');
     if (guardados) {
         videosBarrio = JSON.parse(guardados);
     } else {
@@ -925,7 +959,7 @@ function renderVideosBarrio() {
                 <h3>${video.titulo || 'Video del Barrio'}</h3>
                 ${video.esLive ? '<span class="badge">LIVE</span>' : ''}
             </div>
-            <div class="video-container video-blocked">
+            <div class="video-container video-vertical">
                 <iframe
                     src="https://www.youtube.com/embed/${video.videoId}?autoplay=1&loop=1&mute=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&playlist=${video.videoId}"
                     frameborder="0"
@@ -957,14 +991,14 @@ function agregarVideo() {
         esLive: false
     });
 
-    localStorage.setItem('calle_solano_videos', JSON.stringify(videosBarrio));
+    localStorage.setItem('catalinas_videos', JSON.stringify(videosBarrio));
     renderVideosBarrio();
     cerrarModal('modalVideo');
     toast('📹 Video agregado');
 }
 
 // ============================================
-// BOTON PANICO - WHATSAPP
+// BOTON PANICO
 // ============================================
 function enviarPanicoWhatsApp() {
     const nombre = document.getElementById('panicoNombre').value.trim() || usuario?.nombre || 'Vecino';
@@ -996,23 +1030,11 @@ function enviarPanicoWhatsApp() {
 
     mensaje += `\n⚠️ *¡NECESITO AYUDA URGENTE!* ⚠️\n`;
     mensaje += `Por favor, los vecinos cercanos, acudir de inmediato.\n\n`;
-    mensaje += `_Mensaje enviado desde Calle Solano TV_`;
+    mensaje += `_Mensaje enviado desde Barrio Las Catalinas_`;
 
-    // Si hay link del grupo, abrir WhatsApp Web/App con el mensaje
-    if (config.whatsappGroupLink) {
-        // Extraer el ID del grupo del link
-        const groupId = config.whatsappGroupLink.split('/').pop();
-        const waLink = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
-        window.open(waLink, '_blank');
-        toast('📱 Abrí WhatsApp y enviá el mensaje al grupo');
-    } else {
-        // Si no hay link configurado, copiar al portapapeles y mostrar
-        navigator.clipboard.writeText(mensaje).then(() => {
-            toast('📋 Mensaje copiado. Pegalo en el grupo de WhatsApp');
-        }).catch(() => {
-            toast('⚠️ Copiá el mensaje manualmente');
-        });
-    }
+    const waLink = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+    window.open(waLink, '_blank');
+    toast('📱 Abrí WhatsApp y enviá el mensaje al grupo');
 
     cerrarModal('modalPanico');
 }
@@ -1021,15 +1043,6 @@ function llamar911() {
     const confirmar = confirm('🚨 ¿Llamar al 911?\n\nSe va a abrir el marcador de tu celular.');
     if (confirmar) {
         window.location.href = 'tel:911';
-    }
-}
-
-function actualizarLinkWhatsApp() {
-    const link = document.getElementById('whatsappGroupLink');
-    if (config.whatsappGroupLink && link) {
-        link.href = config.whatsappGroupLink;
-        link.style.display = 'block';
-        link.textContent = '💬 Abrir Grupo de Vecinos';
     }
 }
 
@@ -1062,23 +1075,22 @@ function guardarConfig() {
         config.youtubeVideoId = videoId;
         if (videosBarrio.length > 0) {
             videosBarrio[0].videoId = videoId;
-            localStorage.setItem('calle_solano_videos', JSON.stringify(videosBarrio));
+            localStorage.setItem('catalinas_videos', JSON.stringify(videosBarrio));
         }
     }
     if (pluto) config.plutoCanal = pluto;
     if (waLink) config.whatsappGroupLink = waLink;
 
-    localStorage.setItem('calle_solano_config', JSON.stringify(config));
+    localStorage.setItem('catalinas_config', JSON.stringify(config));
 
     actualizarVideos();
     renderVideosBarrio();
-    actualizarLinkWhatsApp();
     cerrarModal('modalConfig');
     toast('✅ Configuración guardada');
 }
 
 function cargarConfigGuardada() {
-    const guardada = localStorage.getItem('calle_solano_config');
+    const guardada = localStorage.getItem('catalinas_config');
     if (guardada) {
         config = JSON.parse(guardada);
     }
