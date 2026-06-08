@@ -1,0 +1,26 @@
+{
+  "chat": [
+    {
+      "id": 1,
+      "autor": "Admin",
+      "direccion": "0",
+      "texto": "¡Bienvenidos a Calle Solano! 👋",
+      "foto": null,
+      "timestamp": "2026-06-07T21:00:00Z"
+    }
+  ],
+  "anuncios": [
+    {
+      "id": 1,
+      "titulo": "Bienvenidos al barrio",
+      "categoria": "avisos",
+      "descripcion": "Esta es la app comunitaria de la Calle Solano. Acá podés publicar anuncios, chatear con los vecinos y más.",
+      "fotos": [],
+      "telefono": "",
+      "autor": "Admin",
+      "direccion": "0",
+      "timestamp": "2026-06-07T21:00:00Z",
+      "expira": "2026-07-07T21:00:00Z"
+    }
+  ]
+}
