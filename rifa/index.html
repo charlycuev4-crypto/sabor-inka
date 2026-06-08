@@ -22,6 +22,7 @@
             color: #e2e8f0;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         /* Login */
@@ -130,33 +131,39 @@
         }
         .content.active { display: block; }
 
-        /* TV Section - MAS GRANDE */
-        .tv-section {
-            background: var(--card);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #334155;
-            margin-bottom: 16px;
+        /* TV Section */
+        .tv-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 1000;
+            display: none;
         }
-        .tv-header {
-            padding: 12px 16px;
-            background: rgba(139,92,246,0.1);
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .tv-fullscreen.active { display: block; }
+        .tv-fullscreen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
         }
-        .tv-header h3 { color: var(--morado); font-size: 1rem; }
-        .tv-badge {
-            background: var(--rojo);
+        .tv-exit-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: rgba(0,0,0,0.7);
             color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: bold;
-            animation: blink 1s infinite;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: none;
         }
-        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .tv-fullscreen.active ~ .tv-exit-btn { display: block; }
 
         .video-container {
             position: relative;
@@ -164,6 +171,7 @@
             height: 0;
             overflow: hidden;
             background: #000;
+            border-radius: 12px;
         }
         .video-container iframe {
             position: absolute;
@@ -172,8 +180,98 @@
             height: 100%;
             border: none;
         }
+        .video-blocked::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
+            cursor: default;
+        }
 
-        /* Anuncios - AHORA VIDEOS DEL BARRIO */
+        /* Pluto TV */
+        .pluto-section {
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            margin-bottom: 16px;
+        }
+        .pluto-header {
+            padding: 12px 16px;
+            background: rgba(139,92,246,0.1);
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pluto-header h3 { color: var(--morado); font-size: 1rem; }
+        .pluto-badge {
+            background: var(--morado);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: bold;
+        }
+
+        /* Proximamente */
+        .proximamente-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #334155;
+            text-align: center;
+            margin-top: 16px;
+        }
+        .proximamente-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--rojo), var(--naranja));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 2.5rem;
+            animation: pulse-logo 2s infinite;
+        }
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        .proximamente-section h3 {
+            color: var(--verde);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        .proximamente-section p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .cam-preview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .cam-box {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px dashed #334155;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .cam-box .icon { font-size: 2rem; opacity: 0.5; }
+        .cam-box .label { font-size: 0.75rem; color: #64748b; }
+
+        /* Videos del Barrio */
         .videos-grid { display: grid; gap: 16px; }
         .video-card {
             background: var(--card);
@@ -190,7 +288,7 @@
             align-items: center;
         }
         .video-card-header h3 { color: var(--verde); font-size: 0.95rem; }
-        .video-card-header .badge {
+        .badge {
             background: var(--verde);
             color: white;
             padding: 2px 8px;
@@ -213,36 +311,65 @@
             border: none;
         }
 
-        /* Seguridad */
+        /* Seguridad - BOTON PANICO */
         .seguridad-container {
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px;
             color: #94a3b8;
         }
         .seguridad-icon { font-size: 4rem; margin-bottom: 20px; }
         .seguridad-container h2 { color: var(--verde); margin-bottom: 10px; }
         .seguridad-container p { margin-bottom: 12px; }
-        .emergency-btn {
+
+        .boton-panico {
             background: linear-gradient(135deg, var(--rojo), #dc2626);
             color: white;
             border: none;
-            padding: 20px 40px;
-            border-radius: 16px;
-            font-size: 1.2rem;
+            padding: 24px 40px;
+            border-radius: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            max-width: 380px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 25px rgba(239,68,68,0.5);
+            animation: pulse-panico 1.5s infinite;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        @keyframes pulse-panico {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 25px rgba(239,68,68,0.5); }
+            50% { transform: scale(1.08); box-shadow: 0 6px 35px rgba(239,68,68,0.7); }
+        }
+        .boton-panico:active { transform: scale(0.95); }
+
+        .boton-panico-sub {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-top: 4px;
+            display: block;
+            font-weight: normal;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .whatsapp-group-btn {
+            background: var(--whatsapp);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             max-width: 350px;
-            margin: 20px auto;
+            margin: 12px auto;
             display: block;
-            box-shadow: 0 4px 20px rgba(239,68,68,0.4);
-            animation: pulse 2s infinite;
+            text-decoration: none;
         }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .emergency-btn:active { transform: scale(0.95); }
 
         .info-card {
             background: var(--card);
@@ -328,8 +455,8 @@
         .btn-success { background: var(--verde); color: white; }
         .btn-dark { background: #334155; color: white; }
         .btn-danger { background: var(--rojo); color: white; }
+        .btn-whatsapp { background: var(--whatsapp); color: white; }
 
-        /* Admin hint */
         .admin-hint {
             position: fixed;
             bottom: 20px;
@@ -364,38 +491,30 @@
         }
         @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } }
 
-        /* Toggle switch */
-        .toggle-group {
-            display: flex;
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 14px;
-        }
-        .toggle-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            color: #94a3b8;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .toggle-btn.active {
-            background: var(--verde);
+        .fullscreen-btn {
+            background: rgba(0,0,0,0.6);
             color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: 8px;
         }
 
-        .video-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        /* Panico modal */
+        .panico-modal p {
+            color: #94a3b8;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .panico-modal .emojis {
+            font-size: 2rem;
+            margin-bottom: 12px;
         }
 
         @media (min-width: 768px) {
-            .video-list { max-width: 800px; margin: 0 auto; }
+            .cam-preview { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
@@ -426,16 +545,16 @@
 
     <div class="tabs">
         <button class="tab active" onclick="showTab('tv')">📺 TV</button>
-        <button class="tab" onclick="showTab('anuncios')">📹 Videos del Barrio</button>
+        <button class="tab" onclick="showTab('videos')">📹 Barrio</button>
         <button class="tab" onclick="showTab('seguridad')">🛡️ Seguridad</button>
     </div>
 
-    <!-- TV SECTION - SOLO PLUTO TV -->
+    <!-- TV SECTION - PLUTO TV + PROXIMAMENTE -->
     <div class="content active" id="tab-tv">
-        <div class="tv-section">
-            <div class="tv-header">
+        <div class="pluto-section">
+            <div class="pluto-header">
                 <h3>🎬 Pluto TV - Películas y Series</h3>
-                <span class="tv-badge">LIVE</span>
+                <span class="pluto-badge">GRATIS</span>
             </div>
             <div class="video-container">
                 <iframe
@@ -447,18 +566,47 @@
                 </iframe>
             </div>
         </div>
+
+        <div class="proximamente-section">
+            <div class="proximamente-logo">🎥</div>
+            <h3>🔒 Cámaras de Seguridad 24/7</h3>
+            <p>Próximamente: Vigilancia en vivo del barrio Las Catalinas</p>
+            <div class="cam-preview">
+                <div class="cam-box">
+                    <span class="icon">📹</span>
+                    <span class="label">Entrada Principal</span>
+                </div>
+                <div class="cam-box">
+                    <span class="icon">📹</span>
+                    <span class="label">Calle Solano</span>
+                </div>
+                <div class="cam-box">
+                    <span class="icon">📹</span>
+                    <span class="label">Plaza Central</span>
+                </div>
+                <div class="cam-box">
+                    <span class="icon">📹</span>
+                    <span class="label">Salida Emergencia</span>
+                </div>
+            </div>
+            <p style="margin-top:16px; font-size:0.8rem; color:#64748b;">
+                🚧 Instalación en progreso - Contactá a la administración para más info
+            </p>
+        </div>
     </div>
 
-    <!-- ANUNCIOS - AHORA VIDEOS DEL BARRIO -->
-    <div class="content" id="tab-anuncios">
-        <div class="video-list" id="videosList">
-            <!-- Video 1 - Las Catalinas en Vivo -->
+    <!-- VIDEOS DEL BARRIO - SIN CONTROLES, AUTOPLAY -->
+    <div class="content" id="tab-videos">
+        <div class="videos-grid" id="videosList">
             <div class="video-card">
                 <div class="video-card-header">
                     <h3>📡 Las Catalinas en Vivo</h3>
-                    <span class="badge">LIVE</span>
+                    <div style="display:flex; align-items:center;">
+                        <span class="badge">LIVE</span>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Pantalla</button>
+                    </div>
                 </div>
-                <div class="video-container">
+                <div class="video-container video-blocked" id="mainVideoContainer">
                     <iframe
                         id="youtubeFrame"
                         src=""
@@ -467,38 +615,115 @@
                         allowfullscreen>
                     </iframe>
                 </div>
+                <p style="padding:12px 16px; color:#64748b; font-size:0.8rem; text-align:center;">
+                    🔒 Video bloqueado - Solo visualización - Reproducción automática
+                </p>
             </div>
         </div>
         <button class="btn-nuevo" onclick="abrirModal('modalVideo')">➕</button>
     </div>
 
-    <!-- SEGURIDAD -->
+    <!-- SEGURIDAD - BOTON PANICO -->
     <div class="content" id="tab-seguridad">
         <div class="seguridad-container">
             <div class="seguridad-icon">🛡️</div>
             <h2>Centro de Seguridad</h2>
-            <p>Tu seguridad es lo primero. En caso de emergencia, contactá a los vecinos.</p>
+            <p>Tu seguridad es lo primero. Usá el botón de pánico para alertar a todos los vecinos.</p>
 
-            <button class="emergency-btn" onclick="llamarEmergencia()">
-                🚨 LLAMAR EMERGENCIA<br>
-                <span style="font-size:0.8rem; opacity:0.9;">911 / Policía / Bomberos</span>
+            <!-- BOTON PANICO PRINCIPAL -->
+            <button class="boton-panico" onclick="abrirModal('modalPanico')">
+                🚨 BOTÓN DE PÁNICO 🚨
+                <span class="boton-panico-sub">Alertar a todos los vecinos por WhatsApp</span>
             </button>
 
-            <div class="info-card">
-                <h4>📞 Números útiles</h4>
-                <p>🚔 Policía: 911<br>🚑 Ambulancia: 107<br>🔥 Bomberos: 100</p>
-            </div>
+            <!-- Botón 911 -->
+            <button class="btn btn-danger" onclick="llamar911()" style="width:100%; max-width:350px; margin:8px auto; display:block; padding:16px;">
+                📞 LLAMAR 911 DIRECTO
+            </button>
+
+            <!-- Link al grupo de WhatsApp -->
+            <a id="whatsappGroupLink" href="#" class="whatsapp-group-btn" style="display:none;">
+                📱 Abrir Grupo de Vecinos
+            </a>
 
             <div class="info-card">
-                <h4>🏠 Vecinos de confianza</h4>
-                <p>Contactá a los vecinos cercanos por WhatsApp en caso de emergencia.</p>
+                <h4>📞 Números de Emergencia</h4>
+                <p>🚔 Policía: 911<br>🚑 Ambulancia: 107<br>🔥 Bomberos: 100</p>
             </div>
 
             <div class="info-card">
                 <h4>📍 Tu ubicación</h4>
                 <p>Barrio Las Catalinas<br>Calle Solano</p>
             </div>
+
+            <!-- Preview cámaras -->
+            <div class="proximamente-section" style="margin-top:20px;">
+                <div class="proximamente-logo">📹</div>
+                <h3 style="color:var(--verde);">Cámaras del Barrio</h3>
+                <p>Estado: 🟡 Instalación en progreso</p>
+                <div class="cam-preview">
+                    <div class="cam-box">
+                        <span class="icon">📹</span>
+                        <span class="label">Cámara 1</span>
+                    </div>
+                    <div class="cam-box">
+                        <span class="icon">📹</span>
+                        <span class="label">Cámara 2</span>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- FULLSCREEN VIDEO OVERLAY -->
+<div class="tv-fullscreen" id="fullscreenVideo">
+    <iframe
+        id="fullscreenFrame"
+        src=""
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+    </iframe>
+</div>
+<button class="tv-exit-btn" onclick="toggleFullscreen()">✕ Salir</button>
+
+<!-- MODAL BOTON PANICO -->
+<div class="modal-overlay" id="modalPanico">
+    <div class="modal panico-modal">
+        <div class="emojis">🚨😰🏃‍♂️</div>
+        <h3 style="color:var(--rojo); text-align:center;">¿Estás en peligro?</h3>
+        <p style="text-align:center;">
+            Se va a enviar un mensaje de <strong>EMERGENCIA</strong> a todos los vecinos del grupo de WhatsApp.
+        </p>
+
+        <label>📱 Tu nombre (para el mensaje)</label>
+        <input type="text" id="panicoNombre" placeholder="Ej: Carlos" value="">
+
+        <label>📍 Tu dirección exacta</label>
+        <input type="text" id="panicoDireccion" placeholder="Ej: Mz 5 Casa 8, Calle Solano">
+
+        <label>🆘 Tipo de emergencia</label>
+        <select id="panicoTipo">
+            <option value="general">🚨 Emergencia General - Necesito ayuda urgente</option>
+            <option value="robo">🔫 Robo / Intruso en mi casa</option>
+            <option value="medica">🚑 Emergencia Médica</option>
+            <option value="incendio">🔥 Incendio</option>
+            <option value="violencia">⚠️ Violencia / Amenaza</option>
+            <option value="otro">📢 Otro - Especificar abajo</option>
+        </select>
+
+        <label>📝 Detalle adicional (opcional)</label>
+        <textarea id="panicoDetalle" placeholder="Ej: Hay un intruso en mi patio..." style="min-height:60px;"></textarea>
+
+        <div class="modal-actions">
+            <button class="btn btn-whatsapp" onclick="enviarPanicoWhatsApp()">📱 Enviar Alerta</button>
+            <button class="btn btn-dark" onclick="cerrarModal('modalPanico')">❌ Cancelar</button>
+        </div>
+
+        <p style="margin-top:16px; font-size:0.75rem; color:#64748b; text-align:center;">
+            💡 También podés llamar directo al 911 con el botón de arriba
+        </p>
     </div>
 </div>
 
@@ -533,15 +758,18 @@
     </div>
 </div>
 
-<!-- MODAL CONFIGURACIÓN (solo admin) -->
+<!-- MODAL CONFIGURACION -->
 <div class="modal-overlay" id="modalConfig">
     <div class="modal">
-        <h3>⚙️ Configuración de Videos</h3>
+        <h3>⚙️ Configuración</h3>
 
         <label>Video principal del barrio (YouTube ID)</label>
         <input type="text" id="configVideoId" placeholder="Ej: ysx-5fkwjqQ">
+
+        <label>Link del grupo de WhatsApp (para botón de pánico)</label>
+        <input type="text" id="configWhatsApp" placeholder="https://chat.whatsapp.com/...">
         <p style="color:#64748b; font-size:0.75rem; margin-bottom:14px;">
-            📌 Este es el video que se muestra en "Videos del Barrio"
+            📌 Pegá el link de invitación del grupo de vecinos
         </p>
 
         <label>Canal de Pluto TV</label>
@@ -558,27 +786,22 @@
 
 <script>
 // ============================================
-// CONFIGURACIÓN
+// CONFIGURACION
 // ============================================
 const CLAVE_ADMIN = 'solano2024';
 
-// Configuración por defecto
 let config = {
-    youtubeVideoId: 'ysx-5fkwjqQ',   // ID del video de Las Catalinas
-    plutoCanal: 'pluto-tv-cine'
+    youtubeVideoId: 'ysx-5fkwjqQ',
+    plutoCanal: 'pluto-tv-cine',
+    whatsappGroupLink: ''
 };
 
-// Lista de videos del barrio (guardados en localStorage)
 let videosBarrio = [];
-
-// ============================================
-// VARIABLES GLOBALES
-// ============================================
 let usuario = null;
 let esAdmin = false;
 
 // ============================================
-// INICIALIZACIÓN
+// INICIALIZACION
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     cargarConfigGuardada();
@@ -623,10 +846,11 @@ function mostrarApp() {
     document.getElementById('userInfo').textContent = `${usuario.nombre} (${usuario.direccion})`;
     actualizarVideos();
     renderVideosBarrio();
+    actualizarLinkWhatsApp();
 }
 
 // ============================================
-// NAVEGACIÓN
+// NAVEGACION
 // ============================================
 function showTab(tabName) {
     document.querySelectorAll('.content, .tab').forEach(el => el.classList.remove('active'));
@@ -635,17 +859,38 @@ function showTab(tabName) {
 }
 
 // ============================================
-// VIDEOS
+// VIDEOS - SIN CONTROLES, AUTOPLAY
 // ============================================
 function actualizarVideos() {
     const ytFrame = document.getElementById('youtubeFrame');
     const plutoFrame = document.getElementById('plutoFrame');
+    const fullscreenFrame = document.getElementById('fullscreenFrame');
+
+    const youtubeSrc = `https://www.youtube.com/embed/${config.youtubeVideoId}?autoplay=1&loop=1&mute=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&playlist=${config.youtubeVideoId}`;
 
     if (ytFrame && config.youtubeVideoId) {
-        ytFrame.src = `https://www.youtube.com/embed/${config.youtubeVideoId}?autoplay=1&loop=1&mute=1`;
+        ytFrame.src = youtubeSrc;
+    }
+    if (fullscreenFrame && config.youtubeVideoId) {
+        fullscreenFrame.src = youtubeSrc;
     }
     if (plutoFrame) {
         plutoFrame.src = `https://pluto.tv/latam/live-tv/${config.plutoCanal}`;
+    }
+}
+
+// ============================================
+// FULLSCREEN
+// ============================================
+function toggleFullscreen() {
+    const fs = document.getElementById('fullscreenVideo');
+    fs.classList.toggle('active');
+
+    if (fs.classList.contains('active')) {
+        const youtubeSrc = `https://www.youtube.com/embed/${config.youtubeVideoId}?autoplay=1&loop=1&mute=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&playlist=${config.youtubeVideoId}`;
+        document.getElementById('fullscreenFrame').src = youtubeSrc;
+    } else {
+        document.getElementById('fullscreenFrame').src = '';
     }
 }
 
@@ -657,7 +902,6 @@ function cargarVideosGuardados() {
     if (guardados) {
         videosBarrio = JSON.parse(guardados);
     } else {
-        // Video por defecto
         videosBarrio = [{
             id: 'default',
             videoId: config.youtubeVideoId,
@@ -681,14 +925,17 @@ function renderVideosBarrio() {
                 <h3>${video.titulo || 'Video del Barrio'}</h3>
                 ${video.esLive ? '<span class="badge">LIVE</span>' : ''}
             </div>
-            <div class="video-container">
+            <div class="video-container video-blocked">
                 <iframe
-                    src="https://www.youtube.com/embed/${video.videoId}?autoplay=0&loop=1&mute=1"
+                    src="https://www.youtube.com/embed/${video.videoId}?autoplay=1&loop=1&mute=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&playlist=${video.videoId}"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
                 </iframe>
             </div>
+            <p style="padding:12px 16px; color:#64748b; font-size:0.8rem; text-align:center;">
+                🔒 Video bloqueado - Solo visualización - Reproducción automática
+            </p>
         `;
         container.appendChild(card);
     });
@@ -717,13 +964,72 @@ function agregarVideo() {
 }
 
 // ============================================
-// SEGURIDAD
+// BOTON PANICO - WHATSAPP
 // ============================================
-function llamarEmergencia() {
-    const confirmar = confirm('🚨 ¿Estás en una emergencia real?\n\nSe va a abrir el marcador para llamar al 911.');
+function enviarPanicoWhatsApp() {
+    const nombre = document.getElementById('panicoNombre').value.trim() || usuario?.nombre || 'Vecino';
+    const direccion = document.getElementById('panicoDireccion').value.trim() || usuario?.direccion || 'Las Catalinas';
+    const tipo = document.getElementById('panicoTipo').value;
+    const detalle = document.getElementById('panicoDetalle').value.trim();
+
+    const tipos = {
+        general: '🚨 EMERGENCIA GENERAL',
+        robo: '🔫 ROBO / INTRUSO',
+        medica: '🚑 EMERGENCIA MÉDICA',
+        incendio: '🔥 INCENDIO',
+        violencia: '⚠️ VIOLENCIA / AMENAZA',
+        otro: '📢 EMERGENCIA'
+    };
+
+    const tipoTexto = tipos[tipo] || tipos.general;
+    const fecha = new Date().toLocaleString('es-AR');
+
+    let mensaje = `🚨 *BOTÓN DE PÁNICO ACTIVADO* 🚨\n\n`;
+    mensaje += `*${tipoTexto}*\n\n`;
+    mensaje += `👤 *Vecino:* ${nombre}\n`;
+    mensaje += `📍 *Ubicación:* ${direccion}\n`;
+    mensaje += `⏰ *Hora:* ${fecha}\n`;
+
+    if (detalle) {
+        mensaje += `\n📝 *Detalle:* ${detalle}\n`;
+    }
+
+    mensaje += `\n⚠️ *¡NECESITO AYUDA URGENTE!* ⚠️\n`;
+    mensaje += `Por favor, los vecinos cercanos, acudir de inmediato.\n\n`;
+    mensaje += `_Mensaje enviado desde Calle Solano TV_`;
+
+    // Si hay link del grupo, abrir WhatsApp Web/App con el mensaje
+    if (config.whatsappGroupLink) {
+        // Extraer el ID del grupo del link
+        const groupId = config.whatsappGroupLink.split('/').pop();
+        const waLink = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+        window.open(waLink, '_blank');
+        toast('📱 Abrí WhatsApp y enviá el mensaje al grupo');
+    } else {
+        // Si no hay link configurado, copiar al portapapeles y mostrar
+        navigator.clipboard.writeText(mensaje).then(() => {
+            toast('📋 Mensaje copiado. Pegalo en el grupo de WhatsApp');
+        }).catch(() => {
+            toast('⚠️ Copiá el mensaje manualmente');
+        });
+    }
+
+    cerrarModal('modalPanico');
+}
+
+function llamar911() {
+    const confirmar = confirm('🚨 ¿Llamar al 911?\n\nSe va a abrir el marcador de tu celular.');
     if (confirmar) {
         window.location.href = 'tel:911';
-        toast('🚨 Llamando emergencia...');
+    }
+}
+
+function actualizarLinkWhatsApp() {
+    const link = document.getElementById('whatsappGroupLink');
+    if (config.whatsappGroupLink && link) {
+        link.href = config.whatsappGroupLink;
+        link.style.display = 'block';
+        link.textContent = '💬 Abrir Grupo de Vecinos';
     }
 }
 
@@ -739,6 +1045,7 @@ function verificarAdmin() {
 
         document.getElementById('configVideoId').value = config.youtubeVideoId;
         document.getElementById('configPluto').value = config.plutoCanal;
+        document.getElementById('configWhatsApp').value = config.whatsappGroupLink;
 
         toast('🔓 Modo admin activado');
     } else {
@@ -749,23 +1056,23 @@ function verificarAdmin() {
 function guardarConfig() {
     const videoId = document.getElementById('configVideoId').value.trim();
     const pluto = document.getElementById('configPluto').value.trim();
+    const waLink = document.getElementById('configWhatsApp').value.trim();
 
     if (videoId) {
         config.youtubeVideoId = videoId;
-        localStorage.setItem('calle_solano_config', JSON.stringify(config));
-        // Actualizar video principal
         if (videosBarrio.length > 0) {
             videosBarrio[0].videoId = videoId;
             localStorage.setItem('calle_solano_videos', JSON.stringify(videosBarrio));
         }
     }
-    if (pluto) {
-        config.plutoCanal = pluto;
-        localStorage.setItem('calle_solano_config', JSON.stringify(config));
-    }
+    if (pluto) config.plutoCanal = pluto;
+    if (waLink) config.whatsappGroupLink = waLink;
+
+    localStorage.setItem('calle_solano_config', JSON.stringify(config));
 
     actualizarVideos();
     renderVideosBarrio();
+    actualizarLinkWhatsApp();
     cerrarModal('modalConfig');
     toast('✅ Configuración guardada');
 }
@@ -782,6 +1089,10 @@ function cargarConfigGuardada() {
 // ============================================
 function abrirModal(id) {
     document.getElementById(id).classList.add('active');
+    if (id === 'modalPanico') {
+        document.getElementById('panicoNombre').value = usuario?.nombre || '';
+        document.getElementById('panicoDireccion').value = usuario?.direccion || '';
+    }
 }
 
 function cerrarModal(id) {
