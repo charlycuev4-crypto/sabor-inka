@@ -182,7 +182,7 @@
             border: 1px solid #d4af37;
         }
 
-        /* ========== DRAWER DEL CARRITO (desde abajo) ========== */
+        /* ========== DRAWER DEL CARRITO ========== */
         .drawer-overlay {
             display: none;
             position: fixed;
@@ -291,7 +291,7 @@
             border-color: #d4af37;
         }
 
-        /* ========== CARDS CON ANIMACIÓN ========== */
+        /* ========== CARDS ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -427,9 +427,7 @@
             color: #f1f5f9;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 15px; }
 
         .form-group label {
             display: block;
@@ -508,9 +506,7 @@
             transition: all 0.2s;
         }
 
-        .menu-dia:hover {
-            background: #1a2332;
-        }
+        .menu-dia:hover { background: #1a2332; }
 
         .menu-dia .dia {
             background: #d4af37;
@@ -556,7 +552,6 @@
 
         .empty-cart-icon { font-size: 3rem; margin-bottom: 15px; }
 
-        /* ========== RESUMEN RÁPIDO EN DRAWER ========== */
         .cart-summary-bar {
             display: flex;
             justify-content: space-between;
@@ -568,15 +563,8 @@
             border: 1px solid #334155;
         }
 
-        .cart-summary-bar span {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        .cart-summary-bar strong {
-            color: #d4af37;
-            font-size: 1.1rem;
-        }
+        .cart-summary-bar span { color: #94a3b8; font-size: 0.9rem; }
+        .cart-summary-bar strong { color: #d4af37; font-size: 1.1rem; }
 
         @media (max-width: 600px) {
             .logo { font-size: 2rem; }
@@ -588,30 +576,25 @@
 </head>
 <body>
 
-    <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- HEADER -->
     <div class="header">
         <div class="logo">🇵🇪 Sabor Inka</div>
         <p class="lema">"Donde come uno, comen dos"</p>
         <div class="zona">🛵 Delivery: Santa Brígida • San Miguel • Trujui</div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
         <button class="tab active" onclick="showTab('especiales')">🔥 Platos Especiales</button>
         <button class="tab" onclick="showTab('ejecutivo')">🏭 Menú Ejecutivo Fábricas</button>
     </div>
 
-    <!-- BOTÓN FLOTANTE DEL CARRITO -->
     <button class="cart-fab" id="cartFab" onclick="toggleCart()">
         🛒
         <span class="cart-fab-badge" id="cartFabBadge">0</span>
         <span class="cart-fab-total" id="cartFabTotal">$0</span>
     </button>
 
-    <!-- DRAWER DEL CARRITO (desde abajo) -->
     <div class="drawer-overlay" id="cartDrawerOverlay" onclick="toggleCart()">
         <div class="drawer" onclick="event.stopPropagation()">
             <div class="drawer-handle"></div>
@@ -646,7 +629,6 @@
         </div>
     </div>
 
-    <!-- CONTENIDO -->
     <div class="container active" id="tab-especiales">
         <h2 class="section-title">🍗 Pollo a la Brasa</h2>
         <div class="grid" id="menuPolloBrasa"></div>
@@ -687,28 +669,27 @@
 
         const menu = {
             polloBrasa: [
-                { id: "p1", nombre: "1/4 Pollo a la Brasa", desc: "1/4 pollo + papas + ensalada + cremas", precio: 10000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp" },
-                { id: "p2", nombre: "1/2 Pollo a la Brasa", desc: "Medio pollo + papas abundantes + ensalada. ¡Comen 2!", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 2" },
-                { id: "p3", nombre: "Pollo Entero", desc: "Pollo entero + papas grandes + ensalada grande. ¡Comen 5!", precio: 35000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 5" }
+                { id: "p1", nombre: "1/4 Pollo a la Brasa", desc: "1/4 pollo + papas + ensalada + cremas", precio: 10000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" },
+                { id: "p2", nombre: "1/2 Pollo a la Brasa", desc: "Medio pollo + papas abundantes + ensalada. ¡Comen 2!", precio: 20000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", badge: "🍴 COMEN 2" },
+                { id: "p3", nombre: "Pollo Entero", desc: "Pollo entero + papas grandes + ensalada grande. ¡Comen 5!", precio: 35000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", badge: "🍴 COMEN 5" }
             ],
             abundantes: [
-                { id: "a1", nombre: "Pollo Broaster XL", desc: "1/2 pollo crocante + papas fritas. ¡Comen 2!", precio: 12000, img: "https://kimi-web-img.moonshot.cn/img/i.ytimg.com/7670b7be182062ede9d33b625a8a6b3859eb8a4d.jpg", badge: "🍴 COMEN 2" },
-                { id: "a2", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/b7dd4d32277f70fb160cbb6d3289652b22bf2eba.jpg", badge: "🍴 COMEN 2" },
-                { id: "a3", nombre: "Box Alitas Crocantes con Papas", desc: "6 alitas de pollo ultra crocantes + papas fritas + salsas de la casa", precio: 8000, img: "https://ibb.co/pBYY6hKL", badge: "🔥 PROMO" }
+                { id: "a1", nombre: "Pollo Broaster XL", desc: "1/2 pollo crocante + papas fritas. ¡Comen 2!", precio: 12000, img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500", badge: "🍴 COMEN 2" },
+                { id: "a2", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", badge: "🍴 COMEN 2" },
+                { id: "a3", nombre: "Box Alitas Crocantes con Papas", desc: "6 alitas de pollo ultra crocantes + papas fritas + salsas de la casa", precio: 8000, img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500", badge: "🔥 PROMO" }
             ],
             individuales: [
-                { id: "i1", nombre: "Lomo Saltado de Pollo", desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/a4c8e10acb988275f63e432ef3264f27d1ed45b2.webp" },
-                { id: "i2", nombre: "Arroz Chaufa", desc: "Arroz frito con pollo, huevo y cebollín. ¡Comen 2!", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/www.laylita.com/ba8e26d294a873e7b34402ca48256c726b6b4cec.jpg", badge: "🍴 COMEN 2" }
+                { id: "i1", nombre: "Lomo Saltado de Pollo", desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco", precio: 15000, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500" },
+                { id: "i2", nombre: "Arroz Chaufa", desc: "Arroz frito con pollo, huevo y cebollín. ¡Comen 2!", precio: 15000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=500", badge: "🍴 COMEN 2" }
             ],
             entradas: [
-                { id: "e1", nombre: "Ceviche Mixto", desc: "Pescado fresco con camote, choclo y canchita", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/es.cravingsjournal.com/59935a0ac84f7ffd399f59c5456b988d8b0d8e2d.jpg", badge: "❄️ FRESCO" },
-                { id: "e2", nombre: "Jalea Mixta", desc: "Pescado apanado, rabas, papas fritas y salsa criolla. ¡Comen 2!", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/62e61dcd313bc41117cca86d2e69de6b300865bd.jpg", badge: "🍴 COMEN 2" }
+                { id: "e1", nombre: "Ceviche Mixto", desc: "Pescado fresco con camote, choclo y canchita", precio: 20000, img: "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=500", badge: "❄️ FRESCO" },
+                { id: "e2", nombre: "Jalea Mixta", desc: "Pescado apanado, rabas, papas fritas y salsa criolla. ¡Comen 2!", precio: 20000, img: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500", badge: "🍴 COMEN 2" }
             ]
         };
 
         let cart = {};
 
-        // ========== TOAST SYSTEM ==========
         function showToast(message, icon = '✅') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -720,12 +701,8 @@
             `;
             container.appendChild(toast);
 
-            // Trigger animation
-            requestAnimationFrame(() => {
-                toast.classList.add('show');
-            });
+            requestAnimationFrame(() => toast.classList.add('show'));
 
-            // Auto remove
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 400);
@@ -775,7 +752,7 @@
             const renderCard = (item) => `
                 <div class="card" id="card-${item.id}">
                     ${item.badge ? `<span class="badge">${item.badge}</span>` : ''}
-                    <img src="${item.img}" class="card-img" onerror="this.src='https://via.placeholder.com/400x220'">
+                    <img src="${item.img}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500'">
                     <div class="card-body">
                         <h3 class="card-title">${item.nombre}</h3>
                         <p class="card-desc">${item.desc}</p>
@@ -799,15 +776,13 @@
             if (cart[id]) cart[id].cantidad++;
             else cart[id] = { ...item, cantidad: 1 };
 
-            // Animar la card
             const card = document.getElementById(`card-${id}`);
             if (card) {
                 card.classList.remove('added-anim');
-                void card.offsetWidth; // trigger reflow
+                void card.offsetWidth;
                 card.classList.add('added-anim');
             }
 
-            // Cambiar botón temporalmente
             const btn = document.getElementById(`btn-${id}`);
             if (btn) {
                 const originalHTML = btn.innerHTML;
@@ -852,12 +827,10 @@
             const totalItems = items.reduce((s, i) => s + i.cantidad, 0);
             const totalPrice = items.reduce((s, i) => s + (i.precio * i.cantidad), 0);
 
-            // Actualizar FAB
             document.getElementById('cartFabBadge').textContent = totalItems;
             document.getElementById('cartFabTotal').textContent = `$${totalPrice.toLocaleString()}`;
             document.getElementById('cartSummaryCount').textContent = `${totalItems} producto${totalItems !== 1 ? 's' : ''}`;
 
-            // Actualizar drawer
             const container = document.getElementById('cartItems');
             if (items.length === 0) {
                 container.innerHTML = `
