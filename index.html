@@ -105,39 +105,6 @@
             border: 1px solid #d4af37;
         }
 
-        /* ========== ANUNCIO CASITA DE LAS SALSAS ========== */
-        .banner-salsas {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 2px dashed #d4af37;
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0 30px 0;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
-        }
-
-        .banner-salsas h3 {
-            color: #d4af37;
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .banner-salsas p {
-            color: #e2e8f0;
-            font-size: 1rem;
-        }
-
-        .banner-salsas .salsas-list {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            margin-top: 6px;
-            font-style: italic;
-        }
-
         /* ========== CARRITO FLOTANTE (FAB) ========== */
         .cart-fab {
             position: fixed;
@@ -161,7 +128,9 @@
 
         .cart-fab:active { transform: scale(0.9); }
 
-        .cart-fab.bounce { animation: bounceCart 0.6s ease; }
+        .cart-fab.bounce {
+            animation: bounceCart 0.6s ease;
+        }
 
         @keyframes bounceCart {
             0%, 100% { transform: scale(1); }
@@ -188,7 +157,9 @@
             transition: transform 0.3s;
         }
 
-        .cart-fab-badge.pop { animation: badgePop 0.4s ease; }
+        .cart-fab-badge.pop {
+            animation: badgePop 0.4s ease;
+        }
 
         @keyframes badgePop {
             0% { transform: scale(1); }
@@ -211,7 +182,7 @@
             border: 1px solid #d4af37;
         }
 
-        /* ========== DRAWER DEL CARRITO ========== */
+        /* ========== DRAWER DEL CARRITO (desde abajo) ========== */
         .drawer-overlay {
             display: none;
             position: fixed;
@@ -243,7 +214,9 @@
             border-top: 2px solid #d4af37;
         }
 
-        .drawer-overlay.active .drawer { transform: translateY(0); }
+        .drawer-overlay.active .drawer {
+            transform: translateY(0);
+        }
 
         .drawer-handle {
             width: 50px;
@@ -318,7 +291,7 @@
             border-color: #d4af37;
         }
 
-        /* ========== CARDS ========== */
+        /* ========== CARDS CON ANIMACIÓN ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -356,7 +329,9 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .card.added-anim { animation: cardAdded 0.5s ease; }
+        .card.added-anim {
+            animation: cardAdded 0.5s ease;
+        }
 
         @keyframes cardAdded {
             0% { transform: scale(1); }
@@ -452,7 +427,9 @@
             color: #f1f5f9;
         }
 
-        .form-group { margin-bottom: 15px; }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
         .form-group label {
             display: block;
@@ -531,7 +508,9 @@
             transition: all 0.2s;
         }
 
-        .menu-dia:hover { background: #1a2332; }
+        .menu-dia:hover {
+            background: #1a2332;
+        }
 
         .menu-dia .dia {
             background: #d4af37;
@@ -577,6 +556,7 @@
 
         .empty-cart-icon { font-size: 3rem; margin-bottom: 15px; }
 
+        /* ========== RESUMEN RÁPIDO EN DRAWER ========== */
         .cart-summary-bar {
             display: flex;
             justify-content: space-between;
@@ -588,8 +568,15 @@
             border: 1px solid #334155;
         }
 
-        .cart-summary-bar span { color: #94a3b8; font-size: 0.9rem; }
-        .cart-summary-bar strong { color: #d4af37; font-size: 1.1rem; }
+        .cart-summary-bar span {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .cart-summary-bar strong {
+            color: #d4af37;
+            font-size: 1.1rem;
+        }
 
         @media (max-width: 600px) {
             .logo { font-size: 2rem; }
@@ -601,25 +588,30 @@
 </head>
 <body>
 
+    <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- HEADER -->
     <div class="header">
         <div class="logo">🇵🇪 Sabor Inka</div>
         <p class="lema">"Donde come uno, comen dos"</p>
         <div class="zona">🛵 Delivery: Santa Brígida • San Miguel • Trujui</div>
     </div>
 
+    <!-- TABS -->
     <div class="tabs">
         <button class="tab active" onclick="showTab('especiales')">🔥 Platos Especiales</button>
         <button class="tab" onclick="showTab('ejecutivo')">🏭 Menú Ejecutivo Fábricas</button>
     </div>
 
+    <!-- BOTÓN FLOTANTE DEL CARRITO -->
     <button class="cart-fab" id="cartFab" onclick="toggleCart()">
         🛒
         <span class="cart-fab-badge" id="cartFabBadge">0</span>
         <span class="cart-fab-total" id="cartFabTotal">$0</span>
     </button>
 
+    <!-- DRAWER DEL CARRITO (desde abajo) -->
     <div class="drawer-overlay" id="cartDrawerOverlay" onclick="toggleCart()">
         <div class="drawer" onclick="event.stopPropagation()">
             <div class="drawer-handle"></div>
@@ -654,14 +646,8 @@
         </div>
     </div>
 
+    <!-- CONTENIDO -->
     <div class="container active" id="tab-especiales">
-        <!-- ANUNCIO LA CASITA DE LAS SALSAS -->
-        <div class="banner-salsas">
-            <h3>🏠 La Casita de las Salsas 🌶️</h3>
-            <p>¡Acompaña tu plato favorito con nuestras cremas artesanales e insumos peruanos de primera calidad!</p>
-            <p class="salsas-list">Salsa Ocopa • Crema de Rocoto • Mayonesa de la Casa • Ají Pollero • Insumos Peruanos</p>
-        </div>
-
         <h2 class="section-title">🍗 Pollo a la Brasa</h2>
         <div class="grid" id="menuPolloBrasa"></div>
         <h2 class="section-title">🔥 Platos Abundantes</h2>
@@ -699,7 +685,6 @@
             { dia: "Viernes", sopa: "Sopa de carne", segundo: "Papa a la huancaína con huevo y aceitunas", precio: 8000 }
         ];
 
-        // MANTENEMOS LAS IMÁGENES EXACTAS DE TU CÓDIGO
         const menu = {
             polloBrasa: [
                 { id: "p1", nombre: "1/4 Pollo a la Brasa", desc: "1/4 pollo + papas + ensalada + cremas", precio: 10000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp" },
@@ -708,7 +693,8 @@
             ],
             abundantes: [
                 { id: "a1", nombre: "Pollo Broaster XL", desc: "1/2 pollo crocante + papas fritas. ¡Comen 2!", precio: 12000, img: "https://kimi-web-img.moonshot.cn/img/i.ytimg.com/7670b7be182062ede9d33b625a8a6b3859eb8a4d.jpg", badge: "🍴 COMEN 2" },
-                { id: "a2", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/b7dd4d32277f70fb160cbb6d3289652b22bf2eba.jpg", badge: "🍴 COMEN 2" }
+                { id: "a2", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/b7dd4d32277f70fb160cbb6d3289652b22bf2eba.jpg", badge: "🍴 COMEN 2" },
+                { id: "a3", nombre: "Caja Broaster (6 piezas)", desc: "6 piezas de pollo broaster + papas fritas + mayonesa y ketchup", precio: 8000, img: "https://i.ibb.co/pBYY6hKL/image.jpg", badge: "🔥 PROMO" }
             ],
             individuales: [
                 { id: "i1", nombre: "Lomo Saltado de Pollo", desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/a4c8e10acb988275f63e432ef3264f27d1ed45b2.webp" },
@@ -722,6 +708,7 @@
 
         let cart = {};
 
+        // ========== TOAST SYSTEM ==========
         function showToast(message, icon = '✅') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -733,8 +720,12 @@
             `;
             container.appendChild(toast);
 
-            requestAnimationFrame(() => toast.classList.add('show'));
+            // Trigger animation
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
 
+            // Auto remove
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 400);
@@ -808,13 +799,15 @@
             if (cart[id]) cart[id].cantidad++;
             else cart[id] = { ...item, cantidad: 1 };
 
+            // Animar la card
             const card = document.getElementById(`card-${id}`);
             if (card) {
                 card.classList.remove('added-anim');
-                void card.offsetWidth;
+                void card.offsetWidth; // trigger reflow
                 card.classList.add('added-anim');
             }
 
+            // Cambiar botón temporalmente
             const btn = document.getElementById(`btn-${id}`);
             if (btn) {
                 const originalHTML = btn.innerHTML;
@@ -859,10 +852,12 @@
             const totalItems = items.reduce((s, i) => s + i.cantidad, 0);
             const totalPrice = items.reduce((s, i) => s + (i.precio * i.cantidad), 0);
 
+            // Actualizar FAB
             document.getElementById('cartFabBadge').textContent = totalItems;
             document.getElementById('cartFabTotal').textContent = `$${totalPrice.toLocaleString()}`;
             document.getElementById('cartSummaryCount').textContent = `${totalItems} producto${totalItems !== 1 ? 's' : ''}`;
 
+            // Actualizar drawer
             const container = document.getElementById('cartItems');
             if (items.length === 0) {
                 container.innerHTML = `
