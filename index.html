@@ -105,6 +105,39 @@
             border: 1px solid #d4af37;
         }
 
+        /* ========== ANUNCIO CASITA DE LAS SALSAS ========== */
+        .banner-salsas {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px dashed #d4af37;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .banner-salsas h3 {
+            color: #d4af37;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .banner-salsas p {
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+
+        .banner-salsas .salsas-list {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
         /* ========== CARRITO FLOTANTE (FAB) ========== */
         .cart-fab {
             position: fixed;
@@ -128,9 +161,7 @@
 
         .cart-fab:active { transform: scale(0.9); }
 
-        .cart-fab.bounce {
-            animation: bounceCart 0.6s ease;
-        }
+        .cart-fab.bounce { animation: bounceCart 0.6s ease; }
 
         @keyframes bounceCart {
             0%, 100% { transform: scale(1); }
@@ -157,9 +188,7 @@
             transition: transform 0.3s;
         }
 
-        .cart-fab-badge.pop {
-            animation: badgePop 0.4s ease;
-        }
+        .cart-fab-badge.pop { animation: badgePop 0.4s ease; }
 
         @keyframes badgePop {
             0% { transform: scale(1); }
@@ -214,9 +243,7 @@
             border-top: 2px solid #d4af37;
         }
 
-        .drawer-overlay.active .drawer {
-            transform: translateY(0);
-        }
+        .drawer-overlay.active .drawer { transform: translateY(0); }
 
         .drawer-handle {
             width: 50px;
@@ -329,9 +356,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .card.added-anim {
-            animation: cardAdded 0.5s ease;
-        }
+        .card.added-anim { animation: cardAdded 0.5s ease; }
 
         @keyframes cardAdded {
             0% { transform: scale(1); }
@@ -630,6 +655,13 @@
     </div>
 
     <div class="container active" id="tab-especiales">
+        <!-- ANUNCIO LA CASITA DE LAS SALSAS -->
+        <div class="banner-salsas">
+            <h3>🏠 La Casita de las Salsas 🌶️</h3>
+            <p>¡Acompaña tu plato favorito con nuestras cremas artesanales e insumos peruanos de primera calidad!</p>
+            <p class="salsas-list">Salsa Ocopa • Crema de Rocoto • Mayonesa de la Casa • Ají Pollero • Insumos Peruanos</p>
+        </div>
+
         <h2 class="section-title">🍗 Pollo a la Brasa</h2>
         <div class="grid" id="menuPolloBrasa"></div>
         <h2 class="section-title">🔥 Platos Abundantes</h2>
@@ -667,24 +699,24 @@
             { dia: "Viernes", sopa: "Sopa de carne", segundo: "Papa a la huancaína con huevo y aceitunas", precio: 8000 }
         ];
 
+        // MANTENEMOS LAS IMÁGENES EXACTAS DE TU CÓDIGO
         const menu = {
             polloBrasa: [
-                { id: "p1", nombre: "1/4 Pollo a la Brasa", desc: "1/4 pollo + papas + ensalada + cremas", precio: 10000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" },
-                { id: "p2", nombre: "1/2 Pollo a la Brasa", desc: "Medio pollo + papas abundantes + ensalada. ¡Comen 2!", precio: 20000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", badge: "🍴 COMEN 2" },
-                { id: "p3", nombre: "Pollo Entero", desc: "Pollo entero + papas grandes + ensalada grande. ¡Comen 5!", precio: 35000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", badge: "🍴 COMEN 5" }
+                { id: "p1", nombre: "1/4 Pollo a la Brasa", desc: "1/4 pollo + papas + ensalada + cremas", precio: 10000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp" },
+                { id: "p2", nombre: "1/2 Pollo a la Brasa", desc: "Medio pollo + papas abundantes + ensalada. ¡Comen 2!", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 2" },
+                { id: "p3", nombre: "Pollo Entero", desc: "Pollo entero + papas grandes + ensalada grande. ¡Comen 5!", precio: 35000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/7ef3e9f72f46b06499494c076ea0046d90add5d6.webp", badge: "🍴 COMEN 5" }
             ],
             abundantes: [
-                { id: "a1", nombre: "Pollo Broaster XL", desc: "1/2 pollo crocante + papas fritas. ¡Comen 2!", precio: 12000, img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500", badge: "🍴 COMEN 2" },
-                { id: "a2", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", badge: "🍴 COMEN 2" },
-                { id: "a3", nombre: "Box Alitas Crocantes con Papas", desc: "6 alitas de pollo ultra crocantes + papas fritas + salsas de la casa", precio: 8000, img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500", badge: "🔥 PROMO" }
+                { id: "a1", nombre: "Pollo Broaster XL", desc: "1/2 pollo crocante + papas fritas. ¡Comen 2!", precio: 12000, img: "https://kimi-web-img.moonshot.cn/img/i.ytimg.com/7670b7be182062ede9d33b625a8a6b3859eb8a4d.jpg", badge: "🍴 COMEN 2" },
+                { id: "a2", nombre: "Lomo Saltado Gigante", desc: "Carne salteada + papas + arroz + verduras. ¡Comen 2!", precio: 9500, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/b7dd4d32277f70fb160cbb6d3289652b22bf2eba.jpg", badge: "🍴 COMEN 2" }
             ],
             individuales: [
-                { id: "i1", nombre: "Lomo Saltado de Pollo", desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco", precio: 15000, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500" },
-                { id: "i2", nombre: "Arroz Chaufa", desc: "Arroz frito con pollo, huevo y cebollín. ¡Comen 2!", precio: 15000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=500", badge: "🍴 COMEN 2" }
+                { id: "i1", nombre: "Lomo Saltado de Pollo", desc: "Pollo salteado con cebolla, tomate, papas fritas y arroz blanco", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/jameaperu.com/a4c8e10acb988275f63e432ef3264f27d1ed45b2.webp" },
+                { id: "i2", nombre: "Arroz Chaufa", desc: "Arroz frito con pollo, huevo y cebollín. ¡Comen 2!", precio: 15000, img: "https://kimi-web-img.moonshot.cn/img/www.laylita.com/ba8e26d294a873e7b34402ca48256c726b6b4cec.jpg", badge: "🍴 COMEN 2" }
             ],
             entradas: [
-                { id: "e1", nombre: "Ceviche Mixto", desc: "Pescado fresco con camote, choclo y canchita", precio: 20000, img: "https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=500", badge: "❄️ FRESCO" },
-                { id: "e2", nombre: "Jalea Mixta", desc: "Pescado apanado, rabas, papas fritas y salsa criolla. ¡Comen 2!", precio: 20000, img: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500", badge: "🍴 COMEN 2" }
+                { id: "e1", nombre: "Ceviche Mixto", desc: "Pescado fresco con camote, choclo y canchita", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/es.cravingsjournal.com/59935a0ac84f7ffd399f59c5456b988d8b0d8e2d.jpg", badge: "❄️ FRESCO" },
+                { id: "e2", nombre: "Jalea Mixta", desc: "Pescado apanado, rabas, papas fritas y salsa criolla. ¡Comen 2!", precio: 20000, img: "https://kimi-web-img.moonshot.cn/img/comedera.com/62e61dcd313bc41117cca86d2e69de6b300865bd.jpg", badge: "🍴 COMEN 2" }
             ]
         };
 
@@ -752,7 +784,7 @@
             const renderCard = (item) => `
                 <div class="card" id="card-${item.id}">
                     ${item.badge ? `<span class="badge">${item.badge}</span>` : ''}
-                    <img src="${item.img}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500'">
+                    <img src="${item.img}" class="card-img" onerror="this.src='https://via.placeholder.com/400x220'">
                     <div class="card-body">
                         <h3 class="card-title">${item.nombre}</h3>
                         <p class="card-desc">${item.desc}</p>
