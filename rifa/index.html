@@ -36,9 +36,16 @@
         .gasto { color: #c5221f; font-weight: bold; }
         .btn-delete { background: none; border: none; color: #8d949e; font-size: 14px; margin-left: 8px; cursor: pointer; width: auto; padding: 0; }
 
+        /* Tabla de Resumen */
         .resumen-tabla { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-        .resumen-tabla td, .resumen-tabla th { padding: 6px; border-bottom: 1px solid #eee; text-align: center; }
+        .resumen-tabla td, .resumen-tabla th { padding: 8px 4px; border-bottom: 1px solid #eee; text-align: center; }
         .resumen-tabla th { background: #f8f9fa; }
+        .fila-total { background-color: #f1f3f4; font-weight: bold; border-top: 2px solid #ccc; }
+
+        /* Totales semanales tarjetas grandes */
+        .semana-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .box-semana-neto { background: #202124; color: white; padding: 14px; border-radius: 10px; text-align: center; margin-top: 10px; }
+        .box-semana-neto p { margin: 4px 0 0; font-size: 28px; font-weight: bold; color: #34a853; }
     </style>
 </head>
 <body>
@@ -48,19 +55,19 @@
     <!-- Selector de Días -->
     <div class="dias-bar" id="barraDias"></div>
 
-    <!-- Cajas de Ganancias y Gastos -->
+    <!-- Cajas de Ganancias y Gastos del DÍA -->
     <div class="totales-grid">
         <div class="box-ganancia">
-            <h4>Ganancias</h4>
+            <h4>Ganancias del Día</h4>
             <p id="totalGanancias">$0.00</p>
         </div>
         <div class="box-gasto">
-            <h4>Gastos</h4>
+            <h4>Gastos del Día</h4>
             <p id="totalGastos">$0.00</p>
         </div>
     </div>
 
-    <!-- Resultado Neto en Azul -->
+    <!-- Resultado Neto del DÍA -->
     <div class="box-neto">
         <h4 id="tituloDia">Diferencia / Resultado del Lunes</h4>
         <p id="totalNeto">$0.00</p>
@@ -101,7 +108,7 @@
         <ul id="lista"></ul>
     </div>
 
-    <!-- Resumen Semanal -->
+    <!-- Resumen Semanal Completo -->
     <div class="card">
         <h3>📊 Resumen de la Semana</h3>
         <table class="resumen-tabla">
@@ -114,9 +121,34 @@
                 </tr>
             </thead>
             <tbody id="tablaResumen"></tbody>
+            <tfoot>
+                <tr class="fila-total">
+                    <td style="text-align:left;">TOTALES:</td>
+                    <td id="tdGananciaSemana" class="ganancia">$0.00</td>
+                    <td id="tdGastoSemana" class="gasto">$0.00</td>
+                    <td id="tdNetoSemana">$0.00</td>
+                </tr>
+            </tfoot>
         </table>
-        <h4 style="margin-top: 12px; text-align: right;">Resultado Semana: <span id="totalSemana">$0.00</span></h4>
-        <button onclick="borrarSemana()" style="background-color: #dc3545; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; margin-top: 10px; font-weight: bold;">Reiniciar Semana</button>
+
+        <!-- Tarjetas Acumuladas de la Semana -->
+        <div class="semana-grid">
+            <div class="box-ganancia">
+                <h4>Total Ganado en la Semana</h4>
+                <p id="cardGananciaSemana">$0.00</p>
+            </div>
+            <div class="box-gasto">
+                <h4>Total Gastado en la Semana</h4>
+                <p id="cardGastoSemana">$0.00</p>
+            </div>
+        </div>
+
+        <div class="box-semana-neto">
+            <h4>GANANCIA LIMPIA DE LA SEMANA</h4>
+            <p id="cardNetoSemana">$0.00</p>
+        </div>
+
+        <button onclick="borrarSemana()" style="background-color: #dc3545; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer;">Reiniciar Semana</button>
     </div>
 
 </div>
@@ -173,7 +205,7 @@
 
         const resultadoNeto = gananciasDia - gastosDia;
 
-        // Actualizar cajas superiores
+        // Actualizar cajas superiores del día
         document.getElementById('totalGanancias').textContent = `$${gananciasDia.toFixed(2)}`;
         document.getElementById('totalGastos').textContent = `$${gastosDia.toFixed(2)}`;
         document.getElementById('totalNeto').textContent = `$${resultadoNeto.toFixed(2)}`;
@@ -214,7 +246,9 @@
     function actualizarResumenSemanal() {
         const tabla = document.getElementById('tablaResumen');
         tabla.innerHTML = '';
-        let granTotalNeto = 0;
+
+        let totalGananciaSemana = 0;
+        let totalGastoSemana = 0;
 
         dias.forEach(dia => {
             let gan = 0;
@@ -225,7 +259,8 @@
             });
 
             let neto = gan - gas;
-            granTotalNeto += neto;
+            totalGananciaSemana += gan;
+            totalGastoSemana += gas;
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -237,7 +272,21 @@
             tabla.appendChild(tr);
         });
 
-        document.getElementById('totalSemana').textContent = `$${granTotalNeto.toFixed(2)}`;
+        let totalNetoSemana = totalGananciaSemana - totalGastoSemana;
+
+        // Actualizar pie de tabla
+        document.getElementById('tdGananciaSemana').textContent = `$${totalGananciaSemana.toFixed(2)}`;
+        document.getElementById('tdGastoSemana').textContent = `$${totalGastoSemana.toFixed(2)}`;
+        document.getElementById('tdNetoSemana').textContent = `$${totalNetoSemana.toFixed(2)}`;
+        document.getElementById('tdNetoSemana').style.color = totalNetoSemana >= 0 ? '#107c41' : '#d93025';
+
+        // Actualizar Tarjetas Semanales
+        document.getElementById('cardGananciaSemana').textContent = `$${totalGananciaSemana.toFixed(2)}`;
+        document.getElementById('cardGastoSemana').textContent = `$${totalGastoSemana.toFixed(2)}`;
+        
+        const elemNetoCard = document.getElementById('cardNetoSemana');
+        elemNetoCard.textContent = `$${totalNetoSemana.toFixed(2)}`;
+        elemNetoCard.style.color = totalNetoSemana >= 0 ? '#34a853' : '#ea4335';
     }
 
     function borrarSemana() {
