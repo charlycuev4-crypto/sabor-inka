@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control Semanal</title>
+    <title>Control Semanal con Historial</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: #f0f2f5; margin: 0; padding: 12px; }
@@ -46,6 +46,9 @@
         .semana-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .box-semana-neto { background: #202124; color: white; padding: 14px; border-radius: 10px; text-align: center; margin-top: 10px; }
         .box-semana-neto p { margin: 4px 0 0; font-size: 28px; font-weight: bold; color: #34a853; }
+
+        .btn-archivar { background-color: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .item-historial { background: #f8f9fa; border: 1px solid #e9ecef; padding: 12px; border-radius: 8px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -76,6 +79,9 @@
     <!-- Formulario de Registro -->
     <div class="card">
         <h3>Nuevo Registro</h3>
+        <label>Fecha del movimiento</label>
+        <input type="date" id="fechaRegistro">
+
         <label>Día de registro</label>
         <select id="selectDiaGuardar">
             <option value="Lunes">Lunes</option>
@@ -110,7 +116,7 @@
 
     <!-- Resumen Semanal Completo -->
     <div class="card">
-        <h3>📊 Resumen de la Semana</h3>
+        <h3>📊 Resumen de la Semana Actual</h3>
         <table class="resumen-tabla">
             <thead>
                 <tr>
@@ -134,11 +140,11 @@
         <!-- Tarjetas Acumuladas de la Semana -->
         <div class="semana-grid">
             <div class="box-ganancia">
-                <h4>Total Ganado en la Semana</h4>
+                <h4>Total Ganado</h4>
                 <p id="cardGananciaSemana">$0.00</p>
             </div>
             <div class="box-gasto">
-                <h4>Total Gastado en la Semana</h4>
+                <h4>Total Gastado</h4>
                 <p id="cardGastoSemana">$0.00</p>
             </div>
         </div>
@@ -148,7 +154,15 @@
             <p id="cardNetoSemana">$0.00</p>
         </div>
 
-        <button onclick="borrarSemana()" style="background-color: #dc3545; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer;">Reiniciar Semana</button>
+        <button class="btn-archivar" onclick="cerrarYGuardarSemana()">📁 Finalizar Semana y Guardar en Historial</button>
+    </div>
+
+    <!-- Historial de Semanas Pasadas -->
+    <div class="card">
+        <h3>📜 Historial de Semanas Guardadas</h3>
+        <div id="contenedorHistorial">
+            <p style="text-align:center; color:#777; font-size:13px;">Aún no has guardado semanas anteriores.</p>
+        </div>
     </div>
 
 </div>
@@ -156,9 +170,17 @@
 <script>
     const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
     let diaSeleccionado = "Lunes";
+    
+    // Cargar datos actuales
     let datosSemana = JSON.parse(localStorage.getItem('datos_semana_v3')) || {
         "Lunes": [], "Martes": [], "Miércoles": [], "Jueves": [], "Viernes": [], "Sábado": [], "Domingo": []
     };
+
+    // Cargar historial
+    let historialSemanas = JSON.parse(localStorage.getItem('historial_semanas')) || [];
+
+    // Colocar fecha de hoy por defecto en el selector
+    document.getElementById('fechaRegistro').valueAsDate = new Date();
 
     function inicializarBarraDias() {
         const barra = document.getElementById('barraDias');
@@ -193,24 +215,26 @@
 
         movimientos.forEach((item, index) => {
             const li = document.createElement('li');
+            const fechaTxt = item.fecha ? `<small style="color:#777; font-size:11px;"> (${item.fecha})</small>` : '';
             if (item.tipo === 'ganancia') {
                 gananciasDia += item.monto;
-                li.innerHTML = `<span>${item.nombre}</span> <div><span class="ganancia">+ $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
+                li.innerHTML = `<span>${item.nombre}${fechaTxt}</span> <div><span class="ganancia">+ $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
             } else {
                 gastosDia += item.monto;
-                li.innerHTML = `<span>${item.nombre}</span> <div><span class="gasto">- $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
+                li.innerHTML = `<span>${item.nombre}${fechaTxt}</span> <div><span class="gasto">- $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
             }
             lista.appendChild(li);
         });
 
         const resultadoNeto = gananciasDia - gastosDia;
 
-        // Actualizar cajas superiores del día
+        // Cajas superiores del día
         document.getElementById('totalGanancias').textContent = `$${gananciasDia.toFixed(2)}`;
         document.getElementById('totalGastos').textContent = `$${gastosDia.toFixed(2)}`;
         document.getElementById('totalNeto').textContent = `$${resultadoNeto.toFixed(2)}`;
         
         actualizarResumenSemanal();
+        actualizarVistaHistorial();
         localStorage.setItem('datos_semana_v3', JSON.stringify(datosSemana));
     }
 
@@ -219,6 +243,7 @@
         const nombreInput = document.getElementById('nombre');
         const montoInput = document.getElementById('monto');
         const tipoInput = document.getElementById('tipo');
+        const fechaInput = document.getElementById('fechaRegistro').value;
 
         const nombre = nombreInput.value.trim();
         const monto = parseFloat(montoInput.value);
@@ -228,7 +253,12 @@
             return;
         }
 
-        datosSemana[diaGuardar].push({ nombre, monto, tipo: tipoInput.value });
+        datosSemana[diaGuardar].push({ 
+            nombre, 
+            monto, 
+            tipo: tipoInput.value,
+            fecha: fechaInput 
+        });
         
         diaSeleccionado = diaGuardar;
         inicializarBarraDias();
@@ -274,13 +304,11 @@
 
         let totalNetoSemana = totalGananciaSemana - totalGastoSemana;
 
-        // Actualizar pie de tabla
         document.getElementById('tdGananciaSemana').textContent = `$${totalGananciaSemana.toFixed(2)}`;
         document.getElementById('tdGastoSemana').textContent = `$${totalGastoSemana.toFixed(2)}`;
         document.getElementById('tdNetoSemana').textContent = `$${totalNetoSemana.toFixed(2)}`;
         document.getElementById('tdNetoSemana').style.color = totalNetoSemana >= 0 ? '#107c41' : '#d93025';
 
-        // Actualizar Tarjetas Semanales
         document.getElementById('cardGananciaSemana').textContent = `$${totalGananciaSemana.toFixed(2)}`;
         document.getElementById('cardGastoSemana').textContent = `$${totalGastoSemana.toFixed(2)}`;
         
@@ -289,11 +317,64 @@
         elemNetoCard.style.color = totalNetoSemana >= 0 ? '#34a853' : '#ea4335';
     }
 
-    function borrarSemana() {
-        if (confirm('¿Quieres reiniciar todos los datos de la semana?')) {
+    function cerrarYGuardarSemana() {
+        let ganTotal = 0;
+        let gasTotal = 0;
+
+        dias.forEach(dia => {
+            (datosSemana[dia] || []).forEach(item => {
+                if (item.tipo === 'ganancia') ganTotal += item.monto;
+                else gasTotal += item.monto;
+            });
+        });
+
+        if (ganTotal === 0 && gasTotal === 0) {
+            alert("No hay registros en esta semana para guardar.");
+            return;
+        }
+
+        if (confirm("¿Quieres finalizar la semana? Se guardarán los totales en el Historial y la semana actual quedará limpia para comenzar la siguiente.")) {
+            const fechaHoy = new Date().toLocaleDateString();
+            const semanaGuardada = {
+                fechaCierre: fechaHoy,
+                ganancia: ganTotal,
+                gasto: gasTotal,
+                neto: ganTotal - gasTotal
+            };
+
+            historialSemanas.unshift(semanaGuardada);
+            localStorage.setItem('historial_semanas', JSON.stringify(historialSemanas));
+
+            // Reiniciar semana actual
             dias.forEach(d => datosSemana[d] = []);
             actualizarInterfaz();
+            alert("¡Semana guardada con éxito en el Historial!");
         }
+    }
+
+    function actualizarVistaHistorial() {
+        const contenedor = document.getElementById('contenedorHistorial');
+        if (historialSemanas.length === 0) {
+            contenedor.innerHTML = '<p style="text-align:center; color:#777; font-size:13px;">Aún no has guardado semanas anteriores.</p>';
+            return;
+        }
+
+        contenedor.innerHTML = '';
+        historialSemanas.forEach((sem, idx) => {
+            const div = document.createElement('div');
+            div.className = 'item-historial';
+            div.innerHTML = `
+                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:13px; margin-bottom:4px;">
+                    <span>Semana Cerrada: ${sem.fechaCierre}</span>
+                    <span style="color:${sem.neto >= 0 ? '#107c41' : '#d93025'}">Limpio: $${sem.neto.toFixed(2)}</span>
+                </div>
+                <div style="font-size:12px; color:#555; display:flex; justify-content:space-between;">
+                    <span>Ganado: <b style="color:#107c41">$${sem.ganancia.toFixed(2)}</b></span>
+                    <span>Gastado: <b style="color:#d93025">$${sem.gasto.toFixed(2)}</b></span>
+                </div>
+            `;
+            contenedor.appendChild(div);
+        });
     }
 
     // Inicializar
