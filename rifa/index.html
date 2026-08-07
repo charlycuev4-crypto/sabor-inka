@@ -3,37 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Gastos y Ganancias</title>
+    <title>Control Semanal</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #f0f2f5; margin: 0; padding: 15px; }
-        .container { max-width: 450px; margin: 0 auto; }
-        .card { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }
-        h2, h3 { margin-top: 0; color: #1c1e21; text-align: center; }
-        .total-box { background: #107c41; color: white; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
-        .total-box p { margin: 5px 0 0; font-size: 32px; font-weight: bold; }
-        label { font-size: 13px; font-weight: bold; color: #606770; display: block; margin-top: 10px; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccd0d5; border-radius: 8px; font-size: 16px; }
-        button { width: 100%; padding: 14px; background-color: #0084ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        body { background-color: #f0f2f5; margin: 0; padding: 12px; }
+        .container { max-width: 480px; margin: 0 auto; }
+        .card { background: white; padding: 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 12px; }
+        h2, h3, h4 { margin-top: 0; color: #1c1e21; text-align: center; }
+        
+        /* Selector de días arriba */
+        .dias-bar { display: flex; overflow-x: auto; gap: 6px; padding-bottom: 8px; margin-bottom: 10px; }
+        .btn-dia { flex: 0 0 auto; padding: 8px 14px; background: #e4e6eb; border: none; border-radius: 20px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .btn-dia.activo { background: #0084ff; color: white; }
+
+        .total-box { background: #107c41; color: white; padding: 14px; border-radius: 12px; text-align: center; margin-bottom: 12px; }
+        .total-box p { margin: 4px 0 0; font-size: 30px; font-weight: bold; }
+        
+        label { font-size: 12px; font-weight: bold; color: #606770; display: block; margin-top: 8px; }
+        input, select { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #ccd0d5; border-radius: 8px; font-size: 15px; }
+        .btn-guardar { width: 100%; padding: 12px; background-color: #0084ff; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; margin-top: 12px; cursor: pointer; }
+        
         ul { list-style: none; padding: 0; margin: 0; }
-        li { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #e4e6eb; font-size: 15px; }
+        li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e4e6eb; font-size: 14px; }
         .ganancia { color: #107c41; font-weight: bold; }
         .gasto { color: #d93025; font-weight: bold; }
-        .btn-delete { background: none; border: none; color: #8d949e; font-size: 14px; margin-left: 10px; cursor: pointer; width: auto; padding: 0; }
+        .btn-delete { background: none; border: none; color: #8d949e; font-size: 14px; margin-left: 8px; cursor: pointer; width: auto; padding: 0; }
+
+        .resumen-tabla { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        .resumen-tabla td, .resumen-tabla th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+        .resumen-tabla th { background: #f8f9fa; }
     </style>
 </head>
 <body>
 
 <div class="container">
+
+    <!-- Selector de Días -->
+    <div class="dias-bar" id="barraDias"></div>
+
     <div class="total-box">
-        <h3>Saldo Total del Día</h3>
-        <p id="total">$0.00</p>
+        <h3 id="tituloDia">Total del Día</h3>
+        <p id="totalDia">$0.00</p>
     </div>
 
     <div class="card">
         <h3>Nuevo Registro</h3>
+        <label>Día de registro</label>
+        <select id="selectDiaGuardar">
+            <option value="Lunes">Lunes</option>
+            <option value="Martes">Martes</option>
+            <option value="Miércoles">Miércoles</option>
+            <option value="Jueves">Jueves</option>
+            <option value="Viernes">Viernes</option>
+            <option value="Sábado">Sábado</option>
+            <option value="Domingo">Domingo</option>
+        </select>
+
         <label>Producto o Concepto</label>
-        <input type="text" id="nombre" placeholder="Ej: Bebida, Pan, Pago de luz">
+        <input type="text" id="nombre" placeholder="Ej: Pan, Combustible, Propina">
 
         <label>Monto ($)</label>
         <input type="number" id="monto" placeholder="0.00" step="0.01">
@@ -44,42 +71,85 @@
             <option value="gasto">🔴 Gasto (-)</option>
         </select>
 
-        <button onclick="agregarRegistro()">Guardar Movimiento</button>
+        <button class="btn-guardar" onclick="agregarRegistro()">Guardar Movimiento</button>
     </div>
 
     <div class="card">
-        <h3>Movimientos Registrados</h3>
+        <h3 id="subtituloLista">Movimientos de Hoy</h3>
         <ul id="lista"></ul>
-        <button onclick="borrarTodo()" style="background-color: #dc3545; margin-top: 20px;">Reiniciar Día</button>
     </div>
+
+    <!-- Resumen Semanal -->
+    <div class="card">
+        <h3>📊 Resumen de la Semana</h3>
+        <table class="resumen-tabla">
+            <thead>
+                <tr><th>Día</th><th>Balance</th></tr>
+            </thead>
+            <tbody id="tablaResumen"></tbody>
+        </table>
+        <h4 style="margin-top: 12px; text-align: right;">Total Semana: <span id="totalSemana">$0.00</span></h4>
+        <button onclick="borrarSemana()" style="background-color: #dc3545; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; margin-top: 10px; font-weight: bold;">Reiniciar Semana</button>
+    </div>
+
 </div>
 
 <script>
-    let registros = JSON.parse(localStorage.getItem('mis_registros')) || [];
+    const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+    let diaSeleccionado = "Lunes";
+    let datosSemana = JSON.parse(localStorage.getItem('datos_semana_v2')) || {
+        "Lunes": [], "Martes": [], "Miércoles": [], "Jueves": [], "Viernes": [], "Sábado": [], "Domingo": []
+    };
+
+    function inicializarBarraDias() {
+        const barra = document.getElementById('barraDias');
+        barra.innerHTML = '';
+        dias.forEach(dia => {
+            const btn = document.createElement('button');
+            btn.className = `btn-dia ${dia === diaSeleccionado ? 'activo' : ''}`;
+            btn.textContent = dia;
+            btn.onclick = () => cambiarDia(dia);
+            barra.appendChild(btn);
+        });
+    }
+
+    function cambiarDia(dia) {
+        diaSeleccionado = dia;
+        document.getElementById('selectDiaGuardar').value = dia;
+        inicializarBarraDias();
+        actualizarInterfaz();
+    }
 
     function actualizarInterfaz() {
+        document.getElementById('tituloDia').textContent = `Total del ${diaSeleccionado}`;
+        document.getElementById('subtituloLista').textContent = `Movimientos del ${diaSeleccionado}`;
+        
         const lista = document.getElementById('lista');
-        const totalElem = document.getElementById('total');
         lista.innerHTML = '';
-        let total = 0;
+        let totalDia = 0;
 
-        registros.forEach((item, index) => {
+        const movimientos = datosSemana[diaSeleccionado] || [];
+
+        movimientos.forEach((item, index) => {
             const li = document.createElement('li');
             if (item.tipo === 'ganancia') {
-                total += item.monto;
+                totalDia += item.monto;
                 li.innerHTML = `<span>${item.nombre}</span> <div><span class="ganancia">+ $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
             } else {
-                total -= item.monto;
+                totalDia -= item.monto;
                 li.innerHTML = `<span>${item.nombre}</span> <div><span class="gasto">- $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
             }
             lista.appendChild(li);
         });
 
-        totalElem.textContent = `$${total.toFixed(2)}`;
-        localStorage.setItem('mis_registros', JSON.stringify(registros));
+        document.getElementById('totalDia').textContent = `$${totalDia.toFixed(2)}`;
+        
+        actualizarResumenSemanal();
+        localStorage.setItem('datos_semana_v2', JSON.stringify(datosSemana));
     }
 
     function agregarRegistro() {
+        const diaGuardar = document.getElementById('selectDiaGuardar').value;
         const nombreInput = document.getElementById('nombre');
         const montoInput = document.getElementById('monto');
         const tipoInput = document.getElementById('tipo');
@@ -88,11 +158,15 @@
         const monto = parseFloat(montoInput.value);
 
         if (!nombre || isNaN(monto) || monto <= 0) {
-            alert('Por favor ingresa un nombre y un monto válido.');
+            alert('Por favor completa el nombre y un monto válido.');
             return;
         }
 
-        registros.push({ nombre, monto, tipo: tipoInput.value });
+        datosSemana[diaGuardar].push({ nombre, monto, tipo: tipoInput.value });
+        
+        // Cambiar vista al día guardado
+        diaSeleccionado = diaGuardar;
+        inicializarBarraDias();
         actualizarInterfaz();
 
         nombreInput.value = '';
@@ -100,18 +174,41 @@
     }
 
     function eliminarItem(index) {
-        registros.splice(index, 1);
+        datosSemana[diaSeleccionado].splice(index, 1);
         actualizarInterfaz();
     }
 
-    function borrarTodo() {
-        if (confirm('¿Quieres borrar todos los datos registrados?')) {
-            registros = [];
+    function actualizarResumenSemanal() {
+        const tabla = document.getElementById('tablaResumen');
+        tabla.innerHTML = '';
+        let granTotal = 0;
+
+        dias.forEach(dia => {
+            let total = 0;
+            (datosSemana[dia] || []).forEach(item => {
+                if (item.tipo === 'ganancia') total += item.monto;
+                else total -= item.monto;
+            });
+
+            granTotal += total;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><b>${dia}</b></td><td style="color:${total >= 0 ? '#107c41' : '#d93025'}; font-weight:bold;">$${total.toFixed(2)}</td>`;
+            tabla.appendChild(tr);
+        });
+
+        document.getElementById('totalSemana').textContent = `$${granTotal.toFixed(2)}`;
+    }
+
+    function borrarSemana() {
+        if (confirm('¿Quieres reiniciar todos los datos de la semana?')) {
+            dias.forEach(d => datosSemana[d] = []);
             actualizarInterfaz();
         }
     }
 
-    // Cargar datos guardados al abrir la app
+    // Inicializar
+    inicializarBarraDias();
     actualizarInterfaz();
 </script>
 
