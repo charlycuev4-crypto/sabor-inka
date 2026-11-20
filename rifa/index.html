@@ -6,20 +6,20 @@
     <title>CRESO — Accesorios &amp; Mayorista Directo</title>
     <style>
         :root {
-            --bg-main: #eef6ff;
+            --bg-main: #f0fbf6;
             --bg-surface: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.92);
-            --sky-bright: #00b4d8;
-            --sky-deep: #0284c7;
-            --sky-tint: rgba(2, 132, 199, 0.11);
-            --accent-gold: #d97706;
+            --bg-card: rgba(255, 255, 255, 0.94);
+            --emerald-bright: #10b981;
+            --emerald-deep: #047857;
+            --emerald-mid: #059669;
+            --emerald-tint: rgba(5, 150, 105, 0.11);
+            --gold-bright: #f59e0b;
+            --gold-deep: #b45309;
             --gold-tint: rgba(245, 158, 11, 0.14);
-            --border-subtle: rgba(14, 116, 144, 0.15);
-            --border-sky: rgba(2, 132, 199, 0.38);
+            --border-subtle: rgba(4, 120, 87, 0.14);
+            --border-emerald: rgba(5, 150, 105, 0.38);
             --text-main: #0f172a;
             --text-muted: #475569;
-            --green: #059669;
-            --green-tint: rgba(16, 185, 129, 0.14);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -28,9 +28,9 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: var(--bg-main);
             background-image:
-                radial-gradient(circle at 12% 4%, rgba(0, 180, 216, 0.22) 0%, transparent 45%),
-                radial-gradient(circle at 88% 14%, rgba(56, 189, 248, 0.22) 0%, transparent 45%),
-                radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 12% 4%, rgba(16, 185, 129, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 88% 14%, rgba(245, 158, 11, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 50% 90%, rgba(5, 150, 105, 0.09) 0%, transparent 50%);
             color: var(--text-main);
             line-height: 1.5;
             overflow-x: hidden;
@@ -53,7 +53,7 @@
         }
 
         .toast {
-            background: linear-gradient(135deg, var(--sky-deep) 0%, var(--sky-bright) 100%);
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
             color: #ffffff;
             padding: 13px 18px;
             border-radius: 16px;
@@ -62,7 +62,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 10px 28px rgba(2, 132, 199, 0.35);
+            box-shadow: 0 10px 28px rgba(5, 150, 105, 0.35);
             transform: translateY(-100px);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -87,14 +87,14 @@
             justify-content: center;
         }
 
-        /* ========== HEADER DINÁMICO CELESTE ========== */
+        /* ========== HEADER DINÁMICO FINANCIERO ========== */
         .header {
             text-align: center;
             padding: 34px 20px 24px;
-            background: linear-gradient(180deg, #ffffff 0%, rgba(224, 242, 254, 0.85) 100%);
+            background: linear-gradient(180deg, #ffffff 0%, rgba(209, 250, 229, 0.72) 100%);
             position: relative;
             border-bottom: 1px solid var(--border-subtle);
-            box-shadow: 0 6px 24px rgba(2, 132, 199, 0.06);
+            box-shadow: 0 6px 24px rgba(5, 150, 105, 0.07);
         }
 
         .top-controls {
@@ -107,8 +107,8 @@
 
         .icon-btn {
             background: #ffffff;
-            border: 1px solid var(--border-sky);
-            color: var(--sky-deep);
+            border: 1px solid var(--border-emerald);
+            color: var(--emerald-deep);
             width: 40px;
             height: 40px;
             border-radius: 12px;
@@ -118,13 +118,13 @@
             align-items: center;
             justify-content: center;
             transition: all 0.22s;
-            box-shadow: 0 3px 10px rgba(2, 132, 199, 0.1);
+            box-shadow: 0 3px 10px rgba(5, 150, 105, 0.1);
         }
 
         .icon-btn:hover, .icon-btn.active-sound {
-            background: var(--sky-tint);
+            background: var(--emerald-tint);
             transform: translateY(-1px);
-            box-shadow: 0 5px 14px rgba(2, 132, 199, 0.2);
+            box-shadow: 0 5px 14px rgba(5, 150, 105, 0.2);
         }
 
         .brand-pill {
@@ -134,9 +134,9 @@
             font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--sky-deep);
-            background: var(--sky-tint);
-            border: 1px solid var(--border-sky);
+            color: var(--emerald-deep);
+            background: var(--emerald-tint);
+            border: 1px solid var(--border-emerald);
             padding: 4px 14px;
             border-radius: 999px;
             margin-bottom: 10px;
@@ -148,7 +148,7 @@
             font-weight: 900;
             letter-spacing: 7px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #0369a1 0%, var(--sky-bright) 55%, #0ea5e9 100%);
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 52%, var(--gold-bright) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.1;
@@ -171,13 +171,13 @@
 
         .zona {
             background: #ffffff;
-            color: var(--sky-deep);
+            color: var(--emerald-deep);
             padding: 7px 15px;
             border-radius: 999px;
             font-size: 0.82rem;
             font-weight: 700;
-            border: 1px solid var(--border-sky);
-            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);
+            border: 1px solid var(--border-emerald);
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.08);
         }
 
         /* ========== BUSCADOR Y TABS ========== */
@@ -185,7 +185,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(238, 246, 255, 0.9);
+            background: rgba(240, 251, 246, 0.92);
             backdrop-filter: blur(14px);
             padding: 14px 16px;
             border-bottom: 1px solid var(--border-subtle);
@@ -204,19 +204,19 @@
         .search-box input {
             width: 100%;
             background: #ffffff;
-            border: 1px solid var(--border-sky);
+            border: 1px solid var(--border-emerald);
             color: var(--text-main);
             padding: 11px 16px 11px 42px;
             border-radius: 14px;
             font-size: 0.95rem;
-            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.06);
+            box-shadow: 0 2px 10px rgba(5, 150, 105, 0.06);
             transition: border-color 0.22s, box-shadow 0.22s;
         }
 
         .search-box input:focus {
             outline: none;
-            border-color: var(--sky-bright);
-            box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.18);
+            border-color: var(--emerald-bright);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
         }
 
         .search-icon {
@@ -224,7 +224,7 @@
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--sky-deep);
+            color: var(--emerald-deep);
             font-size: 1rem;
         }
 
@@ -253,10 +253,10 @@
         }
 
         .tab.active {
-            background: linear-gradient(135deg, var(--sky-deep) 0%, var(--sky-bright) 100%);
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
             color: #ffffff;
-            border-color: var(--sky-deep);
-            box-shadow: 0 5px 16px rgba(2, 132, 199, 0.3);
+            border-color: var(--emerald-deep);
+            box-shadow: 0 5px 16px rgba(5, 150, 105, 0.3);
         }
 
         /* ========== BANNER MAYORISTA ========== */
@@ -267,8 +267,8 @@
         }
 
         .promo-card {
-            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
-            border: 1px solid var(--border-sky);
+            background: linear-gradient(135deg, #ffffff 0%, #d1fae5 100%);
+            border: 1px solid var(--border-emerald);
             border-radius: 18px;
             padding: 16px 20px;
             display: flex;
@@ -276,10 +276,10 @@
             justify-content: space-between;
             gap: 14px;
             flex-wrap: wrap;
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.08);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.09);
         }
 
-        .promo-card strong { color: var(--sky-deep); font-size: 1rem; }
+        .promo-card strong { color: var(--emerald-deep); font-size: 1rem; }
         .promo-card p { color: var(--text-muted); font-size: 0.86rem; margin-top: 2px; }
 
         /* ========== GRID & CARDS DINÁMICOS ========== */
@@ -310,15 +310,15 @@
 
         .card:hover {
             transform: translateY(-4px);
-            border-color: var(--sky-bright);
-            box-shadow: 0 14px 30px rgba(2, 132, 199, 0.16);
+            border-color: var(--emerald-bright);
+            box-shadow: 0 14px 30px rgba(5, 150, 105, 0.16);
         }
 
         .card.added-anim { animation: cardAdded 0.5s ease; }
 
         @keyframes cardAdded {
             0% { transform: scale(1); }
-            40% { transform: scale(1.025); border-color: var(--sky-bright); }
+            40% { transform: scale(1.025); border-color: var(--emerald-bright); }
             100% { transform: scale(1); }
         }
 
@@ -327,20 +327,20 @@
             top: 12px;
             right: 12px;
             background: #ffffff;
-            color: var(--sky-deep);
-            border: 1px solid var(--border-sky);
+            color: var(--gold-deep);
+            border: 1px solid rgba(245, 158, 11, 0.45);
             padding: 5px 11px;
             border-radius: 10px;
             font-weight: 800;
             font-size: 0.74rem;
             z-index: 10;
-            box-shadow: 0 3px 10px rgba(2, 132, 199, 0.12);
+            box-shadow: 0 3px 10px rgba(245, 158, 11, 0.14);
         }
 
         .card-visual {
             width: 100%;
             height: 195px;
-            background: linear-gradient(145deg, #e0f2fe 0%, #f0f9ff 100%);
+            background: linear-gradient(145deg, #ecfdf5 0%, #f0fdf4 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -358,7 +358,7 @@
         .card-visual svg {
             width: 82%;
             height: 82%;
-            filter: drop-shadow(0 8px 16px rgba(2, 132, 199, 0.14));
+            filter: drop-shadow(0 8px 16px rgba(5, 150, 105, 0.14));
         }
 
         .card-body {
@@ -372,7 +372,7 @@
             font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--sky-deep);
+            color: var(--emerald-mid);
             font-weight: 800;
             margin-bottom: 4px;
         }
@@ -424,7 +424,7 @@
         }
 
         .price-bulk-val {
-            color: var(--accent-gold);
+            color: var(--gold-deep);
             font-weight: 900;
             font-size: 1.05rem;
             display: block;
@@ -433,7 +433,7 @@
 
         .price-bulk-tag {
             font-size: 0.68rem;
-            color: #b45309;
+            color: var(--gold-deep);
             font-weight: 700;
         }
 
@@ -450,7 +450,7 @@
             font-weight: 700;
         }
 
-        .bulk-progress-text.unlocked { color: var(--green); }
+        .bulk-progress-text.unlocked { color: var(--emerald-deep); }
 
         .progress-track {
             height: 6px;
@@ -461,13 +461,13 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--sky-bright) 0%, var(--sky-deep) 100%);
+            background: linear-gradient(90deg, var(--emerald-bright) 0%, var(--emerald-deep) 100%);
             border-radius: 999px;
             transition: width 0.3s ease;
         }
 
         .progress-fill.unlocked {
-            background: linear-gradient(90deg, #10b981 0%, var(--green) 100%);
+            background: linear-gradient(90deg, var(--gold-bright) 0%, var(--emerald-mid) 100%);
         }
 
         .card-actions {
@@ -477,7 +477,7 @@
         }
 
         .btn-add {
-            background: linear-gradient(135deg, var(--sky-deep) 0%, var(--sky-bright) 100%);
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
             color: #ffffff;
             border: none;
             padding: 11px 14px;
@@ -485,7 +485,7 @@
             font-weight: 800;
             font-size: 0.9rem;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
             transition: all 0.2s;
             display: flex;
             align-items: center;
@@ -494,11 +494,11 @@
         }
 
         .btn-add:active { transform: scale(0.96); }
-        .btn-add.added { background: var(--green); color: #ffffff; }
+        .btn-add.added { background: var(--gold-bright); color: #0f172a; }
 
         .btn-bulk-quick {
             background: #ffffff;
-            color: var(--accent-gold);
+            color: var(--gold-deep);
             border: 1px solid rgba(245, 158, 11, 0.55);
             padding: 11px 12px;
             border-radius: 12px;
@@ -517,7 +517,7 @@
             bottom: 24px;
             right: 22px;
             z-index: 1000;
-            background: linear-gradient(135deg, var(--sky-deep) 0%, var(--sky-bright) 100%);
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
             color: #ffffff;
             width: 66px;
             height: 66px;
@@ -528,7 +528,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.65rem;
-            box-shadow: 0 10px 28px rgba(2, 132, 199, 0.42);
+            box-shadow: 0 10px 28px rgba(5, 150, 105, 0.42);
             transition: transform 0.2s;
         }
 
@@ -546,8 +546,8 @@
             position: absolute;
             top: -4px;
             right: -4px;
-            background: #ef4444;
-            color: white;
+            background: var(--gold-bright);
+            color: #0f172a;
             min-width: 25px;
             height: 25px;
             border-radius: 50%;
@@ -573,14 +573,14 @@
             left: 50%;
             transform: translateX(-50%);
             background: #ffffff;
-            color: var(--sky-deep);
+            color: var(--emerald-deep);
             padding: 2px 10px;
             border-radius: 10px;
             font-size: 0.72rem;
             font-weight: 900;
             white-space: nowrap;
-            border: 1px solid var(--sky-bright);
-            box-shadow: 0 3px 8px rgba(2, 132, 199, 0.2);
+            border: 1px solid var(--emerald-bright);
+            box-shadow: 0 3px 8px rgba(5, 150, 105, 0.2);
         }
 
         /* ========== DRAWER DEL CARRITO & MODALES ========== */
@@ -613,8 +613,8 @@
             z-index: 1600;
             display: flex;
             flex-direction: column;
-            border-top: 3px solid var(--sky-bright);
-            box-shadow: 0 -12px 40px rgba(2, 132, 199, 0.22);
+            border-top: 3px solid var(--emerald-bright);
+            box-shadow: 0 -12px 40px rgba(5, 150, 105, 0.22);
         }
 
         .drawer-overlay.active .drawer { transform: translateY(0); }
@@ -636,7 +636,7 @@
         }
 
         .drawer-header h2 {
-            color: var(--sky-deep);
+            color: var(--emerald-deep);
             font-size: 1.25rem;
             display: flex;
             align-items: center;
@@ -667,11 +667,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #f0f9ff;
+            background: #ecfdf5;
             padding: 11px 15px;
             border-radius: 12px;
             margin-bottom: 14px;
-            border: 1px solid var(--border-sky);
+            border: 1px solid var(--border-emerald);
         }
 
         .cart-item {
@@ -691,12 +691,12 @@
 
         .cart-item-info { flex: 1; }
         .cart-item-info h4 { color: var(--text-main); font-size: 0.94rem; margin-bottom: 3px; }
-        .cart-item-meta { font-size: 0.82rem; color: var(--sky-deep); font-weight: 700; }
+        .cart-item-meta { font-size: 0.82rem; color: var(--emerald-deep); font-weight: 700; }
         .tag-mayorista {
             display: inline-block;
-            background: var(--green-tint);
-            color: var(--green);
-            border: 1px solid rgba(16, 185, 129, 0.35);
+            background: var(--gold-tint);
+            color: var(--gold-deep);
+            border: 1px solid rgba(245, 158, 11, 0.4);
             font-size: 0.68rem;
             padding: 1px 7px;
             border-radius: 6px;
@@ -726,7 +726,7 @@
             font-weight: 800;
         }
 
-        .qty-btn:hover { background: #e0f2fe; }
+        .qty-btn:hover { background: #d1fae5; }
         .qty-controls span { min-width: 24px; text-align: center; font-weight: 800; color: var(--text-main); }
 
         .form-grid {
@@ -759,14 +759,14 @@
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
-            border-color: var(--sky-bright);
+            border-color: var(--emerald-bright);
             background: #ffffff;
         }
 
         .savings-box {
-            background: var(--green-tint);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            color: var(--green);
+            background: var(--gold-tint);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            color: var(--gold-deep);
             padding: 10px 14px;
             border-radius: 12px;
             text-align: center;
@@ -779,14 +779,14 @@
             text-align: center;
             margin: 14px 0;
             padding: 16px;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
             border-radius: 16px;
-            border: 1px solid var(--border-sky);
+            border: 1px solid var(--border-emerald);
         }
 
         .total-box .total-amount {
             font-size: 1.65rem;
-            color: var(--sky-deep);
+            color: var(--emerald-deep);
             font-weight: 900;
         }
 
@@ -827,7 +827,7 @@
         }
 
         .admin-section h3 {
-            color: var(--sky-deep);
+            color: var(--emerald-deep);
             font-size: 1rem;
             margin-bottom: 12px;
         }
@@ -866,9 +866,9 @@
         }
 
         .btn-file {
-            background: #f0f9ff;
-            color: var(--sky-deep);
-            border: 1px dashed var(--sky-bright);
+            background: #ecfdf5;
+            color: var(--emerald-deep);
+            border: 1px dashed var(--emerald-bright);
             padding: 8px 10px;
             border-radius: 8px;
             font-size: 0.78rem;
@@ -879,7 +879,7 @@
         }
 
         .btn-export {
-            background: linear-gradient(135deg, var(--sky-deep) 0%, var(--sky-bright) 100%);
+            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
             color: #ffffff;
             border: none;
             width: 100%;
@@ -918,7 +918,7 @@
             <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Activar/silenciar sonidos">🔊</button>
             <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar precios, fotos y WhatsApp">⚙️</button>
         </div>
-        <div class="brand-pill">⚡ Catálogo Oficial</div>
+        <div class="brand-pill">💰 Catálogo Oficial</div>
         <h1 class="logo" id="storeTitle">CRESO</h1>
         <p class="lema" id="storeSubtitle">Accesorios móviles &amp; precios directos sin vueltas</p>
         <div class="trust-badges">
@@ -951,7 +951,7 @@
                 <strong>🔥 Descuento Mayorista Automático</strong>
                 <p>Llevando <strong>10 o más unidades</strong> del mismo artículo, el carrito aplica el precio mayorista solo.</p>
             </div>
-            <span style="color: var(--accent-gold); font-weight: 900; font-size: 0.85rem;">Envío o Retiro a coordinar →</span>
+            <span style="color: var(--gold-deep); font-weight: 900; font-size: 0.85rem;">Envío o Retiro a coordinar →</span>
         </div>
     </div>
 
@@ -978,7 +978,7 @@
             <div class="drawer-body">
                 <div class="cart-summary-bar">
                     <span style="color: var(--text-muted); font-size: 0.88rem; font-weight: 600;">📦 Artículos seleccionados:</span>
-                    <strong id="cartSummaryCount" style="color: var(--sky-deep);">0 unidades</strong>
+                    <strong id="cartSummaryCount" style="color: var(--emerald-deep);">0 unidades</strong>
                 </div>
 
                 <div id="cartItems"></div>
@@ -1063,7 +1063,7 @@
     </div>
 
     <footer class="footer">
-        <p><strong style="color: var(--sky-deep);">CRESO</strong> — Accesorios &amp; Mayorista Directo</p>
+        <p><strong style="color: var(--emerald-deep);">CRESO</strong> — Accesorios &amp; Mayorista Directo</p>
         <p style="margin-top: 4px;">WhatsApp: +54 9 11 3366-7793 • Efectivo o Transferencia</p>
     </footer>
 
@@ -1144,46 +1144,46 @@
         /* ========== ILUSTRACIONES SVG AUTOCONTENIDAS ========== */
         const SVG_ICONS = {
             cableBlack: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="28" y="34" width="184" height="92" rx="14" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
-                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#bae6fd" stroke-width="11"/>
-                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="6 4"/>
+                <rect x="28" y="34" width="184" height="92" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#a7f3d0" stroke-width="11"/>
+                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#059669" stroke-width="2.5" stroke-dasharray="6 4"/>
                 <rect x="44" y="68" width="26" height="24" rx="4" fill="#0f172a"/>
-                <rect x="170" y="71" width="22" height="18" rx="3" fill="#0284c7"/>
-                <text x="120" y="144" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M • COMPACTO</text>
+                <rect x="170" y="71" width="22" height="18" rx="3" fill="#f59e0b"/>
+                <text x="120" y="144" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M • COMPACTO</text>
             </svg>`,
             cableWhite: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M55 118C55 55 185 55 185 118" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-                <path d="M55 118C55 55 185 55 185 118" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
-                <rect x="42" y="106" width="26" height="32" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
-                <rect x="48" y="94" width="14" height="12" rx="2" fill="#38bdf8"/>
-                <rect x="174" y="108" width="22" height="28" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
-                <rect x="179" y="96" width="12" height="12" rx="2" fill="#0284c7"/>
-                <text x="120" y="34" fill="#0369a1" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1 METRO</text>
+                <path d="M55 118C55 55 185 55 185 118" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+                <rect x="42" y="106" width="26" height="32" rx="5" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+                <rect x="48" y="94" width="14" height="12" rx="2" fill="#10b981"/>
+                <rect x="174" y="108" width="22" height="28" rx="5" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+                <rect x="179" y="96" width="12" height="12" rx="2" fill="#f59e0b"/>
+                <text x="120" y="34" fill="#047857" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1 METRO</text>
             </svg>`,
             charger: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="78" y="42" width="84" height="78" rx="14" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
-                <rect x="78" y="42" width="84" height="18" rx="6" fill="#0284c7"/>
-                <rect x="96" y="22" width="8" height="20" rx="2" fill="#0369a1"/>
-                <rect x="136" y="22" width="8" height="20" rx="2" fill="#0369a1"/>
-                <path d="M124 72L112 90H122L116 108L132 88H121L124 72Z" fill="#00b4d8"/>
-                <text x="120" y="142" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">2A CARGA RÁPIDA + CABLE</text>
+                <rect x="78" y="42" width="84" height="78" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+                <rect x="78" y="42" width="84" height="18" rx="6" fill="#059669"/>
+                <rect x="96" y="22" width="8" height="20" rx="2" fill="#047857"/>
+                <rect x="136" y="22" width="8" height="20" rx="2" fill="#047857"/>
+                <path d="M124 72L112 90H122L116 108L132 88H121L124 72Z" fill="#f59e0b"/>
+                <text x="120" y="142" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">2A CARGA RÁPIDA + CABLE</text>
             </svg>`,
             earphones: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="88" cy="64" r="22" fill="#ffffff" stroke="#0284c7" stroke-width="2.5"/>
-                <circle cx="88" cy="64" r="10" fill="#00b4d8"/>
-                <circle cx="152" cy="64" r="22" fill="#ffffff" stroke="#0284c7" stroke-width="2.5"/>
-                <circle cx="152" cy="64" r="10" fill="#00b4d8"/>
-                <path d="M88 86V112C88 124 120 124 120 136M152 86V112C152 124 120 124 120 136" stroke="#0284c7" stroke-width="4" stroke-linecap="round"/>
-                <rect x="112" y="132" width="16" height="16" rx="3" fill="#0369a1"/>
-                <text x="120" y="28" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C DIGITAL IC • MICRÓFONO</text>
+                <circle cx="88" cy="64" r="22" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
+                <circle cx="88" cy="64" r="10" fill="#10b981"/>
+                <circle cx="152" cy="64" r="22" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
+                <circle cx="152" cy="64" r="10" fill="#10b981"/>
+                <path d="M88 86V112C88 124 120 124 120 136M152 86V112C152 124 120 124 120 136" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+                <rect x="112" y="132" width="16" height="16" rx="3" fill="#f59e0b"/>
+                <text x="120" y="28" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C DIGITAL IC • MICRÓFONO</text>
             </svg>`,
             auxCable: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M52 110C52 45 188 45 188 110" stroke="#0284c7" stroke-width="8" stroke-linecap="round"/>
-                <rect x="44" y="102" width="16" height="24" rx="3" fill="#ffffff" stroke="#0369a1" stroke-width="2"/>
-                <rect x="49" y="84" width="6" height="18" rx="2" fill="#00b4d8"/>
-                <rect x="180" y="102" width="16" height="24" rx="3" fill="#ffffff" stroke="#0369a1" stroke-width="2"/>
-                <rect x="185" y="84" width="6" height="18" rx="2" fill="#00b4d8"/>
-                <text x="120" y="144" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">JACK 3.5MM • 4 PINES • 2 METROS</text>
+                <path d="M52 110C52 45 188 45 188 110" stroke="#059669" stroke-width="8" stroke-linecap="round"/>
+                <rect x="44" y="102" width="16" height="24" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
+                <rect x="49" y="84" width="6" height="18" rx="2" fill="#f59e0b"/>
+                <rect x="180" y="102" width="16" height="24" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
+                <rect x="185" y="84" width="6" height="18" rx="2" fill="#f59e0b"/>
+                <text x="120" y="144" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">JACK 3.5MM • 4 PINES • 2 METROS</text>
             </svg>`
         };
 
@@ -1305,7 +1305,7 @@
         };
 
         try {
-            const saved = localStorage.getItem("creso_store_v3");
+            const saved = localStorage.getItem("creso_store_v4");
             if (saved) {
                 const parsed = JSON.parse(saved);
                 if (parsed.whatsapp) state.whatsapp = parsed.whatsapp;
@@ -1318,7 +1318,7 @@
 
         function persistState() {
             try {
-                localStorage.setItem("creso_store_v3", JSON.stringify(state));
+                localStorage.setItem("creso_store_v4", JSON.stringify(state));
             } catch (e) {
                 showToast("⚠️ Memoria llena: descargá el HTML para guardar tus fotos.", "💾");
             }
@@ -1635,7 +1635,7 @@
                 <div class="admin-prod-row">
                     <div class="admin-prod-top">
                         <strong style="font-size:0.9rem; color:var(--text-main);">${p.nombre}</strong>
-                        <span style="font-size:0.75rem; color:var(--sky-deep); font-weight:700;">${p.customImg ? "✅ Foto propia cargada" : "🎨 Gráfico integrado"}</span>
+                        <span style="font-size:0.75rem; color:var(--emerald-deep); font-weight:700;">${p.customImg ? "✅ Foto propia cargada" : "🎨 Gráfico integrado"}</span>
                     </div>
                     <div class="admin-prices">
                         <div>
