@@ -7,14 +7,13 @@
     <style>
         :root {
             /* SELLO DE MARCA CRESO */
-            --brand-primary: #059669;      /* Verde Esmeralda: confianza, finanzas y flujo */
+            --brand-primary: #059669;
             --brand-primary-dark: #047857;
             --brand-primary-soft: #ecfdf5;
-            --brand-tech: #0284c7;         /* Azul Tech: electrónica y claridad */
-            --brand-accent: #f59e0b;       /* Oro/Ámbar: valor y promo mayorista */
+            --brand-tech: #0284c7;
+            --brand-accent: #f59e0b;
             --brand-accent-soft: #fffbeb;
 
-            /* SUPERFICIES ESTILO MARKETPLACE LIMPIO */
             --bg-page: #f4f7f9;
             --bg-card: #ffffff;
             --bg-muted: #f8fafc;
@@ -40,6 +39,71 @@
             line-height: 1.45;
             overflow-x: hidden;
             padding-bottom: 110px;
+        }
+
+        /* ========== FRANJA SUPERIOR / PROPAGANDA ARRIBA DE TODO ========== */
+        .promo-ribbon {
+            background: linear-gradient(90deg, var(--brand-primary-dark) 0%, var(--brand-primary) 55%, #0d9488 100%);
+            color: #ffffff;
+            padding: 8px 38px 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+        }
+
+        .promo-ribbon.hidden {
+            display: none;
+        }
+
+        .promo-track {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1160px;
+            cursor: pointer;
+        }
+
+        .promo-slide {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            animation: fadePromo 0.45s ease;
+        }
+
+        .promo-slide strong {
+            color: #fde68a;
+            font-weight: 900;
+        }
+
+        @keyframes fadePromo {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .promo-close {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.18);
+            border: none;
+            color: #ffffff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* ========== TOAST NOTIFICATION ========== */
@@ -170,7 +234,6 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 12px;
         }
 
         .info-chip {
@@ -866,6 +929,7 @@
         }
 
         @media (max-width: 600px) {
+            .promo-ribbon { font-size: 0.74rem; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .card-visual { height: 130px; }
             .card-body { padding: 11px; }
@@ -878,6 +942,14 @@
     </style>
 </head>
 <body>
+
+    <!-- FRANJA SUPERIOR TIPO "PROPAGANDA" ARRIBA DE TODO -->
+    <div class="promo-ribbon" id="promoRibbon">
+        <div class="promo-track" id="promoTrack" onclick="playClickSound(); cyclePromo();" title="Tocá para cambiar el aviso">
+            <span class="promo-slide" id="promoSlideText">🔥 <strong>PRECIO MAYORISTA DESDE 10 UNIDADES</strong> — Armá tu pedido y pagá en efectivo o transferencia</span>
+        </div>
+        <button class="promo-close" onclick="playClickSound(); closePromo();" aria-label="Cerrar aviso">✕</button>
+    </div>
 
     <!-- TOASTS -->
     <div class="toast-container" id="toastContainer"></div>
@@ -1039,6 +1111,35 @@
     </footer>
 
     <script>
+        /* ========== FRANJA SUPERIOR ROTATIVA ========== */
+        const PROMO_MESSAGES = [
+            `🔥 <strong>PRECIO MAYORISTA DESDE 10 UNIDADES</strong> — Armá tu pedido y pagá en efectivo o transferencia`,
+            `📲 <strong>PEDIDO DIRECTO A WHATSAPP 11 3366-7793</strong> — Cables, cargadores y audio sin vueltas`,
+            `⚡ <strong>AHORRÁ COMPRANDO POR PACK (+10)</strong> — El descuento mayorista se calcula solo en tu carrito`
+        ];
+        let promoIndex = 0;
+
+        function renderPromo() {
+            const el = document.getElementById("promoSlideText");
+            if (!el) return;
+            el.style.animation = "none";
+            void el.offsetWidth;
+            el.innerHTML = PROMO_MESSAGES[promoIndex];
+            el.style.animation = "fadePromo 0.45s ease";
+        }
+
+        function cyclePromo() {
+            promoIndex = (promoIndex + 1) % PROMO_MESSAGES.length;
+            renderPromo();
+        }
+
+        function closePromo() {
+            const ribbon = document.getElementById("promoRibbon");
+            if (ribbon) ribbon.classList.add("hidden");
+        }
+
+        setInterval(cyclePromo, 4500);
+
         /* ========== SONIDO SUTIL AL TOCAR ========== */
         let soundEnabled = true;
         let audioCtx = null;
