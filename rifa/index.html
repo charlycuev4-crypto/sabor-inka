@@ -90,7 +90,7 @@
             font-weight: 800;
         }
 
-        /* ========== HEADER SUPERIOR VERDE CON IMAGEN GRANDE + CARRUSEL ========== */
+        /* ========== HEADER SUPERIOR VERDE CON CARRUSEL ARRIBA ========== */
         .topbar {
             background: linear-gradient(160deg, var(--brand-primary-deeper) 0%, var(--brand-primary-dark) 55%, var(--brand-primary) 100%);
             color: #ffffff;
@@ -171,73 +171,16 @@
             border-color: #a7f3d0;
         }
 
-        /* BANNER DE IMAGEN GRANDE ARRIBA (OCUPA BUENA PARTE DEL ESPACIO SUPERIOR) */
-        .top-showcase-banner {
-            width: 100%;
-            height: 235px;
-            border-radius: 18px;
-            overflow: hidden;
-            border: 2.5px solid var(--brand-gold-light);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-            background: #022c22;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .top-showcase-banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 22%;
-            display: block;
-        }
-
-        /* BARRA DE INFORMACIÓN Y WHATSAPP DISTRIBUIDA MÁS ABAJO */
-        .info-strip {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-
-        .info-chip {
-            font-size: 0.78rem;
-            font-weight: 800;
-            padding: 8px 10px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.16);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            text-align: center;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .info-chip.tech {
-            background: #0284c7;
-            color: #ffffff;
-            border-color: #7dd3fc;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.32);
-        }
-
-        .info-chip.gold {
-            background: var(--brand-accent);
-            color: #0f172a;
-            border-color: #fde68a;
-        }
-
-        /* CARRUSEL / RULETA GRANDE Y COMPLETO POR CUADRO */
+        /* CARRUSEL / RULETA ARRIBA DE TODO CON FOTO GRANDE ADENTRO */
         .hero-carousel {
             position: relative;
             border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.26);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
             border: 2px solid rgba(251, 191, 36, 0.72);
             background: #022c22;
             user-select: none;
+            margin-bottom: 14px;
         }
 
         .hero-slides {
@@ -248,14 +191,42 @@
 
         .hero-slide {
             min-width: 100%;
-            min-height: 220px;
-            padding: 24px 46px 42px;
+            min-height: 245px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Cuadro con la foto grande completa de CRESO */
+        .slide-full-photo {
+            padding: 0;
+            background: #022c22;
+        }
+
+        .slide-full-photo img {
+            width: 100%;
+            height: 255px;
+            object-fit: cover;
+            object-position: center 22%;
+            display: block;
+        }
+
+        .slide-photo-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 28px 46px 36px;
+            background: linear-gradient(180deg, rgba(2, 44, 34, 0) 0%, rgba(2, 44, 34, 0.78) 45%, rgba(2, 44, 34, 0.94) 100%);
+            color: #ffffff;
+        }
+
+        .slide-offer-style {
+            padding: 26px 48px 44px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 20px;
             color: #ffffff;
-            position: relative;
         }
 
         .slide-offer-1 {
@@ -268,17 +239,15 @@
                         linear-gradient(125deg, #064e3b 0%, #047857 55%, #0f766e 100%);
         }
 
-        .slide-offer-3 {
-            background: radial-gradient(circle at 85% 30%, rgba(245, 158, 11, 0.28), transparent 50%),
-                        linear-gradient(125deg, #022c22 0%, #065f46 55%, #047857 100%);
-        }
-
-        /* CIERRE FINAL: NOMBRE CRESO EN DORADO SOBRE FONDO VERDE */
+        /* Cierre final: nombre CRESO en dorado sobre fondo verde */
         .slide-brand-gold {
-            background: radial-gradient(circle at 50% 30%, rgba(251, 191, 36, 0.28) 0%, transparent 58%),
-                        linear-gradient(135deg, #022c22 0%, #064e3b 52%, #047857 100%);
+            padding: 26px 48px 44px;
+            display: flex;
+            align-items: center;
             justify-content: center;
             text-align: center;
+            background: radial-gradient(circle at 50% 30%, rgba(251, 191, 36, 0.28) 0%, transparent 58%),
+                        linear-gradient(135deg, #022c22 0%, #064e3b 52%, #047857 100%);
         }
 
         .slide-content {
@@ -288,28 +257,28 @@
 
         .slide-kicker {
             display: inline-block;
-            font-size: 0.74rem;
+            font-size: 0.72rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            background: rgba(251, 191, 36, 0.2);
+            background: rgba(251, 191, 36, 0.22);
             color: var(--brand-gold-light);
             border: 1px solid rgba(251, 191, 36, 0.55);
-            padding: 3px 12px;
+            padding: 2px 11px;
             border-radius: 999px;
-            margin-bottom: 10px;
+            margin-bottom: 7px;
         }
 
         .slide-title {
-            font-size: 1.52rem;
+            font-size: 1.48rem;
             font-weight: 900;
             line-height: 1.18;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #ffffff;
         }
 
         .slide-sub {
-            font-size: 0.94rem;
+            font-size: 0.92rem;
             color: #d1fae5;
             font-weight: 600;
         }
@@ -349,9 +318,9 @@
             position: absolute;
             top: 50%;
             transform: translateY(-65%);
-            background: rgba(2, 44, 34, 0.6);
+            background: rgba(2, 44, 34, 0.65);
             color: var(--brand-gold-light);
-            border: 1px solid rgba(251, 191, 36, 0.5);
+            border: 1px solid rgba(251, 191, 36, 0.55);
             width: 34px;
             height: 34px;
             border-radius: 50%;
@@ -369,13 +338,13 @@
 
         .carousel-dots {
             position: absolute;
-            bottom: 11px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 8px;
             z-index: 6;
-            background: rgba(2, 44, 34, 0.55);
+            background: rgba(2, 44, 34, 0.62);
             padding: 5px 12px;
             border-radius: 999px;
         }
@@ -394,6 +363,40 @@
             width: 22px;
             border-radius: 999px;
             background: var(--brand-gold-light);
+        }
+
+        /* BOTONES INFERIORES DEL HEADER (SIN PAGO EFECTIVO/TRANSFERENCIA AFUERA) */
+        .info-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .info-chip {
+            font-size: 0.84rem;
+            font-weight: 800;
+            padding: 10px 12px;
+            border-radius: 11px;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .info-chip.tech {
+            background: #0284c7;
+            color: #ffffff;
+            border: 1px solid #7dd3fc;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.32);
+        }
+
+        .info-chip.gold {
+            background: var(--brand-accent);
+            color: #0f172a;
+            border: 1px solid #fde68a;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
         }
 
         /* ========== BUSCADOR Y CATEGORÍAS STICKY ========== */
@@ -1049,16 +1052,16 @@
         }
 
         @media (max-width: 600px) {
-            .logo { font-size: 1.8rem; letter-spacing: 3px; }
+            .logo { font-size: 1.85rem; letter-spacing: 3px; }
             .lema { font-size: 0.8rem; }
-            .top-showcase-banner { height: 225px; border-radius: 15px; }
-            .info-strip { grid-template-columns: 1fr; gap: 6px; }
-            .info-chip { padding: 7px 10px; font-size: 0.78rem; }
-            .hero-slide { min-height: 215px; padding: 20px 38px 40px; }
+            .slide-full-photo img { height: 240px; }
+            .slide-photo-caption { padding: 24px 36px 34px; }
+            .slide-offer-style, .slide-brand-gold { min-height: 225px; padding: 22px 38px 40px; }
             .slide-title { font-size: 1.24rem; }
             .slide-sub { font-size: 0.84rem; }
             .slide-visual-badge { font-size: 2.3rem; }
             .slide-brand-name { font-size: 2.15rem; letter-spacing: 5px; }
+            .info-strip { grid-template-columns: 1fr; gap: 8px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .card { padding: 8px; border-width: 2px; }
             .card-visual { height: 122px; border-width: 1.5px; border-radius: 10px; }
@@ -1077,7 +1080,7 @@
     <!-- TOASTS -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- HEADER SUPERIOR: TÍTULO + BOTONES, IMAGEN GRANDE DE CRESO Y BOTONES/CHIPS ABAJO -->
+    <!-- HEADER SUPERIOR: TÍTULO + BOTONES, CARRUSEL ARRIBA DE TODO CON FOTO GRANDE Y BOTONES ABAJO -->
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand-row">
@@ -1091,23 +1094,21 @@
                 </div>
             </div>
 
-            <!-- IMAGEN GRANDE PRINCIPAL ARRIBA -->
-            <div class="top-showcase-banner">
-                <img src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="CRESO Accesorios y Tecnología">
-            </div>
-
-            <!-- ETIQUETAS Y BOTÓN DE WHATSAPP DISTRIBUIDOS MÁS ABAJO -->
-            <div class="info-strip">
-                <span class="info-chip">💵 Efectivo o Transferencia</span>
-                <a class="info-chip tech" href="https://wa.me/5491133667793" target="_blank" rel="noopener noreferrer" onclick="playClickSound();">📲 WhatsApp: 11 3366-7793</a>
-                <span class="info-chip gold">📦 10+ u. precio mayorista</span>
-            </div>
-
-            <!-- CARRUSEL / RULETA GRANDE Y COMPLETO POR CUADRO -->
+            <!-- CARRUSEL / RULETA ARRIBA DE TODO CON LA FOTO GRANDE ADENTRO -->
             <div class="hero-carousel" id="heroCarousel">
                 <div class="hero-slides" id="heroSlides">
-                    <!-- Cuadro 1: Oferta Mayorista -->
-                    <div class="hero-slide slide-offer-1">
+                    <!-- Cuadro 1: Foto grande completa de CRESO -->
+                    <div class="hero-slide slide-full-photo">
+                        <img src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="CRESO Accesorios y Tecnología">
+                        <div class="slide-photo-caption">
+                            <span class="slide-kicker">⚡ Tecnología &amp; Accesorios</span>
+                            <div class="slide-title">Proyectores, celulares, audio y carga directa</div>
+                            <p class="slide-sub">Pedí por WhatsApp al 11 3366-7793</p>
+                        </div>
+                    </div>
+
+                    <!-- Cuadro 2: Oferta Mayorista -->
+                    <div class="hero-slide slide-offer-style slide-offer-1">
                         <div class="slide-content">
                             <span class="slide-kicker">🔥 Oferta Mayorista</span>
                             <div class="slide-title">Llevando 10+ unidades baja el precio por pack</div>
@@ -1116,24 +1117,14 @@
                         <div class="slide-visual-badge">💰📦</div>
                     </div>
 
-                    <!-- Cuadro 2: Tecnología y Carga -->
-                    <div class="hero-slide slide-offer-2">
+                    <!-- Cuadro 3: Oferta Audio y Conexión -->
+                    <div class="hero-slide slide-offer-style slide-offer-2">
                         <div class="slide-content">
-                            <span class="slide-kicker">⚡ Carga &amp; Conexión</span>
-                            <div class="slide-title">Cables Micro-USB, Lightning y Cargadores 2A</div>
-                            <p class="slide-sub">Precios directos sin vueltas • Efectivo o Transferencia</p>
+                            <span class="slide-kicker">🎧 Audio &amp; Conexión</span>
+                            <div class="slide-title">Auriculares Type-C, Auxiliar 2m y Cables</div>
+                            <p class="slide-sub">Armá tu carrito y enviá tu pedido por WhatsApp</p>
                         </div>
-                        <div class="slide-visual-badge">🔌⚡</div>
-                    </div>
-
-                    <!-- Cuadro 3: Audio y Pedido Directo -->
-                    <div class="hero-slide slide-offer-3">
-                        <div class="slide-content">
-                            <span class="slide-kicker">🎧 Audio &amp; WhatsApp</span>
-                            <div class="slide-title">Auriculares Type-C y Auxiliar de 2 metros</div>
-                            <p class="slide-sub">Armá tu carrito y mandá tu pedido al 11 3366-7793</p>
-                        </div>
-                        <div class="slide-visual-badge">🎧📲</div>
+                        <div class="slide-visual-badge">🎧🔌</div>
                     </div>
 
                     <!-- Cuadro 4: Cierre con CRESO en dorado sobre fondo verde -->
@@ -1150,11 +1141,17 @@
                 <button class="carousel-arrow next" onclick="nextSlide()" aria-label="Siguiente">›</button>
 
                 <div class="carousel-dots" id="carouselDots">
-                    <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Cuadro 1"></button>
-                    <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Cuadro 2"></button>
-                    <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Cuadro 3"></button>
+                    <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Foto CRESO"></button>
+                    <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Oferta Mayorista"></button>
+                    <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Audio y Conexión"></button>
                     <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Marca CRESO"></button>
                 </div>
+            </div>
+
+            <!-- BOTONES DE WHATSAPP Y MAYORISTA ABAJO (SIN EFECTIVO/TRANSFERENCIA AFUERA) -->
+            <div class="info-strip">
+                <a class="info-chip tech" href="https://wa.me/5491133667793" target="_blank" rel="noopener noreferrer" onclick="playClickSound();">📲 WhatsApp: 11 3366-7793</a>
+                <span class="info-chip gold">📦 10+ u. precio mayorista</span>
             </div>
         </div>
     </header>
@@ -1283,11 +1280,11 @@
     </div>
 
     <footer class="footer">
-        <strong style="color: var(--brand-primary-dark);">CRESO</strong> • WhatsApp: +54 9 11 3366-7793 • Efectivo o Transferencia
+        <strong style="color: var(--brand-primary-dark);">CRESO</strong> • WhatsApp: +54 9 11 3366-7793 • Pedidos por WhatsApp
     </footer>
 
     <script>
-        /* ========== CARRUSEL / RULETA ARRIBA CON OFERTAS Y CIERRE CRESO EN DORADO ========== */
+        /* ========== CARRUSEL / RULETA ARRIBA CON FOTO GRANDE + OFERTAS + CIERRE DORADO ========== */
         const TOTAL_SLIDES = 4;
         let currentSlide = 0;
         let slideTimer = null;
@@ -1311,7 +1308,7 @@
 
         function restartSlideTimer() {
             if (slideTimer) clearInterval(slideTimer);
-            const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3000;
+            const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3200;
             slideTimer = setTimeout(() => {
                 currentSlide = (currentSlide + 1) % TOTAL_SLIDES;
                 updateCarousel();
