@@ -218,12 +218,12 @@
 
         .hero-slide {
             min-width: 100%;
-            min-height: 164px;
-            padding: 18px 42px 36px;
+            min-height: 174px;
+            padding: 16px 42px 36px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
+            gap: 16px;
             color: #ffffff;
             position: relative;
         }
@@ -236,11 +236,10 @@
             background: linear-gradient(125deg, #065f46 0%, #047857 55%, #0f766e 100%);
         }
 
-        .slide-offer-3 {
-            background: linear-gradient(125deg, #064e3b 0%, #059669 55%, #b45309 125%);
+        .slide-photo-brand {
+            background: linear-gradient(125deg, #022c22 0%, #064e3b 55%, #047857 100%);
         }
 
-        /* CIERRE FINAL: NOMBRE CRESO EN DORADO SOBRE FONDO VERDE */
         .slide-brand-gold {
             background: radial-gradient(circle at 50% 25%, rgba(251, 191, 36, 0.25) 0%, transparent 55%),
                         linear-gradient(135deg, #022c22 0%, #064e3b 52%, #047857 100%);
@@ -268,7 +267,7 @@
         }
 
         .slide-title {
-            font-size: 1.26rem;
+            font-size: 1.24rem;
             font-weight: 900;
             line-height: 1.2;
             margin-bottom: 5px;
@@ -281,17 +280,52 @@
             font-weight: 600;
         }
 
+        .slide-photo-box {
+            width: 112px;
+            height: 112px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid var(--brand-gold-light);
+            flex-shrink: 0;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+            background: #022c22;
+        }
+
+        .slide-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .slide-brand-showcase {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+        }
+
+        .slide-brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .slide-brand-thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--brand-gold-light);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
         }
 
         .slide-brand-name {
-            font-size: 2.45rem;
+            font-size: 2.35rem;
             font-weight: 900;
-            letter-spacing: 7px;
+            letter-spacing: 6px;
             text-transform: uppercase;
             color: var(--brand-gold-light);
             text-shadow: 0 3px 16px rgba(0, 0, 0, 0.45);
@@ -493,7 +527,6 @@
             gap: 16px;
         }
 
-        /* TODO EL CUADRO LARGO DE CADA PRODUCTO CON BORDE VERDE */
         .card {
             background: var(--bg-card);
             border: 2.5px solid var(--border-card-green);
@@ -1017,11 +1050,13 @@
         }
 
         @media (max-width: 600px) {
-            .hero-slide { min-height: 150px; padding: 14px 36px 34px; }
+            .hero-slide { min-height: 158px; padding: 14px 36px 34px; }
             .slide-title { font-size: 1.06rem; }
             .slide-sub { font-size: 0.76rem; }
+            .slide-photo-box { width: 84px; height: 84px; }
+            .slide-brand-thumb { width: 50px; height: 50px; }
             .slide-visual-badge { font-size: 2rem; }
-            .slide-brand-name { font-size: 1.95rem; letter-spacing: 5px; }
+            .slide-brand-name { font-size: 1.85rem; letter-spacing: 4px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .card { padding: 8px; border-width: 2px; }
             .card-visual { height: 122px; border-width: 1.5px; border-radius: 10px; }
@@ -1060,7 +1095,7 @@
                 <span class="info-chip gold">📦 10+ u. precio mayorista</span>
             </div>
 
-            <!-- CARRUSEL / RULETA DE OFERTAS + NOMBRE CRESO EN DORADO -->
+            <!-- CARRUSEL / RULETA DE OFERTAS + IMAGEN CRESO + CIERRE DORADO -->
             <div class="hero-carousel" id="heroCarousel">
                 <div class="hero-slides" id="heroSlides">
                     <!-- Slide 1: Oferta Mayorista -->
@@ -1073,18 +1108,20 @@
                         <div class="slide-visual-badge">💰📦</div>
                     </div>
 
-                    <!-- Slide 2: Oferta Carga Rápida -->
-                    <div class="hero-slide slide-offer-2">
+                    <!-- Slide 2: Presentación con Foto de CRESO -->
+                    <div class="hero-slide slide-photo-brand">
                         <div class="slide-content">
-                            <span class="slide-kicker">⚡ Carga &amp; Conexión</span>
-                            <div class="slide-title">Cables Micro-USB, Lightning y Cargadores 2A</div>
-                            <p class="slide-sub">Precios directos sin vueltas • Efectivo o Transferencia</p>
+                            <span class="slide-kicker">⚡ Tecnología &amp; Accesorios</span>
+                            <div class="slide-title">Proyectores, audio, cables y carga directa</div>
+                            <p class="slide-sub">Minorista y mayorista • Efectivo o Transferencia</p>
                         </div>
-                        <div class="slide-visual-badge">🔌⚡</div>
+                        <div class="slide-photo-box">
+                            <img src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="CRESO Accesorios y Tecnología">
+                        </div>
                     </div>
 
                     <!-- Slide 3: Oferta Audio y Pedido Directo -->
-                    <div class="hero-slide slide-offer-3">
+                    <div class="hero-slide slide-offer-2">
                         <div class="slide-content">
                             <span class="slide-kicker">🎧 Audio &amp; WhatsApp</span>
                             <div class="slide-title">Auriculares Type-C y Auxiliar de 2 metros</div>
@@ -1097,7 +1134,10 @@
                     <div class="hero-slide slide-brand-gold">
                         <div class="slide-brand-showcase">
                             <span class="slide-kicker">✨ Sello Oficial</span>
-                            <div class="slide-brand-name">CRESO</div>
+                            <div class="slide-brand-row">
+                                <img class="slide-brand-thumb" src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="Logo CRESO">
+                                <div class="slide-brand-name">CRESO</div>
+                            </div>
                             <div class="slide-brand-tag">Confianza • Finanzas • Abundancia</div>
                         </div>
                     </div>
@@ -1108,7 +1148,7 @@
 
                 <div class="carousel-dots" id="carouselDots">
                     <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Oferta 1"></button>
-                    <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Oferta 2"></button>
+                    <button class="carousel-dot" onclick="goToSlide(1)" aria-label="CRESO Foto"></button>
                     <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Oferta 3"></button>
                     <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Marca CRESO"></button>
                 </div>
