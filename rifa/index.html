@@ -41,71 +41,6 @@
             padding-bottom: 110px;
         }
 
-        /* ========== FRANJA SUPERIOR / PROPAGANDA ARRIBA DE TODO ========== */
-        .promo-ribbon {
-            background: linear-gradient(90deg, var(--brand-primary-dark) 0%, var(--brand-primary) 55%, #0d9488 100%);
-            color: #ffffff;
-            padding: 8px 38px 8px 14px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 36px;
-        }
-
-        .promo-ribbon.hidden {
-            display: none;
-        }
-
-        .promo-track {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 1160px;
-            cursor: pointer;
-        }
-
-        .promo-slide {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-align: center;
-            animation: fadePromo 0.45s ease;
-        }
-
-        .promo-slide strong {
-            color: #fde68a;
-            font-weight: 900;
-        }
-
-        @keyframes fadePromo {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .promo-close {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.18);
-            border: none;
-            color: #ffffff;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            font-size: 0.75rem;
-            font-weight: 900;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         /* ========== TOAST NOTIFICATION ========== */
         .toast-container {
             position: fixed;
@@ -156,8 +91,7 @@
         .topbar {
             background: #ffffff;
             border-bottom: 1px solid var(--border-light);
-            padding: 14px 16px;
-            position: relative;
+            padding: 12px 16px;
         }
 
         .topbar-inner {
@@ -170,7 +104,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .brand-identity {
@@ -181,7 +115,7 @@
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.95rem;
             font-weight: 900;
             letter-spacing: 3px;
             color: var(--brand-primary-dark);
@@ -199,7 +133,7 @@
         }
 
         .lema {
-            font-size: 0.88rem;
+            font-size: 0.86rem;
             color: var(--text-secondary);
             font-weight: 600;
         }
@@ -233,13 +167,13 @@
         .info-strip {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 7px;
         }
 
         .info-chip {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 700;
-            padding: 5px 11px;
+            padding: 4px 10px;
             border-radius: 8px;
             background: var(--brand-primary-soft);
             color: var(--brand-primary-dark);
@@ -258,6 +192,174 @@
             border-color: rgba(245, 158, 11, 0.35);
         }
 
+        /* ========== PRESENTACIÓN / CARRUSEL DE BANNERS ESTILO SOUL ========== */
+        .hero-carousel-wrap {
+            max-width: 1200px;
+            margin: 12px auto 0;
+            padding: 0 16px;
+        }
+
+        .hero-carousel {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+            border: 1px solid var(--border-brand);
+            background: #064e3b;
+            user-select: none;
+        }
+
+        .hero-slides {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+        }
+
+        .hero-slide {
+            min-width: 100%;
+            min-height: 188px;
+            padding: 22px 20px 38px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .slide-1 {
+            background: linear-gradient(125deg, #064e3b 0%, #059669 58%, #0284c7 100%);
+        }
+
+        .slide-2 {
+            background: linear-gradient(125deg, #0f172a 0%, #047857 55%, #10b981 100%);
+        }
+
+        .slide-3 {
+            background: linear-gradient(125deg, #0369a1 0%, #059669 60%, #d97706 100%);
+        }
+
+        .slide-brand-end {
+            background: radial-gradient(circle at 80% 25%, rgba(245, 158, 11, 0.34) 0%, transparent 45%),
+                        linear-gradient(135deg, #022c22 0%, #065f46 52%, #059669 100%);
+            justify-content: center;
+            text-align: center;
+        }
+
+        .slide-content {
+            max-width: 620px;
+            z-index: 2;
+        }
+
+        .slide-kicker {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        .slide-title {
+            font-size: 1.38rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+
+        .slide-sub {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 600;
+        }
+
+        .slide-brand-showcase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slide-brand-name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ffffff 0%, #a7f3d0 45%, #fde68a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.05;
+        }
+
+        .slide-brand-tag {
+            font-size: 0.86rem;
+            letter-spacing: 1px;
+            color: #fde68a;
+            font-weight: 800;
+        }
+
+        .slide-visual-badge {
+            font-size: 3rem;
+            opacity: 0.92;
+            flex-shrink: 0;
+            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-65%);
+            background: rgba(15, 23, 42, 0.36);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .carousel-arrow.prev { left: 10px; }
+        .carousel-arrow.next { right: 10px; }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 6;
+            background: rgba(15, 23, 42, 0.28);
+            padding: 5px 10px;
+            border-radius: 999px;
+        }
+
+        .carousel-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .carousel-dot.active {
+            width: 22px;
+            border-radius: 999px;
+            background: var(--brand-accent);
+        }
+
         /* ========== BUSCADOR Y CATEGORÍAS STICKY ========== */
         .sticky-bar {
             position: sticky;
@@ -267,6 +369,7 @@
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-light);
             padding: 10px 16px;
+            margin-top: 12px;
             box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
         }
 
@@ -354,54 +457,32 @@
             border-color: var(--brand-primary);
         }
 
-        /* ========== BANNER MAYORISTA ========== */
-        .promo-wrap {
-            max-width: 1200px;
-            margin: 16px auto 0;
-            padding: 0 16px;
-        }
-
-        .promo-banner {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            border-left: 5px solid var(--brand-primary);
-            border-radius: 14px;
-            padding: 13px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
-            box-shadow: var(--shadow-card);
-        }
-
-        .promo-banner strong {
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-
-        .promo-banner span.sub {
-            color: var(--text-secondary);
-            font-size: 0.84rem;
-            display: block;
-            margin-top: 2px;
-        }
-
-        .promo-tag {
-            background: var(--brand-accent-soft);
-            color: #b45309;
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            padding: 5px 11px;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 800;
-        }
-
         /* ========== GRID DE PRODUCTOS (ESTILO MARKETPLACE) ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 16px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .section-heading h2 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .section-heading span {
+            font-size: 0.82rem;
+            color: var(--brand-primary-dark);
+            font-weight: 700;
         }
 
         .grid {
@@ -929,7 +1010,11 @@
         }
 
         @media (max-width: 600px) {
-            .promo-ribbon { font-size: 0.74rem; }
+            .hero-slide { min-height: 162px; padding: 16px 38px 36px; }
+            .slide-title { font-size: 1.12rem; }
+            .slide-sub { font-size: 0.78rem; }
+            .slide-visual-badge { font-size: 2.1rem; }
+            .slide-brand-name { font-size: 1.9rem; letter-spacing: 4px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .card-visual { height: 130px; }
             .card-body { padding: 11px; }
@@ -942,14 +1027,6 @@
     </style>
 </head>
 <body>
-
-    <!-- FRANJA SUPERIOR TIPO "PROPAGANDA" ARRIBA DE TODO -->
-    <div class="promo-ribbon" id="promoRibbon">
-        <div class="promo-track" id="promoTrack" onclick="playClickSound(); cyclePromo();" title="Tocá para cambiar el aviso">
-            <span class="promo-slide" id="promoSlideText">🔥 <strong>PRECIO MAYORISTA DESDE 10 UNIDADES</strong> — Armá tu pedido y pagá en efectivo o transferencia</span>
-        </div>
-        <button class="promo-close" onclick="playClickSound(); closePromo();" aria-label="Cerrar aviso">✕</button>
-    </div>
 
     <!-- TOASTS -->
     <div class="toast-container" id="toastContainer"></div>
@@ -976,6 +1053,62 @@
         </div>
     </header>
 
+    <!-- CARRUSEL DE PRESENTACIÓN ESTILO SOUL (CON CIERRE DE MARCA CRESO) -->
+    <section class="hero-carousel-wrap" aria-label="Presentación de marca y promos">
+        <div class="hero-carousel" id="heroCarousel">
+            <div class="hero-slides" id="heroSlides">
+                <!-- Slide 1 -->
+                <div class="hero-slide slide-1">
+                    <div class="slide-content">
+                        <span class="slide-kicker">⚡ Carga &amp; Conexión</span>
+                        <div class="slide-title">Cables y cargadores listos para usar</div>
+                        <p class="slide-sub">Micro-USB, Tipo C y Lightning • Precios claros y directos</p>
+                    </div>
+                    <div class="slide-visual-badge">🔌⚡</div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="hero-slide slide-2">
+                    <div class="slide-content">
+                        <span class="slide-kicker">📦 Mayorista Desde 10 u.</span>
+                        <div class="slide-title">Comprá por unidad o llevá pack mayorista</div>
+                        <p class="slide-sub">Descuento automático desde 10 unidades • Efectivo o Transferencia</p>
+                    </div>
+                    <div class="slide-visual-badge">💰📦</div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="hero-slide slide-3">
+                    <div class="slide-content">
+                        <span class="slide-kicker">🎧 Audio &amp; Accesorios</span>
+                        <div class="slide-title">Sonido claro y cables auxiliares de 2 metros</div>
+                        <p class="slide-sub">Armá tu pedido en el carrito y mandalo directo a WhatsApp</p>
+                    </div>
+                    <div class="slide-visual-badge">🎧📲</div>
+                </div>
+
+                <!-- Slide 4: Cierre con el nombre de la marca CRESO -->
+                <div class="hero-slide slide-brand-end">
+                    <div class="slide-brand-showcase">
+                        <span class="slide-kicker">✨ Sello Oficial</span>
+                        <div class="slide-brand-name">CRESO</div>
+                        <div class="slide-brand-tag">Confianza • Finanzas • Accesorios Directos</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-arrow prev" onclick="prevSlide()" aria-label="Anterior">‹</button>
+            <button class="carousel-arrow next" onclick="nextSlide()" aria-label="Siguiente">›</button>
+
+            <div class="carousel-dots" id="carouselDots">
+                <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
+                <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Slide 2"></button>
+                <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Slide 3"></button>
+                <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Marca CRESO"></button>
+            </div>
+        </div>
+    </section>
+
     <!-- BUSCADOR Y CATEGORÍAS STICKY -->
     <div class="sticky-bar">
         <div class="sticky-inner">
@@ -1000,19 +1133,12 @@
         </div>
     </div>
 
-    <!-- BANNER MAYORISTA -->
-    <div class="promo-wrap">
-        <div class="promo-banner">
-            <div>
-                <strong>Comprá por unidad o llevá 10+ unidades con precio mayorista</strong>
-                <span class="sub">Armás tu pedido en el carrito y cerrás directo por WhatsApp pagando en efectivo o transferencia.</span>
-            </div>
-            <span class="promo-tag">⚡ Ahorro automático desde 10 u.</span>
-        </div>
-    </div>
-
     <!-- GRILLA DE PRODUCTOS -->
     <main class="container">
+        <div class="section-heading">
+            <h2>Catálogo disponible</h2>
+            <span>10+ unidades = Precio mayorista automático</span>
+        </div>
         <div class="grid" id="productsGrid"></div>
     </main>
 
@@ -1111,34 +1237,55 @@
     </footer>
 
     <script>
-        /* ========== FRANJA SUPERIOR ROTATIVA ========== */
-        const PROMO_MESSAGES = [
-            `🔥 <strong>PRECIO MAYORISTA DESDE 10 UNIDADES</strong> — Armá tu pedido y pagá en efectivo o transferencia`,
-            `📲 <strong>PEDIDO DIRECTO A WHATSAPP 11 3366-7793</strong> — Cables, cargadores y audio sin vueltas`,
-            `⚡ <strong>AHORRÁ COMPRANDO POR PACK (+10)</strong> — El descuento mayorista se calcula solo en tu carrito`
-        ];
-        let promoIndex = 0;
+        /* ========== CARRUSEL ESTILO SOUL CON CIERRE CRESO ========== */
+        const TOTAL_SLIDES = 4;
+        let currentSlide = 0;
+        let slideTimer = null;
 
-        function renderPromo() {
-            const el = document.getElementById("promoSlideText");
-            if (!el) return;
-            el.style.animation = "none";
-            void el.offsetWidth;
-            el.innerHTML = PROMO_MESSAGES[promoIndex];
-            el.style.animation = "fadePromo 0.45s ease";
+        function updateCarousel() {
+            const track = document.getElementById("heroSlides");
+            const dots = document.querySelectorAll(".carousel-dot");
+            if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle("active", i === currentSlide));
         }
 
-        function cyclePromo() {
-            promoIndex = (promoIndex + 1) % PROMO_MESSAGES.length;
-            renderPromo();
+        function goToSlide(index, manual = false) {
+            if (manual) playClickSound();
+            currentSlide = (index + TOTAL_SLIDES) % TOTAL_SLIDES;
+            updateCarousel();
+            restartSlideTimer();
         }
 
-        function closePromo() {
-            const ribbon = document.getElementById("promoRibbon");
-            if (ribbon) ribbon.classList.add("hidden");
+        function nextSlide() { goToSlide(currentSlide + 1, true); }
+        function prevSlide() { goToSlide(currentSlide - 1, true); }
+
+        function restartSlideTimer() {
+            if (slideTimer) clearInterval(slideTimer);
+            // Dura un poco más en la diapositiva final de la marca CRESO
+            const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3200;
+            slideTimer = setTimeout(() => {
+                currentSlide = (currentSlide + 1) % TOTAL_SLIDES;
+                updateCarousel();
+                restartSlideTimer();
+            }, delay);
         }
 
-        setInterval(cyclePromo, 4500);
+        // Soporte táctil para deslizar con el dedo
+        (function setupSwipe() {
+            const box = document.getElementById("heroCarousel");
+            if (!box) return;
+            let startX = 0;
+            box.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
+            box.addEventListener("touchend", e => {
+                const diff = e.changedTouches[0].clientX - startX;
+                if (Math.abs(diff) > 40) {
+                    if (diff < 0) nextSlide();
+                    else prevSlide();
+                }
+            }, { passive: true });
+        })();
+
+        restartSlideTimer();
 
         /* ========== SONIDO SUTIL AL TOCAR ========== */
         let soundEnabled = true;
