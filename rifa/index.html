@@ -90,7 +90,7 @@
             font-weight: 800;
         }
 
-        /* ========== HEADER SUPERIOR VERDE ORDENADO + CARRUSEL GRANDE ========== */
+        /* ========== HEADER SUPERIOR VERDE CON IMAGEN GRANDE + CARRUSEL ========== */
         .topbar {
             background: linear-gradient(160deg, var(--brand-primary-deeper) 0%, var(--brand-primary-dark) 55%, var(--brand-primary) 100%);
             color: #ffffff;
@@ -104,22 +104,15 @@
             margin: 0 auto;
         }
 
-        .header-top-grid {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 14px;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-
-        .header-left-col {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            min-width: 0;
-        }
-
         .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .brand-identity {
             display: flex;
             align-items: baseline;
             gap: 10px;
@@ -152,63 +145,10 @@
             font-weight: 600;
         }
 
-        .info-strip {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-        }
-
-        .info-chip {
-            font-size: 0.76rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.16);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-        }
-
-        .info-chip.tech {
-            background: rgba(2, 132, 199, 0.35);
-            color: #e0f2fe;
-            border-color: rgba(125, 211, 252, 0.45);
-        }
-
-        .info-chip.gold {
-            background: var(--brand-accent);
-            color: #0f172a;
-            border-color: #fde68a;
-        }
-
-        /* COLUMNA DERECHA SUPERIOR: IMAGEN + BOTONES ORDENADOS */
-        .header-right-col {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .top-hero-photo {
-            width: 116px;
-            height: 132px;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 2px solid var(--brand-gold-light);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-            background: #022c22;
-            flex-shrink: 0;
-        }
-
-        .top-hero-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
         .top-controls {
             display: flex;
-            flex-direction: column;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .icon-btn {
@@ -231,6 +171,64 @@
             border-color: #a7f3d0;
         }
 
+        /* BANNER DE IMAGEN GRANDE ARRIBA (OCUPA BUENA PARTE DEL ESPACIO SUPERIOR) */
+        .top-showcase-banner {
+            width: 100%;
+            height: 235px;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 2.5px solid var(--brand-gold-light);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+            background: #022c22;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .top-showcase-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 22%;
+            display: block;
+        }
+
+        /* BARRA DE INFORMACIÓN Y WHATSAPP DISTRIBUIDA MÁS ABAJO */
+        .info-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .info-chip {
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .info-chip.tech {
+            background: #0284c7;
+            color: #ffffff;
+            border-color: #7dd3fc;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.32);
+        }
+
+        .info-chip.gold {
+            background: var(--brand-accent);
+            color: #0f172a;
+            border-color: #fde68a;
+        }
+
         /* CARRUSEL / RULETA GRANDE Y COMPLETO POR CUADRO */
         .hero-carousel {
             position: relative;
@@ -250,8 +248,8 @@
 
         .hero-slide {
             min-width: 100%;
-            min-height: 238px;
-            padding: 26px 48px 44px;
+            min-height: 220px;
+            padding: 24px 46px 42px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -303,7 +301,7 @@
         }
 
         .slide-title {
-            font-size: 1.58rem;
+            font-size: 1.52rem;
             font-weight: 900;
             line-height: 1.18;
             margin-bottom: 8px;
@@ -311,7 +309,7 @@
         }
 
         .slide-sub {
-            font-size: 0.96rem;
+            font-size: 0.94rem;
             color: #d1fae5;
             font-weight: 600;
         }
@@ -324,7 +322,7 @@
         }
 
         .slide-brand-name {
-            font-size: 2.9rem;
+            font-size: 2.85rem;
             font-weight: 900;
             letter-spacing: 8px;
             text-transform: uppercase;
@@ -341,7 +339,7 @@
         }
 
         .slide-visual-badge {
-            font-size: 3.4rem;
+            font-size: 3.3rem;
             opacity: 0.96;
             flex-shrink: 0;
             filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
@@ -1051,12 +1049,12 @@
         }
 
         @media (max-width: 600px) {
-            .header-top-grid { gap: 10px; margin-bottom: 12px; }
-            .logo { font-size: 1.75rem; letter-spacing: 3px; }
-            .lema { font-size: 0.78rem; }
-            .top-hero-photo { width: 92px; height: 108px; border-radius: 12px; }
-            .icon-btn { width: 34px; height: 34px; font-size: 0.95rem; }
-            .hero-slide { min-height: 220px; padding: 20px 38px 40px; }
+            .logo { font-size: 1.8rem; letter-spacing: 3px; }
+            .lema { font-size: 0.8rem; }
+            .top-showcase-banner { height: 225px; border-radius: 15px; }
+            .info-strip { grid-template-columns: 1fr; gap: 6px; }
+            .info-chip { padding: 7px 10px; font-size: 0.78rem; }
+            .hero-slide { min-height: 215px; padding: 20px 38px 40px; }
             .slide-title { font-size: 1.24rem; }
             .slide-sub { font-size: 0.84rem; }
             .slide-visual-badge { font-size: 2.3rem; }
@@ -1079,35 +1077,33 @@
     <!-- TOASTS -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- HEADER SUPERIOR ORDENADO: TÍTULOS + CHIPS A LA IZQUIERDA, IMAGEN + BOTONES A LA DERECHA -->
+    <!-- HEADER SUPERIOR: TÍTULO + BOTONES, IMAGEN GRANDE DE CRESO Y BOTONES/CHIPS ABAJO -->
     <header class="topbar">
         <div class="topbar-inner">
-            <div class="header-top-grid">
-                <div class="header-left-col">
-                    <div class="brand-row">
-                        <span class="logo">CRESO<span class="logo-dot"></span></span>
-                        <span class="lema">Accesorios móviles • Minorista y Mayorista</span>
-                    </div>
-
-                    <div class="info-strip">
-                        <span class="info-chip">💵 Efectivo o Transferencia</span>
-                        <span class="info-chip tech">📲 WhatsApp: 11 3366-7793</span>
-                        <span class="info-chip gold">📦 10+ u. precio mayorista</span>
-                    </div>
+            <div class="brand-row">
+                <div class="brand-identity">
+                    <span class="logo">CRESO<span class="logo-dot"></span></span>
+                    <span class="lema">Accesorios móviles • Minorista y Mayorista</span>
                 </div>
-
-                <div class="header-right-col">
-                    <div class="top-hero-photo">
-                        <img src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="CRESO Accesorios y Tecnología">
-                    </div>
-                    <div class="top-controls">
-                        <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Sonido">🔊</button>
-                        <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar">⚙️</button>
-                    </div>
+                <div class="top-controls">
+                    <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Sonido">🔊</button>
+                    <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar">⚙️</button>
                 </div>
             </div>
 
-            <!-- CARRUSEL / RULETA GRANDE (CADA CUADRO COMPLETO SIN FOTO CHICA ADENTRO) -->
+            <!-- IMAGEN GRANDE PRINCIPAL ARRIBA -->
+            <div class="top-showcase-banner">
+                <img src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="CRESO Accesorios y Tecnología">
+            </div>
+
+            <!-- ETIQUETAS Y BOTÓN DE WHATSAPP DISTRIBUIDOS MÁS ABAJO -->
+            <div class="info-strip">
+                <span class="info-chip">💵 Efectivo o Transferencia</span>
+                <a class="info-chip tech" href="https://wa.me/5491133667793" target="_blank" rel="noopener noreferrer" onclick="playClickSound();">📲 WhatsApp: 11 3366-7793</a>
+                <span class="info-chip gold">📦 10+ u. precio mayorista</span>
+            </div>
+
+            <!-- CARRUSEL / RULETA GRANDE Y COMPLETO POR CUADRO -->
             <div class="hero-carousel" id="heroCarousel">
                 <div class="hero-slides" id="heroSlides">
                     <!-- Cuadro 1: Oferta Mayorista -->
