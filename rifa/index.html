@@ -6,19 +6,19 @@
     <title>CRESO — Accesorios &amp; Mayorista Directo</title>
     <style>
         :root {
-            --bg-main: #070a12;
-            --bg-surface: #0f1624;
-            --bg-card: rgba(20, 29, 47, 0.78);
-            --gold: #d4af37;
-            --gold-bright: #f3cf65;
-            --gold-dim: rgba(212, 175, 55, 0.16);
+            --bg-main: #050814;
+            --bg-surface: #0b1124;
+            --bg-card: rgba(14, 23, 46, 0.76);
+            --neon-cyan: #00f0ff;
+            --neon-blue: #3b82f6;
+            --accent-gold: #ffd166;
+            --cyan-dim: rgba(0, 240, 255, 0.14);
             --border-subtle: rgba(148, 163, 184, 0.16);
-            --border-gold: rgba(212, 175, 55, 0.45);
+            --border-neon: rgba(0, 240, 255, 0.45);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --green: #22c55e;
-            --green-dim: rgba(34, 197, 94, 0.15);
-            --cyan: #38bdf8;
+            --green: #10f981;
+            --green-dim: rgba(16, 249, 129, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,12 +27,13 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: var(--bg-main);
             background-image:
-                radial-gradient(circle at 15% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 18% 5%, rgba(0, 240, 255, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 18%, rgba(59, 130, 246, 0.13) 0%, transparent 45%),
+                radial-gradient(circle at 50% 85%, rgba(255, 209, 102, 0.06) 0%, transparent 50%);
             color: var(--text-main);
             line-height: 1.5;
             overflow-x: hidden;
-            padding-bottom: 110px;
+            padding-bottom: 115px;
         }
 
         /* ========== TOAST NOTIFICATION ========== */
@@ -51,8 +52,8 @@
         }
 
         .toast {
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
-            color: #070a12;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%);
+            color: #050814;
             padding: 13px 18px;
             border-radius: 16px;
             font-weight: 800;
@@ -60,21 +61,21 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.45);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.35);
             transform: translateY(-100px);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             pointer-events: auto;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.35);
         }
 
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast-icon { font-size: 1.3rem; }
         .toast-text { flex: 1; }
         .toast-close {
-            background: rgba(0, 0, 0, 0.15);
+            background: rgba(5, 8, 20, 0.2);
             border: none;
-            color: #070a12;
+            color: #050814;
             width: 26px;
             height: 26px;
             border-radius: 50%;
@@ -88,24 +89,29 @@
         /* ========== HEADER FUTURISTA ========== */
         .header {
             text-align: center;
-            padding: 32px 20px 22px;
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(7, 10, 18, 0) 100%);
+            padding: 34px 20px 24px;
+            background: linear-gradient(180deg, rgba(11, 17, 36, 0.96) 0%, rgba(5, 8, 20, 0) 100%);
             position: relative;
             border-bottom: 1px solid var(--border-subtle);
         }
 
-        .admin-trigger {
+        .top-controls {
             position: absolute;
             top: 16px;
             right: 16px;
-            background: rgba(30, 41, 59, 0.7);
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: rgba(15, 23, 42, 0.82);
             border: 1px solid var(--border-subtle);
             color: var(--text-muted);
             width: 40px;
             height: 40px;
             border-radius: 12px;
             cursor: pointer;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -113,10 +119,10 @@
             backdrop-filter: blur(8px);
         }
 
-        .admin-trigger:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: rotate(35deg);
+        .icon-btn:hover, .icon-btn.active-sound {
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 14px rgba(0, 240, 255, 0.25);
         }
 
         .brand-pill {
@@ -126,24 +132,24 @@
             font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--gold);
-            background: var(--gold-dim);
-            border: 1px solid var(--border-gold);
+            color: var(--neon-cyan);
+            background: var(--cyan-dim);
+            border: 1px solid var(--border-neon);
             padding: 4px 14px;
             border-radius: 999px;
             margin-bottom: 10px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .logo {
-            font-size: 3rem;
+            font-size: 3.1rem;
             font-weight: 900;
-            letter-spacing: 6px;
+            letter-spacing: 7px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #fff6d6 0%, var(--gold-bright) 45%, #b68d1c 100%);
+            background: linear-gradient(135deg, #ffffff 0%, var(--neon-cyan) 48%, var(--accent-gold) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 35px rgba(212, 175, 55, 0.28);
+            filter: drop-shadow(0 0 22px rgba(0, 240, 255, 0.25));
             line-height: 1.1;
         }
 
@@ -163,13 +169,13 @@
         }
 
         .zona {
-            background: rgba(15, 23, 42, 0.85);
-            color: var(--gold-bright);
+            background: rgba(11, 17, 36, 0.9);
+            color: var(--neon-cyan);
             padding: 7px 15px;
             border-radius: 999px;
             font-size: 0.82rem;
-            font-weight: 600;
-            border: 1px solid var(--border-gold);
+            font-weight: 700;
+            border: 1px solid var(--border-neon);
             backdrop-filter: blur(8px);
         }
 
@@ -178,7 +184,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(7, 10, 18, 0.88);
+            background: rgba(5, 8, 20, 0.88);
             backdrop-filter: blur(14px);
             padding: 14px 16px;
             border-bottom: 1px solid var(--border-subtle);
@@ -192,14 +198,11 @@
             gap: 12px;
         }
 
-        .search-box {
-            position: relative;
-            width: 100%;
-        }
+        .search-box { position: relative; width: 100%; }
 
         .search-box input {
             width: 100%;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(11, 17, 36, 0.95);
             border: 1px solid var(--border-subtle);
             color: var(--text-main);
             padding: 11px 16px 11px 42px;
@@ -210,8 +213,8 @@
 
         .search-box input:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.16);
         }
 
         .search-icon {
@@ -234,7 +237,7 @@
         .tabs::-webkit-scrollbar { display: none; }
 
         .tab {
-            background: rgba(30, 41, 59, 0.65);
+            background: rgba(15, 23, 42, 0.75);
             border: 1px solid var(--border-subtle);
             color: var(--text-muted);
             padding: 9px 18px;
@@ -243,14 +246,14 @@
             font-weight: 700;
             font-size: 0.88rem;
             white-space: nowrap;
-            transition: all 0.25s;
+            transition: all 0.22s;
         }
 
         .tab.active {
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
-            color: #070a12;
-            border-color: var(--gold-bright);
-            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%);
+            color: #050814;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 4px 18px rgba(0, 240, 255, 0.35);
         }
 
         /* ========== BANNER MAYORISTA ========== */
@@ -261,8 +264,8 @@
         }
 
         .promo-card {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.14) 0%, rgba(15, 23, 42, 0.9) 100%);
-            border: 1px solid var(--border-gold);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.11) 0%, rgba(11, 17, 36, 0.92) 100%);
+            border: 1px solid var(--border-neon);
             border-radius: 18px;
             padding: 16px 20px;
             display: flex;
@@ -272,7 +275,7 @@
             flex-wrap: wrap;
         }
 
-        .promo-card strong { color: var(--gold-bright); font-size: 1rem; }
+        .promo-card strong { color: var(--neon-cyan); font-size: 1rem; }
         .promo-card p { color: var(--text-muted); font-size: 0.86rem; margin-top: 2px; }
 
         /* ========== GRID & CARDS FUTURISTAS ========== */
@@ -302,15 +305,15 @@
 
         .card:hover {
             transform: translateY(-4px);
-            border-color: var(--border-gold);
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 20px rgba(212, 175, 55, 0.08);
+            border-color: var(--border-neon);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 22px rgba(0, 240, 255, 0.12);
         }
 
         .card.added-anim { animation: cardAdded 0.5s ease; }
 
         @keyframes cardAdded {
             0% { transform: scale(1); }
-            40% { transform: scale(1.025); border-color: var(--gold-bright); }
+            40% { transform: scale(1.025); border-color: var(--neon-cyan); }
             100% { transform: scale(1); }
         }
 
@@ -318,9 +321,9 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(7, 10, 18, 0.85);
-            color: var(--gold-bright);
-            border: 1px solid var(--border-gold);
+            background: rgba(5, 8, 20, 0.88);
+            color: var(--accent-gold);
+            border: 1px solid rgba(255, 209, 102, 0.45);
             padding: 5px 11px;
             border-radius: 10px;
             font-weight: 800;
@@ -332,7 +335,7 @@
         .card-visual {
             width: 100%;
             height: 195px;
-            background: radial-gradient(circle at center, #182338 0%, #0b101d 100%);
+            background: radial-gradient(circle at center, #13213d 0%, #070c1a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -350,7 +353,7 @@
         .card-visual svg {
             width: 82%;
             height: 82%;
-            filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+            filter: drop-shadow(0 8px 18px rgba(0, 240, 255, 0.15));
         }
 
         .card-body {
@@ -364,8 +367,8 @@
             font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--cyan);
-            font-weight: 700;
+            color: var(--neon-cyan);
+            font-weight: 800;
             margin-bottom: 4px;
         }
 
@@ -383,9 +386,8 @@
             flex: 1;
         }
 
-        /* Precios duales (Unidad vs Mayorista) */
         .price-box {
-            background: rgba(7, 10, 18, 0.65);
+            background: rgba(5, 8, 20, 0.72);
             border: 1px solid var(--border-subtle);
             border-radius: 14px;
             padding: 10px 12px;
@@ -409,14 +411,14 @@
 
         .price-bulk {
             text-align: right;
-            background: var(--gold-dim);
-            border: 1px solid var(--border-gold);
+            background: rgba(255, 209, 102, 0.12);
+            border: 1px solid rgba(255, 209, 102, 0.45);
             padding: 5px 10px;
             border-radius: 10px;
         }
 
         .price-bulk-val {
-            color: var(--gold-bright);
+            color: var(--accent-gold);
             font-weight: 900;
             font-size: 1.05rem;
             display: block;
@@ -425,11 +427,10 @@
 
         .price-bulk-tag {
             font-size: 0.68rem;
-            color: var(--gold);
+            color: var(--accent-gold);
             font-weight: 700;
         }
 
-        /* Barra de progreso mayorista en tarjeta */
         .bulk-progress {
             margin-bottom: 12px;
             font-size: 0.78rem;
@@ -447,20 +448,20 @@
 
         .progress-track {
             height: 6px;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             border-radius: 999px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 100%);
+            background: linear-gradient(90deg, var(--neon-blue) 0%, var(--neon-cyan) 100%);
             border-radius: 999px;
             transition: width 0.3s ease;
         }
 
         .progress-fill.unlocked {
-            background: linear-gradient(90deg, #16a34a 0%, var(--green) 100%);
+            background: linear-gradient(90deg, #059669 0%, var(--green) 100%);
         }
 
         .card-actions {
@@ -470,12 +471,12 @@
         }
 
         .btn-add {
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
-            color: #070a12;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%);
+            color: #050814;
             border: none;
             padding: 11px 14px;
             border-radius: 12px;
-            font-weight: 800;
+            font-weight: 900;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s;
@@ -486,12 +487,12 @@
         }
 
         .btn-add:active { transform: scale(0.96); }
-        .btn-add.added { background: var(--green); color: #fff; }
+        .btn-add.added { background: var(--green); color: #050814; }
 
         .btn-bulk-quick {
-            background: rgba(30, 41, 59, 0.9);
-            color: var(--gold-bright);
-            border: 1px solid var(--border-gold);
+            background: rgba(15, 23, 42, 0.92);
+            color: var(--accent-gold);
+            border: 1px solid rgba(255, 209, 102, 0.45);
             padding: 11px 12px;
             border-radius: 12px;
             font-weight: 800;
@@ -501,9 +502,7 @@
             white-space: nowrap;
         }
 
-        .btn-bulk-quick:hover {
-            background: var(--gold-dim);
-        }
+        .btn-bulk-quick:hover { background: rgba(255, 209, 102, 0.14); }
 
         /* ========== BOTÓN FLOTANTE CARRITO (FAB) ========== */
         .cart-fab {
@@ -511,18 +510,18 @@
             bottom: 24px;
             right: 22px;
             z-index: 1000;
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
-            color: #070a12;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%);
+            color: #050814;
             width: 66px;
             height: 66px;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.35);
+            border: 2px solid rgba(255, 255, 255, 0.4);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.65rem;
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.45);
             transition: transform 0.2s;
         }
 
@@ -540,7 +539,7 @@
             position: absolute;
             top: -4px;
             right: -4px;
-            background: #ef4444;
+            background: #ff2a85;
             color: white;
             min-width: 25px;
             height: 25px;
@@ -567,13 +566,13 @@
             left: 50%;
             transform: translateX(-50%);
             background: var(--bg-main);
-            color: var(--gold-bright);
+            color: var(--neon-cyan);
             padding: 2px 10px;
             border-radius: 10px;
             font-size: 0.72rem;
             font-weight: 800;
             white-space: nowrap;
-            border: 1px solid var(--gold);
+            border: 1px solid var(--neon-cyan);
         }
 
         /* ========== DRAWER DEL CARRITO & MODALES ========== */
@@ -581,8 +580,8 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(3, 6, 14, 0.78);
-            backdrop-filter: blur(5px);
+            background: rgba(2, 5, 14, 0.82);
+            backdrop-filter: blur(6px);
             z-index: 1500;
             opacity: 0;
             transition: opacity 0.3s;
@@ -597,7 +596,7 @@
             right: 0;
             max-width: 680px;
             margin: 0 auto;
-            background: #111827;
+            background: #0b1124;
             border-radius: 26px 26px 0 0;
             max-height: 88vh;
             transform: translateY(100%);
@@ -605,8 +604,8 @@
             z-index: 1600;
             display: flex;
             flex-direction: column;
-            border-top: 2px solid var(--gold);
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+            border-top: 2px solid var(--neon-cyan);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.65);
         }
 
         .drawer-overlay.active .drawer { transform: translateY(0); }
@@ -614,7 +613,7 @@
         .drawer-handle {
             width: 48px;
             height: 5px;
-            background: #334155;
+            background: #283552;
             border-radius: 3px;
             margin: 12px auto 8px;
         }
@@ -628,7 +627,7 @@
         }
 
         .drawer-header h2 {
-            color: var(--gold-bright);
+            color: var(--neon-cyan);
             font-size: 1.25rem;
             display: flex;
             align-items: center;
@@ -636,7 +635,7 @@
         }
 
         .drawer-close {
-            background: #1e293b;
+            background: #14203b;
             border: 1px solid var(--border-subtle);
             color: var(--text-muted);
             width: 36px;
@@ -683,12 +682,12 @@
 
         .cart-item-info { flex: 1; }
         .cart-item-info h4 { color: var(--text-main); font-size: 0.94rem; margin-bottom: 3px; }
-        .cart-item-meta { font-size: 0.82rem; color: var(--gold-bright); font-weight: 700; }
+        .cart-item-meta { font-size: 0.82rem; color: var(--neon-cyan); font-weight: 700; }
         .tag-mayorista {
             display: inline-block;
             background: var(--green-dim);
             color: var(--green);
-            border: 1px solid rgba(34, 197, 94, 0.35);
+            border: 1px solid rgba(16, 249, 129, 0.35);
             font-size: 0.68rem;
             padding: 1px 7px;
             border-radius: 6px;
@@ -707,7 +706,7 @@
         }
 
         .qty-btn {
-            background: #1e293b;
+            background: #14203b;
             border: none;
             color: white;
             width: 30px;
@@ -718,7 +717,7 @@
             font-weight: 800;
         }
 
-        .qty-btn:hover { background: #334155; }
+        .qty-btn:hover { background: #22355e; }
         .qty-controls span { min-width: 24px; text-align: center; font-weight: 800; }
 
         .form-grid {
@@ -751,12 +750,12 @@
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
-            border-color: var(--gold);
+            border-color: var(--neon-cyan);
         }
 
         .savings-box {
             background: var(--green-dim);
-            border: 1px solid rgba(34, 197, 94, 0.35);
+            border: 1px solid rgba(16, 249, 129, 0.35);
             color: var(--green);
             padding: 10px 14px;
             border-radius: 12px;
@@ -770,14 +769,14 @@
             text-align: center;
             margin: 14px 0;
             padding: 16px;
-            background: linear-gradient(135deg, var(--bg-main) 0%, #172033 100%);
+            background: linear-gradient(135deg, var(--bg-main) 0%, #101c38 100%);
             border-radius: 16px;
-            border: 1px solid var(--border-gold);
+            border: 1px solid var(--border-neon);
         }
 
         .total-box .total-amount {
             font-size: 1.65rem;
-            color: var(--gold-bright);
+            color: var(--neon-cyan);
             font-weight: 900;
         }
 
@@ -817,13 +816,13 @@
         }
 
         .admin-section h3 {
-            color: var(--gold-bright);
+            color: var(--neon-cyan);
             font-size: 1rem;
             margin-bottom: 12px;
         }
 
         .admin-prod-row {
-            background: #141d2f;
+            background: #0e172e;
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
             padding: 12px;
@@ -856,9 +855,9 @@
         }
 
         .btn-file {
-            background: #1e293b;
-            color: var(--gold-bright);
-            border: 1px dashed var(--border-gold);
+            background: #14203b;
+            color: var(--neon-cyan);
+            border: 1px dashed var(--border-neon);
             padding: 8px 10px;
             border-radius: 8px;
             font-size: 0.78rem;
@@ -869,13 +868,13 @@
         }
 
         .btn-export {
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
-            color: #070a12;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%);
+            color: #050814;
             border: none;
             width: 100%;
             padding: 14px;
             border-radius: 12px;
-            font-weight: 800;
+            font-weight: 900;
             cursor: pointer;
             font-size: 0.95rem;
             margin-top: 8px;
@@ -891,7 +890,7 @@
         }
 
         @media (max-width: 600px) {
-            .logo { font-size: 2.35rem; letter-spacing: 4px; }
+            .logo { font-size: 2.4rem; letter-spacing: 5px; }
             .grid { grid-template-columns: 1fr; }
             .form-grid { grid-template-columns: 1fr; }
         }
@@ -904,14 +903,17 @@
 
     <!-- HEADER -->
     <header class="header">
-        <button class="admin-trigger" onclick="toggleAdmin()" title="Configurar precios, fotos y WhatsApp">⚙️</button>
+        <div class="top-controls">
+            <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Activar/silenciar sonidos">🔊</button>
+            <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar precios, fotos y WhatsApp">⚙️</button>
+        </div>
         <div class="brand-pill">⚡ Catálogo Oficial</div>
         <h1 class="logo" id="storeTitle">CRESO</h1>
         <p class="lema" id="storeSubtitle">Accesorios móviles &amp; precios directos sin vueltas</p>
         <div class="trust-badges">
             <span class="zona">💵 Efectivo o Transferencia</span>
-            <span class="zona">📲 Cierre directo por WhatsApp</span>
-            <span class="zona">📦 Precio Mayorista desde 10 u.</span>
+            <span class="zona">📲 WhatsApp: 11 3366-7793</span>
+            <span class="zona">📦 Mayorista desde 10 u.</span>
         </div>
     </header>
 
@@ -938,7 +940,7 @@
                 <strong>🔥 Descuento Mayorista Automático</strong>
                 <p>Llevando <strong>10 o más unidades</strong> del mismo artículo, el carrito aplica el precio mayorista solo.</p>
             </div>
-            <span style="color: var(--gold-bright); font-weight: 800; font-size: 0.85rem;">Envío o Retiro a coordinar →</span>
+            <span style="color: var(--accent-gold); font-weight: 800; font-size: 0.85rem;">Envío o Retiro a coordinar →</span>
         </div>
     </div>
 
@@ -948,7 +950,7 @@
     </main>
 
     <!-- BOTÓN FLOTANTE CARRITO -->
-    <button class="cart-fab" id="cartFab" onclick="toggleCart()" aria-label="Abrir carrito">
+    <button class="cart-fab" id="cartFab" onclick="playClickSound(); toggleCart();" aria-label="Abrir carrito">
         🛒
         <span class="cart-fab-badge" id="cartFabBadge">0</span>
         <span class="cart-fab-total" id="cartFabTotal">$0</span>
@@ -960,12 +962,12 @@
             <div class="drawer-handle"></div>
             <div class="drawer-header">
                 <h2>🛒 Tu Pedido en CRESO</h2>
-                <button class="drawer-close" onclick="toggleCart()">✕</button>
+                <button class="drawer-close" onclick="playClickSound(); toggleCart();">✕</button>
             </div>
             <div class="drawer-body">
                 <div class="cart-summary-bar">
                     <span style="color: var(--text-muted); font-size: 0.88rem;">📦 Artículos seleccionados:</span>
-                    <strong id="cartSummaryCount" style="color: var(--gold-bright);">0 unidades</strong>
+                    <strong id="cartSummaryCount" style="color: var(--neon-cyan);">0 unidades</strong>
                 </div>
 
                 <div id="cartItems"></div>
@@ -982,14 +984,14 @@
                     </div>
                     <div class="form-group">
                         <label>🚚 Entrega</label>
-                        <select id="clienteEntrega" onchange="toggleDireccionField()">
+                        <select id="clienteEntrega" onchange="playClickSound(); toggleDireccionField();">
                             <option value="Envío a domicilio">🚚 Envío a domicilio</option>
                             <option value="Retiro a coordinar">📍 Retiro a coordinar</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>💳 Forma de pago</label>
-                        <select id="clientePago">
+                        <select id="clientePago" onchange="playClickSound();">
                             <option value="Efectivo">💵 Efectivo</option>
                             <option value="Transferencia">🏦 Transferencia</option>
                             <option value="Efectivo + Transferencia">💵 + 🏦 Efectivo + Transferencia</option>
@@ -1017,20 +1019,20 @@
         </div>
     </div>
 
-    <!-- DRAWER CONFIGURACIÓN / ADMIN (PARA ACTUALIZAR FOTOS Y PRECIOS) -->
+    <!-- DRAWER CONFIGURACIÓN / ADMIN -->
     <div class="drawer-overlay" id="adminDrawerOverlay" onclick="toggleAdmin()">
         <div class="drawer" onclick="event.stopPropagation()">
             <div class="drawer-handle"></div>
             <div class="drawer-header">
                 <h2>⚙️ Panel CRESO (Precios &amp; Fotos)</h2>
-                <button class="drawer-close" onclick="toggleAdmin()">✕</button>
+                <button class="drawer-close" onclick="playClickSound(); toggleAdmin();">✕</button>
             </div>
             <div class="drawer-body">
                 <div class="admin-section">
                     <h3>📲 Número de WhatsApp receptor</h3>
                     <div class="form-group" style="margin-bottom:0;">
                         <label>Código de país + área + número (sin + ni espacios)</label>
-                        <input type="text" id="adminWhatsapp" placeholder="Ej: 5491167909625" onchange="saveSettings()">
+                        <input type="text" id="adminWhatsapp" placeholder="5491133667793" onchange="saveSettings()">
                     </div>
                 </div>
 
@@ -1050,54 +1052,127 @@
     </div>
 
     <footer class="footer">
-        <p><strong style="color: var(--gold-bright);">CRESO</strong> — Accesorios &amp; Mayorista Directo</p>
-        <p style="margin-top: 4px;">Pagás en efectivo o transferencia al coordinar • Atención directa por WhatsApp</p>
+        <p><strong style="color: var(--neon-cyan);">CRESO</strong> — Accesorios &amp; Mayorista Directo</p>
+        <p style="margin-top: 4px;">WhatsApp: +54 9 11 3366-7793 • Efectivo o Transferencia</p>
     </footer>
 
     <script>
-        /* ========== ILUSTRACIONES SVG AUTOCONTENIDAS (NUNCA SE PIERDEN) ========== */
+        /* ========== SONIDOS FUTURISTAS SUAVES (WEB AUDIO API) ========== */
+        let soundEnabled = true;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) audioCtx = new AudioContextClass();
+            }
+            if (audioCtx && audioCtx.state === "suspended") {
+                audioCtx.resume().catch(() => {});
+            }
+            return audioCtx;
+        }
+
+        function playClickSound() {
+            if (!soundEnabled) return;
+            const ctx = getAudioContext();
+            if (!ctx) return;
+
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(520, now);
+            osc.frequency.exponentialRampToValueAtTime(780, now + 0.055);
+
+            gain.gain.setValueAtTime(0.06, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.065);
+        }
+
+        function playAddSound() {
+            if (!soundEnabled) return;
+            const ctx = getAudioContext();
+            if (!ctx) return;
+
+            const now = ctx.currentTime;
+            const notes = [587.33, 880]; // Re5 -> La5
+            notes.forEach((freq, idx) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = "triangle";
+                const start = now + idx * 0.07;
+                osc.frequency.setValueAtTime(freq, start);
+
+                gain.gain.setValueAtTime(0.08, start);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.12);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(start);
+                osc.stop(start + 0.13);
+            });
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById("soundToggleBtn");
+            btn.textContent = soundEnabled ? "🔊" : "🔇";
+            btn.classList.toggle("active-sound", soundEnabled);
+            if (soundEnabled) {
+                playAddSound();
+                showToast("Sonidos activados", "🔊");
+            } else {
+                showToast("Sonidos silenciados", "🔇");
+            }
+        }
+
+        /* ========== ILUSTRACIONES SVG AUTOCONTENIDAS ========== */
         const SVG_ICONS = {
             cableBlack: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="28" y="34" width="184" height="92" rx="14" fill="#1e293b" stroke="#475569" stroke-width="2"/>
-                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#0f172a" stroke-width="11"/>
-                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#64748b" stroke-width="3" stroke-dasharray="6 4"/>
-                <rect x="44" y="68" width="26" height="24" rx="4" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
-                <rect x="170" y="71" width="22" height="18" rx="3" fill="#334155" stroke="#d4af37" stroke-width="1.5"/>
+                <rect x="28" y="34" width="184" height="92" rx="14" fill="#0f1b33" stroke="#3b82f6" stroke-width="2"/>
+                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#070d1b" stroke-width="11"/>
+                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#00f0ff" stroke-width="2.5" stroke-dasharray="6 4"/>
+                <rect x="44" y="68" width="26" height="24" rx="4" fill="#17284a" stroke="#94a3b8" stroke-width="1.5"/>
+                <rect x="170" y="71" width="22" height="18" rx="3" fill="#17284a" stroke="#ffd166" stroke-width="1.5"/>
                 <text x="120" y="144" fill="#94a3b8" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M • COMPACTO</text>
             </svg>`,
             cableWhite: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M55 118C55 55 185 55 185 118" stroke="#e2e8f0" stroke-width="10" stroke-linecap="round"/>
-                <path d="M55 118C55 55 185 55 185 118" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M55 118C55 55 185 55 185 118" stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round"/>
                 <rect x="42" y="106" width="26" height="32" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
                 <rect x="48" y="94" width="14" height="12" rx="2" fill="#94a3b8"/>
-                <rect x="174" y="108" width="22" height="28" rx="5" fill="#f8fafc" stroke="#d4af37" stroke-width="2"/>
-                <rect x="179" y="96" width="12" height="12" rx="2" fill="#d4af37"/>
-                <text x="120" y="34" fill="#d4af37" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1 METRO</text>
+                <rect x="174" y="108" width="22" height="28" rx="5" fill="#f8fafc" stroke="#00f0ff" stroke-width="2"/>
+                <rect x="179" y="96" width="12" height="12" rx="2" fill="#00f0ff"/>
+                <text x="120" y="34" fill="#00f0ff" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1 METRO</text>
             </svg>`,
             charger: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="78" y="42" width="84" height="78" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-                <rect x="78" y="42" width="84" height="18" rx="6" fill="#ef4444"/>
+                <rect x="78" y="42" width="84" height="18" rx="6" fill="#3b82f6"/>
                 <rect x="96" y="22" width="8" height="20" rx="2" fill="#cbd5e1"/>
                 <rect x="136" y="22" width="8" height="20" rx="2" fill="#cbd5e1"/>
-                <path d="M124 72L112 90H122L116 108L132 88H121L124 72Z" fill="#d4af37"/>
-                <text x="120" y="142" fill="#d4af37" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">2A CARGA RÁPIDA + CABLE</text>
+                <path d="M124 72L112 90H122L116 108L132 88H121L124 72Z" fill="#00f0ff"/>
+                <text x="120" y="142" fill="#00f0ff" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">2A CARGA RÁPIDA + CABLE</text>
             </svg>`,
             earphones: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="88" cy="64" r="22" fill="#1e293b" stroke="#d4af37" stroke-width="2.5"/>
-                <circle cx="88" cy="64" r="10" fill="#ef4444"/>
-                <circle cx="152" cy="64" r="22" fill="#1e293b" stroke="#d4af37" stroke-width="2.5"/>
-                <circle cx="152" cy="64" r="10" fill="#ef4444"/>
+                <circle cx="88" cy="64" r="22" fill="#0f1b33" stroke="#00f0ff" stroke-width="2.5"/>
+                <circle cx="88" cy="64" r="10" fill="#3b82f6"/>
+                <circle cx="152" cy="64" r="22" fill="#0f1b33" stroke="#00f0ff" stroke-width="2.5"/>
+                <circle cx="152" cy="64" r="10" fill="#3b82f6"/>
                 <path d="M88 86V112C88 124 120 124 120 136M152 86V112C152 124 120 124 120 136" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
-                <rect x="112" y="132" width="16" height="16" rx="3" fill="#d4af37"/>
-                <text x="120" y="28" fill="#38bdf8" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C DIGITAL IC • MICRÓFONO</text>
+                <rect x="112" y="132" width="16" height="16" rx="3" fill="#ffd166"/>
+                <text x="120" y="28" fill="#00f0ff" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C DIGITAL IC • MICRÓFONO</text>
             </svg>`,
             auxCable: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M52 110C52 45 188 45 188 110" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
-                <rect x="44" y="102" width="16" height="24" rx="3" fill="#1e293b" stroke="#d4af37" stroke-width="1.5"/>
-                <rect x="49" y="84" width="6" height="18" rx="2" fill="#f3cf65"/>
-                <rect x="180" y="102" width="16" height="24" rx="3" fill="#1e293b" stroke="#d4af37" stroke-width="1.5"/>
-                <rect x="185" y="84" width="6" height="18" rx="2" fill="#f3cf65"/>
-                <text x="120" y="144" fill="#d4af37" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">JACK 3.5MM • 4 PINES • 2 METROS</text>
+                <path d="M52 110C52 45 188 45 188 110" stroke="#1e3a5f" stroke-width="8" stroke-linecap="round"/>
+                <rect x="44" y="102" width="16" height="24" rx="3" fill="#0f1b33" stroke="#00f0ff" stroke-width="1.5"/>
+                <rect x="49" y="84" width="6" height="18" rx="2" fill="#ffd166"/>
+                <rect x="180" y="102" width="16" height="24" rx="3" fill="#0f1b33" stroke="#00f0ff" stroke-width="1.5"/>
+                <rect x="185" y="84" width="6" height="18" rx="2" fill="#ffd166"/>
+                <text x="120" y="144" fill="#00f0ff" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">JACK 3.5MM • 4 PINES • 2 METROS</text>
             </svg>`
         };
 
@@ -1214,13 +1289,12 @@
         ];
 
         let state = {
-            whatsapp: "5491167909625",
+            whatsapp: "5491133667793",
             products: JSON.parse(JSON.stringify(DEFAULT_PRODUCTS))
         };
 
-        // Cargar configuración guardada localmente si existe
         try {
-            const saved = localStorage.getItem("creso_store_v1");
+            const saved = localStorage.getItem("creso_store_v2");
             if (saved) {
                 const parsed = JSON.parse(saved);
                 if (parsed.whatsapp) state.whatsapp = parsed.whatsapp;
@@ -1233,7 +1307,7 @@
 
         function persistState() {
             try {
-                localStorage.setItem("creso_store_v1", JSON.stringify(state));
+                localStorage.setItem("creso_store_v2", JSON.stringify(state));
             } catch (e) {
                 showToast("⚠️ Memoria llena: descargá el HTML para guardar tus fotos.", "💾");
             }
@@ -1259,6 +1333,7 @@
 
         /* ========== FILTROS Y RENDERIZADO DE PRODUCTOS ========== */
         function setCategory(cat, btnEl) {
+            playClickSound();
             currentCategory = cat;
             document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
             if (btnEl) btnEl.classList.add("active");
@@ -1354,6 +1429,8 @@
                 cart[id] = { id, cantidad: qtyToAdd };
             }
 
+            playAddSound();
+
             const card = document.getElementById(`card-${id}`);
             if (card) {
                 card.classList.remove("added-anim");
@@ -1394,6 +1471,7 @@
 
         function updateQty(id, delta) {
             if (!cart[id]) return;
+            playClickSound();
             cart[id].cantidad += delta;
             if (cart[id].cantidad <= 0) {
                 const prod = state.products.find(p => p.id === id);
@@ -1502,6 +1580,8 @@
                 return;
             }
 
+            playAddSound();
+
             let totalFinal = 0;
             let msg = `*⚡ NUEVO PEDIDO — CRESO*\n\n`;
             msg += `👤 *Cliente:* ${nombre}\n`;
@@ -1524,7 +1604,7 @@
             msg += `\n💰 *TOTAL A PAGAR (${pago.toUpperCase()}): $${totalFinal.toLocaleString("es-AR")}*`;
             if (notas) msg += `\n📝 *Notas:* ${notas}`;
 
-            const phone = state.whatsapp.replace(/\D/g, "") || "5491167909625";
+            const phone = state.whatsapp.replace(/\D/g, "") || "5491133667793";
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
         }
 
@@ -1544,7 +1624,7 @@
                 <div class="admin-prod-row">
                     <div class="admin-prod-top">
                         <strong style="font-size:0.9rem; color:var(--text-main);">${p.nombre}</strong>
-                        <span style="font-size:0.75rem; color:var(--gold);">${p.customImg ? "✅ Foto propia cargada" : "🎨 Gráfico integrado"}</span>
+                        <span style="font-size:0.75rem; color:var(--neon-cyan);">${p.customImg ? "✅ Foto propia cargada" : "🎨 Gráfico integrado"}</span>
                     </div>
                     <div class="admin-prices">
                         <div>
@@ -1569,6 +1649,7 @@
         function saveSettings() {
             state.whatsapp = document.getElementById("adminWhatsapp").value.trim() || state.whatsapp;
             persistState();
+            playClickSound();
             showToast("Número de WhatsApp guardado", "✅");
         }
 
@@ -1579,11 +1660,11 @@
                 persistState();
                 renderProducts();
                 updateCartUI();
+                playClickSound();
                 showToast("Precio actualizado", "💰");
             }
         }
 
-        // Comprime la imagen a max 520px JPEG para que sea liviana y nunca se pierda
         function handleImageUpload(index, input) {
             const file = input.files && input.files[0];
             if (!file) return;
@@ -1609,6 +1690,7 @@
                     persistState();
                     renderProducts();
                     renderAdmin();
+                    playAddSound();
                     showToast("Foto optimizada e incrustada", "📷");
                 };
                 img.src = e.target.result;
@@ -1616,7 +1698,6 @@
             reader.readAsDataURL(file);
         }
 
-        // Exporta un único archivo HTML con las fotos Base64 y precios ya incrustados
         function exportStandaloneHTML() {
             let html = document.documentElement.outerHTML;
             const serialized = JSON.stringify(state.products, null, 2);
@@ -1636,10 +1717,10 @@
             a.download = "index.html";
             a.click();
             URL.revokeObjectURL(url);
+            playAddSound();
             showToast("¡Archivo index.html descargado con tus fotos!", "💾");
         }
 
-        // Inicializar
         renderProducts();
         updateCartUI();
     </script>
