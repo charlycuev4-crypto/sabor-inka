@@ -13,6 +13,7 @@
             --brand-primary-soft: #ecfdf5;
             --brand-tech: #0284c7;
             --brand-accent: #f59e0b;
+            --brand-gold-light: #fbbf24;
             --brand-accent-soft: #fffbeb;
 
             --bg-page: #eef6f2;
@@ -22,8 +23,9 @@
             --text-secondary: #475569;
             --border-light: #cbd5e1;
             --border-brand: rgba(5, 150, 105, 0.35);
-            --shadow-card: 0 4px 16px rgba(15, 23, 42, 0.05);
-            --shadow-hover: 0 10px 26px rgba(4, 120, 87, 0.16);
+            --border-card-green: #047857;
+            --shadow-card: 0 4px 16px rgba(4, 120, 87, 0.08);
+            --shadow-hover: 0 10px 26px rgba(4, 120, 87, 0.18);
         }
 
         * {
@@ -88,13 +90,13 @@
             font-weight: 800;
         }
 
-        /* ========== HEADER SUPERIOR CON CUERPO Y SELLO DE MARCA ========== */
+        /* ========== HEADER SUPERIOR VERDE CON CARRUSEL / RULETA ARRIBA ========== */
         .topbar {
             background: linear-gradient(160deg, var(--brand-primary-deeper) 0%, var(--brand-primary-dark) 55%, var(--brand-primary) 100%);
             color: #ffffff;
-            padding: 16px 16px 18px;
+            padding: 14px 16px 18px;
             border-bottom: 3px solid var(--brand-accent);
-            box-shadow: 0 6px 20px rgba(6, 78, 59, 0.18);
+            box-shadow: 0 6px 20px rgba(6, 78, 59, 0.2);
         }
 
         .topbar-inner {
@@ -118,27 +120,27 @@
         }
 
         .logo {
-            font-size: 2.1rem;
+            font-size: 2.05rem;
             font-weight: 900;
             letter-spacing: 4px;
-            color: #ffffff;
+            color: var(--brand-gold-light);
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
         }
 
         .logo-dot {
             width: 11px;
             height: 11px;
             border-radius: 50%;
-            background: var(--brand-accent);
+            background: var(--brand-gold-light);
             display: inline-block;
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.85);
         }
 
         .lema {
-            font-size: 0.88rem;
+            font-size: 0.86rem;
             color: #d1fae5;
             font-weight: 600;
         }
@@ -171,14 +173,14 @@
         .info-strip {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 7px;
+            margin-bottom: 12px;
         }
 
         .info-chip {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 800;
-            padding: 5px 11px;
+            padding: 4px 10px;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.16);
             color: #ffffff;
@@ -186,7 +188,7 @@
         }
 
         .info-chip.tech {
-            background: rgba(2, 132, 199, 0.32);
+            background: rgba(2, 132, 199, 0.35);
             color: #e0f2fe;
             border-color: rgba(125, 211, 252, 0.45);
         }
@@ -195,6 +197,170 @@
             background: var(--brand-accent);
             color: #0f172a;
             border-color: #fde68a;
+        }
+
+        /* CARRUSEL / RULETA DENTRO DEL BLOQUE SUPERIOR VERDE */
+        .hero-carousel {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+            border: 2px solid rgba(251, 191, 36, 0.65);
+            background: #022c22;
+            user-select: none;
+        }
+
+        .hero-slides {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+        }
+
+        .hero-slide {
+            min-width: 100%;
+            min-height: 164px;
+            padding: 18px 42px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .slide-offer-1 {
+            background: linear-gradient(125deg, #064e3b 0%, #059669 60%, #047857 100%);
+        }
+
+        .slide-offer-2 {
+            background: linear-gradient(125deg, #065f46 0%, #047857 55%, #0f766e 100%);
+        }
+
+        .slide-offer-3 {
+            background: linear-gradient(125deg, #064e3b 0%, #059669 55%, #b45309 125%);
+        }
+
+        /* CIERRE FINAL: NOMBRE CRESO EN DORADO SOBRE FONDO VERDE */
+        .slide-brand-gold {
+            background: radial-gradient(circle at 50% 25%, rgba(251, 191, 36, 0.25) 0%, transparent 55%),
+                        linear-gradient(135deg, #022c22 0%, #064e3b 52%, #047857 100%);
+            justify-content: center;
+            text-align: center;
+        }
+
+        .slide-content {
+            max-width: 620px;
+            z-index: 2;
+        }
+
+        .slide-kicker {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--brand-gold-light);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            padding: 2px 10px;
+            border-radius: 999px;
+            margin-bottom: 6px;
+        }
+
+        .slide-title {
+            font-size: 1.26rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .slide-sub {
+            font-size: 0.84rem;
+            color: #d1fae5;
+            font-weight: 600;
+        }
+
+        .slide-brand-showcase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .slide-brand-name {
+            font-size: 2.45rem;
+            font-weight: 900;
+            letter-spacing: 7px;
+            text-transform: uppercase;
+            color: var(--brand-gold-light);
+            text-shadow: 0 3px 16px rgba(0, 0, 0, 0.45);
+            line-height: 1.05;
+        }
+
+        .slide-brand-tag {
+            font-size: 0.84rem;
+            letter-spacing: 1px;
+            color: #fef3c7;
+            font-weight: 800;
+        }
+
+        .slide-visual-badge {
+            font-size: 2.7rem;
+            opacity: 0.95;
+            flex-shrink: 0;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-65%);
+            background: rgba(2, 44, 34, 0.55);
+            color: var(--brand-gold-light);
+            border: 1px solid rgba(251, 191, 36, 0.45);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .carousel-arrow.prev { left: 9px; }
+        .carousel-arrow.next { right: 9px; }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 9px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 7px;
+            z-index: 6;
+            background: rgba(2, 44, 34, 0.5);
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .carousel-dot.active {
+            width: 20px;
+            border-radius: 999px;
+            background: var(--brand-gold-light);
         }
 
         /* ========== BUSCADOR Y CATEGORÍAS STICKY ========== */
@@ -293,7 +459,7 @@
             border-color: var(--brand-primary);
         }
 
-        /* ========== GRID DE PRODUCTOS (ESTILO MARKETPLACE) ========== */
+        /* ========== GRID DE PRODUCTOS (CUADRO COMPLETO CON BORDE VERDE) ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -327,11 +493,12 @@
             gap: 16px;
         }
 
+        /* TODO EL CUADRO LARGO DE CADA PRODUCTO CON BORDE VERDE */
         .card {
             background: var(--bg-card);
-            border: 1px solid var(--border-light);
+            border: 2.5px solid var(--border-card-green);
             border-radius: 16px;
-            padding: 12px;
+            padding: 11px;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -342,21 +509,21 @@
         .card:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-hover);
-            border-color: var(--brand-primary);
+            border-color: var(--brand-primary-deeper);
         }
 
         .card.added-anim { animation: cardPop 0.45s ease; }
 
         @keyframes cardPop {
             0% { transform: scale(1); }
-            45% { transform: scale(1.02); border-color: var(--brand-primary); }
+            45% { transform: scale(1.02); border-color: var(--brand-accent); }
             100% { transform: scale(1); }
         }
 
         .badge {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 19px;
+            left: 19px;
             background: var(--brand-primary-dark);
             color: #ffffff;
             padding: 4px 9px;
@@ -373,19 +540,17 @@
             color: #0f172a;
         }
 
-        /* RECUADRO DE FOTO / PRODUCTO REMARCADO EN VERDE OSCURO */
         .card-visual {
             width: 100%;
-            height: 168px;
+            height: 162px;
             background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
-            border: 2.5px solid var(--brand-primary-dark);
-            border-radius: 12px;
+            border: 2px solid var(--border-card-green);
+            border-radius: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
-            box-shadow: inset 0 0 0 1px rgba(6, 78, 59, 0.14);
         }
 
         .card-visual img {
@@ -400,7 +565,7 @@
         }
 
         .card-body {
-            padding: 12px 2px 2px;
+            padding: 11px 2px 2px;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -518,195 +683,6 @@
             font-weight: 800;
             cursor: pointer;
             white-space: nowrap;
-        }
-
-        /* ========== SECCIÓN INFERIOR: CARRUSEL CON TÍTULO & CIERRE CRESO ========== */
-        .bottom-showcase-wrap {
-            max-width: 1200px;
-            margin: 18px auto 0;
-            padding: 0 16px;
-        }
-
-        .showcase-title-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .showcase-title-bar h2 {
-            font-size: 1.15rem;
-            font-weight: 900;
-            color: var(--brand-primary-deeper);
-        }
-
-        .showcase-title-bar span {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-weight: 700;
-        }
-
-        .hero-carousel {
-            position: relative;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(6, 78, 59, 0.16);
-            border: 2px solid var(--brand-primary-dark);
-            background: var(--brand-primary-deeper);
-            user-select: none;
-        }
-
-        .hero-slides {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform;
-        }
-
-        .hero-slide {
-            min-width: 100%;
-            min-height: 184px;
-            padding: 22px 44px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            color: #ffffff;
-            position: relative;
-        }
-
-        .slide-1 {
-            background: linear-gradient(125deg, #064e3b 0%, #059669 58%, #0284c7 100%);
-        }
-
-        .slide-2 {
-            background: linear-gradient(125deg, #0f172a 0%, #047857 55%, #10b981 100%);
-        }
-
-        .slide-3 {
-            background: linear-gradient(125deg, #0369a1 0%, #059669 60%, #d97706 100%);
-        }
-
-        .slide-brand-end {
-            background: radial-gradient(circle at 80% 25%, rgba(245, 158, 11, 0.34) 0%, transparent 45%),
-                        linear-gradient(135deg, #022c22 0%, #065f46 52%, #059669 100%);
-            justify-content: center;
-            text-align: center;
-        }
-
-        .slide-content {
-            max-width: 620px;
-            z-index: 2;
-        }
-
-        .slide-kicker {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            background: rgba(255, 255, 255, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            padding: 3px 10px;
-            border-radius: 999px;
-            margin-bottom: 8px;
-        }
-
-        .slide-title {
-            font-size: 1.34rem;
-            font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 6px;
-        }
-
-        .slide-sub {
-            font-size: 0.88rem;
-            color: rgba(255, 255, 255, 0.92);
-            font-weight: 600;
-        }
-
-        .slide-brand-showcase {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .slide-brand-name {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #ffffff 0%, #a7f3d0 45%, #fde68a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.05;
-        }
-
-        .slide-brand-tag {
-            font-size: 0.86rem;
-            letter-spacing: 1px;
-            color: #fde68a;
-            font-weight: 800;
-        }
-
-        .slide-visual-badge {
-            font-size: 2.9rem;
-            opacity: 0.94;
-            flex-shrink: 0;
-            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
-        }
-
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-65%);
-            background: rgba(15, 23, 42, 0.38);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-        }
-
-        .carousel-arrow.prev { left: 10px; }
-        .carousel-arrow.next { right: 10px; }
-
-        .carousel-dots {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 6;
-            background: rgba(15, 23, 42, 0.28);
-            padding: 5px 10px;
-            border-radius: 999px;
-        }
-
-        .carousel-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.45);
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .carousel-dot.active {
-            width: 22px;
-            border-radius: 999px;
-            background: var(--brand-accent);
         }
 
         /* ========== BOTÓN FLOTANTE CARRITO (FAB) ========== */
@@ -1041,15 +1017,15 @@
         }
 
         @media (max-width: 600px) {
-            .hero-slide { min-height: 162px; padding: 16px 38px 36px; }
-            .slide-title { font-size: 1.12rem; }
-            .slide-sub { font-size: 0.78rem; }
-            .slide-visual-badge { font-size: 2.1rem; }
-            .slide-brand-name { font-size: 1.9rem; letter-spacing: 4px; }
+            .hero-slide { min-height: 150px; padding: 14px 36px 34px; }
+            .slide-title { font-size: 1.06rem; }
+            .slide-sub { font-size: 0.76rem; }
+            .slide-visual-badge { font-size: 2rem; }
+            .slide-brand-name { font-size: 1.95rem; letter-spacing: 5px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .card { padding: 9px; }
-            .card-visual { height: 126px; border-width: 2px; border-radius: 10px; }
-            .badge { top: 15px; left: 15px; font-size: 0.64rem; padding: 3px 7px; }
+            .card { padding: 8px; border-width: 2px; }
+            .card-visual { height: 122px; border-width: 1.5px; border-radius: 10px; }
+            .badge { top: 14px; left: 14px; font-size: 0.64rem; padding: 3px 7px; }
             .card-body { padding: 9px 2px 2px; }
             .card-title { font-size: 0.92rem; }
             .card-desc { display: none; }
@@ -1064,7 +1040,7 @@
     <!-- TOASTS -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- HEADER CON CUERPO Y SELLO DE MARCA -->
+    <!-- HEADER SUPERIOR CON CARRUSEL / RULETA ARRIBA Y CIERRE CRESO EN DORADO -->
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand-row">
@@ -1082,6 +1058,60 @@
                 <span class="info-chip">💵 Efectivo o Transferencia</span>
                 <span class="info-chip tech">📲 WhatsApp: 11 3366-7793</span>
                 <span class="info-chip gold">📦 10+ u. precio mayorista</span>
+            </div>
+
+            <!-- CARRUSEL / RULETA DE OFERTAS + NOMBRE CRESO EN DORADO -->
+            <div class="hero-carousel" id="heroCarousel">
+                <div class="hero-slides" id="heroSlides">
+                    <!-- Slide 1: Oferta Mayorista -->
+                    <div class="hero-slide slide-offer-1">
+                        <div class="slide-content">
+                            <span class="slide-kicker">🔥 Oferta Mayorista</span>
+                            <div class="slide-title">Llevando 10+ unidades baja el precio por pack</div>
+                            <p class="slide-sub">Cables desde $650 c/u y cargadores desde $2.000 c/u</p>
+                        </div>
+                        <div class="slide-visual-badge">💰📦</div>
+                    </div>
+
+                    <!-- Slide 2: Oferta Carga Rápida -->
+                    <div class="hero-slide slide-offer-2">
+                        <div class="slide-content">
+                            <span class="slide-kicker">⚡ Carga &amp; Conexión</span>
+                            <div class="slide-title">Cables Micro-USB, Lightning y Cargadores 2A</div>
+                            <p class="slide-sub">Precios directos sin vueltas • Efectivo o Transferencia</p>
+                        </div>
+                        <div class="slide-visual-badge">🔌⚡</div>
+                    </div>
+
+                    <!-- Slide 3: Oferta Audio y Pedido Directo -->
+                    <div class="hero-slide slide-offer-3">
+                        <div class="slide-content">
+                            <span class="slide-kicker">🎧 Audio &amp; WhatsApp</span>
+                            <div class="slide-title">Auriculares Type-C y Auxiliar de 2 metros</div>
+                            <p class="slide-sub">Armá tu carrito y mandá tu pedido al 11 3366-7793</p>
+                        </div>
+                        <div class="slide-visual-badge">🎧📲</div>
+                    </div>
+
+                    <!-- Slide 4: Cierre con CRESO en dorado sobre fondo verde -->
+                    <div class="hero-slide slide-brand-gold">
+                        <div class="slide-brand-showcase">
+                            <span class="slide-kicker">✨ Sello Oficial</span>
+                            <div class="slide-brand-name">CRESO</div>
+                            <div class="slide-brand-tag">Confianza • Finanzas • Abundancia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-arrow prev" onclick="prevSlide()" aria-label="Anterior">‹</button>
+                <button class="carousel-arrow next" onclick="nextSlide()" aria-label="Siguiente">›</button>
+
+                <div class="carousel-dots" id="carouselDots">
+                    <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Oferta 1"></button>
+                    <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Oferta 2"></button>
+                    <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Oferta 3"></button>
+                    <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Marca CRESO"></button>
+                </div>
             </div>
         </div>
     </header>
@@ -1118,67 +1148,6 @@
         </div>
         <div class="grid" id="productsGrid"></div>
     </main>
-
-    <!-- CARRUSEL INFERIOR CON TÍTULO & CIERRE DE MARCA CRESO -->
-    <section class="bottom-showcase-wrap" aria-label="Presentación de marca CRESO">
-        <div class="showcase-title-bar">
-            <h2>✨ Presentación CRESO</h2>
-            <span>Deslizá o tocá los puntos • Cierre con la marca</span>
-        </div>
-
-        <div class="hero-carousel" id="heroCarousel">
-            <div class="hero-slides" id="heroSlides">
-                <!-- Slide 1 -->
-                <div class="hero-slide slide-1">
-                    <div class="slide-content">
-                        <span class="slide-kicker">⚡ Carga &amp; Conexión</span>
-                        <div class="slide-title">Cables y cargadores listos para usar</div>
-                        <p class="slide-sub">Micro-USB, Tipo C y Lightning • Precios claros y directos</p>
-                    </div>
-                    <div class="slide-visual-badge">🔌⚡</div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="hero-slide slide-2">
-                    <div class="slide-content">
-                        <span class="slide-kicker">📦 Mayorista Desde 10 u.</span>
-                        <div class="slide-title">Comprá por unidad o llevá pack mayorista</div>
-                        <p class="slide-sub">Descuento automático desde 10 unidades • Efectivo o Transferencia</p>
-                    </div>
-                    <div class="slide-visual-badge">💰📦</div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="hero-slide slide-3">
-                    <div class="slide-content">
-                        <span class="slide-kicker">🎧 Audio &amp; Accesorios</span>
-                        <div class="slide-title">Sonido claro y cables auxiliares de 2 metros</div>
-                        <p class="slide-sub">Armá tu pedido en el carrito y mandalo directo a WhatsApp</p>
-                    </div>
-                    <div class="slide-visual-badge">🎧📲</div>
-                </div>
-
-                <!-- Slide 4: Cierre con el nombre de la marca CRESO -->
-                <div class="hero-slide slide-brand-end">
-                    <div class="slide-brand-showcase">
-                        <span class="slide-kicker">✨ Sello Oficial</span>
-                        <div class="slide-brand-name">CRESO</div>
-                        <div class="slide-brand-tag">Confianza • Finanzas • Accesorios Directos</div>
-                    </div>
-                </div>
-            </div>
-
-            <button class="carousel-arrow prev" onclick="prevSlide()" aria-label="Anterior">‹</button>
-            <button class="carousel-arrow next" onclick="nextSlide()" aria-label="Siguiente">›</button>
-
-            <div class="carousel-dots" id="carouselDots">
-                <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
-                <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Slide 2"></button>
-                <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Slide 3"></button>
-                <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Marca CRESO"></button>
-            </div>
-        </div>
-    </section>
 
     <!-- BOTÓN FLOTANTE DEL CARRITO -->
     <button class="cart-fab" id="cartFab" onclick="playClickSound(); toggleCart();" aria-label="Abrir carrito">
@@ -1275,7 +1244,7 @@
     </footer>
 
     <script>
-        /* ========== CARRUSEL INFERIOR CON TÍTULO & CIERRE CRESO ========== */
+        /* ========== CARRUSEL / RULETA ARRIBA CON OFERTAS Y CIERRE CRESO EN DORADO ========== */
         const TOTAL_SLIDES = 4;
         let currentSlide = 0;
         let slideTimer = null;
@@ -1299,7 +1268,7 @@
 
         function restartSlideTimer() {
             if (slideTimer) clearInterval(slideTimer);
-            const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3200;
+            const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3000;
             slideTimer = setTimeout(() => {
                 currentSlide = (currentSlide + 1) % TOTAL_SLIDES;
                 updateCarousel();
