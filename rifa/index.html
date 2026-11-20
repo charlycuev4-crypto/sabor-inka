@@ -2,385 +2,1646 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control Semanal con Historial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CRESO — Accesorios &amp; Mayorista Directo</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #f0f2f5; margin: 0; padding: 12px; }
-        .container { max-width: 480px; margin: 0 auto; }
-        .card { background: white; padding: 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 12px; }
-        h2, h3, h4 { margin-top: 0; color: #1c1e21; text-align: center; }
-        
-        /* Selector de días arriba */
-        .dias-bar { display: flex; overflow-x: auto; gap: 6px; padding-bottom: 8px; margin-bottom: 10px; }
-        .btn-dia { flex: 0 0 auto; padding: 8px 14px; background: #e4e6eb; border: none; border-radius: 20px; font-weight: bold; font-size: 13px; cursor: pointer; }
-        .btn-dia.activo { background: #0084ff; color: white; }
+        :root {
+            --bg-main: #070a12;
+            --bg-surface: #0f1624;
+            --bg-card: rgba(20, 29, 47, 0.78);
+            --gold: #d4af37;
+            --gold-bright: #f3cf65;
+            --gold-dim: rgba(212, 175, 55, 0.16);
+            --border-subtle: rgba(148, 163, 184, 0.16);
+            --border-gold: rgba(212, 175, 55, 0.45);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.15);
+            --cyan: #38bdf8;
+        }
 
-        /* Contenedor de Totales del Día */
-        .totales-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .box-ganancia { background: #e6f4ea; border: 1px solid #ceead6; color: #137333; padding: 10px; border-radius: 10px; text-align: center; }
-        .box-gasto { background: #fce8e6; border: 1px solid #fad2cf; color: #c5221f; padding: 10px; border-radius: 10px; text-align: center; }
-        .box-neto { background: #1a73e8; color: white; padding: 12px; border-radius: 10px; text-align: center; margin-bottom: 12px; }
-        
-        .box-ganancia p, .box-gasto p { margin: 4px 0 0; font-size: 18px; font-weight: bold; }
-        .box-neto p { margin: 4px 0 0; font-size: 26px; font-weight: bold; }
-        .box-ganancia h4, .box-gasto h4, .box-neto h4 { margin: 0; font-size: 12px; font-weight: normal; text-transform: uppercase; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        label { font-size: 12px; font-weight: bold; color: #606770; display: block; margin-top: 8px; }
-        input, select { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #ccd0d5; border-radius: 8px; font-size: 15px; }
-        .btn-guardar { width: 100%; padding: 12px; background-color: #0084ff; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; margin-top: 12px; cursor: pointer; }
-        
-        ul { list-style: none; padding: 0; margin: 0; }
-        li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e4e6eb; font-size: 14px; }
-        .ganancia { color: #137333; font-weight: bold; }
-        .gasto { color: #c5221f; font-weight: bold; }
-        .btn-delete { background: none; border: none; color: #8d949e; font-size: 14px; margin-left: 8px; cursor: pointer; width: auto; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-main);
+            background-image:
+                radial-gradient(circle at 15% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 40%);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            padding-bottom: 110px;
+        }
 
-        /* Tabla de Resumen */
-        .resumen-tabla { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-        .resumen-tabla td, .resumen-tabla th { padding: 8px 4px; border-bottom: 1px solid #eee; text-align: center; }
-        .resumen-tabla th { background: #f8f9fa; }
-        .fila-total { background-color: #f1f3f4; font-weight: bold; border-top: 2px solid #ccc; }
+        /* ========== TOAST NOTIFICATION ========== */
+        .toast-container {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+            width: 92%;
+            max-width: 410px;
+        }
 
-        /* Totales semanales tarjetas grandes */
-        .semana-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .box-semana-neto { background: #202124; color: white; padding: 14px; border-radius: 10px; text-align: center; margin-top: 10px; }
-        .box-semana-neto p { margin: 4px 0 0; font-size: 28px; font-weight: bold; color: #34a853; }
+        .toast {
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+            color: #070a12;
+            padding: 13px 18px;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.45);
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: auto;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
 
-        .btn-archivar { background-color: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer; font-size: 15px; }
-        .item-historial { background: #f8f9fa; border: 1px solid #e9ecef; padding: 12px; border-radius: 8px; margin-bottom: 8px; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast-icon { font-size: 1.3rem; }
+        .toast-text { flex: 1; }
+        .toast-close {
+            background: rgba(0, 0, 0, 0.15);
+            border: none;
+            color: #070a12;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== HEADER FUTURISTA ========== */
+        .header {
+            text-align: center;
+            padding: 32px 20px 22px;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(7, 10, 18, 0) 100%);
+            position: relative;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .admin-trigger {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            backdrop-filter: blur(8px);
+        }
+
+        .admin-trigger:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: rotate(35deg);
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            background: var(--gold-dim);
+            border: 1px solid var(--border-gold);
+            padding: 4px 14px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff6d6 0%, var(--gold-bright) 45%, #b68d1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 35px rgba(212, 175, 55, 0.28);
+            line-height: 1.1;
+        }
+
+        .lema {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .zona {
+            background: rgba(15, 23, 42, 0.85);
+            color: var(--gold-bright);
+            padding: 7px 15px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: 1px solid var(--border-gold);
+            backdrop-filter: blur(8px);
+        }
+
+        /* ========== BUSCADOR Y TABS ========== */
+        .nav-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(7, 10, 18, 0.88);
+            backdrop-filter: blur(14px);
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            padding: 11px 16px 11px 42px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 2px;
+        }
+
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab {
+            background: rgba(30, 41, 59, 0.65);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 9px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.88rem;
+            white-space: nowrap;
+            transition: all 0.25s;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+            color: #070a12;
+            border-color: var(--gold-bright);
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+        }
+
+        /* ========== BANNER MAYORISTA ========== */
+        .promo-banner {
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 16px;
+        }
+
+        .promo-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.14) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid var(--border-gold);
+            border-radius: 18px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .promo-card strong { color: var(--gold-bright); font-size: 1rem; }
+        .promo-card p { color: var(--text-muted); font-size: 0.86rem; margin-top: 2px; }
+
+        /* ========== GRID & CARDS FUTURISTAS ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 18px 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-gold);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 20px rgba(212, 175, 55, 0.08);
+        }
+
+        .card.added-anim { animation: cardAdded 0.5s ease; }
+
+        @keyframes cardAdded {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.025); border-color: var(--gold-bright); }
+            100% { transform: scale(1); }
+        }
+
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(7, 10, 18, 0.85);
+            color: var(--gold-bright);
+            border: 1px solid var(--border-gold);
+            padding: 5px 11px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.74rem;
+            z-index: 10;
+            backdrop-filter: blur(6px);
+        }
+
+        .card-visual {
+            width: 100%;
+            height: 195px;
+            background: radial-gradient(circle at center, #182338 0%, #0b101d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+        }
+
+        .card-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-visual svg {
+            width: 82%;
+            height: 82%;
+            filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+        }
+
+        .card-body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-cat {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--cyan);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            color: var(--text-main);
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.86rem;
+            margin-bottom: 14px;
+            flex: 1;
+        }
+
+        /* Precios duales (Unidad vs Mayorista) */
+        .price-box {
+            background: rgba(7, 10, 18, 0.65);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-unit-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .price-unit {
+            color: var(--text-main);
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .price-bulk {
+            text-align: right;
+            background: var(--gold-dim);
+            border: 1px solid var(--border-gold);
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        .price-bulk-val {
+            color: var(--gold-bright);
+            font-weight: 900;
+            font-size: 1.05rem;
+            display: block;
+            line-height: 1.1;
+        }
+
+        .price-bulk-tag {
+            font-size: 0.68rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Barra de progreso mayorista en tarjeta */
+        .bulk-progress {
+            margin-bottom: 12px;
+            font-size: 0.78rem;
+        }
+
+        .bulk-progress-text {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .bulk-progress-text.unlocked { color: var(--green); }
+
+        .progress-track {
+            height: 6px;
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 100%);
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-fill.unlocked {
+            background: linear-gradient(90deg, #16a34a 0%, var(--green) 100%);
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+            color: #070a12;
+            border: none;
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-add:active { transform: scale(0.96); }
+        .btn-add.added { background: var(--green); color: #fff; }
+
+        .btn-bulk-quick {
+            background: rgba(30, 41, 59, 0.9);
+            color: var(--gold-bright);
+            border: 1px solid var(--border-gold);
+            padding: 11px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-bulk-quick:hover {
+            background: var(--gold-dim);
+        }
+
+        /* ========== BOTÓN FLOTANTE CARRITO (FAB) ========== */
+        .cart-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 22px;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+            color: #070a12;
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.65rem;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .cart-fab:active { transform: scale(0.9); }
+        .cart-fab.bounce { animation: bounceCart 0.6s ease; }
+
+        @keyframes bounceCart {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.24); }
+            50% { transform: scale(0.92); }
+            70% { transform: scale(1.1); }
+        }
+
+        .cart-fab-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: white;
+            min-width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            font-size: 0.76rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-main);
+        }
+
+        .cart-fab-badge.pop { animation: badgePop 0.4s ease; }
+
+        @keyframes badgePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.55); }
+            100% { transform: scale(1); }
+        }
+
+        .cart-fab-total {
+            position: absolute;
+            bottom: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-main);
+            color: var(--gold-bright);
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            white-space: nowrap;
+            border: 1px solid var(--gold);
+        }
+
+        /* ========== DRAWER DEL CARRITO & MODALES ========== */
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 6, 14, 0.78);
+            backdrop-filter: blur(5px);
+            z-index: 1500;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .drawer-overlay.active { display: block; opacity: 1; }
+
+        .drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 680px;
+            margin: 0 auto;
+            background: #111827;
+            border-radius: 26px 26px 0 0;
+            max-height: 88vh;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+            z-index: 1600;
+            display: flex;
+            flex-direction: column;
+            border-top: 2px solid var(--gold);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .drawer-overlay.active .drawer { transform: translateY(0); }
+
+        .drawer-handle {
+            width: 48px;
+            height: 5px;
+            background: #334155;
+            border-radius: 3px;
+            margin: 12px auto 8px;
+        }
+
+        .drawer-header {
+            padding: 4px 20px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .drawer-header h2 {
+            color: var(--gold-bright);
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .drawer-close {
+            background: #1e293b;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drawer-body {
+            padding: 16px 20px 28px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .cart-summary-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-main);
+            padding: 11px 15px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            animation: slideInItem 0.25s ease;
+        }
+
+        @keyframes slideInItem {
+            from { opacity: 0; transform: translateX(-14px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cart-item-info { flex: 1; }
+        .cart-item-info h4 { color: var(--text-main); font-size: 0.94rem; margin-bottom: 3px; }
+        .cart-item-meta { font-size: 0.82rem; color: var(--gold-bright); font-weight: 700; }
+        .tag-mayorista {
+            display: inline-block;
+            background: var(--green-dim);
+            color: var(--green);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            font-size: 0.68rem;
+            padding: 1px 7px;
+            border-radius: 6px;
+            margin-left: 5px;
+            font-weight: 800;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-subtle);
+            border-radius: 11px;
+            padding: 4px;
+        }
+
+        .qty-btn {
+            background: #1e293b;
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .qty-btn:hover { background: #334155; }
+        .qty-controls span { min-width: 24px; text-align: center; font-weight: 800; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.84rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .savings-box {
+            background: var(--green-dim);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            color: var(--green);
+            padding: 10px 14px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin-top: 12px;
+        }
+
+        .total-box {
+            text-align: center;
+            margin: 14px 0;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--bg-main) 0%, #172033 100%);
+            border-radius: 16px;
+            border: 1px solid var(--border-gold);
+        }
+
+        .total-box .total-amount {
+            font-size: 1.65rem;
+            color: var(--gold-bright);
+            font-weight: 900;
+        }
+
+        .total-box .total-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 15px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.32);
+            transition: transform 0.2s;
+        }
+
+        .btn-whatsapp:active { transform: scale(0.98); }
+
+        /* ========== PANEL ADMIN / CONFIGURACIÓN ========== */
+        .admin-section {
+            background: var(--bg-main);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .admin-section h3 {
+            color: var(--gold-bright);
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .admin-prod-row {
+            background: #141d2f;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .admin-prod-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .admin-prices {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .admin-prices input {
+            background: var(--bg-main);
+            border: 1px solid var(--border-subtle);
+            color: white;
+            padding: 8px 10px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 0.88rem;
+        }
+
+        .btn-file {
+            background: #1e293b;
+            color: var(--gold-bright);
+            border: 1px dashed var(--border-gold);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+            color: #070a12;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 36px 20px 10px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .logo { font-size: 2.35rem; letter-spacing: 4px; }
+            .grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
+    <!-- TOAST NOTIFICATIONS -->
+    <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Selector de Días -->
-    <div class="dias-bar" id="barraDias"></div>
-
-    <!-- Cajas de Ganancias y Gastos del DÍA -->
-    <div class="totales-grid">
-        <div class="box-ganancia">
-            <h4>Ganancias del Día</h4>
-            <p id="totalGanancias">$0.00</p>
+    <!-- HEADER -->
+    <header class="header">
+        <button class="admin-trigger" onclick="toggleAdmin()" title="Configurar precios, fotos y WhatsApp">⚙️</button>
+        <div class="brand-pill">⚡ Catálogo Oficial</div>
+        <h1 class="logo" id="storeTitle">CRESO</h1>
+        <p class="lema" id="storeSubtitle">Accesorios móviles &amp; precios directos sin vueltas</p>
+        <div class="trust-badges">
+            <span class="zona">💵 Efectivo o Transferencia</span>
+            <span class="zona">📲 Cierre directo por WhatsApp</span>
+            <span class="zona">📦 Precio Mayorista desde 10 u.</span>
         </div>
-        <div class="box-gasto">
-            <h4>Gastos del Día</h4>
-            <p id="totalGastos">$0.00</p>
-        </div>
-    </div>
+    </header>
 
-    <!-- Resultado Neto del DÍA -->
-    <div class="box-neto">
-        <h4 id="tituloDia">Diferencia / Resultado del Lunes</h4>
-        <p id="totalNeto">$0.00</p>
-    </div>
-
-    <!-- Formulario de Registro -->
-    <div class="card">
-        <h3>Nuevo Registro</h3>
-        <label>Fecha del movimiento</label>
-        <input type="date" id="fechaRegistro">
-
-        <label>Día de registro</label>
-        <select id="selectDiaGuardar">
-            <option value="Lunes">Lunes</option>
-            <option value="Martes">Martes</option>
-            <option value="Miércoles">Miércoles</option>
-            <option value="Jueves">Jueves</option>
-            <option value="Viernes">Viernes</option>
-            <option value="Sábado">Sábado</option>
-            <option value="Domingo">Domingo</option>
-        </select>
-
-        <label>Producto o Concepto</label>
-        <input type="text" id="nombre" placeholder="Ej: Pan, Combustible, Propina">
-
-        <label>Monto ($)</label>
-        <input type="number" id="monto" placeholder="0.00" step="0.01">
-
-        <label>Tipo de movimiento</label>
-        <select id="tipo">
-            <option value="ganancia">🟢 Ganancia (+)</option>
-            <option value="gasto">🔴 Gasto (-)</option>
-        </select>
-
-        <button class="btn-guardar" onclick="agregarRegistro()">Guardar Movimiento</button>
-    </div>
-
-    <!-- Lista de Movimientos -->
-    <div class="card">
-        <h3 id="subtituloLista">Movimientos del Lunes</h3>
-        <ul id="lista"></ul>
-    </div>
-
-    <!-- Resumen Semanal Completo -->
-    <div class="card">
-        <h3>📊 Resumen de la Semana Actual</h3>
-        <table class="resumen-tabla">
-            <thead>
-                <tr>
-                    <th style="text-align:left;">Día</th>
-                    <th>Ganancia</th>
-                    <th>Gasto</th>
-                    <th>Neto</th>
-                </tr>
-            </thead>
-            <tbody id="tablaResumen"></tbody>
-            <tfoot>
-                <tr class="fila-total">
-                    <td style="text-align:left;">TOTALES:</td>
-                    <td id="tdGananciaSemana" class="ganancia">$0.00</td>
-                    <td id="tdGastoSemana" class="gasto">$0.00</td>
-                    <td id="tdNetoSemana">$0.00</td>
-                </tr>
-            </tfoot>
-        </table>
-
-        <!-- Tarjetas Acumuladas de la Semana -->
-        <div class="semana-grid">
-            <div class="box-ganancia">
-                <h4>Total Ganado</h4>
-                <p id="cardGananciaSemana">$0.00</p>
+    <!-- NAVEGACIÓN STICKY -->
+    <div class="nav-sticky">
+        <div class="nav-inner">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Buscar cable, cargador, Tipo C, Lightning, auxiliar..." oninput="renderProducts()">
             </div>
-            <div class="box-gasto">
-                <h4>Total Gastado</h4>
-                <p id="cardGastoSemana">$0.00</p>
+            <div class="tabs" id="categoryTabs">
+                <button class="tab active" onclick="setCategory('todos', this)">✨ Todos</button>
+                <button class="tab" onclick="setCategory('cables', this)">🔌 Cables</button>
+                <button class="tab" onclick="setCategory('cargadores', this)">⚡ Cargadores</button>
+                <button class="tab" onclick="setCategory('audio', this)">🎧 Audio</button>
             </div>
         </div>
-
-        <div class="box-semana-neto">
-            <h4>GANANCIA LIMPIA DE LA SEMANA</h4>
-            <p id="cardNetoSemana">$0.00</p>
-        </div>
-
-        <button class="btn-archivar" onclick="cerrarYGuardarSemana()">📁 Finalizar Semana y Guardar en Historial</button>
     </div>
 
-    <!-- Historial de Semanas Pasadas -->
-    <div class="card">
-        <h3>📜 Historial de Semanas Guardadas</h3>
-        <div id="contenedorHistorial">
-            <p style="text-align:center; color:#777; font-size:13px;">Aún no has guardado semanas anteriores.</p>
+    <!-- BANNER DE BENEFICIO MAYORISTA -->
+    <div class="promo-banner">
+        <div class="promo-card">
+            <div>
+                <strong>🔥 Descuento Mayorista Automático</strong>
+                <p>Llevando <strong>10 o más unidades</strong> del mismo artículo, el carrito aplica el precio mayorista solo.</p>
+            </div>
+            <span style="color: var(--gold-bright); font-weight: 800; font-size: 0.85rem;">Envío o Retiro a coordinar →</span>
         </div>
     </div>
 
-</div>
+    <!-- CATÁLOGO DE PRODUCTOS -->
+    <main class="container">
+        <div class="grid" id="productsGrid"></div>
+    </main>
 
-<script>
-    const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-    let diaSeleccionado = "Lunes";
-    
-    // Cargar datos actuales
-    let datosSemana = JSON.parse(localStorage.getItem('datos_semana_v3')) || {
-        "Lunes": [], "Martes": [], "Miércoles": [], "Jueves": [], "Viernes": [], "Sábado": [], "Domingo": []
-    };
+    <!-- BOTÓN FLOTANTE CARRITO -->
+    <button class="cart-fab" id="cartFab" onclick="toggleCart()" aria-label="Abrir carrito">
+        🛒
+        <span class="cart-fab-badge" id="cartFabBadge">0</span>
+        <span class="cart-fab-total" id="cartFabTotal">$0</span>
+    </button>
 
-    // Cargar historial
-    let historialSemanas = JSON.parse(localStorage.getItem('historial_semanas')) || [];
+    <!-- DRAWER CARRITO DE COMPRAS -->
+    <div class="drawer-overlay" id="cartDrawerOverlay" onclick="toggleCart()">
+        <div class="drawer" onclick="event.stopPropagation()">
+            <div class="drawer-handle"></div>
+            <div class="drawer-header">
+                <h2>🛒 Tu Pedido en CRESO</h2>
+                <button class="drawer-close" onclick="toggleCart()">✕</button>
+            </div>
+            <div class="drawer-body">
+                <div class="cart-summary-bar">
+                    <span style="color: var(--text-muted); font-size: 0.88rem;">📦 Artículos seleccionados:</span>
+                    <strong id="cartSummaryCount" style="color: var(--gold-bright);">0 unidades</strong>
+                </div>
 
-    // Colocar fecha de hoy por defecto en el selector
-    document.getElementById('fechaRegistro').valueAsDate = new Date();
+                <div id="cartItems"></div>
+                <div id="savingsContainer"></div>
 
-    function inicializarBarraDias() {
-        const barra = document.getElementById('barraDias');
-        barra.innerHTML = '';
-        dias.forEach(dia => {
-            const btn = document.createElement('button');
-            btn.className = `btn-dia ${dia === diaSeleccionado ? 'activo' : ''}`;
-            btn.textContent = dia;
-            btn.onclick = () => cambiarDia(dia);
-            barra.appendChild(btn);
-        });
-    }
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>👤 Tu nombre *</label>
+                        <input type="text" id="clienteNombre" placeholder="Ej: Martín Gómez">
+                    </div>
+                    <div class="form-group">
+                        <label>📱 Tu WhatsApp *</label>
+                        <input type="tel" id="clienteTel" placeholder="11 1234-5678">
+                    </div>
+                    <div class="form-group">
+                        <label>🚚 Entrega</label>
+                        <select id="clienteEntrega" onchange="toggleDireccionField()">
+                            <option value="Envío a domicilio">🚚 Envío a domicilio</option>
+                            <option value="Retiro a coordinar">📍 Retiro a coordinar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>💳 Forma de pago</label>
+                        <select id="clientePago">
+                            <option value="Efectivo">💵 Efectivo</option>
+                            <option value="Transferencia">🏦 Transferencia</option>
+                            <option value="Efectivo + Transferencia">💵 + 🏦 Efectivo + Transferencia</option>
+                        </select>
+                    </div>
+                    <div class="form-group full" id="direccionGroup">
+                        <label>📍 Dirección o zona de entrega *</label>
+                        <input type="text" id="clienteDireccion" placeholder="Calle, altura, localidad o referencia...">
+                    </div>
+                    <div class="form-group full">
+                        <label>📝 Notas (opcional)</label>
+                        <input type="text" id="clienteNotas" placeholder="Ej: Si pago en efectivo llevo cambio, horario preferido...">
+                    </div>
+                </div>
 
-    function cambiarDia(dia) {
-        diaSeleccionado = dia;
-        document.getElementById('selectDiaGuardar').value = dia;
-        inicializarBarraDias();
-        actualizarInterfaz();
-    }
+                <div class="total-box">
+                    <div class="total-amount" id="totalPrice">Total: $0</div>
+                    <div class="total-sub" id="totalSubtext">Coordinás el pago y la entrega directo por WhatsApp</div>
+                </div>
 
-    function actualizarInterfaz() {
-        document.getElementById('tituloDia').textContent = `Resultado Neto del ${diaSeleccionado}`;
-        document.getElementById('subtituloLista').textContent = `Movimientos del ${diaSeleccionado}`;
-        
-        const lista = document.getElementById('lista');
-        lista.innerHTML = '';
-        
-        let gananciasDia = 0;
-        let gastosDia = 0;
+                <button class="btn-whatsapp" onclick="sendOrder()">
+                    📲 Confirmar y enviar por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
 
-        const movimientos = datosSemana[diaSeleccionado] || [];
+    <!-- DRAWER CONFIGURACIÓN / ADMIN (PARA ACTUALIZAR FOTOS Y PRECIOS) -->
+    <div class="drawer-overlay" id="adminDrawerOverlay" onclick="toggleAdmin()">
+        <div class="drawer" onclick="event.stopPropagation()">
+            <div class="drawer-handle"></div>
+            <div class="drawer-header">
+                <h2>⚙️ Panel CRESO (Precios &amp; Fotos)</h2>
+                <button class="drawer-close" onclick="toggleAdmin()">✕</button>
+            </div>
+            <div class="drawer-body">
+                <div class="admin-section">
+                    <h3>📲 Número de WhatsApp receptor</h3>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Código de país + área + número (sin + ni espacios)</label>
+                        <input type="text" id="adminWhatsapp" placeholder="Ej: 5491167909625" onchange="saveSettings()">
+                    </div>
+                </div>
 
-        movimientos.forEach((item, index) => {
-            const li = document.createElement('li');
-            const fechaTxt = item.fecha ? `<small style="color:#777; font-size:11px;"> (${item.fecha})</small>` : '';
-            if (item.tipo === 'ganancia') {
-                gananciasDia += item.monto;
-                li.innerHTML = `<span>${item.nombre}${fechaTxt}</span> <div><span class="ganancia">+ $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
-            } else {
-                gastosDia += item.monto;
-                li.innerHTML = `<span>${item.nombre}${fechaTxt}</span> <div><span class="gasto">- $${item.monto.toFixed(2)}</span> <button class="btn-delete" onclick="eliminarItem(${index})">❌</button></div>`;
+                <div class="admin-section">
+                    <h3>📦 Productos, Precios y Fotos Incrustadas</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+                        Las fotos que subas se optimizan y se guardan dentro de la página para que nunca se borren ni se rompan.
+                    </p>
+                    <div id="adminProductsList"></div>
+                </div>
+
+                <button class="btn-export" onclick="exportStandaloneHTML()">
+                    💾 Descargar index.html con mis fotos y precios
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><strong style="color: var(--gold-bright);">CRESO</strong> — Accesorios &amp; Mayorista Directo</p>
+        <p style="margin-top: 4px;">Pagás en efectivo o transferencia al coordinar • Atención directa por WhatsApp</p>
+    </footer>
+
+    <script>
+        /* ========== ILUSTRACIONES SVG AUTOCONTENIDAS (NUNCA SE PIERDEN) ========== */
+        const SVG_ICONS = {
+            cableBlack: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="28" y="34" width="184" height="92" rx="14" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#0f172a" stroke-width="11"/>
+                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#64748b" stroke-width="3" stroke-dasharray="6 4"/>
+                <rect x="44" y="68" width="26" height="24" rx="4" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
+                <rect x="170" y="71" width="22" height="18" rx="3" fill="#334155" stroke="#d4af37" stroke-width="1.5"/>
+                <text x="120" y="144" fill="#94a3b8" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M • COMPACTO</text>
+            </svg>`,
+            cableWhite: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M55 118C55 55 185 55 185 118" stroke="#e2e8f0" stroke-width="10" stroke-linecap="round"/>
+                <path d="M55 118C55 55 185 55 185 118" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+                <rect x="42" y="106" width="26" height="32" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+                <rect x="48" y="94" width="14" height="12" rx="2" fill="#94a3b8"/>
+                <rect x="174" y="108" width="22" height="28" rx="5" fill="#f8fafc" stroke="#d4af37" stroke-width="2"/>
+                <rect x="179" y="96" width="12" height="12" rx="2" fill="#d4af37"/>
+                <text x="120" y="34" fill="#d4af37" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1 METRO</text>
+            </svg>`,
+            charger: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="78" y="42" width="84" height="78" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+                <rect x="78" y="42" width="84" height="18" rx="6" fill="#ef4444"/>
+                <rect x="96" y="22" width="8" height="20" rx="2" fill="#cbd5e1"/>
+                <rect x="136" y="22" width="8" height="20" rx="2" fill="#cbd5e1"/>
+                <path d="M124 72L112 90H122L116 108L132 88H121L124 72Z" fill="#d4af37"/>
+                <text x="120" y="142" fill="#d4af37" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">2A CARGA RÁPIDA + CABLE</text>
+            </svg>`,
+            earphones: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="88" cy="64" r="22" fill="#1e293b" stroke="#d4af37" stroke-width="2.5"/>
+                <circle cx="88" cy="64" r="10" fill="#ef4444"/>
+                <circle cx="152" cy="64" r="22" fill="#1e293b" stroke="#d4af37" stroke-width="2.5"/>
+                <circle cx="152" cy="64" r="10" fill="#ef4444"/>
+                <path d="M88 86V112C88 124 120 124 120 136M152 86V112C152 124 120 124 120 136" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                <rect x="112" y="132" width="16" height="16" rx="3" fill="#d4af37"/>
+                <text x="120" y="28" fill="#38bdf8" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C DIGITAL IC • MICRÓFONO</text>
+            </svg>`,
+            auxCable: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M52 110C52 45 188 45 188 110" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+                <rect x="44" y="102" width="16" height="24" rx="3" fill="#1e293b" stroke="#d4af37" stroke-width="1.5"/>
+                <rect x="49" y="84" width="6" height="18" rx="2" fill="#f3cf65"/>
+                <rect x="180" y="102" width="16" height="24" rx="3" fill="#1e293b" stroke="#d4af37" stroke-width="1.5"/>
+                <rect x="185" y="84" width="6" height="18" rx="2" fill="#f3cf65"/>
+                <text x="120" y="144" fill="#d4af37" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">JACK 3.5MM • 4 PINES • 2 METROS</text>
+            </svg>`
+        };
+
+        /* ========== DATOS INICIALES DEL CATÁLOGO CRESO ========== */
+        const DEFAULT_PRODUCTS = [
+            {
+                id: "bb-micro",
+                nombre: "Cable BlackBerry Micro-USB 0.3m",
+                categoria: "cables",
+                desc: "Cable corto reforzado de 30 cm (código ASY-28109-001), ideal para powerbank o auto.",
+                precioUnitario: 900,
+                precioMayorista: 650,
+                minMayorista: 10,
+                badge: "🔌 CORTO 30CM",
+                svgKey: "cableBlack",
+                customImg: ""
+            },
+            {
+                id: "stark-micro",
+                nombre: "Cable STARK Micro-USB 3.1A (1m)",
+                categoria: "cables",
+                desc: "Carga rápida hasta 3.1A y transmisión de datos. Cable blanco TPE resistente de 1 metro.",
+                precioUnitario: 1400,
+                precioMayorista: 1000,
+                minMayorista: 10,
+                badge: "⚡ 3.1A MAX",
+                svgKey: "cableWhite",
+                customImg: ""
+            },
+            {
+                id: "x95-lightning",
+                nombre: "Cable CHARGE X95 USB a Lightning",
+                categoria: "cables",
+                desc: "Cable de carga 2A para iPhone/iPad. Diseño reforzado, flexible y durable.",
+                precioUnitario: 1200,
+                precioMayorista: 800,
+                minMayorista: 10,
+                badge: "🔥 OFERTA 10+",
+                svgKey: "cableWhite",
+                customImg: ""
+            },
+            {
+                id: "wk-lightning",
+                nombre: "Cable WK Design Fullspeed Lightning (1m)",
+                categoria: "cables",
+                desc: "Modelo WDC-072i de 2.1A y 1000 mm de largo. Carga rápida y sincronización estable.",
+                precioUnitario: 1400,
+                precioMayorista: 1000,
+                minMayorista: 10,
+                badge: "🍎 IPHONE 2.1A",
+                svgKey: "cableWhite",
+                customImg: ""
+            },
+            {
+                id: "kos-tipoc",
+                nombre: "Cargador KOS 2A Carga Rápida Tipo C",
+                categoria: "cargadores",
+                desc: "Fuente de pared 2A con protección inteligente + cable Tipo C incluido.",
+                precioUnitario: 2800,
+                precioMayorista: 2000,
+                minMayorista: 10,
+                badge: "⚡ TIPO C",
+                svgKey: "charger",
+                customImg: ""
+            },
+            {
+                id: "kos-micro",
+                nombre: "Cargador KOS 2A Carga Rápida Micro-USB",
+                categoria: "cargadores",
+                desc: "Fuente de pared 2A con chip inteligente + cable Micro-USB incluido.",
+                precioUnitario: 2800,
+                precioMayorista: 2000,
+                minMayorista: 10,
+                badge: "⚡ MICRO-USB",
+                svgKey: "charger",
+                customImg: ""
+            },
+            {
+                id: "kosmo-iph",
+                nombre: "Cargador KOSMO 2A Carga Rápida Lightning",
+                categoria: "cargadores",
+                desc: "Modelo KOS 2A IPH para iPhone. Fuente 2A + cable Lightning listo para usar.",
+                precioUnitario: 2800,
+                precioMayorista: 2000,
+                minMayorista: 10,
+                badge: "🍎 LIGHTNING",
+                svgKey: "charger",
+                customImg: ""
+            },
+            {
+                id: "pro21-typec",
+                nombre: "Auriculares pro21 Stereo Type-C",
+                categoria: "audio",
+                desc: "Auriculares in-ear con micrófono, sonido Extra Bass y ficha USB Tipo C (Digital IC).",
+                precioUnitario: 3500,
+                precioMayorista: 2500,
+                minMayorista: 10,
+                badge: "🎧 TYPE-C",
+                svgKey: "earphones",
+                customImg: ""
+            },
+            {
+                id: "aux-2m",
+                nombre: "Cable Auxiliar Audio 2 Metros (4 Pines)",
+                categoria: "audio",
+                desc: "Ficha Jack 3.5mm macho a macho (modelo B6309). Ideal para auto, parlantes y PC.",
+                precioUnitario: 1400,
+                precioMayorista: 1000,
+                minMayorista: 10,
+                badge: "🎵 2 METROS",
+                svgKey: "auxCable",
+                customImg: ""
             }
-            lista.appendChild(li);
-        });
+        ];
 
-        const resultadoNeto = gananciasDia - gastosDia;
+        let state = {
+            whatsapp: "5491167909625",
+            products: JSON.parse(JSON.stringify(DEFAULT_PRODUCTS))
+        };
 
-        // Cajas superiores del día
-        document.getElementById('totalGanancias').textContent = `$${gananciasDia.toFixed(2)}`;
-        document.getElementById('totalGastos').textContent = `$${gastosDia.toFixed(2)}`;
-        document.getElementById('totalNeto').textContent = `$${resultadoNeto.toFixed(2)}`;
-        
-        actualizarResumenSemanal();
-        actualizarVistaHistorial();
-        localStorage.setItem('datos_semana_v3', JSON.stringify(datosSemana));
-    }
+        // Cargar configuración guardada localmente si existe
+        try {
+            const saved = localStorage.getItem("creso_store_v1");
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed.whatsapp) state.whatsapp = parsed.whatsapp;
+                if (Array.isArray(parsed.products) && parsed.products.length) state.products = parsed.products;
+            }
+        } catch (e) {}
 
-    function agregarRegistro() {
-        const diaGuardar = document.getElementById('selectDiaGuardar').value;
-        const nombreInput = document.getElementById('nombre');
-        const montoInput = document.getElementById('monto');
-        const tipoInput = document.getElementById('tipo');
-        const fechaInput = document.getElementById('fechaRegistro').value;
+        let cart = {};
+        let currentCategory = "todos";
 
-        const nombre = nombreInput.value.trim();
-        const monto = parseFloat(montoInput.value);
-
-        if (!nombre || isNaN(monto) || monto <= 0) {
-            alert('Por favor completa el nombre y un monto válido.');
-            return;
+        function persistState() {
+            try {
+                localStorage.setItem("creso_store_v1", JSON.stringify(state));
+            } catch (e) {
+                showToast("⚠️ Memoria llena: descargá el HTML para guardar tus fotos.", "💾");
+            }
         }
 
-        datosSemana[diaGuardar].push({ 
-            nombre, 
-            monto, 
-            tipo: tipoInput.value,
-            fecha: fechaInput 
-        });
-        
-        diaSeleccionado = diaGuardar;
-        inicializarBarraDias();
-        actualizarInterfaz();
-
-        nombreInput.value = '';
-        montoInput.value = '';
-    }
-
-    function eliminarItem(index) {
-        datosSemana[diaSeleccionado].splice(index, 1);
-        actualizarInterfaz();
-    }
-
-    function actualizarResumenSemanal() {
-        const tabla = document.getElementById('tablaResumen');
-        tabla.innerHTML = '';
-
-        let totalGananciaSemana = 0;
-        let totalGastoSemana = 0;
-
-        dias.forEach(dia => {
-            let gan = 0;
-            let gas = 0;
-            (datosSemana[dia] || []).forEach(item => {
-                if (item.tipo === 'ganancia') gan += item.monto;
-                else gas += item.monto;
-            });
-
-            let neto = gan - gas;
-            totalGananciaSemana += gan;
-            totalGastoSemana += gas;
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td style="text-align:left;"><b>${dia}</b></td>
-                <td class="ganancia">$${gan.toFixed(2)}</td>
-                <td class="gasto">$${gas.toFixed(2)}</td>
-                <td style="font-weight:bold; color:${neto >= 0 ? '#107c41' : '#d93025'};">$${neto.toFixed(2)}</td>
+        /* ========== TOAST SYSTEM ========== */
+        function showToast(message, icon = "✅") {
+            const container = document.getElementById("toastContainer");
+            const toast = document.createElement("div");
+            toast.className = "toast";
+            toast.innerHTML = `
+                <span class="toast-icon">${icon}</span>
+                <span class="toast-text">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
             `;
-            tabla.appendChild(tr);
-        });
-
-        let totalNetoSemana = totalGananciaSemana - totalGastoSemana;
-
-        document.getElementById('tdGananciaSemana').textContent = `$${totalGananciaSemana.toFixed(2)}`;
-        document.getElementById('tdGastoSemana').textContent = `$${totalGastoSemana.toFixed(2)}`;
-        document.getElementById('tdNetoSemana').textContent = `$${totalNetoSemana.toFixed(2)}`;
-        document.getElementById('tdNetoSemana').style.color = totalNetoSemana >= 0 ? '#107c41' : '#d93025';
-
-        document.getElementById('cardGananciaSemana').textContent = `$${totalGananciaSemana.toFixed(2)}`;
-        document.getElementById('cardGastoSemana').textContent = `$${totalGastoSemana.toFixed(2)}`;
-        
-        const elemNetoCard = document.getElementById('cardNetoSemana');
-        elemNetoCard.textContent = `$${totalNetoSemana.toFixed(2)}`;
-        elemNetoCard.style.color = totalNetoSemana >= 0 ? '#34a853' : '#ea4335';
-    }
-
-    function cerrarYGuardarSemana() {
-        let ganTotal = 0;
-        let gasTotal = 0;
-
-        dias.forEach(dia => {
-            (datosSemana[dia] || []).forEach(item => {
-                if (item.tipo === 'ganancia') ganTotal += item.monto;
-                else gasTotal += item.monto;
-            });
-        });
-
-        if (ganTotal === 0 && gasTotal === 0) {
-            alert("No hay registros en esta semana para guardar.");
-            return;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add("show"));
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => toast.remove(), 400);
+            }, 2800);
         }
 
-        if (confirm("¿Quieres finalizar la semana? Se guardarán los totales en el Historial y la semana actual quedará limpia para comenzar la siguiente.")) {
-            const fechaHoy = new Date().toLocaleDateString();
-            const semanaGuardada = {
-                fechaCierre: fechaHoy,
-                ganancia: ganTotal,
-                gasto: gasTotal,
-                neto: ganTotal - gasTotal
+        /* ========== FILTROS Y RENDERIZADO DE PRODUCTOS ========== */
+        function setCategory(cat, btnEl) {
+            currentCategory = cat;
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            if (btnEl) btnEl.classList.add("active");
+            renderProducts();
+        }
+
+        function getEffectiveUnitPrice(product, qty) {
+            return qty >= product.minMayorista ? product.precioMayorista : product.precioUnitario;
+        }
+
+        function renderProducts() {
+            const query = document.getElementById("searchInput").value.trim().toLowerCase();
+            const grid = document.getElementById("productsGrid");
+
+            const filtered = state.products.filter(p => {
+                const matchCat = currentCategory === "todos" || p.categoria === currentCategory;
+                const matchText = !query ||
+                    p.nombre.toLowerCase().includes(query) ||
+                    p.desc.toLowerCase().includes(query) ||
+                    p.categoria.toLowerCase().includes(query);
+                return matchCat && matchText;
+            });
+
+            if (!filtered.length) {
+                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px 20px; color:var(--text-muted);">
+                    <div style="font-size:2.5rem; margin-bottom:10px;">🔎</div>
+                    <p>No encontramos productos con esa búsqueda.</p>
+                </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => {
+                const inCartQty = cart[p.id] ? cart[p.id].cantidad : 0;
+                const remaining = Math.max(0, p.minMayorista - inCartQty);
+                const pct = Math.min(100, (inCartQty / p.minMayorista) * 100);
+                const unlocked = inCartQty >= p.minMayorista;
+
+                const visualHTML = p.customImg
+                    ? `<img src="${p.customImg}" alt="${p.nombre}">`
+                    : (SVG_ICONS[p.svgKey] || SVG_ICONS.cableWhite);
+
+                return `
+                <article class="card" id="card-${p.id}">
+                    ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
+                    <div class="card-visual">${visualHTML}</div>
+                    <div class="card-body">
+                        <span class="card-cat">${p.categoria}</span>
+                        <h3 class="card-title">${p.nombre}</h3>
+                        <p class="card-desc">${p.desc}</p>
+
+                        <div class="price-box">
+                            <div>
+                                <span class="price-unit-label">Por unidad</span>
+                                <span class="price-unit">$${p.precioUnitario.toLocaleString("es-AR")}</span>
+                            </div>
+                            <div class="price-bulk">
+                                <span class="price-bulk-val">$${p.precioMayorista.toLocaleString("es-AR")} c/u</span>
+                                <span class="price-bulk-tag">Llevando ${p.minMayorista}+ u.</span>
+                            </div>
+                        </div>
+
+                        <div class="bulk-progress">
+                            <div class="bulk-progress-text ${unlocked ? "unlocked" : ""}">
+                                <span>${unlocked ? "🎉 ¡Precio mayorista activado!" : (inCartQty > 0 ? `Tenés ${inCartQty} en carrito` : `Meta mayorista: ${p.minMayorista} u.`)}</span>
+                                <span>${unlocked ? "Ahorro activo" : `Faltan ${remaining}`}</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill ${unlocked ? "unlocked" : ""}" style="width:${pct}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <button class="btn-add" id="btn-${p.id}" onclick="addToCart('${p.id}', 1)">
+                                <span>➕</span> Agregar
+                            </button>
+                            <button class="btn-bulk-quick" onclick="addToCart('${p.id}', ${p.minMayorista})" title="Sumar 10 unidades con precio mayorista">
+                                +${p.minMayorista} Mayor
+                            </button>
+                        </div>
+                    </div>
+                </article>`;
+            }).join("");
+        }
+
+        /* ========== CARRITO & ANIMACIONES ========== */
+        function addToCart(id, qtyToAdd = 1) {
+            const product = state.products.find(p => p.id === id);
+            if (!product) return;
+
+            if (cart[id]) {
+                cart[id].cantidad += qtyToAdd;
+            } else {
+                cart[id] = { id, cantidad: qtyToAdd };
+            }
+
+            const card = document.getElementById(`card-${id}`);
+            if (card) {
+                card.classList.remove("added-anim");
+                void card.offsetWidth;
+                card.classList.add("added-anim");
+            }
+
+            const btn = document.getElementById(`btn-${id}`);
+            if (btn && qtyToAdd === 1) {
+                btn.innerHTML = "<span>✓</span> ¡Sumado!";
+                btn.classList.add("added");
+                setTimeout(() => {
+                    btn.innerHTML = "<span>➕</span> Agregar";
+                    btn.classList.remove("added");
+                }, 1100);
+            }
+
+            const msg = qtyToAdd >= 10
+                ? `¡Pack x${qtyToAdd} de ${product.nombre} con precio mayorista!`
+                : `¡${product.nombre} agregado al carrito!`;
+            showToast(msg, "🛒");
+
+            animateCartButton();
+            renderProducts();
+            updateCartUI();
+        }
+
+        function animateCartButton() {
+            const fab = document.getElementById("cartFab");
+            const badge = document.getElementById("cartFabBadge");
+            fab.classList.remove("bounce");
+            void fab.offsetWidth;
+            fab.classList.add("bounce");
+            badge.classList.remove("pop");
+            void badge.offsetWidth;
+            badge.classList.add("pop");
+        }
+
+        function updateQty(id, delta) {
+            if (!cart[id]) return;
+            cart[id].cantidad += delta;
+            if (cart[id].cantidad <= 0) {
+                const prod = state.products.find(p => p.id === id);
+                showToast(`${prod ? prod.nombre : "Producto"} quitado`, "🗑️");
+                delete cart[id];
+            }
+            renderProducts();
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const entries = Object.values(cart);
+            let totalUnits = 0;
+            let totalRegular = 0;
+            let totalFinal = 0;
+
+            const container = document.getElementById("cartItems");
+
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding: 36px 16px; color: var(--text-muted);">
+                        <div style="font-size: 2.8rem; margin-bottom: 10px;">🛒</div>
+                        <p style="font-weight:700; color: var(--text-main);">Tu carrito está vacío</p>
+                        <p style="font-size: 0.85rem; margin-top: 4px;">Agregá cables, cargadores o auriculares para armar tu pedido.</p>
+                    </div>`;
+                document.getElementById("savingsContainer").innerHTML = "";
+                document.getElementById("cartFabBadge").textContent = "0";
+                document.getElementById("cartFabTotal").textContent = "$0";
+                document.getElementById("cartSummaryCount").textContent = "0 unidades";
+                document.getElementById("totalPrice").textContent = "Total: $0";
+                return;
+            }
+
+            container.innerHTML = entries.map(entry => {
+                const p = state.products.find(item => item.id === entry.id);
+                if (!p) return "";
+                const isBulk = entry.cantidad >= p.minMayorista;
+                const appliedPrice = getEffectiveUnitPrice(p, entry.cantidad);
+                const subtotal = appliedPrice * entry.cantidad;
+
+                totalUnits += entry.cantidad;
+                totalRegular += p.precioUnitario * entry.cantidad;
+                totalFinal += subtotal;
+
+                return `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <h4>${p.nombre}</h4>
+                        <div class="cart-item-meta">
+                            $${appliedPrice.toLocaleString("es-AR")} c/u
+                            ${isBulk ? `<span class="tag-mayorista">MAYORISTA</span>` : `<span style="color:var(--text-muted); font-weight:500;">(x${p.minMayorista}: $${p.precioMayorista.toLocaleString("es-AR")})</span>`}
+                        </div>
+                    </div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty('${p.id}', -1)">−</button>
+                        <span>${entry.cantidad}</span>
+                        <button class="qty-btn" onclick="updateQty('${p.id}', 1)">+</button>
+                    </div>
+                    <div style="min-width: 78px; text-align:right; font-weight:800; color:var(--text-main); font-size:0.92rem;">
+                        $${subtotal.toLocaleString("es-AR")}
+                    </div>
+                </div>`;
+            }).join("");
+
+            const savedAmount = totalRegular - totalFinal;
+            document.getElementById("savingsContainer").innerHTML = savedAmount > 0
+                ? `<div class="savings-box">🎉 ¡Estás ahorrando $${savedAmount.toLocaleString("es-AR")} con precios mayoristas!</div>`
+                : "";
+
+            document.getElementById("cartFabBadge").textContent = totalUnits;
+            document.getElementById("cartFabTotal").textContent = `$${totalFinal.toLocaleString("es-AR")}`;
+            document.getElementById("cartSummaryCount").textContent = `${totalUnits} unidad${totalUnits !== 1 ? "es" : ""}`;
+            document.getElementById("totalPrice").textContent = `Total: $${totalFinal.toLocaleString("es-AR")}`;
+        }
+
+        function toggleCart() {
+            document.getElementById("cartDrawerOverlay").classList.toggle("active");
+        }
+
+        function toggleDireccionField() {
+            const entrega = document.getElementById("clienteEntrega").value;
+            const dirGroup = document.getElementById("direccionGroup");
+            dirGroup.style.display = entrega === "Retiro a coordinar" ? "none" : "block";
+        }
+
+        function sendOrder() {
+            const entries = Object.values(cart);
+            if (entries.length === 0) {
+                showToast("Agregá al menos un producto al carrito", "🛒");
+                return;
+            }
+
+            const nombre = document.getElementById("clienteNombre").value.trim();
+            const tel = document.getElementById("clienteTel").value.trim();
+            const entrega = document.getElementById("clienteEntrega").value;
+            const pago = document.getElementById("clientePago").value;
+            const direccion = document.getElementById("clienteDireccion").value.trim();
+            const notas = document.getElementById("clienteNotas").value.trim();
+
+            if (!nombre || !tel) {
+                showToast("Completá tu nombre y WhatsApp para coordinar", "⚠️");
+                return;
+            }
+            if (entrega === "Envío a domicilio" && !direccion) {
+                showToast("Ingresá la dirección o zona de entrega", "📍");
+                return;
+            }
+
+            let totalFinal = 0;
+            let msg = `*⚡ NUEVO PEDIDO — CRESO*\n\n`;
+            msg += `👤 *Cliente:* ${nombre}\n`;
+            msg += `📱 *WhatsApp:* ${tel}\n`;
+            msg += `🚚 *Entrega:* ${entrega}\n`;
+            if (entrega === "Envío a domicilio") msg += `📍 *Dirección:* ${direccion}\n`;
+            msg += `💳 *Pago:* ${pago}\n\n`;
+            msg += `*📦 DETALLE DEL PEDIDO:*\n`;
+
+            entries.forEach(entry => {
+                const p = state.products.find(item => item.id === entry.id);
+                if (!p) return;
+                const price = getEffectiveUnitPrice(p, entry.cantidad);
+                const sub = price * entry.cantidad;
+                totalFinal += sub;
+                const tag = entry.cantidad >= p.minMayorista ? " [Mayorista]" : "";
+                msg += `• ${entry.cantidad}x ${p.nombre}${tag} — $${sub.toLocaleString("es-AR")}\n`;
+            });
+
+            msg += `\n💰 *TOTAL A PAGAR (${pago.toUpperCase()}): $${totalFinal.toLocaleString("es-AR")}*`;
+            if (notas) msg += `\n📝 *Notas:* ${notas}`;
+
+            const phone = state.whatsapp.replace(/\D/g, "") || "5491167909625";
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+        }
+
+        /* ========== PANEL ADMIN: EDITAR PRECIOS, COMPRIMIR FOTOS E INCRUSTAR ========== */
+        function toggleAdmin() {
+            const overlay = document.getElementById("adminDrawerOverlay");
+            overlay.classList.toggle("active");
+            if (overlay.classList.contains("active")) {
+                renderAdmin();
+            }
+        }
+
+        function renderAdmin() {
+            document.getElementById("adminWhatsapp").value = state.whatsapp;
+            const list = document.getElementById("adminProductsList");
+            list.innerHTML = state.products.map((p, idx) => `
+                <div class="admin-prod-row">
+                    <div class="admin-prod-top">
+                        <strong style="font-size:0.9rem; color:var(--text-main);">${p.nombre}</strong>
+                        <span style="font-size:0.75rem; color:var(--gold);">${p.customImg ? "✅ Foto propia cargada" : "🎨 Gráfico integrado"}</span>
+                    </div>
+                    <div class="admin-prices">
+                        <div>
+                            <label style="font-size:0.7rem; color:var(--text-muted);">Unitario ($)</label>
+                            <input type="number" value="${p.precioUnitario}" onchange="updateProductPrice(${idx}, 'precioUnitario', this.value)">
+                        </div>
+                        <div>
+                            <label style="font-size:0.7rem; color:var(--text-muted);">Mayorista 10+ ($)</label>
+                            <input type="number" value="${p.precioMayorista}" onchange="updateProductPrice(${idx}, 'precioMayorista', this.value)">
+                        </div>
+                        <div style="padding-top:14px;">
+                            <label class="btn-file">
+                                📷 Foto
+                                <input type="file" accept="image/*" style="display:none;" onchange="handleImageUpload(${idx}, this)">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function saveSettings() {
+            state.whatsapp = document.getElementById("adminWhatsapp").value.trim() || state.whatsapp;
+            persistState();
+            showToast("Número de WhatsApp guardado", "✅");
+        }
+
+        function updateProductPrice(index, field, val) {
+            const num = parseInt(val, 10);
+            if (!isNaN(num) && num >= 0) {
+                state.products[index][field] = num;
+                persistState();
+                renderProducts();
+                updateCartUI();
+                showToast("Precio actualizado", "💰");
+            }
+        }
+
+        // Comprime la imagen a max 520px JPEG para que sea liviana y nunca se pierda
+        function handleImageUpload(index, input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement("canvas");
+                    const maxDim = 520;
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > maxDim || h > maxDim) {
+                        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+                        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    state.products[index].customImg = canvas.toDataURL("image/jpeg", 0.78);
+                    persistState();
+                    renderProducts();
+                    renderAdmin();
+                    showToast("Foto optimizada e incrustada", "📷");
+                };
+                img.src = e.target.result;
             };
-
-            historialSemanas.unshift(semanaGuardada);
-            localStorage.setItem('historial_semanas', JSON.stringify(historialSemanas));
-
-            // Reiniciar semana actual
-            dias.forEach(d => datosSemana[d] = []);
-            actualizarInterfaz();
-            alert("¡Semana guardada con éxito en el Historial!");
-        }
-    }
-
-    function actualizarVistaHistorial() {
-        const contenedor = document.getElementById('contenedorHistorial');
-        if (historialSemanas.length === 0) {
-            contenedor.innerHTML = '<p style="text-align:center; color:#777; font-size:13px;">Aún no has guardado semanas anteriores.</p>';
-            return;
+            reader.readAsDataURL(file);
         }
 
-        contenedor.innerHTML = '';
-        historialSemanas.forEach((sem, idx) => {
-            const div = document.createElement('div');
-            div.className = 'item-historial';
-            div.innerHTML = `
-                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:13px; margin-bottom:4px;">
-                    <span>Semana Cerrada: ${sem.fechaCierre}</span>
-                    <span style="color:${sem.neto >= 0 ? '#107c41' : '#d93025'}">Limpio: $${sem.neto.toFixed(2)}</span>
-                </div>
-                <div style="font-size:12px; color:#555; display:flex; justify-content:space-between;">
-                    <span>Ganado: <b style="color:#107c41">$${sem.ganancia.toFixed(2)}</b></span>
-                    <span>Gastado: <b style="color:#d93025">$${sem.gasto.toFixed(2)}</b></span>
-                </div>
-            `;
-            contenedor.appendChild(div);
-        });
-    }
+        // Exporta un único archivo HTML con las fotos Base64 y precios ya incrustados
+        function exportStandaloneHTML() {
+            let html = document.documentElement.outerHTML;
+            const serialized = JSON.stringify(state.products, null, 2);
+            html = html.replace(
+                /const DEFAULT_PRODUCTS = \[[\s\S]*?\];/,
+                `const DEFAULT_PRODUCTS = ${serialized};`
+            );
+            html = html.replace(
+                /whatsapp:\s*"[^"]*"/,
+                `whatsapp: "${state.whatsapp.replace(/"/g, "")}"`
+            );
 
-    // Inicializar
-    inicializarBarraDias();
-    actualizarInterfaz();
-</script>
+            const blob = new Blob(["<!DOCTYPE html>\n" + html], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "index.html";
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("¡Archivo index.html descargado con tus fotos!", "💾");
+        }
 
+        // Inicializar
+        renderProducts();
+        updateCartUI();
+    </script>
 </body>
 </html>
