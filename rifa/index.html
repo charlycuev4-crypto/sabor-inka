@@ -6,226 +6,261 @@
     <title>CRESO — Accesorios &amp; Mayorista Directo</title>
     <style>
         :root {
-            --bg-main: #f0fbf6;
-            --bg-surface: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.94);
-            --emerald-bright: #10b981;
-            --emerald-deep: #047857;
-            --emerald-mid: #059669;
-            --emerald-tint: rgba(5, 150, 105, 0.11);
-            --gold-bright: #f59e0b;
-            --gold-deep: #b45309;
-            --gold-tint: rgba(245, 158, 11, 0.14);
-            --border-subtle: rgba(4, 120, 87, 0.14);
-            --border-emerald: rgba(5, 150, 105, 0.38);
+            /* SELLO DE MARCA CRESO */
+            --brand-primary: #059669;      /* Verde Esmeralda: confianza, finanzas y flujo */
+            --brand-primary-dark: #047857;
+            --brand-primary-soft: #ecfdf5;
+            --brand-tech: #0284c7;         /* Azul Tech: electrónica y claridad */
+            --brand-accent: #f59e0b;       /* Oro/Ámbar: valor y promo mayorista */
+            --brand-accent-soft: #fffbeb;
+
+            /* SUPERFICIES ESTILO MARKETPLACE LIMPIO */
+            --bg-page: #f4f7f9;
+            --bg-card: #ffffff;
+            --bg-muted: #f8fafc;
             --text-main: #0f172a;
-            --text-muted: #475569;
+            --text-secondary: #475569;
+            --border-light: #e2e8f0;
+            --border-brand: rgba(5, 150, 105, 0.28);
+            --shadow-card: 0 4px 16px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 10px 26px rgba(5, 150, 105, 0.14);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg-main);
-            background-image:
-                radial-gradient(circle at 12% 4%, rgba(16, 185, 129, 0.18) 0%, transparent 45%),
-                radial-gradient(circle at 88% 14%, rgba(245, 158, 11, 0.14) 0%, transparent 45%),
-                radial-gradient(circle at 50% 90%, rgba(5, 150, 105, 0.09) 0%, transparent 50%);
+            background-color: var(--bg-page);
             color: var(--text-main);
-            line-height: 1.5;
+            line-height: 1.45;
             overflow-x: hidden;
-            padding-bottom: 115px;
+            padding-bottom: 110px;
         }
 
         /* ========== TOAST NOTIFICATION ========== */
         .toast-container {
             position: fixed;
-            top: 18px;
+            top: 16px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             pointer-events: none;
             width: 92%;
             max-width: 410px;
         }
 
         .toast {
-            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
+            background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
             color: #ffffff;
-            padding: 13px 18px;
-            border-radius: 16px;
-            font-weight: 800;
-            font-size: 0.92rem;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 28px rgba(5, 150, 105, 0.35);
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.35);
             transform: translateY(-100px);
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.38s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             pointer-events: auto;
-            border: 1px solid rgba(255, 255, 255, 0.45);
         }
 
         .toast.show { transform: translateY(0); opacity: 1; }
-        .toast-icon { font-size: 1.3rem; }
+        .toast-icon { font-size: 1.25rem; }
         .toast-text { flex: 1; }
         .toast-close {
             background: rgba(255, 255, 255, 0.22);
             border: none;
             color: #ffffff;
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             cursor: pointer;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: 800;
         }
 
-        /* ========== HEADER DINÁMICO FINANCIERO ========== */
-        .header {
-            text-align: center;
-            padding: 34px 20px 24px;
-            background: linear-gradient(180deg, #ffffff 0%, rgba(209, 250, 229, 0.72) 100%);
+        /* ========== BARRA SUPERIOR / HEADER TIPO MARKETPLACE ========== */
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
+            padding: 14px 16px;
             position: relative;
-            border-bottom: 1px solid var(--border-subtle);
-            box-shadow: 0 6px 24px rgba(5, 150, 105, 0.07);
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .brand-identity {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--brand-primary-dark);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--brand-accent);
+            display: inline-block;
+        }
+
+        .lema {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 600;
         }
 
         .top-controls {
-            position: absolute;
-            top: 16px;
-            right: 16px;
             display: flex;
             gap: 8px;
         }
 
         .icon-btn {
-            background: #ffffff;
-            border: 1px solid var(--border-emerald);
-            color: var(--emerald-deep);
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.22s;
-            box-shadow: 0 3px 10px rgba(5, 150, 105, 0.1);
+            transition: all 0.2s;
         }
 
-        .icon-btn:hover, .icon-btn.active-sound {
-            background: var(--emerald-tint);
-            transform: translateY(-1px);
-            box-shadow: 0 5px 14px rgba(5, 150, 105, 0.2);
+        .icon-btn.active-sound {
+            border-color: var(--brand-primary);
+            background: var(--brand-primary-soft);
+            color: var(--brand-primary-dark);
         }
 
-        .brand-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--emerald-deep);
-            background: var(--emerald-tint);
-            border: 1px solid var(--border-emerald);
-            padding: 4px 14px;
-            border-radius: 999px;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-
-        .logo {
-            font-size: 3.1rem;
-            font-weight: 900;
-            letter-spacing: 7px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 52%, var(--gold-bright) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.1;
-        }
-
-        .lema {
-            color: var(--text-muted);
-            font-size: 1rem;
-            margin-top: 6px;
-            font-weight: 600;
-        }
-
-        .trust-badges {
+        .info-strip {
             display: flex;
-            justify-content: center;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 16px;
+            margin-bottom: 12px;
         }
 
-        .zona {
-            background: #ffffff;
-            color: var(--emerald-deep);
-            padding: 7px 15px;
-            border-radius: 999px;
-            font-size: 0.82rem;
+        .info-chip {
+            font-size: 0.78rem;
             font-weight: 700;
-            border: 1px solid var(--border-emerald);
-            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.08);
+            padding: 5px 11px;
+            border-radius: 8px;
+            background: var(--brand-primary-soft);
+            color: var(--brand-primary-dark);
+            border: 1px solid var(--border-brand);
         }
 
-        /* ========== BUSCADOR Y TABS ========== */
-        .nav-sticky {
+        .info-chip.tech {
+            background: #f0f9ff;
+            color: #0369a1;
+            border-color: rgba(2, 132, 199, 0.25);
+        }
+
+        .info-chip.gold {
+            background: var(--brand-accent-soft);
+            color: #b45309;
+            border-color: rgba(245, 158, 11, 0.35);
+        }
+
+        /* ========== BUSCADOR Y CATEGORÍAS STICKY ========== */
+        .sticky-bar {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(240, 251, 246, 0.92);
-            backdrop-filter: blur(14px);
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 10px 16px;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
         }
 
-        .nav-inner {
+        .sticky-inner {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .search-box { position: relative; width: 100%; }
+        .search-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+        }
 
         .search-box input {
             width: 100%;
-            background: #ffffff;
-            border: 1px solid var(--border-emerald);
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
             color: var(--text-main);
-            padding: 11px 16px 11px 42px;
-            border-radius: 14px;
-            font-size: 0.95rem;
-            box-shadow: 0 2px 10px rgba(5, 150, 105, 0.06);
-            transition: border-color 0.22s, box-shadow 0.22s;
+            padding: 10px 14px 10px 38px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, background 0.2s;
         }
 
         .search-box input:focus {
             outline: none;
-            border-color: var(--emerald-bright);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+            background: #ffffff;
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.14);
         }
 
         .search-icon {
             position: absolute;
-            left: 14px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--emerald-deep);
-            font-size: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .sort-select {
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            padding: 0 12px;
+            border-radius: 12px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
         }
 
         .tabs {
@@ -233,120 +268,139 @@
             gap: 8px;
             overflow-x: auto;
             scrollbar-width: none;
-            padding-bottom: 2px;
         }
 
         .tabs::-webkit-scrollbar { display: none; }
 
         .tab {
-            background: #ffffff;
-            border: 1px solid var(--border-subtle);
-            color: var(--text-muted);
-            padding: 9px 18px;
-            border-radius: 12px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            padding: 7px 15px;
+            border-radius: 999px;
             cursor: pointer;
-            font-weight: 800;
-            font-size: 0.88rem;
+            font-weight: 700;
+            font-size: 0.84rem;
             white-space: nowrap;
             transition: all 0.2s;
-            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
         }
 
         .tab.active {
-            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
+            background: var(--brand-primary);
             color: #ffffff;
-            border-color: var(--emerald-deep);
-            box-shadow: 0 5px 16px rgba(5, 150, 105, 0.3);
+            border-color: var(--brand-primary);
         }
 
         /* ========== BANNER MAYORISTA ========== */
-        .promo-banner {
+        .promo-wrap {
             max-width: 1200px;
-            margin: 20px auto 0;
+            margin: 16px auto 0;
             padding: 0 16px;
         }
 
-        .promo-card {
-            background: linear-gradient(135deg, #ffffff 0%, #d1fae5 100%);
-            border: 1px solid var(--border-emerald);
-            border-radius: 18px;
-            padding: 16px 20px;
+        .promo-banner {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 14px;
+            padding: 13px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
+            gap: 10px;
             flex-wrap: wrap;
-            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.09);
+            box-shadow: var(--shadow-card);
         }
 
-        .promo-card strong { color: var(--emerald-deep); font-size: 1rem; }
-        .promo-card p { color: var(--text-muted); font-size: 0.86rem; margin-top: 2px; }
+        .promo-banner strong {
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
 
-        /* ========== GRID & CARDS DINÁMICOS ========== */
+        .promo-banner span.sub {
+            color: var(--text-secondary);
+            font-size: 0.84rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .promo-tag {
+            background: var(--brand-accent-soft);
+            color: #b45309;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            padding: 5px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        /* ========== GRID DE PRODUCTOS (ESTILO MARKETPLACE) ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 18px 16px;
+            padding: 16px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
         }
 
         .card {
             background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: 22px;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
             overflow: hidden;
-            border: 1px solid var(--border-subtle);
-            position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+            position: relative;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--emerald-bright);
-            box-shadow: 0 14px 30px rgba(5, 150, 105, 0.16);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--brand-primary);
         }
 
-        .card.added-anim { animation: cardAdded 0.5s ease; }
+        .card.added-anim { animation: cardPop 0.45s ease; }
 
-        @keyframes cardAdded {
+        @keyframes cardPop {
             0% { transform: scale(1); }
-            40% { transform: scale(1.025); border-color: var(--emerald-bright); }
+            45% { transform: scale(1.02); border-color: var(--brand-primary); }
             100% { transform: scale(1); }
         }
 
         .badge {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #ffffff;
-            color: var(--gold-deep);
-            border: 1px solid rgba(245, 158, 11, 0.45);
-            padding: 5px 11px;
-            border-radius: 10px;
+            top: 10px;
+            left: 10px;
+            background: var(--brand-primary);
+            color: #ffffff;
+            padding: 4px 9px;
+            border-radius: 7px;
+            font-size: 0.7rem;
             font-weight: 800;
-            font-size: 0.74rem;
-            z-index: 10;
-            box-shadow: 0 3px 10px rgba(245, 158, 11, 0.14);
+            z-index: 5;
+            letter-spacing: 0.3px;
+        }
+
+        .badge.gold-badge {
+            background: var(--brand-accent);
+            color: #0f172a;
         }
 
         .card-visual {
             width: 100%;
-            height: 195px;
-            background: linear-gradient(145deg, #ecfdf5 0%, #f0fdf4 100%);
+            height: 175px;
+            background: var(--bg-muted);
             display: flex;
             align-items: center;
             justify-content: center;
+            border-bottom: 1px solid var(--border-light);
             overflow: hidden;
-            border-bottom: 1px solid var(--border-subtle);
-            position: relative;
         }
 
         .card-visual img {
@@ -356,202 +410,171 @@
         }
 
         .card-visual svg {
-            width: 82%;
-            height: 82%;
-            filter: drop-shadow(0 8px 16px rgba(5, 150, 105, 0.14));
+            width: 78%;
+            height: 78%;
         }
 
         .card-body {
-            padding: 18px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             flex: 1;
         }
 
         .card-cat {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--emerald-mid);
             font-weight: 800;
-            margin-bottom: 4px;
+            letter-spacing: 1px;
+            color: var(--brand-tech);
+            margin-bottom: 3px;
         }
 
         .card-title {
-            font-size: 1.15rem;
-            color: var(--text-main);
+            font-size: 1.02rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            color: var(--text-main);
+            margin-bottom: 4px;
         }
 
         .card-desc {
-            color: var(--text-muted);
-            font-size: 0.86rem;
-            margin-bottom: 14px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
             flex: 1;
         }
 
-        .price-box {
-            background: #f8fafc;
-            border: 1px solid var(--border-subtle);
-            border-radius: 14px;
-            padding: 10px 12px;
-            margin-bottom: 14px;
+        .price-row {
             display: flex;
+            align-items: baseline;
             justify-content: space-between;
-            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
-        .price-unit-label {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            display: block;
-            font-weight: 600;
-        }
-
-        .price-unit {
+        .price-main {
+            font-size: 1.32rem;
+            font-weight: 900;
             color: var(--text-main);
-            font-size: 1.25rem;
-            font-weight: 900;
         }
 
-        .price-bulk {
-            text-align: right;
-            background: var(--gold-tint);
-            border: 1px solid rgba(245, 158, 11, 0.45);
-            padding: 5px 10px;
-            border-radius: 10px;
-        }
-
-        .price-bulk-val {
-            color: var(--gold-deep);
-            font-weight: 900;
-            font-size: 1.05rem;
-            display: block;
-            line-height: 1.1;
-        }
-
-        .price-bulk-tag {
-            font-size: 0.68rem;
-            color: var(--gold-deep);
-            font-weight: 700;
-        }
-
-        .bulk-progress {
-            margin-bottom: 12px;
+        .price-wholesale {
             font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--brand-primary-dark);
+            background: var(--brand-primary-soft);
+            padding: 3px 8px;
+            border-radius: 6px;
         }
 
-        .bulk-progress-text {
+        .progress-mini {
+            margin-bottom: 10px;
+        }
+
+        .progress-label {
             display: flex;
             justify-content: space-between;
-            color: var(--text-muted);
-            margin-bottom: 4px;
+            font-size: 0.73rem;
+            color: var(--text-secondary);
             font-weight: 700;
+            margin-bottom: 4px;
         }
 
-        .bulk-progress-text.unlocked { color: var(--emerald-deep); }
+        .progress-label.done { color: var(--brand-primary-dark); }
 
-        .progress-track {
-            height: 6px;
+        .bar-bg {
+            height: 5px;
             background: #e2e8f0;
             border-radius: 999px;
             overflow: hidden;
         }
 
-        .progress-fill {
+        .bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--emerald-bright) 0%, var(--emerald-deep) 100%);
+            background: var(--brand-primary);
             border-radius: 999px;
-            transition: width 0.3s ease;
-        }
-
-        .progress-fill.unlocked {
-            background: linear-gradient(90deg, var(--gold-bright) 0%, var(--emerald-mid) 100%);
+            transition: width 0.25s ease;
         }
 
         .card-actions {
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 8px;
-        }
-
-        .btn-add {
-            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
-            color: #ffffff;
-            border: none;
-            padding: 11px 14px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 6px;
         }
 
-        .btn-add:active { transform: scale(0.96); }
-        .btn-add.added { background: var(--gold-bright); color: #0f172a; }
-
-        .btn-bulk-quick {
-            background: #ffffff;
-            color: var(--gold-deep);
-            border: 1px solid rgba(245, 158, 11, 0.55);
-            padding: 11px 12px;
-            border-radius: 12px;
+        .btn-add {
+            background: var(--brand-primary);
+            color: #ffffff;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 10px;
             font-weight: 800;
-            font-size: 0.82rem;
+            font-size: 0.86rem;
             cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: background 0.2s, transform 0.15s;
         }
 
-        .btn-bulk-quick:hover { background: var(--gold-tint); }
+        .btn-add:hover { background: var(--brand-primary-dark); }
+        .btn-add:active { transform: scale(0.97); }
+        .btn-add.added { background: var(--brand-tech); }
+
+        .btn-pack {
+            background: var(--brand-accent-soft);
+            color: #b45309;
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            padding: 10px 10px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+        }
 
         /* ========== BOTÓN FLOTANTE CARRITO (FAB) ========== */
         .cart-fab {
             position: fixed;
-            bottom: 24px;
-            right: 22px;
+            bottom: 22px;
+            right: 20px;
             z-index: 1000;
-            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
+            background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
             color: #ffffff;
-            width: 66px;
-            height: 66px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             border: 2px solid #ffffff;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.65rem;
-            box-shadow: 0 10px 28px rgba(5, 150, 105, 0.42);
+            font-size: 1.6rem;
+            box-shadow: 0 8px 24px rgba(5, 150, 105, 0.42);
             transition: transform 0.2s;
         }
 
-        .cart-fab:active { transform: scale(0.9); }
-        .cart-fab.bounce { animation: bounceCart 0.6s ease; }
+        .cart-fab:active { transform: scale(0.92); }
+        .cart-fab.bounce { animation: fabBounce 0.55s ease; }
 
-        @keyframes bounceCart {
+        @keyframes fabBounce {
             0%, 100% { transform: scale(1); }
-            30% { transform: scale(1.24); }
-            50% { transform: scale(0.92); }
-            70% { transform: scale(1.1); }
+            30% { transform: scale(1.2); }
+            55% { transform: scale(0.94); }
+            75% { transform: scale(1.08); }
         }
 
         .cart-fab-badge {
             position: absolute;
             top: -4px;
             right: -4px;
-            background: var(--gold-bright);
+            background: var(--brand-accent);
             color: #0f172a;
-            min-width: 25px;
-            height: 25px;
+            min-width: 24px;
+            height: 24px;
             border-radius: 50%;
-            font-size: 0.76rem;
+            font-size: 0.75rem;
             font-weight: 900;
             display: flex;
             align-items: center;
@@ -559,40 +582,40 @@
             border: 2px solid #ffffff;
         }
 
-        .cart-fab-badge.pop { animation: badgePop 0.4s ease; }
+        .cart-fab-badge.pop { animation: badgeScale 0.35s ease; }
 
-        @keyframes badgePop {
+        @keyframes badgeScale {
             0% { transform: scale(1); }
-            50% { transform: scale(1.55); }
+            50% { transform: scale(1.5); }
             100% { transform: scale(1); }
         }
 
         .cart-fab-total {
             position: absolute;
-            bottom: -11px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
             background: #ffffff;
-            color: var(--emerald-deep);
-            padding: 2px 10px;
-            border-radius: 10px;
-            font-size: 0.72rem;
+            color: var(--brand-primary-dark);
+            padding: 2px 9px;
+            border-radius: 999px;
+            font-size: 0.7rem;
             font-weight: 900;
             white-space: nowrap;
-            border: 1px solid var(--emerald-bright);
-            box-shadow: 0 3px 8px rgba(5, 150, 105, 0.2);
+            border: 1px solid var(--brand-primary);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
         }
 
-        /* ========== DRAWER DEL CARRITO & MODALES ========== */
+        /* ========== DRAWER CARRITO & ADMIN ========== */
         .drawer-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.55);
-            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.52);
+            backdrop-filter: blur(3px);
             z-index: 1500;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.25s;
         }
 
         .drawer-overlay.active { display: block; opacity: 1; }
@@ -602,76 +625,58 @@
             bottom: 0;
             left: 0;
             right: 0;
-            max-width: 680px;
+            max-width: 660px;
             margin: 0 auto;
             background: #ffffff;
-            color: var(--text-main);
-            border-radius: 26px 26px 0 0;
+            border-radius: 24px 24px 0 0;
             max-height: 88vh;
             transform: translateY(100%);
-            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+            transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
             z-index: 1600;
             display: flex;
             flex-direction: column;
-            border-top: 3px solid var(--emerald-bright);
-            box-shadow: 0 -12px 40px rgba(5, 150, 105, 0.22);
+            border-top: 3px solid var(--brand-primary);
         }
 
         .drawer-overlay.active .drawer { transform: translateY(0); }
 
         .drawer-handle {
-            width: 48px;
+            width: 44px;
             height: 5px;
             background: #cbd5e1;
-            border-radius: 3px;
-            margin: 12px auto 8px;
+            border-radius: 999px;
+            margin: 10px auto 6px;
         }
 
         .drawer-header {
-            padding: 4px 20px 14px;
+            padding: 4px 20px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--border-light);
         }
 
         .drawer-header h2 {
-            color: var(--emerald-deep);
-            font-size: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 1.18rem;
+            color: var(--text-main);
+            font-weight: 900;
         }
 
         .drawer-close {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            color: var(--text-muted);
-            width: 36px;
-            height: 36px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: 800;
         }
 
         .drawer-body {
-            padding: 16px 20px 28px;
+            padding: 14px 20px 26px;
             overflow-y: auto;
             flex: 1;
-        }
-
-        .cart-summary-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #ecfdf5;
-            padding: 11px 15px;
-            border-radius: 12px;
-            margin-bottom: 14px;
-            border: 1px solid var(--border-emerald);
         }
 
         .cart-item {
@@ -679,264 +684,243 @@
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            padding: 12px 0;
-            border-bottom: 1px solid #e2e8f0;
-            animation: slideInItem 0.25s ease;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border-light);
         }
 
-        @keyframes slideInItem {
-            from { opacity: 0; transform: translateX(-14px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .cart-item-info { flex: 1; }
-        .cart-item-info h4 { color: var(--text-main); font-size: 0.94rem; margin-bottom: 3px; }
-        .cart-item-meta { font-size: 0.82rem; color: var(--emerald-deep); font-weight: 700; }
-        .tag-mayorista {
-            display: inline-block;
-            background: var(--gold-tint);
-            color: var(--gold-deep);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            font-size: 0.68rem;
-            padding: 1px 7px;
-            border-radius: 6px;
-            margin-left: 5px;
-            font-weight: 800;
-        }
+        .cart-item-info h4 { font-size: 0.92rem; color: var(--text-main); }
+        .cart-item-meta { font-size: 0.8rem; color: var(--brand-primary-dark); font-weight: 700; }
 
         .qty-controls {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            border-radius: 11px;
-            padding: 4px;
+            gap: 6px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 3px;
         }
 
         .qty-btn {
             background: #ffffff;
-            border: 1px solid #cbd5e1;
+            border: 1px solid var(--border-light);
             color: var(--text-main);
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
             cursor: pointer;
-            font-size: 1.05rem;
             font-weight: 800;
         }
 
-        .qty-btn:hover { background: #d1fae5; }
-        .qty-controls span { min-width: 24px; text-align: center; font-weight: 800; color: var(--text-main); }
+        .qty-controls span { min-width: 22px; text-align: center; font-weight: 800; font-size: 0.88rem; }
 
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
             margin-top: 14px;
         }
 
-        .form-group { margin-bottom: 12px; }
+        .form-group { margin-bottom: 10px; }
         .form-group.full { grid-column: 1 / -1; }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            color: var(--text-muted);
-            font-size: 0.84rem;
+            font-size: 0.8rem;
             font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 12px 14px;
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 12px;
+            padding: 11px 12px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
             color: var(--text-main);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
 
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: var(--emerald-bright);
             background: #ffffff;
+            border-color: var(--brand-primary);
         }
 
-        .savings-box {
-            background: var(--gold-tint);
-            border: 1px solid rgba(245, 158, 11, 0.45);
-            color: var(--gold-deep);
-            padding: 10px 14px;
-            border-radius: 12px;
-            text-align: center;
+        .savings-banner {
+            background: var(--brand-primary-soft);
+            border: 1px solid var(--border-brand);
+            color: var(--brand-primary-dark);
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 0.84rem;
             font-weight: 800;
-            font-size: 0.88rem;
-            margin-top: 12px;
+            text-align: center;
+            margin-top: 10px;
         }
 
         .total-box {
+            margin: 12px 0;
+            padding: 14px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
             text-align: center;
-            margin: 14px 0;
-            padding: 16px;
-            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-            border-radius: 16px;
-            border: 1px solid var(--border-emerald);
         }
 
-        .total-box .total-amount {
-            font-size: 1.65rem;
-            color: var(--emerald-deep);
+        .total-amount {
+            font-size: 1.55rem;
             font-weight: 900;
-        }
-
-        .total-box .total-sub {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-            font-weight: 600;
+            color: var(--brand-primary-dark);
         }
 
         .btn-whatsapp {
-            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-            color: white;
+            background: #16a34a;
+            color: #ffffff;
             border: none;
             width: 100%;
-            padding: 16px;
-            border-radius: 15px;
-            font-size: 1.05rem;
+            padding: 15px;
+            border-radius: 13px;
+            font-size: 1rem;
             font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.32);
-            transition: transform 0.2s;
+            gap: 8px;
+            box-shadow: 0 6px 18px rgba(22, 163, 74, 0.28);
         }
 
-        .btn-whatsapp:active { transform: scale(0.98); }
+        .btn-whatsapp:hover { background: #15803d; }
 
-        /* ========== PANEL ADMIN / CONFIGURACIÓN ========== */
-        .admin-section {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
+        /* ========== ADMIN PANEL ========== */
+        .admin-box {
+            background: var(--bg-muted);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
         }
 
-        .admin-section h3 {
-            color: var(--emerald-deep);
-            font-size: 1rem;
-            margin-bottom: 12px;
+        .admin-box h3 {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
         }
 
-        .admin-prod-row {
+        .admin-item {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-
-        .admin-prod-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
         }
 
         .admin-prices {
             display: grid;
             grid-template-columns: 1fr 1fr auto;
             gap: 8px;
-            align-items: center;
+            align-items: end;
+            margin-top: 8px;
         }
 
         .admin-prices input {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            color: var(--text-main);
-            padding: 8px 10px;
-            border-radius: 8px;
             width: 100%;
-            font-size: 0.88rem;
+            padding: 7px 9px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.86rem;
         }
 
-        .btn-file {
-            background: #ecfdf5;
-            color: var(--emerald-deep);
-            border: 1px dashed var(--emerald-bright);
-            padding: 8px 10px;
+        .btn-photo {
+            background: var(--brand-primary-soft);
+            color: var(--brand-primary-dark);
+            border: 1px dashed var(--brand-primary);
+            padding: 7px 10px;
             border-radius: 8px;
             font-size: 0.78rem;
             font-weight: 800;
             cursor: pointer;
-            text-align: center;
             display: inline-block;
         }
 
-        .btn-export {
-            background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-bright) 100%);
+        .btn-save-html {
+            background: var(--brand-primary);
             color: #ffffff;
             border: none;
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             border-radius: 12px;
-            font-weight: 900;
+            font-weight: 800;
             cursor: pointer;
-            font-size: 0.95rem;
-            margin-top: 8px;
         }
 
         .footer {
             text-align: center;
-            padding: 36px 20px 10px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border-subtle);
-            margin-top: 30px;
+            padding: 28px 16px 10px;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--border-light);
+            margin-top: 24px;
         }
 
         @media (max-width: 600px) {
-            .logo { font-size: 2.4rem; letter-spacing: 5px; }
-            .grid { grid-template-columns: 1fr; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .card-visual { height: 130px; }
+            .card-body { padding: 11px; }
+            .card-title { font-size: 0.92rem; }
+            .card-desc { display: none; }
+            .price-main { font-size: 1.1rem; }
+            .card-actions { grid-template-columns: 1fr; }
             .form-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOAST NOTIFICATIONS -->
+    <!-- TOASTS -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- HEADER -->
-    <header class="header">
-        <div class="top-controls">
-            <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Activar/silenciar sonidos">🔊</button>
-            <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar precios, fotos y WhatsApp">⚙️</button>
-        </div>
-        <div class="brand-pill">💰 Catálogo Oficial</div>
-        <h1 class="logo" id="storeTitle">CRESO</h1>
-        <p class="lema" id="storeSubtitle">Accesorios móviles &amp; precios directos sin vueltas</p>
-        <div class="trust-badges">
-            <span class="zona">💵 Efectivo o Transferencia</span>
-            <span class="zona">📲 WhatsApp: 11 3366-7793</span>
-            <span class="zona">📦 Mayorista desde 10 u.</span>
+    <!-- HEADER TIPO MARKETPLACE LIMPIO -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="brand-row">
+                <div class="brand-identity">
+                    <span class="logo">CRESO<span class="logo-dot"></span></span>
+                    <span class="lema">Accesorios móviles • Minorista y Mayorista</span>
+                </div>
+                <div class="top-controls">
+                    <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Sonido">🔊</button>
+                    <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar">⚙️</button>
+                </div>
+            </div>
+
+            <div class="info-strip">
+                <span class="info-chip">💵 Efectivo o Transferencia</span>
+                <span class="info-chip tech">📲 WhatsApp: 11 3366-7793</span>
+                <span class="info-chip gold">📦 10+ u. precio mayorista</span>
+            </div>
         </div>
     </header>
 
-    <!-- NAVEGACIÓN STICKY -->
-    <div class="nav-sticky">
-        <div class="nav-inner">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Buscar cable, cargador, Tipo C, Lightning, auxiliar..." oninput="renderProducts()">
+    <!-- BUSCADOR Y CATEGORÍAS STICKY -->
+    <div class="sticky-bar">
+        <div class="sticky-inner">
+            <div class="search-row">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Buscar en CRESO: cable, cargador, Tipo C, Lightning, audio..." oninput="renderProducts()">
+                </div>
+                <select class="sort-select" id="sortSelect" onchange="playClickSound(); renderProducts();">
+                    <option value="default">Destacados</option>
+                    <option value="price-asc">Menor precio</option>
+                    <option value="price-desc">Mayor precio</option>
+                </select>
             </div>
-            <div class="tabs" id="categoryTabs">
-                <button class="tab active" onclick="setCategory('todos', this)">✨ Todos</button>
+
+            <div class="tabs">
+                <button class="tab active" onclick="setCategory('todos', this)">Todos</button>
                 <button class="tab" onclick="setCategory('cables', this)">🔌 Cables</button>
                 <button class="tab" onclick="setCategory('cargadores', this)">⚡ Cargadores</button>
                 <button class="tab" onclick="setCategory('audio', this)">🎧 Audio</button>
@@ -944,59 +928,54 @@
         </div>
     </div>
 
-    <!-- BANNER DE BENEFICIO MAYORISTA -->
-    <div class="promo-banner">
-        <div class="promo-card">
+    <!-- BANNER MAYORISTA -->
+    <div class="promo-wrap">
+        <div class="promo-banner">
             <div>
-                <strong>🔥 Descuento Mayorista Automático</strong>
-                <p>Llevando <strong>10 o más unidades</strong> del mismo artículo, el carrito aplica el precio mayorista solo.</p>
+                <strong>Comprá por unidad o llevá 10+ unidades con precio mayorista</strong>
+                <span class="sub">Armás tu pedido en el carrito y cerrás directo por WhatsApp pagando en efectivo o transferencia.</span>
             </div>
-            <span style="color: var(--gold-deep); font-weight: 900; font-size: 0.85rem;">Envío o Retiro a coordinar →</span>
+            <span class="promo-tag">⚡ Ahorro automático desde 10 u.</span>
         </div>
     </div>
 
-    <!-- CATÁLOGO DE PRODUCTOS -->
+    <!-- GRILLA DE PRODUCTOS -->
     <main class="container">
         <div class="grid" id="productsGrid"></div>
     </main>
 
-    <!-- BOTÓN FLOTANTE CARRITO -->
+    <!-- BOTÓN FLOTANTE DEL CARRITO -->
     <button class="cart-fab" id="cartFab" onclick="playClickSound(); toggleCart();" aria-label="Abrir carrito">
         🛒
         <span class="cart-fab-badge" id="cartFabBadge">0</span>
         <span class="cart-fab-total" id="cartFabTotal">$0</span>
     </button>
 
-    <!-- DRAWER CARRITO DE COMPRAS -->
+    <!-- DRAWER CARRITO -->
     <div class="drawer-overlay" id="cartDrawerOverlay" onclick="toggleCart()">
         <div class="drawer" onclick="event.stopPropagation()">
             <div class="drawer-handle"></div>
             <div class="drawer-header">
-                <h2>🛒 Tu Pedido en CRESO</h2>
+                <h2>🛒 Tu pedido — CRESO</h2>
                 <button class="drawer-close" onclick="playClickSound(); toggleCart();">✕</button>
             </div>
             <div class="drawer-body">
-                <div class="cart-summary-bar">
-                    <span style="color: var(--text-muted); font-size: 0.88rem; font-weight: 600;">📦 Artículos seleccionados:</span>
-                    <strong id="cartSummaryCount" style="color: var(--emerald-deep);">0 unidades</strong>
-                </div>
-
                 <div id="cartItems"></div>
                 <div id="savingsContainer"></div>
 
                 <div class="form-grid">
                     <div class="form-group">
                         <label>👤 Tu nombre *</label>
-                        <input type="text" id="clienteNombre" placeholder="Ej: Martín Gómez">
+                        <input type="text" id="clienteNombre" placeholder="Ej: Lucas Fernández">
                     </div>
                     <div class="form-group">
-                        <label>📱 Tu WhatsApp *</label>
+                        <label>📱 Tu teléfono *</label>
                         <input type="tel" id="clienteTel" placeholder="11 1234-5678">
                     </div>
                     <div class="form-group">
                         <label>🚚 Entrega</label>
                         <select id="clienteEntrega" onchange="playClickSound(); toggleDireccionField();">
-                            <option value="Envío a domicilio">🚚 Envío a domicilio</option>
+                            <option value="Envío a coordinar">🚚 Envío a coordinar</option>
                             <option value="Retiro a coordinar">📍 Retiro a coordinar</option>
                         </select>
                     </div>
@@ -1009,77 +988,67 @@
                         </select>
                     </div>
                     <div class="form-group full" id="direccionGroup">
-                        <label>📍 Dirección o zona de entrega *</label>
-                        <input type="text" id="clienteDireccion" placeholder="Calle, altura, localidad o referencia...">
+                        <label>📍 Dirección o zona *</label>
+                        <input type="text" id="clienteDireccion" placeholder="Calle, altura o zona de entrega...">
                     </div>
                     <div class="form-group full">
                         <label>📝 Notas (opcional)</label>
-                        <input type="text" id="clienteNotas" placeholder="Ej: Si pago en efectivo llevo cambio, horario preferido...">
+                        <input type="text" id="clienteNotas" placeholder="Aclaraciones de entrega o pago...">
                     </div>
                 </div>
 
                 <div class="total-box">
                     <div class="total-amount" id="totalPrice">Total: $0</div>
-                    <div class="total-sub" id="totalSubtext">Coordinás el pago y la entrega directo por WhatsApp</div>
                 </div>
 
                 <button class="btn-whatsapp" onclick="sendOrder()">
-                    📲 Confirmar y enviar por WhatsApp
+                    📲 Enviar pedido por WhatsApp
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- DRAWER CONFIGURACIÓN / ADMIN -->
+    <!-- DRAWER CONFIGURACIÓN -->
     <div class="drawer-overlay" id="adminDrawerOverlay" onclick="toggleAdmin()">
         <div class="drawer" onclick="event.stopPropagation()">
             <div class="drawer-handle"></div>
             <div class="drawer-header">
-                <h2>⚙️ Panel CRESO (Precios &amp; Fotos)</h2>
+                <h2>⚙️ Configurar CRESO</h2>
                 <button class="drawer-close" onclick="playClickSound(); toggleAdmin();">✕</button>
             </div>
             <div class="drawer-body">
-                <div class="admin-section">
-                    <h3>📲 Número de WhatsApp receptor</h3>
-                    <div class="form-group" style="margin-bottom:0;">
-                        <label>Código de país + área + número (sin + ni espacios)</label>
-                        <input type="text" id="adminWhatsapp" placeholder="5491133667793" onchange="saveSettings()">
-                    </div>
+                <div class="admin-box">
+                    <h3>📲 WhatsApp de ventas</h3>
+                    <input type="text" id="adminWhatsapp" value="5491133667793" onchange="saveSettings()" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;">
                 </div>
 
-                <div class="admin-section">
-                    <h3>📦 Productos, Precios y Fotos Incrustadas</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
-                        Las fotos que subas se optimizan y se guardan dentro de la página para que nunca se borren ni se rompan.
-                    </p>
+                <div class="admin-box">
+                    <h3>📦 Precios y fotos incrustadas</h3>
                     <div id="adminProductsList"></div>
                 </div>
 
-                <button class="btn-export" onclick="exportStandaloneHTML()">
-                    💾 Descargar index.html con mis fotos y precios
+                <button class="btn-save-html" onclick="exportStandaloneHTML()">
+                    💾 Descargar index.html con precios y fotos
                 </button>
             </div>
         </div>
     </div>
 
     <footer class="footer">
-        <p><strong style="color: var(--emerald-deep);">CRESO</strong> — Accesorios &amp; Mayorista Directo</p>
-        <p style="margin-top: 4px;">WhatsApp: +54 9 11 3366-7793 • Efectivo o Transferencia</p>
+        <strong style="color: var(--brand-primary-dark);">CRESO</strong> • WhatsApp: +54 9 11 3366-7793 • Efectivo o Transferencia
     </footer>
 
     <script>
-        /* ========== SONIDOS FUTURISTAS SUAVES (WEB AUDIO API) ========== */
+        /* ========== SONIDO SUTIL AL TOCAR ========== */
         let soundEnabled = true;
         let audioCtx = null;
 
         function getAudioContext() {
             if (!audioCtx) {
-                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                if (AudioContextClass) audioCtx = new AudioContextClass();
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (Ctx) audioCtx = new Ctx();
             }
-            if (audioCtx && audioCtx.state === "suspended") {
-                audioCtx.resume().catch(() => {});
-            }
+            if (audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
             return audioCtx;
         }
 
@@ -1087,44 +1056,37 @@
             if (!soundEnabled) return;
             const ctx = getAudioContext();
             if (!ctx) return;
-
             const now = ctx.currentTime;
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = "sine";
-            osc.frequency.setValueAtTime(560, now);
-            osc.frequency.exponentialRampToValueAtTime(840, now + 0.055);
-
-            gain.gain.setValueAtTime(0.06, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-
+            osc.frequency.setValueAtTime(580, now);
+            osc.frequency.exponentialRampToValueAtTime(860, now + 0.05);
+            gain.gain.setValueAtTime(0.055, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start(now);
-            osc.stop(now + 0.065);
+            osc.stop(now + 0.06);
         }
 
         function playAddSound() {
             if (!soundEnabled) return;
             const ctx = getAudioContext();
             if (!ctx) return;
-
             const now = ctx.currentTime;
-            const notes = [587.33, 880];
-            notes.forEach((freq, idx) => {
+            [587.33, 880].forEach((freq, i) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = "triangle";
-                const start = now + idx * 0.07;
-                osc.frequency.setValueAtTime(freq, start);
-
-                gain.gain.setValueAtTime(0.08, start);
-                gain.gain.exponentialRampToValueAtTime(0.001, start + 0.12);
-
+                const t = now + i * 0.065;
+                osc.frequency.setValueAtTime(freq, t);
+                gain.gain.setValueAtTime(0.075, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
                 osc.connect(gain);
                 gain.connect(ctx.destination);
-                osc.start(start);
-                osc.stop(start + 0.13);
+                osc.start(t);
+                osc.stop(t + 0.12);
             });
         }
 
@@ -1133,170 +1095,63 @@
             const btn = document.getElementById("soundToggleBtn");
             btn.textContent = soundEnabled ? "🔊" : "🔇";
             btn.classList.toggle("active-sound", soundEnabled);
-            if (soundEnabled) {
-                playAddSound();
-                showToast("Sonidos activados", "🔊");
-            } else {
-                showToast("Sonidos silenciados", "🔇");
-            }
+            if (soundEnabled) { playAddSound(); showToast("Sonido activado", "🔊"); }
+            else { showToast("Sonido silenciado", "🔇"); }
         }
 
-        /* ========== ILUSTRACIONES SVG AUTOCONTENIDAS ========== */
+        /* ========== GRÁFICOS SVG AUTOCONTENIDOS ========== */
         const SVG_ICONS = {
             cableBlack: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="28" y="34" width="184" height="92" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#a7f3d0" stroke-width="11"/>
-                <path d="M62 80C62 58 178 58 178 80C178 102 62 102 62 80Z" stroke="#059669" stroke-width="2.5" stroke-dasharray="6 4"/>
-                <rect x="44" y="68" width="26" height="24" rx="4" fill="#0f172a"/>
-                <rect x="170" y="71" width="22" height="18" rx="3" fill="#f59e0b"/>
-                <text x="120" y="144" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M • COMPACTO</text>
+                <rect x="30" y="36" width="180" height="88" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#d1fae5" stroke-width="10"/>
+                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#059669" stroke-width="2.5" stroke-dasharray="5 4"/>
+                <rect x="46" y="68" width="24" height="24" rx="4" fill="#0f172a"/>
+                <rect x="170" y="71" width="22" height="18" rx="3" fill="#0284c7"/>
+                <text x="120" y="142" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M</text>
             </svg>`,
             cableWhite: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M55 118C55 55 185 55 185 118" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-                <path d="M55 118C55 55 185 55 185 118" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
-                <rect x="42" y="106" width="26" height="32" rx="5" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-                <rect x="48" y="94" width="14" height="12" rx="2" fill="#10b981"/>
-                <rect x="174" y="108" width="22" height="28" rx="5" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-                <rect x="179" y="96" width="12" height="12" rx="2" fill="#f59e0b"/>
-                <text x="120" y="34" fill="#047857" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1 METRO</text>
+                <path d="M56 116C56 54 184 54 184 116" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+                <path d="M56 116C56 54 184 54 184 116" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+                <rect x="44" y="104" width="24" height="30" rx="5" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+                <rect x="172" y="106" width="22" height="26" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+                <text x="120" y="34" fill="#047857" font-size="11.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1M</text>
             </svg>`,
             charger: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="78" y="42" width="84" height="78" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-                <rect x="78" y="42" width="84" height="18" rx="6" fill="#059669"/>
-                <rect x="96" y="22" width="8" height="20" rx="2" fill="#047857"/>
-                <rect x="136" y="22" width="8" height="20" rx="2" fill="#047857"/>
-                <path d="M124 72L112 90H122L116 108L132 88H121L124 72Z" fill="#f59e0b"/>
-                <text x="120" y="142" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">2A CARGA RÁPIDA + CABLE</text>
+                <rect x="80" y="42" width="80" height="76" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+                <rect x="80" y="42" width="80" height="17" rx="6" fill="#059669"/>
+                <rect x="98" y="22" width="8" height="20" rx="2" fill="#047857"/>
+                <rect x="134" y="22" width="8" height="20" rx="2" fill="#047857"/>
+                <path d="M124 72L112 90H122L116 107L132 88H121L124 72Z" fill="#f59e0b"/>
+                <text x="120" y="140" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">FUENTE 2A + CABLE</text>
             </svg>`,
             earphones: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="88" cy="64" r="22" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
-                <circle cx="88" cy="64" r="10" fill="#10b981"/>
-                <circle cx="152" cy="64" r="22" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
-                <circle cx="152" cy="64" r="10" fill="#10b981"/>
-                <path d="M88 86V112C88 124 120 124 120 136M152 86V112C152 124 120 124 120 136" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
-                <rect x="112" y="132" width="16" height="16" rx="3" fill="#f59e0b"/>
-                <text x="120" y="28" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C DIGITAL IC • MICRÓFONO</text>
+                <circle cx="88" cy="64" r="21" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
+                <circle cx="88" cy="64" r="9" fill="#0284c7"/>
+                <circle cx="152" cy="64" r="21" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
+                <circle cx="152" cy="64" r="9" fill="#0284c7"/>
+                <path d="M88 85V112C88 124 120 124 120 135M152 85V112C152 124 120 124 120 135" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+                <rect x="112" y="132" width="16" height="14" rx="3" fill="#f59e0b"/>
+                <text x="120" y="28" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C STEREO</text>
             </svg>`,
             auxCable: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M52 110C52 45 188 45 188 110" stroke="#059669" stroke-width="8" stroke-linecap="round"/>
-                <rect x="44" y="102" width="16" height="24" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
-                <rect x="49" y="84" width="6" height="18" rx="2" fill="#f59e0b"/>
-                <rect x="180" y="102" width="16" height="24" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
-                <rect x="185" y="84" width="6" height="18" rx="2" fill="#f59e0b"/>
-                <text x="120" y="144" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">JACK 3.5MM • 4 PINES • 2 METROS</text>
+                <path d="M54 110C54 46 186 46 186 110" stroke="#059669" stroke-width="8" stroke-linecap="round"/>
+                <rect x="46" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
+                <rect x="178" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
+                <text x="120" y="142" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">AUX 3.5MM • 2 METROS</text>
             </svg>`
         };
 
-        /* ========== DATOS INICIALES DEL CATÁLOGO CRESO ========== */
+        /* ========== CATÁLOGO CRESO ========== */
         const DEFAULT_PRODUCTS = [
-            {
-                id: "bb-micro",
-                nombre: "Cable BlackBerry Micro-USB 0.3m",
-                categoria: "cables",
-                desc: "Cable corto reforzado de 30 cm (código ASY-28109-001), ideal para powerbank o auto.",
-                precioUnitario: 900,
-                precioMayorista: 650,
-                minMayorista: 10,
-                badge: "🔌 CORTO 30CM",
-                svgKey: "cableBlack",
-                customImg: ""
-            },
-            {
-                id: "stark-micro",
-                nombre: "Cable STARK Micro-USB 3.1A (1m)",
-                categoria: "cables",
-                desc: "Carga rápida hasta 3.1A y transmisión de datos. Cable blanco TPE resistente de 1 metro.",
-                precioUnitario: 1400,
-                precioMayorista: 1000,
-                minMayorista: 10,
-                badge: "⚡ 3.1A MAX",
-                svgKey: "cableWhite",
-                customImg: ""
-            },
-            {
-                id: "x95-lightning",
-                nombre: "Cable CHARGE X95 USB a Lightning",
-                categoria: "cables",
-                desc: "Cable de carga 2A para iPhone/iPad. Diseño reforzado, flexible y durable.",
-                precioUnitario: 1200,
-                precioMayorista: 800,
-                minMayorista: 10,
-                badge: "🔥 OFERTA 10+",
-                svgKey: "cableWhite",
-                customImg: ""
-            },
-            {
-                id: "wk-lightning",
-                nombre: "Cable WK Design Fullspeed Lightning (1m)",
-                categoria: "cables",
-                desc: "Modelo WDC-072i de 2.1A y 1000 mm de largo. Carga rápida y sincronización estable.",
-                precioUnitario: 1400,
-                precioMayorista: 1000,
-                minMayorista: 10,
-                badge: "🍎 IPHONE 2.1A",
-                svgKey: "cableWhite",
-                customImg: ""
-            },
-            {
-                id: "kos-tipoc",
-                nombre: "Cargador KOS 2A Carga Rápida Tipo C",
-                categoria: "cargadores",
-                desc: "Fuente de pared 2A con protección inteligente + cable Tipo C incluido.",
-                precioUnitario: 2800,
-                precioMayorista: 2000,
-                minMayorista: 10,
-                badge: "⚡ TIPO C",
-                svgKey: "charger",
-                customImg: ""
-            },
-            {
-                id: "kos-micro",
-                nombre: "Cargador KOS 2A Carga Rápida Micro-USB",
-                categoria: "cargadores",
-                desc: "Fuente de pared 2A con chip inteligente + cable Micro-USB incluido.",
-                precioUnitario: 2800,
-                precioMayorista: 2000,
-                minMayorista: 10,
-                badge: "⚡ MICRO-USB",
-                svgKey: "charger",
-                customImg: ""
-            },
-            {
-                id: "kosmo-iph",
-                nombre: "Cargador KOSMO 2A Carga Rápida Lightning",
-                categoria: "cargadores",
-                desc: "Modelo KOS 2A IPH para iPhone. Fuente 2A + cable Lightning listo para usar.",
-                precioUnitario: 2800,
-                precioMayorista: 2000,
-                minMayorista: 10,
-                badge: "🍎 LIGHTNING",
-                svgKey: "charger",
-                customImg: ""
-            },
-            {
-                id: "pro21-typec",
-                nombre: "Auriculares pro21 Stereo Type-C",
-                categoria: "audio",
-                desc: "Auriculares in-ear con micrófono, sonido Extra Bass y ficha USB Tipo C (Digital IC).",
-                precioUnitario: 3500,
-                precioMayorista: 2500,
-                minMayorista: 10,
-                badge: "🎧 TYPE-C",
-                svgKey: "earphones",
-                customImg: ""
-            },
-            {
-                id: "aux-2m",
-                nombre: "Cable Auxiliar Audio 2 Metros (4 Pines)",
-                categoria: "audio",
-                desc: "Ficha Jack 3.5mm macho a macho (modelo B6309). Ideal para auto, parlantes y PC.",
-                precioUnitario: 1400,
-                precioMayorista: 1000,
-                minMayorista: 10,
-                badge: "🎵 2 METROS",
-                svgKey: "auxCable",
-                customImg: ""
-            }
+            { id: "bb-micro", nombre: "Cable BlackBerry Micro-USB 0.3m", categoria: "cables", desc: "Cable corto reforzado de 30 cm (ASY-28109-001).", precioUnitario: 900, precioMayorista: 650, minMayorista: 10, badge: "30CM", goldBadge: false, svgKey: "cableBlack", customImg: "" },
+            { id: "stark-micro", nombre: "Cable STARK Micro-USB 3.1A (1m)", categoria: "cables", desc: "Carga rápida 3.1A y datos. Cable blanco TPE 1m.", precioUnitario: 1400, precioMayorista: 1000, minMayorista: 10, badge: "3.1A", goldBadge: false, svgKey: "cableWhite", customImg: "" },
+            { id: "x95-lightning", nombre: "Cable CHARGE X95 USB a Lightning", categoria: "cables", desc: "Carga 2A para iPhone/iPad, diseño reforzado.", precioUnitario: 1200, precioMayorista: 800, minMayorista: 10, badge: "10+ OFF", goldBadge: true, svgKey: "cableWhite", customImg: "" },
+            { id: "wk-lightning", nombre: "Cable WK Design Fullspeed Lightning (1m)", categoria: "cables", desc: "Modelo WDC-072i 2.1A, 1000 mm de largo.", precioUnitario: 1400, precioMayorista: 1000, minMayorista: 10, badge: "2.1A", goldBadge: false, svgKey: "cableWhite", customImg: "" },
+            { id: "kos-tipoc", nombre: "Cargador KOS 2A Carga Rápida Tipo C", categoria: "cargadores", desc: "Fuente de pared 2A + cable Tipo C incluido.", precioUnitario: 2800, precioMayorista: 2000, minMayorista: 10, badge: "TIPO C", goldBadge: false, svgKey: "charger", customImg: "" },
+            { id: "kos-micro", nombre: "Cargador KOS 2A Carga Rápida Micro-USB", categoria: "cargadores", desc: "Fuente de pared 2A + cable Micro-USB incluido.", precioUnitario: 2800, precioMayorista: 2000, minMayorista: 10, badge: "MICRO-USB", goldBadge: false, svgKey: "charger", customImg: "" },
+            { id: "kosmo-iph", nombre: "Cargador KOSMO 2A Carga Rápida Lightning", categoria: "cargadores", desc: "KOS 2A IPH para iPhone + cable Lightning.", precioUnitario: 2800, precioMayorista: 2000, minMayorista: 10, badge: "IPHONE", goldBadge: false, svgKey: "charger", customImg: "" },
+            { id: "pro21-typec", nombre: "Auriculares pro21 Stereo Type-C", categoria: "audio", desc: "In-ear con micrófono, Extra Bass y ficha Tipo C.", precioUnitario: 3500, precioMayorista: 2500, minMayorista: 10, badge: "TYPE-C", goldBadge: true, svgKey: "earphones", customImg: "" },
+            { id: "aux-2m", nombre: "Cable Auxiliar Audio 2 Metros (4 Pines)", categoria: "audio", desc: "Jack 3.5mm macho-macho (B6309), 2 metros.", precioUnitario: 1400, precioMayorista: 1000, minMayorista: 10, badge: "2 METROS", goldBadge: false, svgKey: "auxCable", customImg: "" }
         ];
 
         let state = {
@@ -1305,7 +1160,7 @@
         };
 
         try {
-            const saved = localStorage.getItem("creso_store_v4");
+            const saved = localStorage.getItem("creso_store_brand_v1");
             if (saved) {
                 const parsed = JSON.parse(saved);
                 if (parsed.whatsapp) state.whatsapp = parsed.whatsapp;
@@ -1317,341 +1172,233 @@
         let currentCategory = "todos";
 
         function persistState() {
-            try {
-                localStorage.setItem("creso_store_v4", JSON.stringify(state));
-            } catch (e) {
-                showToast("⚠️ Memoria llena: descargá el HTML para guardar tus fotos.", "💾");
-            }
+            try { localStorage.setItem("creso_store_brand_v1", JSON.stringify(state)); } catch (e) {}
         }
 
-        /* ========== TOAST SYSTEM ========== */
-        function showToast(message, icon = "✅") {
-            const container = document.getElementById("toastContainer");
-            const toast = document.createElement("div");
-            toast.className = "toast";
-            toast.innerHTML = `
-                <span class="toast-icon">${icon}</span>
-                <span class="toast-text">${message}</span>
-                <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
-            `;
-            container.appendChild(toast);
-            requestAnimationFrame(() => toast.classList.add("show"));
-            setTimeout(() => {
-                toast.classList.remove("show");
-                setTimeout(() => toast.remove(), 400);
-            }, 2800);
+        function showToast(msg, icon = "✅") {
+            const c = document.getElementById("toastContainer");
+            const t = document.createElement("div");
+            t.className = "toast";
+            t.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-text">${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+            c.appendChild(t);
+            requestAnimationFrame(() => t.classList.add("show"));
+            setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 380); }, 2600);
         }
 
-        /* ========== FILTROS Y RENDERIZADO DE PRODUCTOS ========== */
-        function setCategory(cat, btnEl) {
+        function setCategory(cat, el) {
             playClickSound();
             currentCategory = cat;
-            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-            if (btnEl) btnEl.classList.add("active");
+            document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+            if (el) el.classList.add("active");
             renderProducts();
         }
 
-        function getEffectiveUnitPrice(product, qty) {
-            return qty >= product.minMayorista ? product.precioMayorista : product.precioUnitario;
+        function getEffectiveUnitPrice(p, qty) {
+            return qty >= p.minMayorista ? p.precioMayorista : p.precioUnitario;
         }
 
         function renderProducts() {
-            const query = document.getElementById("searchInput").value.trim().toLowerCase();
+            const q = document.getElementById("searchInput").value.trim().toLowerCase();
+            const sort = document.getElementById("sortSelect").value;
             const grid = document.getElementById("productsGrid");
 
-            const filtered = state.products.filter(p => {
+            let list = state.products.filter(p => {
                 const matchCat = currentCategory === "todos" || p.categoria === currentCategory;
-                const matchText = !query ||
-                    p.nombre.toLowerCase().includes(query) ||
-                    p.desc.toLowerCase().includes(query) ||
-                    p.categoria.toLowerCase().includes(query);
-                return matchCat && matchText;
+                const matchQ = !q || p.nombre.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+                return matchCat && matchQ;
             });
 
-            if (!filtered.length) {
-                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px 20px; color:var(--text-muted);">
-                    <div style="font-size:2.5rem; margin-bottom:10px;">🔎</div>
-                    <p>No encontramos productos con esa búsqueda.</p>
-                </div>`;
+            if (sort === "price-asc") list.sort((a, b) => a.precioUnitario - b.precioUnitario);
+            if (sort === "price-desc") list.sort((a, b) => b.precioUnitario - a.precioUnitario);
+
+            if (!list.length) {
+                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px 16px; color:var(--text-secondary);">Sin resultados para "${q}".</div>`;
                 return;
             }
 
-            grid.innerHTML = filtered.map(p => {
-                const inCartQty = cart[p.id] ? cart[p.id].cantidad : 0;
-                const remaining = Math.max(0, p.minMayorista - inCartQty);
-                const pct = Math.min(100, (inCartQty / p.minMayorista) * 100);
-                const unlocked = inCartQty >= p.minMayorista;
-
-                const visualHTML = p.customImg
-                    ? `<img src="${p.customImg}" alt="${p.nombre}">`
-                    : (SVG_ICONS[p.svgKey] || SVG_ICONS.cableWhite);
+            grid.innerHTML = list.map(p => {
+                const qty = cart[p.id] ? cart[p.id].cantidad : 0;
+                const rem = Math.max(0, p.minMayorista - qty);
+                const pct = Math.min(100, (qty / p.minMayorista) * 100);
+                const unlocked = qty >= p.minMayorista;
+                const visual = p.customImg ? `<img src="${p.customImg}" alt="${p.nombre}">` : (SVG_ICONS[p.svgKey] || SVG_ICONS.cableWhite);
 
                 return `
                 <article class="card" id="card-${p.id}">
-                    ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
-                    <div class="card-visual">${visualHTML}</div>
+                    ${p.badge ? `<span class="badge ${p.goldBadge ? "gold-badge" : ""}">${p.badge}</span>` : ""}
+                    <div class="card-visual">${visual}</div>
                     <div class="card-body">
                         <span class="card-cat">${p.categoria}</span>
                         <h3 class="card-title">${p.nombre}</h3>
                         <p class="card-desc">${p.desc}</p>
-
-                        <div class="price-box">
-                            <div>
-                                <span class="price-unit-label">Por unidad</span>
-                                <span class="price-unit">$${p.precioUnitario.toLocaleString("es-AR")}</span>
-                            </div>
-                            <div class="price-bulk">
-                                <span class="price-bulk-val">$${p.precioMayorista.toLocaleString("es-AR")} c/u</span>
-                                <span class="price-bulk-tag">Llevando ${p.minMayorista}+ u.</span>
-                            </div>
+                        <div class="price-row">
+                            <span class="price-main">$${p.precioUnitario.toLocaleString("es-AR")}</span>
+                            <span class="price-wholesale">10+: $${p.precioMayorista.toLocaleString("es-AR")}</span>
                         </div>
-
-                        <div class="bulk-progress">
-                            <div class="bulk-progress-text ${unlocked ? "unlocked" : ""}">
-                                <span>${unlocked ? "🎉 ¡Precio mayorista activado!" : (inCartQty > 0 ? `Tenés ${inCartQty} en carrito` : `Meta mayorista: ${p.minMayorista} u.`)}</span>
-                                <span>${unlocked ? "Ahorro activo" : `Faltan ${remaining}`}</span>
+                        <div class="progress-mini">
+                            <div class="progress-label ${unlocked ? "done" : ""}">
+                                <span>${unlocked ? "✓ Mayorista activo" : (qty > 0 ? `${qty} en carrito` : `Mayorista ${p.minMayorista}+ u.`)}</span>
+                                <span>${unlocked ? "" : `Faltan ${rem}`}</span>
                             </div>
-                            <div class="progress-track">
-                                <div class="progress-fill ${unlocked ? "unlocked" : ""}" style="width:${pct}%"></div>
-                            </div>
+                            <div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div>
                         </div>
-
                         <div class="card-actions">
-                            <button class="btn-add" id="btn-${p.id}" onclick="addToCart('${p.id}', 1)">
-                                <span>➕</span> Agregar
-                            </button>
-                            <button class="btn-bulk-quick" onclick="addToCart('${p.id}', ${p.minMayorista})" title="Sumar 10 unidades con precio mayorista">
-                                +${p.minMayorista} Mayor
-                            </button>
+                            <button class="btn-add" id="btn-${p.id}" onclick="addToCart('${p.id}', 1)">➕ Agregar</button>
+                            <button class="btn-pack" onclick="addToCart('${p.id}', ${p.minMayorista})">+${p.minMayorista}</button>
                         </div>
                     </div>
                 </article>`;
             }).join("");
         }
 
-        /* ========== CARRITO & ANIMACIONES ========== */
-        function addToCart(id, qtyToAdd = 1) {
-            const product = state.products.find(p => p.id === id);
-            if (!product) return;
-
-            if (cart[id]) {
-                cart[id].cantidad += qtyToAdd;
-            } else {
-                cart[id] = { id, cantidad: qtyToAdd };
-            }
-
+        function addToCart(id, qty) {
+            const p = state.products.find(item => item.id === id);
+            if (!p) return;
+            cart[id] = cart[id] ? { id, cantidad: cart[id].cantidad + qty } : { id, cantidad: qty };
             playAddSound();
 
             const card = document.getElementById(`card-${id}`);
-            if (card) {
-                card.classList.remove("added-anim");
-                void card.offsetWidth;
-                card.classList.add("added-anim");
-            }
+            if (card) { card.classList.remove("added-anim"); void card.offsetWidth; card.classList.add("added-anim"); }
 
             const btn = document.getElementById(`btn-${id}`);
-            if (btn && qtyToAdd === 1) {
-                btn.innerHTML = "<span>✓</span> ¡Sumado!";
+            if (btn && qty === 1) {
+                btn.textContent = "✓ Sumado";
                 btn.classList.add("added");
-                setTimeout(() => {
-                    btn.innerHTML = "<span>➕</span> Agregar";
-                    btn.classList.remove("added");
-                }, 1100);
+                setTimeout(() => { btn.textContent = "➕ Agregar"; btn.classList.remove("added"); }, 1000);
             }
 
-            const msg = qtyToAdd >= 10
-                ? `¡Pack x${qtyToAdd} de ${product.nombre} con precio mayorista!`
-                : `¡${product.nombre} agregado al carrito!`;
-            showToast(msg, "🛒");
-
-            animateCartButton();
+            showToast(qty >= 10 ? `¡Pack x${qty} ${p.nombre} mayorista!` : `¡${p.nombre} agregado!`, "🛒");
+            animateFab();
             renderProducts();
             updateCartUI();
         }
 
-        function animateCartButton() {
+        function animateFab() {
             const fab = document.getElementById("cartFab");
             const badge = document.getElementById("cartFabBadge");
-            fab.classList.remove("bounce");
-            void fab.offsetWidth;
-            fab.classList.add("bounce");
-            badge.classList.remove("pop");
-            void badge.offsetWidth;
-            badge.classList.add("pop");
+            fab.classList.remove("bounce"); void fab.offsetWidth; fab.classList.add("bounce");
+            badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
         }
 
         function updateQty(id, delta) {
             if (!cart[id]) return;
             playClickSound();
             cart[id].cantidad += delta;
-            if (cart[id].cantidad <= 0) {
-                const prod = state.products.find(p => p.id === id);
-                showToast(`${prod ? prod.nombre : "Producto"} quitado`, "🗑️");
-                delete cart[id];
-            }
+            if (cart[id].cantidad <= 0) delete cart[id];
             renderProducts();
             updateCartUI();
         }
 
         function updateCartUI() {
             const entries = Object.values(cart);
-            let totalUnits = 0;
-            let totalRegular = 0;
-            let totalFinal = 0;
-
             const container = document.getElementById("cartItems");
-
-            if (entries.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align:center; padding: 36px 16px; color: var(--text-muted);">
-                        <div style="font-size: 2.8rem; margin-bottom: 10px;">🛒</div>
-                        <p style="font-weight:700; color: var(--text-main);">Tu carrito está vacío</p>
-                        <p style="font-size: 0.85rem; margin-top: 4px;">Agregá cables, cargadores o auriculares para armar tu pedido.</p>
-                    </div>`;
+            if (!entries.length) {
+                container.innerHTML = `<div style="text-align:center; padding:28px 12px; color:var(--text-secondary);">Tu carrito está vacío. Agregá productos para armar tu pedido.</div>`;
                 document.getElementById("savingsContainer").innerHTML = "";
                 document.getElementById("cartFabBadge").textContent = "0";
                 document.getElementById("cartFabTotal").textContent = "$0";
-                document.getElementById("cartSummaryCount").textContent = "0 unidades";
                 document.getElementById("totalPrice").textContent = "Total: $0";
                 return;
             }
 
-            container.innerHTML = entries.map(entry => {
-                const p = state.products.find(item => item.id === entry.id);
+            let units = 0, regularSum = 0, finalSum = 0;
+            container.innerHTML = entries.map(e => {
+                const p = state.products.find(x => x.id === e.id);
                 if (!p) return "";
-                const isBulk = entry.cantidad >= p.minMayorista;
-                const appliedPrice = getEffectiveUnitPrice(p, entry.cantidad);
-                const subtotal = appliedPrice * entry.cantidad;
-
-                totalUnits += entry.cantidad;
-                totalRegular += p.precioUnitario * entry.cantidad;
-                totalFinal += subtotal;
+                const unitP = getEffectiveUnitPrice(p, e.cantidad);
+                const sub = unitP * e.cantidad;
+                units += e.cantidad;
+                regularSum += p.precioUnitario * e.cantidad;
+                finalSum += sub;
 
                 return `
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <h4>${p.nombre}</h4>
-                        <div class="cart-item-meta">
-                            $${appliedPrice.toLocaleString("es-AR")} c/u
-                            ${isBulk ? `<span class="tag-mayorista">MAYORISTA</span>` : `<span style="color:var(--text-muted); font-weight:500;">(x${p.minMayorista}: $${p.precioMayorista.toLocaleString("es-AR")})</span>`}
-                        </div>
+                        <div class="cart-item-meta">$${unitP.toLocaleString("es-AR")} c/u ${e.cantidad >= p.minMayorista ? "• MAYORISTA" : ""}</div>
                     </div>
                     <div class="qty-controls">
                         <button class="qty-btn" onclick="updateQty('${p.id}', -1)">−</button>
-                        <span>${entry.cantidad}</span>
+                        <span>${e.cantidad}</span>
                         <button class="qty-btn" onclick="updateQty('${p.id}', 1)">+</button>
                     </div>
-                    <div style="min-width: 78px; text-align:right; font-weight:800; color:var(--text-main); font-size:0.92rem;">
-                        $${subtotal.toLocaleString("es-AR")}
-                    </div>
+                    <strong style="min-width:74px; text-align:right; font-size:0.9rem;">$${sub.toLocaleString("es-AR")}</strong>
                 </div>`;
             }).join("");
 
-            const savedAmount = totalRegular - totalFinal;
-            document.getElementById("savingsContainer").innerHTML = savedAmount > 0
-                ? `<div class="savings-box">🎉 ¡Estás ahorrando $${savedAmount.toLocaleString("es-AR")} con precios mayoristas!</div>`
+            const saved = regularSum - finalSum;
+            document.getElementById("savingsContainer").innerHTML = saved > 0
+                ? `<div class="savings-banner">🎉 Ahorrás $${saved.toLocaleString("es-AR")} con precio mayorista</div>`
                 : "";
 
-            document.getElementById("cartFabBadge").textContent = totalUnits;
-            document.getElementById("cartFabTotal").textContent = `$${totalFinal.toLocaleString("es-AR")}`;
-            document.getElementById("cartSummaryCount").textContent = `${totalUnits} unidad${totalUnits !== 1 ? "es" : ""}`;
-            document.getElementById("totalPrice").textContent = `Total: $${totalFinal.toLocaleString("es-AR")}`;
+            document.getElementById("cartFabBadge").textContent = units;
+            document.getElementById("cartFabTotal").textContent = `$${finalSum.toLocaleString("es-AR")}`;
+            document.getElementById("totalPrice").textContent = `Total: $${finalSum.toLocaleString("es-AR")}`;
         }
 
-        function toggleCart() {
-            document.getElementById("cartDrawerOverlay").classList.toggle("active");
-        }
-
+        function toggleCart() { document.getElementById("cartDrawerOverlay").classList.toggle("active"); }
         function toggleDireccionField() {
-            const entrega = document.getElementById("clienteEntrega").value;
-            const dirGroup = document.getElementById("direccionGroup");
-            dirGroup.style.display = entrega === "Retiro a coordinar" ? "none" : "block";
+            const v = document.getElementById("clienteEntrega").value;
+            document.getElementById("direccionGroup").style.display = v === "Retiro a coordinar" ? "none" : "block";
         }
 
         function sendOrder() {
             const entries = Object.values(cart);
-            if (entries.length === 0) {
-                showToast("Agregá al menos un producto al carrito", "🛒");
-                return;
-            }
+            if (!entries.length) { showToast("Agregá algún producto primero", "🛒"); return; }
 
             const nombre = document.getElementById("clienteNombre").value.trim();
             const tel = document.getElementById("clienteTel").value.trim();
             const entrega = document.getElementById("clienteEntrega").value;
             const pago = document.getElementById("clientePago").value;
-            const direccion = document.getElementById("clienteDireccion").value.trim();
+            const dir = document.getElementById("clienteDireccion").value.trim();
             const notas = document.getElementById("clienteNotas").value.trim();
 
-            if (!nombre || !tel) {
-                showToast("Completá tu nombre y WhatsApp para coordinar", "⚠️");
-                return;
-            }
-            if (entrega === "Envío a domicilio" && !direccion) {
-                showToast("Ingresá la dirección o zona de entrega", "📍");
-                return;
-            }
+            if (!nombre || !tel) { showToast("Completá nombre y teléfono", "⚠️"); return; }
+            if (entrega === "Envío a coordinar" && !dir) { showToast("Completá dirección o zona", "📍"); return; }
 
             playAddSound();
+            let total = 0;
+            let msg = `*PEDIDO CRESO*\n👤 *Cliente:* ${nombre}\n📱 *Tel:* ${tel}\n🚚 *Entrega:* ${entrega}\n`;
+            if (entrega === "Envío a coordinar") msg += `📍 *Dirección:* ${dir}\n`;
+            msg += `💳 *Pago:* ${pago}\n\n*DETALLE:*\n`;
 
-            let totalFinal = 0;
-            let msg = `*⚡ NUEVO PEDIDO — CRESO*\n\n`;
-            msg += `👤 *Cliente:* ${nombre}\n`;
-            msg += `📱 *WhatsApp:* ${tel}\n`;
-            msg += `🚚 *Entrega:* ${entrega}\n`;
-            if (entrega === "Envío a domicilio") msg += `📍 *Dirección:* ${direccion}\n`;
-            msg += `💳 *Pago:* ${pago}\n\n`;
-            msg += `*📦 DETALLE DEL PEDIDO:*\n`;
-
-            entries.forEach(entry => {
-                const p = state.products.find(item => item.id === entry.id);
+            entries.forEach(e => {
+                const p = state.products.find(x => x.id === e.id);
                 if (!p) return;
-                const price = getEffectiveUnitPrice(p, entry.cantidad);
-                const sub = price * entry.cantidad;
-                totalFinal += sub;
-                const tag = entry.cantidad >= p.minMayorista ? " [Mayorista]" : "";
-                msg += `• ${entry.cantidad}x ${p.nombre}${tag} — $${sub.toLocaleString("es-AR")}\n`;
+                const uPrice = getEffectiveUnitPrice(p, e.cantidad);
+                const sub = uPrice * e.cantidad;
+                total += sub;
+                msg += `• ${e.cantidad}x ${p.nombre}${e.cantidad >= p.minMayorista ? " [Mayorista]" : ""} — $${sub.toLocaleString("es-AR")}\n`;
             });
 
-            msg += `\n💰 *TOTAL A PAGAR (${pago.toUpperCase()}): $${totalFinal.toLocaleString("es-AR")}*`;
+            msg += `\n💰 *Total (${pago}): $${total.toLocaleString("es-AR")}*`;
             if (notas) msg += `\n📝 *Notas:* ${notas}`;
 
             const phone = state.whatsapp.replace(/\D/g, "") || "5491133667793";
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
         }
 
-        /* ========== PANEL ADMIN: EDITAR PRECIOS, COMPRIMIR FOTOS E INCRUSTAR ========== */
         function toggleAdmin() {
-            const overlay = document.getElementById("adminDrawerOverlay");
-            overlay.classList.toggle("active");
-            if (overlay.classList.contains("active")) {
-                renderAdmin();
-            }
+            const ov = document.getElementById("adminDrawerOverlay");
+            ov.classList.toggle("active");
+            if (ov.classList.contains("active")) renderAdmin();
         }
 
         function renderAdmin() {
             document.getElementById("adminWhatsapp").value = state.whatsapp;
-            const list = document.getElementById("adminProductsList");
-            list.innerHTML = state.products.map((p, idx) => `
-                <div class="admin-prod-row">
-                    <div class="admin-prod-top">
-                        <strong style="font-size:0.9rem; color:var(--text-main);">${p.nombre}</strong>
-                        <span style="font-size:0.75rem; color:var(--emerald-deep); font-weight:700;">${p.customImg ? "✅ Foto propia cargada" : "🎨 Gráfico integrado"}</span>
-                    </div>
+            document.getElementById("adminProductsList").innerHTML = state.products.map((p, i) => `
+                <div class="admin-item">
+                    <strong style="font-size:0.88rem;">${p.nombre}</strong>
                     <div class="admin-prices">
                         <div>
-                            <label style="font-size:0.7rem; color:var(--text-muted);">Unitario ($)</label>
-                            <input type="number" value="${p.precioUnitario}" onchange="updateProductPrice(${idx}, 'precioUnitario', this.value)">
+                            <label style="font-size:0.7rem; color:var(--text-secondary);">Unitario</label>
+                            <input type="number" value="${p.precioUnitario}" onchange="updatePrice(${i}, 'precioUnitario', this.value)">
                         </div>
                         <div>
-                            <label style="font-size:0.7rem; color:var(--text-muted);">Mayorista 10+ ($)</label>
-                            <input type="number" value="${p.precioMayorista}" onchange="updateProductPrice(${idx}, 'precioMayorista', this.value)">
+                            <label style="font-size:0.7rem; color:var(--text-secondary);">10+ Mayor</label>
+                            <input type="number" value="${p.precioMayorista}" onchange="updatePrice(${i}, 'precioMayorista', this.value)">
                         </div>
-                        <div style="padding-top:14px;">
-                            <label class="btn-file">
-                                📷 Foto
-                                <input type="file" accept="image/*" style="display:none;" onchange="handleImageUpload(${idx}, this)">
-                            </label>
-                        </div>
+                        <label class="btn-photo">📷 Foto<input type="file" accept="image/*" style="display:none;" onchange="uploadPhoto(${i}, this)"></label>
                     </div>
                 </div>
             `).join("");
@@ -1661,48 +1408,41 @@
             state.whatsapp = document.getElementById("adminWhatsapp").value.trim() || state.whatsapp;
             persistState();
             playClickSound();
-            showToast("Número de WhatsApp guardado", "✅");
+            showToast("WhatsApp guardado", "✅");
         }
 
-        function updateProductPrice(index, field, val) {
-            const num = parseInt(val, 10);
-            if (!isNaN(num) && num >= 0) {
-                state.products[index][field] = num;
+        function updatePrice(i, field, val) {
+            const n = parseInt(val, 10);
+            if (!isNaN(n) && n >= 0) {
+                state.products[i][field] = n;
                 persistState();
                 renderProducts();
                 updateCartUI();
                 playClickSound();
-                showToast("Precio actualizado", "💰");
             }
         }
 
-        function handleImageUpload(index, input) {
+        function uploadPhoto(i, input) {
             const file = input.files && input.files[0];
             if (!file) return;
-
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = e => {
                 const img = new Image();
-                img.onload = function() {
+                img.onload = () => {
                     const canvas = document.createElement("canvas");
-                    const maxDim = 520;
-                    let w = img.width;
-                    let h = img.height;
-                    if (w > maxDim || h > maxDim) {
-                        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
-                        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+                    const max = 520;
+                    let w = img.width, h = img.height;
+                    if (w > max || h > max) {
+                        if (w > h) { h = Math.round(h * max / w); w = max; }
+                        else { w = Math.round(w * max / h); h = max; }
                     }
-                    canvas.width = w;
-                    canvas.height = h;
-                    const ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0, w, h);
-
-                    state.products[index].customImg = canvas.toDataURL("image/jpeg", 0.78);
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+                    state.products[i].customImg = canvas.toDataURL("image/jpeg", 0.78);
                     persistState();
                     renderProducts();
-                    renderAdmin();
                     playAddSound();
-                    showToast("Foto optimizada e incrustada", "📷");
+                    showToast("Foto guardada en CRESO", "📷");
                 };
                 img.src = e.target.result;
             };
@@ -1711,25 +1451,15 @@
 
         function exportStandaloneHTML() {
             let html = document.documentElement.outerHTML;
-            const serialized = JSON.stringify(state.products, null, 2);
-            html = html.replace(
-                /const DEFAULT_PRODUCTS = \[[\s\S]*?\];/,
-                `const DEFAULT_PRODUCTS = ${serialized};`
-            );
-            html = html.replace(
-                /whatsapp:\s*"[^"]*"/,
-                `whatsapp: "${state.whatsapp.replace(/"/g, "")}"`
-            );
-
+            html = html.replace(/const DEFAULT_PRODUCTS = \[[\s\S]*?\];/, `const DEFAULT_PRODUCTS = ${JSON.stringify(state.products, null, 2)};`);
+            html = html.replace(/whatsapp:\s*"[^"]*"/, `whatsapp: "${state.whatsapp.replace(/"/g, "")}"`);
             const blob = new Blob(["<!DOCTYPE html>\n" + html], { type: "text/html;charset=utf-8" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
-            a.href = url;
-            a.download = "index.html";
-            a.click();
+            a.href = url; a.download = "index.html"; a.click();
             URL.revokeObjectURL(url);
             playAddSound();
-            showToast("¡Archivo index.html descargado con tus fotos!", "💾");
+            showToast("¡index.html descargado!", "💾");
         }
 
         renderProducts();
