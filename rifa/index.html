@@ -9,20 +9,21 @@
             /* SELLO DE MARCA CRESO */
             --brand-primary: #059669;
             --brand-primary-dark: #047857;
+            --brand-primary-deeper: #064e3b;
             --brand-primary-soft: #ecfdf5;
             --brand-tech: #0284c7;
             --brand-accent: #f59e0b;
             --brand-accent-soft: #fffbeb;
 
-            --bg-page: #f4f7f9;
+            --bg-page: #eef6f2;
             --bg-card: #ffffff;
             --bg-muted: #f8fafc;
             --text-main: #0f172a;
             --text-secondary: #475569;
-            --border-light: #e2e8f0;
-            --border-brand: rgba(5, 150, 105, 0.28);
+            --border-light: #cbd5e1;
+            --border-brand: rgba(5, 150, 105, 0.35);
             --shadow-card: 0 4px 16px rgba(15, 23, 42, 0.05);
-            --shadow-hover: 0 10px 26px rgba(5, 150, 105, 0.14);
+            --shadow-hover: 0 10px 26px rgba(4, 120, 87, 0.16);
         }
 
         * {
@@ -87,11 +88,13 @@
             font-weight: 800;
         }
 
-        /* ========== BARRA SUPERIOR / HEADER TIPO MARKETPLACE ========== */
+        /* ========== HEADER SUPERIOR CON CUERPO Y SELLO DE MARCA ========== */
         .topbar {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-light);
-            padding: 12px 16px;
+            background: linear-gradient(160deg, var(--brand-primary-deeper) 0%, var(--brand-primary-dark) 55%, var(--brand-primary) 100%);
+            color: #ffffff;
+            padding: 16px 16px 18px;
+            border-bottom: 3px solid var(--brand-accent);
+            box-shadow: 0 6px 20px rgba(6, 78, 59, 0.18);
         }
 
         .topbar-inner {
@@ -115,26 +118,28 @@
         }
 
         .logo {
-            font-size: 1.95rem;
+            font-size: 2.1rem;
             font-weight: 900;
-            letter-spacing: 3px;
-            color: var(--brand-primary-dark);
+            letter-spacing: 4px;
+            color: #ffffff;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
         }
 
         .logo-dot {
-            width: 10px;
-            height: 10px;
+            width: 11px;
+            height: 11px;
             border-radius: 50%;
             background: var(--brand-accent);
             display: inline-block;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
         }
 
         .lema {
-            font-size: 0.86rem;
-            color: var(--text-secondary);
+            font-size: 0.88rem;
+            color: #d1fae5;
             font-weight: 600;
         }
 
@@ -144,9 +149,9 @@
         }
 
         .icon-btn {
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            color: #ffffff;
             width: 38px;
             height: 38px;
             border-radius: 10px;
@@ -159,205 +164,37 @@
         }
 
         .icon-btn.active-sound {
-            border-color: var(--brand-primary);
-            background: var(--brand-primary-soft);
-            color: var(--brand-primary-dark);
+            background: rgba(16, 185, 129, 0.35);
+            border-color: #a7f3d0;
         }
 
         .info-strip {
             display: flex;
             flex-wrap: wrap;
-            gap: 7px;
+            gap: 8px;
+            margin-top: 8px;
         }
 
         .info-chip {
-            font-size: 0.76rem;
-            font-weight: 700;
-            padding: 4px 10px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 5px 11px;
             border-radius: 8px;
-            background: var(--brand-primary-soft);
-            color: var(--brand-primary-dark);
-            border: 1px solid var(--border-brand);
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
         }
 
         .info-chip.tech {
-            background: #f0f9ff;
-            color: #0369a1;
-            border-color: rgba(2, 132, 199, 0.25);
+            background: rgba(2, 132, 199, 0.32);
+            color: #e0f2fe;
+            border-color: rgba(125, 211, 252, 0.45);
         }
 
         .info-chip.gold {
-            background: var(--brand-accent-soft);
-            color: #b45309;
-            border-color: rgba(245, 158, 11, 0.35);
-        }
-
-        /* ========== PRESENTACIÓN / CARRUSEL DE BANNERS ESTILO SOUL ========== */
-        .hero-carousel-wrap {
-            max-width: 1200px;
-            margin: 12px auto 0;
-            padding: 0 16px;
-        }
-
-        .hero-carousel {
-            position: relative;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-            border: 1px solid var(--border-brand);
-            background: #064e3b;
-            user-select: none;
-        }
-
-        .hero-slides {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform;
-        }
-
-        .hero-slide {
-            min-width: 100%;
-            min-height: 188px;
-            padding: 22px 20px 38px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            color: #ffffff;
-            position: relative;
-        }
-
-        .slide-1 {
-            background: linear-gradient(125deg, #064e3b 0%, #059669 58%, #0284c7 100%);
-        }
-
-        .slide-2 {
-            background: linear-gradient(125deg, #0f172a 0%, #047857 55%, #10b981 100%);
-        }
-
-        .slide-3 {
-            background: linear-gradient(125deg, #0369a1 0%, #059669 60%, #d97706 100%);
-        }
-
-        .slide-brand-end {
-            background: radial-gradient(circle at 80% 25%, rgba(245, 158, 11, 0.34) 0%, transparent 45%),
-                        linear-gradient(135deg, #022c22 0%, #065f46 52%, #059669 100%);
-            justify-content: center;
-            text-align: center;
-        }
-
-        .slide-content {
-            max-width: 620px;
-            z-index: 2;
-        }
-
-        .slide-kicker {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            background: rgba(255, 255, 255, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            padding: 3px 10px;
-            border-radius: 999px;
-            margin-bottom: 8px;
-        }
-
-        .slide-title {
-            font-size: 1.38rem;
-            font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 6px;
-        }
-
-        .slide-sub {
-            font-size: 0.88rem;
-            color: rgba(255, 255, 255, 0.92);
-            font-weight: 600;
-        }
-
-        .slide-brand-showcase {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .slide-brand-name {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #ffffff 0%, #a7f3d0 45%, #fde68a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.05;
-        }
-
-        .slide-brand-tag {
-            font-size: 0.86rem;
-            letter-spacing: 1px;
-            color: #fde68a;
-            font-weight: 800;
-        }
-
-        .slide-visual-badge {
-            font-size: 3rem;
-            opacity: 0.92;
-            flex-shrink: 0;
-            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
-        }
-
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-65%);
-            background: rgba(15, 23, 42, 0.36);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-        }
-
-        .carousel-arrow.prev { left: 10px; }
-        .carousel-arrow.next { right: 10px; }
-
-        .carousel-dots {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 6;
-            background: rgba(15, 23, 42, 0.28);
-            padding: 5px 10px;
-            border-radius: 999px;
-        }
-
-        .carousel-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.45);
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .carousel-dot.active {
-            width: 22px;
-            border-radius: 999px;
             background: var(--brand-accent);
+            color: #0f172a;
+            border-color: #fde68a;
         }
 
         /* ========== BUSCADOR Y CATEGORÍAS STICKY ========== */
@@ -365,12 +202,11 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-light);
             padding: 10px 16px;
-            margin-top: 12px;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
         }
 
         .sticky-inner {
@@ -476,7 +312,7 @@
         .section-heading h2 {
             font-size: 1.2rem;
             font-weight: 900;
-            color: var(--text-main);
+            color: var(--brand-primary-deeper);
         }
 
         .section-heading span {
@@ -495,7 +331,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-light);
             border-radius: 16px;
-            overflow: hidden;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -519,9 +355,9 @@
 
         .badge {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--brand-primary);
+            top: 20px;
+            left: 20px;
+            background: var(--brand-primary-dark);
             color: #ffffff;
             padding: 4px 9px;
             border-radius: 7px;
@@ -529,6 +365,7 @@
             font-weight: 800;
             z-index: 5;
             letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
         }
 
         .badge.gold-badge {
@@ -536,15 +373,19 @@
             color: #0f172a;
         }
 
+        /* RECUADRO DE FOTO / PRODUCTO REMARCADO EN VERDE OSCURO */
         .card-visual {
             width: 100%;
-            height: 175px;
-            background: var(--bg-muted);
+            height: 168px;
+            background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2.5px solid var(--brand-primary-dark);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid var(--border-light);
             overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 0 1px rgba(6, 78, 59, 0.14);
         }
 
         .card-visual img {
@@ -554,12 +395,12 @@
         }
 
         .card-visual svg {
-            width: 78%;
-            height: 78%;
+            width: 82%;
+            height: 82%;
         }
 
         .card-body {
-            padding: 14px;
+            padding: 12px 2px 2px;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -609,6 +450,7 @@
             background: var(--brand-primary-soft);
             padding: 3px 8px;
             border-radius: 6px;
+            border: 1px solid var(--border-brand);
         }
 
         .progress-mini {
@@ -647,7 +489,7 @@
         }
 
         .btn-add {
-            background: var(--brand-primary);
+            background: var(--brand-primary-dark);
             color: #ffffff;
             border: none;
             padding: 10px 12px;
@@ -662,20 +504,209 @@
             transition: background 0.2s, transform 0.15s;
         }
 
-        .btn-add:hover { background: var(--brand-primary-dark); }
+        .btn-add:hover { background: var(--brand-primary-deeper); }
         .btn-add:active { transform: scale(0.97); }
         .btn-add.added { background: var(--brand-tech); }
 
         .btn-pack {
             background: var(--brand-accent-soft);
             color: #b45309;
-            border: 1px solid rgba(245, 158, 11, 0.45);
+            border: 1px solid rgba(245, 158, 11, 0.55);
             padding: 10px 10px;
             border-radius: 10px;
             font-size: 0.78rem;
             font-weight: 800;
             cursor: pointer;
             white-space: nowrap;
+        }
+
+        /* ========== SECCIÓN INFERIOR: CARRUSEL CON TÍTULO & CIERRE CRESO ========== */
+        .bottom-showcase-wrap {
+            max-width: 1200px;
+            margin: 18px auto 0;
+            padding: 0 16px;
+        }
+
+        .showcase-title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .showcase-title-bar h2 {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--brand-primary-deeper);
+        }
+
+        .showcase-title-bar span {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .hero-carousel {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(6, 78, 59, 0.16);
+            border: 2px solid var(--brand-primary-dark);
+            background: var(--brand-primary-deeper);
+            user-select: none;
+        }
+
+        .hero-slides {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+        }
+
+        .hero-slide {
+            min-width: 100%;
+            min-height: 184px;
+            padding: 22px 44px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .slide-1 {
+            background: linear-gradient(125deg, #064e3b 0%, #059669 58%, #0284c7 100%);
+        }
+
+        .slide-2 {
+            background: linear-gradient(125deg, #0f172a 0%, #047857 55%, #10b981 100%);
+        }
+
+        .slide-3 {
+            background: linear-gradient(125deg, #0369a1 0%, #059669 60%, #d97706 100%);
+        }
+
+        .slide-brand-end {
+            background: radial-gradient(circle at 80% 25%, rgba(245, 158, 11, 0.34) 0%, transparent 45%),
+                        linear-gradient(135deg, #022c22 0%, #065f46 52%, #059669 100%);
+            justify-content: center;
+            text-align: center;
+        }
+
+        .slide-content {
+            max-width: 620px;
+            z-index: 2;
+        }
+
+        .slide-kicker {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        .slide-title {
+            font-size: 1.34rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+
+        .slide-sub {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 600;
+        }
+
+        .slide-brand-showcase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slide-brand-name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ffffff 0%, #a7f3d0 45%, #fde68a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.05;
+        }
+
+        .slide-brand-tag {
+            font-size: 0.86rem;
+            letter-spacing: 1px;
+            color: #fde68a;
+            font-weight: 800;
+        }
+
+        .slide-visual-badge {
+            font-size: 2.9rem;
+            opacity: 0.94;
+            flex-shrink: 0;
+            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-65%);
+            background: rgba(15, 23, 42, 0.38);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .carousel-arrow.prev { left: 10px; }
+        .carousel-arrow.next { right: 10px; }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 6;
+            background: rgba(15, 23, 42, 0.28);
+            padding: 5px 10px;
+            border-radius: 999px;
+        }
+
+        .carousel-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .carousel-dot.active {
+            width: 22px;
+            border-radius: 999px;
+            background: var(--brand-accent);
         }
 
         /* ========== BOTÓN FLOTANTE CARRITO (FAB) ========== */
@@ -1016,8 +1047,10 @@
             .slide-visual-badge { font-size: 2.1rem; }
             .slide-brand-name { font-size: 1.9rem; letter-spacing: 4px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .card-visual { height: 130px; }
-            .card-body { padding: 11px; }
+            .card { padding: 9px; }
+            .card-visual { height: 126px; border-width: 2px; border-radius: 10px; }
+            .badge { top: 15px; left: 15px; font-size: 0.64rem; padding: 3px 7px; }
+            .card-body { padding: 9px 2px 2px; }
             .card-title { font-size: 0.92rem; }
             .card-desc { display: none; }
             .price-main { font-size: 1.1rem; }
@@ -1031,7 +1064,7 @@
     <!-- TOASTS -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- HEADER TIPO MARKETPLACE LIMPIO -->
+    <!-- HEADER CON CUERPO Y SELLO DE MARCA -->
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand-row">
@@ -1053,8 +1086,46 @@
         </div>
     </header>
 
-    <!-- CARRUSEL DE PRESENTACIÓN ESTILO SOUL (CON CIERRE DE MARCA CRESO) -->
-    <section class="hero-carousel-wrap" aria-label="Presentación de marca y promos">
+    <!-- BUSCADOR Y CATEGORÍAS STICKY -->
+    <div class="sticky-bar">
+        <div class="sticky-inner">
+            <div class="search-row">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Buscar en CRESO: cable, cargador, Tipo C, Lightning, audio..." oninput="renderProducts()">
+                </div>
+                <select class="sort-select" id="sortSelect" onchange="playClickSound(); renderProducts();">
+                    <option value="default">Destacados</option>
+                    <option value="price-asc">Menor precio</option>
+                    <option value="price-desc">Mayor precio</option>
+                </select>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="setCategory('todos', this)">Todos</button>
+                <button class="tab" onclick="setCategory('cables', this)">🔌 Cables</button>
+                <button class="tab" onclick="setCategory('cargadores', this)">⚡ Cargadores</button>
+                <button class="tab" onclick="setCategory('audio', this)">🎧 Audio</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRILLA DE PRODUCTOS -->
+    <main class="container">
+        <div class="section-heading">
+            <h2>Catálogo disponible</h2>
+            <span>10+ unidades = Precio mayorista automático</span>
+        </div>
+        <div class="grid" id="productsGrid"></div>
+    </main>
+
+    <!-- CARRUSEL INFERIOR CON TÍTULO & CIERRE DE MARCA CRESO -->
+    <section class="bottom-showcase-wrap" aria-label="Presentación de marca CRESO">
+        <div class="showcase-title-bar">
+            <h2>✨ Presentación CRESO</h2>
+            <span>Deslizá o tocá los puntos • Cierre con la marca</span>
+        </div>
+
         <div class="hero-carousel" id="heroCarousel">
             <div class="hero-slides" id="heroSlides">
                 <!-- Slide 1 -->
@@ -1108,39 +1179,6 @@
             </div>
         </div>
     </section>
-
-    <!-- BUSCADOR Y CATEGORÍAS STICKY -->
-    <div class="sticky-bar">
-        <div class="sticky-inner">
-            <div class="search-row">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" placeholder="Buscar en CRESO: cable, cargador, Tipo C, Lightning, audio..." oninput="renderProducts()">
-                </div>
-                <select class="sort-select" id="sortSelect" onchange="playClickSound(); renderProducts();">
-                    <option value="default">Destacados</option>
-                    <option value="price-asc">Menor precio</option>
-                    <option value="price-desc">Mayor precio</option>
-                </select>
-            </div>
-
-            <div class="tabs">
-                <button class="tab active" onclick="setCategory('todos', this)">Todos</button>
-                <button class="tab" onclick="setCategory('cables', this)">🔌 Cables</button>
-                <button class="tab" onclick="setCategory('cargadores', this)">⚡ Cargadores</button>
-                <button class="tab" onclick="setCategory('audio', this)">🎧 Audio</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- GRILLA DE PRODUCTOS -->
-    <main class="container">
-        <div class="section-heading">
-            <h2>Catálogo disponible</h2>
-            <span>10+ unidades = Precio mayorista automático</span>
-        </div>
-        <div class="grid" id="productsGrid"></div>
-    </main>
 
     <!-- BOTÓN FLOTANTE DEL CARRITO -->
     <button class="cart-fab" id="cartFab" onclick="playClickSound(); toggleCart();" aria-label="Abrir carrito">
@@ -1237,7 +1275,7 @@
     </footer>
 
     <script>
-        /* ========== CARRUSEL ESTILO SOUL CON CIERRE CRESO ========== */
+        /* ========== CARRUSEL INFERIOR CON TÍTULO & CIERRE CRESO ========== */
         const TOTAL_SLIDES = 4;
         let currentSlide = 0;
         let slideTimer = null;
@@ -1261,7 +1299,6 @@
 
         function restartSlideTimer() {
             if (slideTimer) clearInterval(slideTimer);
-            // Dura un poco más en la diapositiva final de la marca CRESO
             const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3200;
             slideTimer = setTimeout(() => {
                 currentSlide = (currentSlide + 1) % TOTAL_SLIDES;
@@ -1270,7 +1307,6 @@
             }, delay);
         }
 
-        // Soporte táctil para deslizar con el dedo
         (function setupSwipe() {
             const box = document.getElementById("heroCarousel");
             if (!box) return;
@@ -1350,42 +1386,42 @@
         /* ========== GRÁFICOS SVG AUTOCONTENIDOS ========== */
         const SVG_ICONS = {
             cableBlack: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="30" y="36" width="180" height="88" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#d1fae5" stroke-width="10"/>
-                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#059669" stroke-width="2.5" stroke-dasharray="5 4"/>
+                <rect x="30" y="36" width="180" height="88" rx="14" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
+                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#a7f3d0" stroke-width="10"/>
+                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#047857" stroke-width="2.5" stroke-dasharray="5 4"/>
                 <rect x="46" y="68" width="24" height="24" rx="4" fill="#0f172a"/>
                 <rect x="170" y="71" width="22" height="18" rx="3" fill="#0284c7"/>
-                <text x="120" y="142" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M</text>
+                <text x="120" y="142" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M</text>
             </svg>`,
             cableWhite: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M56 116C56 54 184 54 184 116" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-                <path d="M56 116C56 54 184 54 184 116" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
-                <rect x="44" y="104" width="24" height="30" rx="5" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-                <rect x="172" y="106" width="22" height="26" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
-                <text x="120" y="34" fill="#047857" font-size="11.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1M</text>
+                <path d="M56 116C56 54 184 54 184 116" stroke="#047857" stroke-width="2.2" stroke-linecap="round"/>
+                <rect x="44" y="104" width="24" height="30" rx="5" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
+                <rect x="172" y="106" width="22" height="26" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2.2"/>
+                <text x="120" y="34" fill="#064e3b" font-size="11.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1M</text>
             </svg>`,
             charger: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="80" y="42" width="80" height="76" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-                <rect x="80" y="42" width="80" height="17" rx="6" fill="#059669"/>
-                <rect x="98" y="22" width="8" height="20" rx="2" fill="#047857"/>
-                <rect x="134" y="22" width="8" height="20" rx="2" fill="#047857"/>
+                <rect x="80" y="42" width="80" height="76" rx="14" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
+                <rect x="80" y="42" width="80" height="17" rx="6" fill="#047857"/>
+                <rect x="98" y="22" width="8" height="20" rx="2" fill="#064e3b"/>
+                <rect x="134" y="22" width="8" height="20" rx="2" fill="#064e3b"/>
                 <path d="M124 72L112 90H122L116 107L132 88H121L124 72Z" fill="#f59e0b"/>
-                <text x="120" y="140" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">FUENTE 2A + CABLE</text>
+                <text x="120" y="140" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">FUENTE 2A + CABLE</text>
             </svg>`,
             earphones: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="88" cy="64" r="21" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
+                <circle cx="88" cy="64" r="21" fill="#ffffff" stroke="#047857" stroke-width="2.5"/>
                 <circle cx="88" cy="64" r="9" fill="#0284c7"/>
-                <circle cx="152" cy="64" r="21" fill="#ffffff" stroke="#059669" stroke-width="2.5"/>
+                <circle cx="152" cy="64" r="21" fill="#ffffff" stroke="#047857" stroke-width="2.5"/>
                 <circle cx="152" cy="64" r="9" fill="#0284c7"/>
-                <path d="M88 85V112C88 124 120 124 120 135M152 85V112C152 124 120 124 120 135" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+                <path d="M88 85V112C88 124 120 124 120 135M152 85V112C152 124 120 124 120 135" stroke="#047857" stroke-width="4" stroke-linecap="round"/>
                 <rect x="112" y="132" width="16" height="14" rx="3" fill="#f59e0b"/>
                 <text x="120" y="28" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C STEREO</text>
             </svg>`,
             auxCable: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M54 110C54 46 186 46 186 110" stroke="#059669" stroke-width="8" stroke-linecap="round"/>
-                <rect x="46" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
-                <rect x="178" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#047857" stroke-width="2"/>
-                <text x="120" y="142" fill="#047857" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">AUX 3.5MM • 2 METROS</text>
+                <path d="M54 110C54 46 186 46 186 110" stroke="#047857" stroke-width="8" stroke-linecap="round"/>
+                <rect x="46" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#064e3b" stroke-width="2.2"/>
+                <rect x="178" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#064e3b" stroke-width="2.2"/>
+                <text x="120" y="142" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">AUX 3.5MM • 2 METROS</text>
             </svg>`
         };
 
