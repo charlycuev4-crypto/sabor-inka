@@ -1,1766 +1,2497 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRESO — Accesorios &amp; Mayorista Directo</title>
-    <style>
-        :root {
-            /* SELLO DE MARCA CRESO */
-            --brand-primary: #059669;
-            --brand-primary-dark: #047857;
-            --brand-primary-deeper: #064e3b;
-            --brand-primary-soft: #ecfdf5;
-            --brand-tech: #0284c7;
-            --brand-accent: #f59e0b;
-            --brand-gold-light: #fbbf24;
-            --brand-accent-soft: #fffbeb;
-
-            --bg-page: #eef6f2;
-            --bg-card: #ffffff;
-            --bg-muted: #f8fafc;
-            --text-main: #0f172a;
-            --text-secondary: #475569;
-            --border-light: #cbd5e1;
-            --border-brand: rgba(5, 150, 105, 0.35);
-            --border-card-green: #047857;
-            --shadow-card: 0 4px 16px rgba(4, 120, 87, 0.08);
-            --shadow-hover: 0 10px 26px rgba(4, 120, 87, 0.18);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-page);
-            color: var(--text-main);
-            line-height: 1.45;
-            overflow-x: hidden;
-            padding-bottom: 110px;
-        }
-
-        /* ========== TOAST NOTIFICATION ========== */
-        .toast-container {
-            position: fixed;
-            top: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            pointer-events: none;
-            width: 92%;
-            max-width: 410px;
-        }
-
-        .toast {
-            background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
-            color: #ffffff;
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.35);
-            transform: translateY(-100px);
-            opacity: 0;
-            transition: all 0.38s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            pointer-events: auto;
-        }
-
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast-icon { font-size: 1.25rem; }
-        .toast-text { flex: 1; }
-        .toast-close {
-            background: rgba(255, 255, 255, 0.22);
-            border: none;
-            color: #ffffff;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: 800;
-        }
-
-        /* ========== HEADER SUPERIOR VERDE CON CARRUSEL ARRIBA ========== */
-        .topbar {
-            background: linear-gradient(160deg, var(--brand-primary-deeper) 0%, var(--brand-primary-dark) 55%, var(--brand-primary) 100%);
-            color: #ffffff;
-            padding: 14px 16px 20px;
-            border-bottom: 3px solid var(--brand-accent);
-            box-shadow: 0 6px 20px rgba(6, 78, 59, 0.2);
-        }
-
-        .topbar-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .brand-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .brand-identity {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-size: 2.05rem;
-            font-weight: 900;
-            letter-spacing: 4px;
-            color: var(--brand-gold-light);
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
-        }
-
-        .logo-dot {
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-            background: var(--brand-gold-light);
-            display: inline-block;
-            box-shadow: 0 0 10px rgba(251, 191, 36, 0.85);
-        }
-
-        .lema {
-            font-size: 0.86rem;
-            color: #d1fae5;
-            font-weight: 600;
-        }
-
-        .top-controls {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .icon-btn {
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.32);
-            color: #ffffff;
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .icon-btn.active-sound {
-            background: rgba(16, 185, 129, 0.35);
-            border-color: #a7f3d0;
-        }
-
-        /* CARRUSEL / RULETA ARRIBA DE TODO CON FOTO LIMPIA ADENTRO */
-        .hero-carousel {
-            position: relative;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
-            border: 2px solid rgba(251, 191, 36, 0.72);
-            background: #022c22;
-            user-select: none;
-            margin-bottom: 14px;
-        }
-
-        .hero-slides {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform;
-        }
-
-        .hero-slide {
-            min-width: 100%;
-            min-height: 245px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Cuadro con la foto limpia sin títulos encima */
-        .slide-full-photo {
-            padding: 0;
-            background: #022c22;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .slide-full-photo img {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-            object-position: center 15%;
-            display: block;
-        }
-
-        .slide-corner-brand {
-            position: absolute;
-            top: 12px;
-            left: 52px;
-            background: rgba(2, 44, 34, 0.72);
-            color: var(--brand-gold-light);
-            border: 1px solid rgba(251, 191, 36, 0.6);
-            padding: 3px 12px;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            z-index: 3;
-        }
-
-        .slide-offer-style {
-            padding: 26px 48px 44px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            color: #ffffff;
-        }
-
-        .slide-offer-1 {
-            background: radial-gradient(circle at 85% 25%, rgba(251, 191, 36, 0.22), transparent 48%),
-                        linear-gradient(125deg, #022c22 0%, #047857 52%, #059669 100%);
-        }
-
-        .slide-offer-2 {
-            background: radial-gradient(circle at 85% 75%, rgba(56, 189, 248, 0.22), transparent 50%),
-                        linear-gradient(125deg, #064e3b 0%, #047857 55%, #0f766e 100%);
-        }
-
-        /* Cierre final: nombre CRESO en dorado sobre fondo verde */
-        .slide-brand-gold {
-            padding: 26px 48px 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: radial-gradient(circle at 50% 30%, rgba(251, 191, 36, 0.28) 0%, transparent 58%),
-                        linear-gradient(135deg, #022c22 0%, #064e3b 52%, #047857 100%);
-        }
-
-        .slide-content {
-            max-width: 680px;
-            z-index: 2;
-        }
-
-        .slide-kicker {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            background: rgba(251, 191, 36, 0.22);
-            color: var(--brand-gold-light);
-            border: 1px solid rgba(251, 191, 36, 0.55);
-            padding: 2px 11px;
-            border-radius: 999px;
-            margin-bottom: 7px;
-        }
-
-        .slide-title {
-            font-size: 1.48rem;
-            font-weight: 900;
-            line-height: 1.18;
-            margin-bottom: 6px;
-            color: #ffffff;
-        }
-
-        .slide-sub {
-            font-size: 0.92rem;
-            color: #d1fae5;
-            font-weight: 600;
-        }
-
-        .slide-brand-showcase {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .slide-brand-name {
-            font-size: 2.85rem;
-            font-weight: 900;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            color: var(--brand-gold-light);
-            text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
-            line-height: 1.05;
-        }
-
-        .slide-brand-tag {
-            font-size: 0.92rem;
-            letter-spacing: 1.2px;
-            color: #fef3c7;
-            font-weight: 800;
-        }
-
-        .slide-visual-badge {
-            font-size: 3.3rem;
-            opacity: 0.96;
-            flex-shrink: 0;
-            filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
-        }
-
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-65%);
-            background: rgba(2, 44, 34, 0.65);
-            color: var(--brand-gold-light);
-            border: 1px solid rgba(251, 191, 36, 0.55);
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.15rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-        }
-
-        .carousel-arrow.prev { left: 10px; }
-        .carousel-arrow.next { right: 10px; }
-
-        .carousel-dots {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 6;
-            background: rgba(2, 44, 34, 0.62);
-            padding: 5px 12px;
-            border-radius: 999px;
-        }
-
-        .carousel-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.45);
-            cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .carousel-dot.active {
-            width: 22px;
-            border-radius: 999px;
-            background: var(--brand-gold-light);
-        }
-
-        /* BOTONES INFERIORES DEL HEADER */
-        .info-strip {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .info-chip {
-            font-size: 0.84rem;
-            font-weight: 800;
-            padding: 10px 12px;
-            border-radius: 11px;
-            text-align: center;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .info-chip.tech {
-            background: #0284c7;
-            color: #ffffff;
-            border: 1px solid #7dd3fc;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.32);
-        }
-
-        .info-chip.gold {
-            background: var(--brand-accent);
-            color: #0f172a;
-            border: 1px solid #fde68a;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
-        }
-
-        /* ========== BUSCADOR Y CATEGORÍAS STICKY ========== */
-        .sticky-bar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
-            padding: 10px 16px;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
-        }
-
-        .sticky-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .search-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-        }
-
-        .search-box input {
-            width: 100%;
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            color: var(--text-main);
-            padding: 10px 14px 10px 38px;
-            border-radius: 12px;
-            font-size: 0.92rem;
-            transition: border-color 0.2s, background 0.2s;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            background: #ffffff;
-            border-color: var(--brand-primary);
-            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.14);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .sort-select {
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            color: var(--text-main);
-            padding: 0 12px;
-            border-radius: 12px;
-            font-size: 0.84rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .tabs::-webkit-scrollbar { display: none; }
-
-        .tab {
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            color: var(--text-secondary);
-            padding: 7px 15px;
-            border-radius: 999px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.84rem;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-
-        .tab.active {
-            background: var(--brand-primary);
-            color: #ffffff;
-            border-color: var(--brand-primary);
-        }
-
-        /* ========== GRID DE PRODUCTOS (CUADRO COMPLETO CON BORDE VERDE) ========== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-
-        .section-heading {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .section-heading h2 {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: var(--brand-primary-deeper);
-        }
-
-        .section-heading span {
-            font-size: 0.82rem;
-            color: var(--brand-primary-dark);
-            font-weight: 700;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 16px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 2.5px solid var(--border-card-green);
-            border-radius: 16px;
-            padding: 11px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: var(--shadow-card);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--brand-primary-deeper);
-        }
-
-        .card.added-anim { animation: cardPop 0.45s ease; }
-
-        @keyframes cardPop {
-            0% { transform: scale(1); }
-            45% { transform: scale(1.02); border-color: var(--brand-accent); }
-            100% { transform: scale(1); }
-        }
-
-        .badge {
-            position: absolute;
-            top: 19px;
-            left: 19px;
-            background: var(--brand-primary-dark);
-            color: #ffffff;
-            padding: 4px 9px;
-            border-radius: 7px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            z-index: 5;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
-        }
-
-        .badge.gold-badge {
-            background: var(--brand-accent);
-            color: #0f172a;
-        }
-
-        .card-visual {
-            width: 100%;
-            height: 162px;
-            background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
-            border: 2px solid var(--border-card-green);
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-visual svg {
-            width: 82%;
-            height: 82%;
-        }
-
-        .card-body {
-            padding: 11px 2px 2px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .card-cat {
-            font-size: 0.68rem;
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: var(--brand-tech);
-            margin-bottom: 3px;
-        }
-
-        .card-title {
-            font-size: 1.02rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 4px;
-        }
-
-        .card-desc {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            flex: 1;
-        }
-
-        .price-row {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .price-main {
-            font-size: 1.32rem;
-            font-weight: 900;
-            color: var(--text-main);
-        }
-
-        .price-wholesale {
-            font-size: 0.78rem;
-            font-weight: 800;
-            color: var(--brand-primary-dark);
-            background: var(--brand-primary-soft);
-            padding: 3px 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border-brand);
-        }
-
-        .progress-mini {
-            margin-bottom: 10px;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.73rem;
-            color: var(--text-secondary);
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .progress-label.done { color: var(--brand-primary-dark); }
-
-        .bar-bg {
-            height: 5px;
-            background: #e2e8f0;
-            border-radius: 999px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: var(--brand-primary);
-            border-radius: 999px;
-            transition: width 0.25s ease;
-        }
-
-        .card-actions {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 6px;
-        }
-
-        .btn-add {
-            background: var(--brand-primary-dark);
-            color: #ffffff;
-            border: none;
-            padding: 10px 12px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 0.86rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: background 0.2s, transform 0.15s;
-        }
-
-        .btn-add:hover { background: var(--brand-primary-deeper); }
-        .btn-add:active { transform: scale(0.97); }
-        .btn-add.added { background: var(--brand-tech); }
-
-        .btn-pack {
-            background: var(--brand-accent-soft);
-            color: #b45309;
-            border: 1px solid rgba(245, 158, 11, 0.55);
-            padding: 10px 10px;
-            border-radius: 10px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        /* ========== BOTÓN FLOTANTE CARRITO (FAB) ========== */
-        .cart-fab {
-            position: fixed;
-            bottom: 22px;
-            right: 20px;
-            z-index: 1000;
-            background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
-            color: #ffffff;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 2px solid #ffffff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            box-shadow: 0 8px 24px rgba(5, 150, 105, 0.42);
-            transition: transform 0.2s;
-        }
-
-        .cart-fab:active { transform: scale(0.92); }
-        .cart-fab.bounce { animation: fabBounce 0.55s ease; }
-
-        @keyframes fabBounce {
-            0%, 100% { transform: scale(1); }
-            30% { transform: scale(1.2); }
-            55% { transform: scale(0.94); }
-            75% { transform: scale(1.08); }
-        }
-
-        .cart-fab-badge {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: var(--brand-accent);
-            color: #0f172a;
-            min-width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            font-size: 0.75rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #ffffff;
-        }
-
-        .cart-fab-badge.pop { animation: badgeScale 0.35s ease; }
-
-        @keyframes badgeScale {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.5); }
-            100% { transform: scale(1); }
-        }
-
-        .cart-fab-total {
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ffffff;
-            color: var(--brand-primary-dark);
-            padding: 2px 9px;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 900;
-            white-space: nowrap;
-            border: 1px solid var(--brand-primary);
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
-        }
-
-        /* ========== DRAWER CARRITO & ADMIN ========== */
-        .drawer-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.52);
-            backdrop-filter: blur(3px);
-            z-index: 1500;
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        .drawer-overlay.active { display: block; opacity: 1; }
-
-        .drawer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 660px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 24px 24px 0 0;
-            max-height: 88vh;
-            transform: translateY(100%);
-            transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
-            z-index: 1600;
-            display: flex;
-            flex-direction: column;
-            border-top: 3px solid var(--brand-primary);
-        }
-
-        .drawer-overlay.active .drawer { transform: translateY(0); }
-
-        .drawer-handle {
-            width: 44px;
-            height: 5px;
-            background: #cbd5e1;
-            border-radius: 999px;
-            margin: 10px auto 6px;
-        }
-
-        .drawer-header {
-            padding: 4px 20px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .drawer-header h2 {
-            font-size: 1.18rem;
-            color: var(--text-main);
-            font-weight: 900;
-        }
-
-        .drawer-close {
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            color: var(--text-secondary);
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: 800;
-        }
-
-        .drawer-body {
-            padding: 14px 20px 26px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            padding: 11px 0;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .cart-item-info h4 { font-size: 0.92rem; color: var(--text-main); }
-        .cart-item-meta { font-size: 0.8rem; color: var(--brand-primary-dark); font-weight: 700; }
-
-        .qty-controls {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            border-radius: 10px;
-            padding: 3px;
-        }
-
-        .qty-btn {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            color: var(--text-main);
-            width: 28px;
-            height: 28px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: 800;
-        }
-
-        .qty-controls span { min-width: 22px; text-align: center; font-weight: 800; font-size: 0.88rem; }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .form-group { margin-bottom: 10px; }
-        .form-group.full { grid-column: 1 / -1; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 11px 12px;
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 0.92rem;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            background: #ffffff;
-            border-color: var(--brand-primary);
-        }
-
-        .savings-banner {
-            background: var(--brand-primary-soft);
-            border: 1px solid var(--border-brand);
-            color: var(--brand-primary-dark);
-            padding: 9px 12px;
-            border-radius: 10px;
-            font-size: 0.84rem;
-            font-weight: 800;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .total-box {
-            margin: 12px 0;
-            padding: 14px;
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            border-radius: 14px;
-            text-align: center;
-        }
-
-        .total-amount {
-            font-size: 1.55rem;
-            font-weight: 900;
-            color: var(--brand-primary-dark);
-        }
-
-        .btn-whatsapp {
-            background: #16a34a;
-            color: #ffffff;
-            border: none;
-            width: 100%;
-            padding: 15px;
-            border-radius: 13px;
-            font-size: 1rem;
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 6px 18px rgba(22, 163, 74, 0.28);
-        }
-
-        .btn-whatsapp:hover { background: #15803d; }
-
-        /* ========== ADMIN PANEL ========== */
-        .admin-box {
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 14px;
-        }
-
-        .admin-box h3 {
-            font-size: 0.95rem;
-            color: var(--text-main);
-            margin-bottom: 10px;
-        }
-
-        .admin-item {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 8px;
-        }
-
-        .admin-prices {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 8px;
-            align-items: end;
-            margin-top: 8px;
-        }
-
-        .admin-prices input {
-            width: 100%;
-            padding: 7px 9px;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 0.86rem;
-        }
-
-        .btn-photo {
-            background: var(--brand-primary-soft);
-            color: var(--brand-primary-dark);
-            border: 1px dashed var(--brand-primary);
-            padding: 7px 10px;
-            border-radius: 8px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .btn-save-html {
-            background: var(--brand-primary);
-            color: #ffffff;
-            border: none;
-            width: 100%;
-            padding: 13px;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 28px 16px 10px;
-            color: var(--text-secondary);
-            font-size: 0.82rem;
-            border-top: 1px solid var(--border-light);
-            margin-top: 24px;
-        }
-
-        @media (max-width: 600px) {
-            .logo { font-size: 1.85rem; letter-spacing: 3px; }
-            .lema { font-size: 0.8rem; }
-            .slide-full-photo img { height: 245px; }
-            .slide-corner-brand { top: 10px; left: 48px; font-size: 0.72rem; padding: 2px 10px; }
-            .slide-offer-style, .slide-brand-gold { min-height: 225px; padding: 22px 38px 40px; }
-            .slide-title { font-size: 1.24rem; }
-            .slide-sub { font-size: 0.84rem; }
-            .slide-visual-badge { font-size: 2.3rem; }
-            .slide-brand-name { font-size: 2.15rem; letter-spacing: 5px; }
-            .info-strip { grid-template-columns: 1fr; gap: 8px; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .card { padding: 8px; border-width: 2px; }
-            .card-visual { height: 122px; border-width: 1.5px; border-radius: 10px; }
-            .badge { top: 14px; left: 14px; font-size: 0.64rem; padding: 3px 7px; }
-            .card-body { padding: 9px 2px 2px; }
-            .card-title { font-size: 0.92rem; }
-            .card-desc { display: none; }
-            .price-main { font-size: 1.1rem; }
-            .card-actions { grid-template-columns: 1fr; }
-            .form-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CRESO — Accesorios &amp; Mayorista Directo</title>
+  <style>
+    :root {
+      /* SELLO DE MARCA CRESO */
+      --brand-primary: #059669;
+      --brand-primary-dark: #047857;
+      --brand-primary-deeper: #064e3b;
+      --brand-primary-soft: #ecfdf5;
+      --brand-tech: #0284c7;
+      --brand-accent: #f59e0b;
+      --brand-gold-light: #fbbf24;
+      --brand-accent-soft: #fffbeb;
+
+      --bg-page: #eef6f2;
+      --bg-card: #ffffff;
+      --bg-muted: #f8fafc;
+      --text-main: #0f172a;
+      --text-secondary: #475569;
+      --border-light: #cbd5e1;
+      --border-brand: rgba(5, 150, 105, 0.35);
+      --border-card-green: #047857;
+      --shadow-card: 0 4px 16px rgba(4, 120, 87, 0.08);
+      --shadow-hover: 0 10px 26px rgba(4, 120, 87, 0.18);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.45;
+      overflow-x: hidden;
+      padding-bottom: 130px;
+    }
+
+    /* ========== TOAST NOTIFICATION ========== */
+    .toast-container {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+      width: 92%;
+      max-width: 410px;
+    }
+
+    .toast {
+      background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(5, 150, 105, 0.35);
+      transform: translateY(-100px);
+      opacity: 0;
+      transition: all 0.38s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      pointer-events: auto;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { font-size: 1.25rem; }
+    .toast-text { flex: 1; }
+    .toast-close {
+      background: rgba(255, 255, 255, 0.22);
+      border: none;
+      color: #ffffff;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    /* ========== HEADER SUPERIOR VERDE CON CARRUSEL ARRIBA ========== */
+    .topbar {
+      background: linear-gradient(160deg, var(--brand-primary-deeper) 0%, var(--brand-primary-dark) 55%, var(--brand-primary) 100%);
+      color: #ffffff;
+      padding: 14px 16px 20px;
+      border-bottom: 3px solid var(--brand-accent);
+      box-shadow: 0 6px 20px rgba(6, 78, 59, 0.2);
+    }
+
+    .topbar-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .brand-identity {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 2.05rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: var(--brand-gold-light);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+    }
+
+    .logo-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--brand-gold-light);
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.85);
+    }
+
+    .lema {
+      font-size: 0.86rem;
+      color: #d1fae5;
+      font-weight: 600;
+    }
+
+    .top-controls {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      color: #ffffff;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .icon-btn.active-sound {
+      background: rgba(16, 185, 129, 0.35);
+      border-color: #a7f3d0;
+    }
+
+    /* CARRUSEL / RULETA */
+    .hero-carousel {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+      border: 2px solid rgba(251, 191, 36, 0.72);
+      background: #022c22;
+      user-select: none;
+      margin-bottom: 14px;
+    }
+
+    .hero-slides {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    .hero-slide {
+      min-width: 100%;
+      min-height: 245px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-full-photo {
+      padding: 0;
+      background: #022c22;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-full-photo img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      object-position: center 15%;
+      display: block;
+    }
+
+    .slide-corner-brand {
+      position: absolute;
+      top: 12px;
+      left: 52px;
+      background: rgba(2, 44, 34, 0.72);
+      color: var(--brand-gold-light);
+      border: 1px solid rgba(251, 191, 36, 0.6);
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      z-index: 3;
+    }
+
+    .slide-offer-style {
+      padding: 26px 48px 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: #ffffff;
+    }
+
+    .slide-offer-1 {
+      background: radial-gradient(circle at 85% 25%, rgba(251, 191, 36, 0.22), transparent 48%),
+                  linear-gradient(125deg, #022c22 0%, #047857 52%, #059669 100%);
+    }
+
+    .slide-offer-2 {
+      background: radial-gradient(circle at 85% 75%, rgba(56, 189, 248, 0.22), transparent 50%),
+                  linear-gradient(125deg, #064e3b 0%, #047857 55%, #0f766e 100%);
+    }
+
+    .slide-brand-gold {
+      padding: 26px 48px 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: radial-gradient(circle at 50% 30%, rgba(251, 191, 36, 0.28) 0%, transparent 58%),
+                  linear-gradient(135deg, #022c22 0%, #064e3b 52%, #047857 100%);
+    }
+
+    .slide-content {
+      max-width: 680px;
+      z-index: 2;
+    }
+
+    .slide-kicker {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: rgba(251, 191, 36, 0.22);
+      color: var(--brand-gold-light);
+      border: 1px solid rgba(251, 191, 36, 0.55);
+      padding: 2px 11px;
+      border-radius: 999px;
+      margin-bottom: 7px;
+    }
+
+    .slide-title {
+      font-size: 1.48rem;
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+
+    .slide-sub {
+      font-size: 0.92rem;
+      color: #d1fae5;
+      font-weight: 600;
+    }
+
+    .slide-brand-showcase {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slide-brand-name {
+      font-size: 2.85rem;
+      font-weight: 900;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--brand-gold-light);
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+      line-height: 1.05;
+    }
+
+    .slide-brand-tag {
+      font-size: 0.92rem;
+      letter-spacing: 1.2px;
+      color: #fef3c7;
+      font-weight: 800;
+    }
+
+    .slide-visual-badge {
+      font-size: 3.3rem;
+      opacity: 0.96;
+      flex-shrink: 0;
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-65%);
+      background: rgba(2, 44, 34, 0.65);
+      color: var(--brand-gold-light);
+      border: 1px solid rgba(251, 191, 36, 0.55);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.15rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .carousel-arrow.prev { left: 10px; }
+    .carousel-arrow.next { right: 10px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 6;
+      background: rgba(2, 44, 34, 0.62);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .carousel-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.45);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .carousel-dot.active {
+      width: 22px;
+      border-radius: 999px;
+      background: var(--brand-gold-light);
+    }
+
+    /* BOTONES INFERIORES DEL HEADER */
+    .info-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .info-chip {
+      font-size: 0.84rem;
+      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: 11px;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .info-chip.tech {
+      background: #0284c7;
+      color: #ffffff;
+      border: 1px solid #7dd3fc;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.32);
+    }
+
+    .info-chip.gold {
+      background: var(--brand-accent);
+      color: #0f172a;
+      border: 1px solid #fde68a;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    }
+
+    /* ========== BUSCADOR Y CATEGORÍAS STICKY ========== */
+    .sticky-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 16px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    }
+
+    .sticky-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 10px 14px 10px 38px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      background: #ffffff;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.14);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .sort-select {
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 0 12px;
+      border-radius: 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      padding: 7px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.84rem;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      background: var(--brand-primary);
+      color: #ffffff;
+      border-color: var(--brand-primary);
+    }
+
+    /* ========== GRID DE PRODUCTOS (CUADROS MÁS GRANDES) ========== */
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 18px 16px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-heading h2 {
+      font-size: 1.24rem;
+      font-weight: 900;
+      color: var(--brand-primary-deeper);
+    }
+
+    .section-heading span {
+      font-size: 0.84rem;
+      color: var(--brand-primary-dark);
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 2.5px solid var(--border-card-green);
+      border-radius: 20px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--brand-primary-deeper);
+    }
+
+    .card.added-anim { animation: cardPop 0.45s ease; }
+
+    @keyframes cardPop {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.02); border-color: var(--brand-accent); }
+      100% { transform: scale(1); }
+    }
+
+    .badge {
+      position: absolute;
+      top: 23px;
+      left: 23px;
+      background: var(--brand-primary-dark);
+      color: #ffffff;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      z-index: 5;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    }
+
+    .badge.gold-badge {
+      background: var(--brand-accent);
+      color: #0f172a;
+    }
+
+    .card-visual {
+      width: 100%;
+      height: 255px;
+      background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 2px solid var(--border-card-green);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 6px;
+      display: block;
+    }
+
+    .card-visual svg {
+      width: 84%;
+      height: 84%;
+    }
+
+    .card-body {
+      padding: 14px 4px 4px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-cat {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--brand-tech);
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 5px;
+    }
+
+    .card-desc {
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      flex: 1;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .price-main {
+      font-size: 1.44rem;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+
+    .price-wholesale {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--brand-primary-dark);
+      background: var(--brand-primary-soft);
+      padding: 4px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border-brand);
+    }
+
+    .progress-mini {
+      margin-bottom: 11px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.77rem;
+      color: var(--text-secondary);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .progress-label.done { color: var(--brand-primary-dark); }
+
+    .bar-bg {
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--brand-primary);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .btn-add {
+      background: var(--brand-primary-dark);
+      color: #ffffff;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 11px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-add:hover { background: var(--brand-primary-deeper); }
+    .btn-add:active { transform: scale(0.97); }
+    .btn-add.added { background: var(--brand-tech); }
+
+    .btn-pack {
+      background: var(--brand-accent-soft);
+      color: #b45309;
+      border: 1px solid rgba(245, 158, 11, 0.55);
+      padding: 12px 14px;
+      border-radius: 11px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ========== BOTÓN FLOTANTE CARRITO (FAB) ========== */
+    .cart-fab {
+      position: fixed;
+      bottom: 22px;
+      right: 20px;
+      z-index: 1000;
+      background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
+      color: #ffffff;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 8px 24px rgba(5, 150, 105, 0.42);
+      transition: transform 0.2s;
+    }
+
+    .cart-fab:active { transform: scale(0.92); }
+    .cart-fab.bounce { animation: fabBounce 0.55s ease; }
+
+    @keyframes fabBounce {
+      0%, 100% { transform: scale(1); }
+      30% { transform: scale(1.2); }
+      55% { transform: scale(0.94); }
+      75% { transform: scale(1.08); }
+    }
+
+    .cart-fab-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--brand-accent);
+      color: #0f172a;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+    }
+
+    .cart-fab-badge.pop { animation: badgeScale 0.35s ease; }
+
+    @keyframes badgeScale {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.5); }
+      100% { transform: scale(1); }
+    }
+
+    .cart-fab-total {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      color: var(--brand-primary-dark);
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      white-space: nowrap;
+      border: 1px solid var(--brand-primary);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+    }
+
+    /* ========== DRAWER CARRITO & ADMIN ========== */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.52);
+      backdrop-filter: blur(3px);
+      z-index: 1500;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .drawer-overlay.active { display: block; opacity: 1; }
+
+    .drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 680px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 24px 24px 0 0;
+      max-height: 90vh;
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 1600;
+      display: flex;
+      flex-direction: column;
+      border-top: 3px solid var(--brand-primary);
+    }
+
+    .drawer-overlay.active .drawer { transform: translateY(0); }
+
+    .drawer-handle {
+      width: 44px;
+      height: 5px;
+      background: #cbd5e1;
+      border-radius: 999px;
+      margin: 10px auto 6px;
+    }
+
+    .drawer-header {
+      padding: 4px 20px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .drawer-header h2 {
+      font-size: 1.18rem;
+      color: var(--text-main);
+      font-weight: 900;
+    }
+
+    .drawer-close {
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .drawer-body {
+      padding: 14px 20px 26px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .cart-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-item-thumb {
+      width: 54px;
+      height: 54px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-card-green);
+      background: #f0fdf4;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cart-item-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #ffffff;
+      display: block;
+    }
+
+    .cart-item-thumb svg {
+      width: 85%;
+      height: 85%;
+    }
+
+    .cart-item-info h4 { font-size: 0.9rem; color: var(--text-main); }
+    .cart-item-meta { font-size: 0.78rem; color: var(--brand-primary-dark); font-weight: 700; }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 3px;
+    }
+
+    .qty-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .qty-controls span { min-width: 22px; text-align: center; font-weight: 800; font-size: 0.88rem; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .form-group { margin-bottom: 10px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 11px 12px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 0.92rem;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      background: #ffffff;
+      border-color: var(--brand-primary);
+    }
+
+    .savings-banner {
+      background: var(--brand-primary-soft);
+      border: 1px solid var(--border-brand);
+      color: var(--brand-primary-dark);
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .total-box {
+      margin: 12px 0;
+      padding: 14px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .total-amount {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--brand-primary-dark);
+    }
+
+    .btn-whatsapp {
+      background: #16a34a;
+      color: #ffffff;
+      border: none;
+      width: 100%;
+      padding: 15px;
+      border-radius: 13px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(22, 163, 74, 0.28);
+    }
+
+    .btn-whatsapp:hover { background: #15803d; }
+
+    /* ========== ADMIN PANEL ========== */
+    .admin-box {
+      background: var(--bg-muted);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .admin-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .admin-box h3 {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .btn-add-product {
+      background: var(--brand-tech);
+      color: #ffffff;
+      border: none;
+      padding: 8px 13px;
+      border-radius: 9px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .admin-item {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .admin-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .admin-item-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--brand-primary-dark);
+      background: var(--brand-primary-soft);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .btn-delete-item {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      padding: 4px 9px;
+      border-radius: 7px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .admin-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      gap: 8px;
+    }
+
+    .admin-field {
+      margin-top: 8px;
+    }
+
+    .admin-field label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .admin-field input, .admin-field select {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      background: #ffffff;
+    }
+
+    .admin-prices {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+      align-items: end;
+      margin-top: 8px;
+    }
+
+    .admin-prices label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .admin-prices input {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-size: 0.86rem;
+    }
+
+    .btn-photo {
+      background: var(--brand-primary-soft);
+      color: var(--brand-primary-dark);
+      border: 1px dashed var(--brand-primary);
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-save-html {
+      background: var(--brand-primary);
+      color: #ffffff;
+      border: none;
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 28px 16px 10px;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border-light);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding-bottom: 140px; }
+      .logo { font-size: 1.85rem; letter-spacing: 3px; }
+      .lema { font-size: 0.8rem; }
+      .slide-full-photo img { height: 245px; }
+      .slide-corner-brand { top: 10px; left: 48px; font-size: 0.72rem; padding: 2px 10px; }
+      .slide-offer-style, .slide-brand-gold { min-height: 225px; padding: 22px 38px 40px; }
+      .slide-title { font-size: 1.24rem; }
+      .slide-sub { font-size: 0.84rem; }
+      .slide-visual-badge { font-size: 2.3rem; }
+      .slide-brand-name { font-size: 2.15rem; letter-spacing: 5px; }
+      .info-strip { grid-template-columns: 1fr; gap: 8px; }
+      .grid { grid-template-columns: 1fr; gap: 16px; }
+      .card { padding: 14px; border-width: 2.5px; }
+      .card-visual { height: 270px; border-width: 2px; border-radius: 13px; }
+      .badge { top: 22px; left: 22px; font-size: 0.74rem; padding: 4px 10px; }
+      .card-body { padding: 12px 2px 2px; }
+      .card-title { font-size: 1.08rem; }
+      .card-desc { display: block; font-size: 0.85rem; }
+      .price-main { font-size: 1.34rem; }
+      .card-actions { grid-template-columns: 1fr auto; }
+      .form-grid { grid-template-columns: 1fr; }
+      .admin-row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- TOASTS -->
-    <div class="toast-container" id="toastContainer"></div>
+  <!-- TOASTS -->
+  <div class="toast-container" id="toastContainer"></div>
 
-    <!-- HEADER SUPERIOR: TÍTULO + BOTONES, CARRUSEL CON FOTO LIMPIA Y BOTONES ABAJO -->
-    <header class="topbar">
-        <div class="topbar-inner">
-            <div class="brand-row">
-                <div class="brand-identity">
-                    <span class="logo">CRESO<span class="logo-dot"></span></span>
-                    <span class="lema">Accesorios móviles • Minorista y Mayorista</span>
-                </div>
-                <div class="top-controls">
-                    <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Sonido">🔊</button>
-                    <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar">⚙️</button>
-                </div>
-            </div>
-
-            <!-- CARRUSEL / RULETA ARRIBA DE TODO CON LA FOTO LIMPIA SIN TÍTULOS ENCIMA -->
-            <div class="hero-carousel" id="heroCarousel">
-                <div class="hero-slides" id="heroSlides">
-                    <!-- Cuadro 1: Foto limpia de CRESO sin títulos tapando -->
-                    <div class="hero-slide slide-full-photo">
-                        <span class="slide-corner-brand">CRESO</span>
-                        <img src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="CRESO">
-                    </div>
-
-                    <!-- Cuadro 2: Oferta Mayorista -->
-                    <div class="hero-slide slide-offer-style slide-offer-1">
-                        <div class="slide-content">
-                            <span class="slide-kicker">🔥 Oferta Mayorista</span>
-                            <div class="slide-title">Llevando 10+ unidades baja el precio por pack</div>
-                            <p class="slide-sub">Cables desde $650 c/u y cargadores desde $2.000 c/u</p>
-                        </div>
-                        <div class="slide-visual-badge">💰📦</div>
-                    </div>
-
-                    <!-- Cuadro 3: Oferta Audio y Conexión -->
-                    <div class="hero-slide slide-offer-style slide-offer-2">
-                        <div class="slide-content">
-                            <span class="slide-kicker">🎧 Audio &amp; Conexión</span>
-                            <div class="slide-title">Auriculares Type-C, Auxiliar 2m y Cables</div>
-                            <p class="slide-sub">Armá tu carrito y enviá tu pedido por WhatsApp</p>
-                        </div>
-                        <div class="slide-visual-badge">🎧🔌</div>
-                    </div>
-
-                    <!-- Cuadro 4: Cierre con CRESO en dorado sobre fondo verde -->
-                    <div class="hero-slide slide-brand-gold">
-                        <div class="slide-brand-showcase">
-                            <span class="slide-kicker">✨ Sello Oficial</span>
-                            <div class="slide-brand-name">CRESO</div>
-                            <div class="slide-brand-tag">Confianza • Finanzas • Abundancia</div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="carousel-arrow prev" onclick="prevSlide()" aria-label="Anterior">‹</button>
-                <button class="carousel-arrow next" onclick="nextSlide()" aria-label="Siguiente">›</button>
-
-                <div class="carousel-dots" id="carouselDots">
-                    <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Foto CRESO"></button>
-                    <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Oferta Mayorista"></button>
-                    <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Audio y Conexión"></button>
-                    <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Marca CRESO"></button>
-                </div>
-            </div>
-
-            <!-- BOTONES DE WHATSAPP Y MAYORISTA ABAJO -->
-            <div class="info-strip">
-                <a class="info-chip tech" href="https://wa.me/5491133667793" target="_blank" rel="noopener noreferrer" onclick="playClickSound();">📲 WhatsApp: 11 3366-7793</a>
-                <span class="info-chip gold">📦 10+ u. precio mayorista</span>
-            </div>
+  <!-- HEADER SUPERIOR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-row">
+        <div class="brand-identity">
+          <span class="logo">CRESO<span class="logo-dot"></span></span>
+          <span class="lema">Accesorios móviles • Minorista y Mayorista</span>
         </div>
-    </header>
-
-    <!-- BUSCADOR Y CATEGORÍAS STICKY -->
-    <div class="sticky-bar">
-        <div class="sticky-inner">
-            <div class="search-row">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" placeholder="Buscar en CRESO: cable, cargador, Tipo C, Lightning, audio..." oninput="renderProducts()">
-                </div>
-                <select class="sort-select" id="sortSelect" onchange="playClickSound(); renderProducts();">
-                    <option value="default">Destacados</option>
-                    <option value="price-asc">Menor precio</option>
-                    <option value="price-desc">Mayor precio</option>
-                </select>
-            </div>
-
-            <div class="tabs">
-                <button class="tab active" onclick="setCategory('todos', this)">Todos</button>
-                <button class="tab" onclick="setCategory('cables', this)">🔌 Cables</button>
-                <button class="tab" onclick="setCategory('cargadores', this)">⚡ Cargadores</button>
-                <button class="tab" onclick="setCategory('audio', this)">🎧 Audio</button>
-            </div>
+        <div class="top-controls">
+          <button class="icon-btn active-sound" id="soundToggleBtn" onclick="toggleSound()" title="Sonido">🔊</button>
+          <button class="icon-btn" onclick="playClickSound(); toggleAdmin();" title="Configurar (con contraseña)">🔒</button>
         </div>
+      </div>
+
+      <!-- CARRUSEL / RULETA -->
+      <div class="hero-carousel" id="heroCarousel">
+        <div class="hero-slides" id="heroSlides" style="transform: translateX(0%);">
+          <div class="hero-slide slide-full-photo">
+            <span class="slide-corner-brand">CRESO</span>
+            <img src="https://i.ibb.co/G45tqcrn/IMG-20261120-WA0000.jpg" alt="CRESO" onerror="this.style.display='none'">
+          </div>
+
+          <div class="hero-slide slide-offer-style slide-offer-1">
+            <div class="slide-content">
+              <span class="slide-kicker">🔥 Oferta Mayorista</span>
+              <div class="slide-title">Llevando 3+ unidades baja el precio por pack</div>
+              <p class="slide-sub">Sumá 3 o más unidades de cualquier producto y llevá precio mayorista</p>
+            </div>
+            <div class="slide-visual-badge">💰📦</div>
+          </div>
+
+          <div class="hero-slide slide-offer-style slide-offer-2">
+            <div class="slide-content">
+              <span class="slide-kicker">🎧 Audio &amp; Conexión</span>
+              <div class="slide-title">Auriculares Wireless, Handsfree y Cables</div>
+              <p class="slide-sub">Armá tu carrito y enviá tu pedido por WhatsApp</p>
+            </div>
+            <div class="slide-visual-badge">🎧🔌</div>
+          </div>
+
+          <div class="hero-slide slide-brand-gold">
+            <div class="slide-brand-showcase">
+              <span class="slide-kicker">✨ Sello Oficial</span>
+              <div class="slide-brand-name">CRESO</div>
+              <div class="slide-brand-tag">Confianza • Finanzas • Abundancia</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-arrow prev" onclick="prevSlide()" aria-label="Anterior">‹</button>
+        <button class="carousel-arrow next" onclick="nextSlide()" aria-label="Siguiente">›</button>
+
+        <div class="carousel-dots" id="carouselDots">
+          <button class="carousel-dot active" onclick="goToSlide(0)" aria-label="Foto CRESO"></button>
+          <button class="carousel-dot" onclick="goToSlide(1)" aria-label="Oferta Mayorista"></button>
+          <button class="carousel-dot" onclick="goToSlide(2)" aria-label="Audio y Conexión"></button>
+          <button class="carousel-dot" onclick="goToSlide(3)" aria-label="Marca CRESO"></button>
+        </div>
+      </div>
+
+      <!-- BOTONES DE WHATSAPP Y MAYORISTA ABAJO -->
+      <div class="info-strip">
+        <a class="info-chip tech" href="https://wa.me/5491133667793" target="_blank" rel="noopener noreferrer" onclick="playClickSound();">📲 WhatsApp: 11 3366-7793</a>
+        <span class="info-chip gold">📦 3+ u. (cualquier mezcla) mayorista</span>
+      </div>
     </div>
+  </header>
 
-    <!-- GRILLA DE PRODUCTOS -->
-    <main class="container">
-        <div class="section-heading">
-            <h2>Catálogo disponible</h2>
-            <span>10+ unidades = Precio mayorista automático</span>
+  <!-- BUSCADOR Y CATEGORÍAS STICKY -->
+  <div class="sticky-bar">
+    <div class="sticky-inner">
+      <div class="search-row">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar en CRESO: cable, cargador, HDMI, auriculares, proyector, cámara..." oninput="renderProducts()">
         </div>
-        <div class="grid" id="productsGrid"></div>
-    </main>
+        <select class="sort-select" id="sortSelect" onchange="playClickSound(); renderProducts();">
+          <option value="default">Destacados</option>
+          <option value="price-asc">Menor precio</option>
+          <option value="price-desc">Mayor precio</option>
+        </select>
+      </div>
 
-    <!-- BOTÓN FLOTANTE DEL CARRITO -->
-    <button class="cart-fab" id="cartFab" onclick="playClickSound(); toggleCart();" aria-label="Abrir carrito">
-        🛒
-        <span class="cart-fab-badge" id="cartFabBadge">0</span>
-        <span class="cart-fab-total" id="cartFabTotal">$0</span>
-    </button>
-
-    <!-- DRAWER CARRITO -->
-    <div class="drawer-overlay" id="cartDrawerOverlay" onclick="toggleCart()">
-        <div class="drawer" onclick="event.stopPropagation()">
-            <div class="drawer-handle"></div>
-            <div class="drawer-header">
-                <h2>🛒 Tu pedido — CRESO</h2>
-                <button class="drawer-close" onclick="playClickSound(); toggleCart();">✕</button>
-            </div>
-            <div class="drawer-body">
-                <div id="cartItems"></div>
-                <div id="savingsContainer"></div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>👤 Tu nombre *</label>
-                        <input type="text" id="clienteNombre" placeholder="Ej: Lucas Fernández">
-                    </div>
-                    <div class="form-group">
-                        <label>📱 Tu teléfono *</label>
-                        <input type="tel" id="clienteTel" placeholder="11 1234-5678">
-                    </div>
-                    <div class="form-group">
-                        <label>🚚 Entrega</label>
-                        <select id="clienteEntrega" onchange="playClickSound(); toggleDireccionField();">
-                            <option value="Envío a coordinar">🚚 Envío a coordinar</option>
-                            <option value="Retiro a coordinar">📍 Retiro a coordinar</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>💳 Forma de pago</label>
-                        <select id="clientePago" onchange="playClickSound();">
-                            <option value="Efectivo">💵 Efectivo</option>
-                            <option value="Transferencia">🏦 Transferencia</option>
-                            <option value="Efectivo + Transferencia">💵 + 🏦 Efectivo + Transferencia</option>
-                        </select>
-                    </div>
-                    <div class="form-group full" id="direccionGroup">
-                        <label>📍 Dirección o zona *</label>
-                        <input type="text" id="clienteDireccion" placeholder="Calle, altura o zona de entrega...">
-                    </div>
-                    <div class="form-group full">
-                        <label>📝 Notas (opcional)</label>
-                        <input type="text" id="clienteNotas" placeholder="Aclaraciones de entrega o pago...">
-                    </div>
-                </div>
-
-                <div class="total-box">
-                    <div class="total-amount" id="totalPrice">Total: $0</div>
-                </div>
-
-                <button class="btn-whatsapp" onclick="sendOrder()">
-                    📲 Enviar pedido por WhatsApp
-                </button>
-            </div>
-        </div>
+      <div class="tabs">
+        <button class="tab active" onclick="setCategory('todos', this)">Todos</button>
+        <button class="tab" onclick="setCategory('cargadores', this)">⚡ Cargadores</button>
+        <button class="tab" onclick="setCategory('audio', this)">🎧 Audio</button>
+        <button class="tab" onclick="setCategory('cables', this)">🔌 Cables</button>
+        <button class="tab" onclick="setCategory('gadgets', this)">🎮 Gadgets</button>
+      </div>
     </div>
+  </div>
 
-    <!-- DRAWER CONFIGURACIÓN -->
-    <div class="drawer-overlay" id="adminDrawerOverlay" onclick="toggleAdmin()">
-        <div class="drawer" onclick="event.stopPropagation()">
-            <div class="drawer-handle"></div>
-            <div class="drawer-header">
-                <h2>⚙️ Configurar CRESO</h2>
-                <button class="drawer-close" onclick="playClickSound(); toggleAdmin();">✕</button>
-            </div>
-            <div class="drawer-body">
-                <div class="admin-box">
-                    <h3>📲 WhatsApp de ventas</h3>
-                    <input type="text" id="adminWhatsapp" value="5491133667793" onchange="saveSettings()" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;">
-                </div>
-
-                <div class="admin-box">
-                    <h3>📦 Precios y fotos incrustadas</h3>
-                    <div id="adminProductsList"></div>
-                </div>
-
-                <button class="btn-save-html" onclick="exportStandaloneHTML()">
-                    💾 Descargar index.html con precios y fotos
-                </button>
-            </div>
-        </div>
+  <!-- GRILLA DE PRODUCTOS -->
+  <main class="container">
+    <div class="section-heading">
+      <h2>Catálogo disponible</h2>
+      <span>3+ unidades sumando cualquier producto = Precio mayorista</span>
     </div>
+    <div class="grid" id="productsGrid"></div>
+  </main>
 
-    <footer class="footer">
-        <strong style="color: var(--brand-primary-dark);">CRESO</strong> • WhatsApp: +54 9 11 3366-7793 • Pedidos por WhatsApp
-    </footer>
+  <!-- BOTÓN FLOTANTE DEL CARRITO -->
+  <button class="cart-fab" id="cartFab" onclick="playClickSound(); toggleCart();" aria-label="Abrir carrito">
+    🛒
+    <span class="cart-fab-badge" id="cartFabBadge">0</span>
+    <span class="cart-fab-total" id="cartFabTotal">$0</span>
+  </button>
 
-    <script>
-        /* ========== CARRUSEL / RULETA ARRIBA CON FOTO LIMPIA + OFERTAS + CIERRE DORADO ========== */
-        const TOTAL_SLIDES = 4;
-        let currentSlide = 0;
-        let slideTimer = null;
+  <!-- DRAWER CARRITO -->
+  <div class="drawer-overlay" id="cartDrawerOverlay" onclick="toggleCart()">
+    <div class="drawer" onclick="event.stopPropagation()">
+      <div class="drawer-handle"></div>
+      <div class="drawer-header">
+        <h2>🛒 Tu pedido — CRESO</h2>
+        <button class="drawer-close" onclick="playClickSound(); toggleCart();">✕</button>
+      </div>
+      <div class="drawer-body">
+        <div id="cartItems"><div style="text-align:center; padding:28px 12px; color:var(--text-secondary);">Tu carrito está vacío. Agregá productos para armar tu pedido.</div></div>
+        <div id="savingsContainer"></div>
 
-        function updateCarousel() {
-            const track = document.getElementById("heroSlides");
-            const dots = document.querySelectorAll(".carousel-dot");
-            if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
-            dots.forEach((d, i) => d.classList.toggle("active", i === currentSlide));
-        }
+        <div class="form-grid">
+          <div class="form-group">
+            <label>👤 Tu nombre *</label>
+            <input type="text" id="clienteNombre" placeholder="Ej: Lucas Fernández">
+          </div>
+          <div class="form-group">
+            <label>📱 Tu teléfono *</label>
+            <input type="tel" id="clienteTel" placeholder="11 1234-5678">
+          </div>
+          <div class="form-group">
+            <label>🚚 Entrega</label>
+            <select id="clienteEntrega" onchange="playClickSound(); toggleDireccionField();">
+              <option value="Envío a coordinar">🚚 Envío a coordinar</option>
+              <option value="Retiro a coordinar">📍 Retiro a coordinar</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>💳 Forma de pago</label>
+            <select id="clientePago" onchange="playClickSound();">
+              <option value="Efectivo">💵 Efectivo</option>
+              <option value="Transferencia">🏦 Transferencia</option>
+              <option value="Efectivo + Transferencia">💵 + 🏦 Efectivo + Transferencia</option>
+            </select>
+          </div>
+          <div class="form-group full" id="direccionGroup">
+            <label>📍 Dirección o zona *</label>
+            <input type="text" id="clienteDireccion" placeholder="Calle, altura o zona de entrega...">
+          </div>
+          <div class="form-group full">
+            <label>📝 Notas (opcional)</label>
+            <input type="text" id="clienteNotas" placeholder="Aclaraciones de entrega o pago...">
+          </div>
+        </div>
 
-        function goToSlide(index, manual = false) {
-            if (manual) playClickSound();
-            currentSlide = (index + TOTAL_SLIDES) % TOTAL_SLIDES;
-            updateCarousel();
-            restartSlideTimer();
-        }
+        <div class="total-box">
+          <div class="total-amount" id="totalPrice">Total: $0</div>
+        </div>
 
-        function nextSlide() { goToSlide(currentSlide + 1, true); }
-        function prevSlide() { goToSlide(currentSlide - 1, true); }
+        <button class="btn-whatsapp" onclick="sendOrder()">
+          📲 Enviar pedido por WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
 
-        function restartSlideTimer() {
-            if (slideTimer) clearInterval(slideTimer);
-            const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3200;
-            slideTimer = setTimeout(() => {
-                currentSlide = (currentSlide + 1) % TOTAL_SLIDES;
-                updateCarousel();
-                restartSlideTimer();
-            }, delay);
-        }
+  <!-- DRAWER CONFIGURACIÓN (CERRADO POR DEFECTO Y PROTEGIDO CON CONTRASEÑA) -->
+  <div class="drawer-overlay" id="adminDrawerOverlay" onclick="toggleAdmin()">
+    <div class="drawer" onclick="event.stopPropagation()">
+      <div class="drawer-handle"></div>
+      <div class="drawer-header">
+        <h2>⚙️ Configurar CRESO</h2>
+        <button class="drawer-close" onclick="playClickSound(); closeAdminDrawer();">✕</button>
+      </div>
+      <div class="drawer-body">
+        <div class="admin-box">
+          <h3>📲 WhatsApp de ventas</h3>
+          <input type="text" id="adminWhatsapp" value="5491133667793" onchange="saveSettings()" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px;">
+        </div>
 
-        (function setupSwipe() {
-            const box = document.getElementById("heroCarousel");
-            if (!box) return;
-            let startX = 0;
-            box.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
-            box.addEventListener("touchend", e => {
-                const diff = e.changedTouches[0].clientX - startX;
-                if (Math.abs(diff) > 40) {
-                    if (diff < 0) nextSlide();
-                    else prevSlide();
-                }
-            }, { passive: true });
-        })();
+        <div class="admin-box">
+          <div class="admin-box-header">
+            <h3>📦 Productos, fotos y precios (unidad y 3+ u.)</h3>
+            <button class="btn-add-product" onclick="addNewProduct()">➕ Agregar producto nuevo</button>
+          </div>
+          <div id="adminProductsList"></div>
+        </div>
 
+        <button class="btn-save-html" onclick="exportStandaloneHTML()">
+          💾 Descargar index.html con precios y fotos
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <strong style="color: var(--brand-primary-dark);">CRESO</strong> • WhatsApp: +54 9 11 3366-7793 • Pedidos por WhatsApp
+  </footer>
+
+  <script>
+    /* ========== CONTRASEÑA PARA ENTRAR AL PANEL DE EDICIÓN ========== */
+    const ADMIN_PASS = "creso2026";
+    let adminUnlocked = false;
+    const MIXED_WHOLESALE_MIN = 3;
+
+    /* ========== CARRUSEL / RULETA ========== */
+    const TOTAL_SLIDES = 4;
+    let currentSlide = 0;
+    let slideTimer = null;
+
+    function updateCarousel() {
+      const track = document.getElementById("heroSlides");
+      const dots = document.querySelectorAll(".carousel-dot");
+      if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle("active", i === currentSlide));
+    }
+
+    function goToSlide(index, manual = false) {
+      if (manual) playClickSound();
+      currentSlide = (index + TOTAL_SLIDES) % TOTAL_SLIDES;
+      updateCarousel();
+      restartSlideTimer();
+    }
+
+    function nextSlide() { goToSlide(currentSlide + 1, true); }
+    function prevSlide() { goToSlide(currentSlide - 1, true); }
+
+    function restartSlideTimer() {
+      if (slideTimer) clearTimeout(slideTimer);
+      const delay = currentSlide === TOTAL_SLIDES - 1 ? 4500 : 3200;
+      slideTimer = setTimeout(() => {
+        currentSlide = (currentSlide + 1) % TOTAL_SLIDES;
+        updateCarousel();
         restartSlideTimer();
+      }, delay);
+    }
 
-        /* ========== SONIDO SUTIL AL TOCAR ========== */
-        let soundEnabled = true;
-        let audioCtx = null;
+    (function setupSwipe() {
+      const box = document.getElementById("heroCarousel");
+      if (!box) return;
+      let startX = 0;
+      box.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
+      box.addEventListener("touchend", e => {
+        const diff = e.changedTouches[0].clientX - startX;
+        if (Math.abs(diff) > 40) {
+          if (diff < 0) nextSlide();
+          else prevSlide();
+        }
+      }, { passive: true });
+    })();
 
-        function getAudioContext() {
-            if (!audioCtx) {
-                const Ctx = window.AudioContext || window.webkitAudioContext;
-                if (Ctx) audioCtx = new Ctx();
-            }
-            if (audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
-            return audioCtx;
+    restartSlideTimer();
+
+    /* ========== SONIDO SUTIL AL TOCAR ========== */
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+      return audioCtx;
+    }
+
+    function playClickSound() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(580, now);
+      osc.frequency.exponentialRampToValueAtTime(860, now + 0.05);
+      gain.gain.setValueAtTime(0.055, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.06);
+    }
+
+    function playAddSound() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      [587.33, 880].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        const t = now + i * 0.065;
+        osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(0.075, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.12);
+      });
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById("soundToggleBtn");
+      btn.textContent = soundEnabled ? "🔊" : "🔇";
+      btn.classList.toggle("active-sound", soundEnabled);
+      if (soundEnabled) { playAddSound(); showToast("Sonido activado", "🔊"); }
+      else { showToast("Sonido silenciado", "🔇"); }
+    }
+
+    /* ========== GRÁFICOS SVG DE RESPALDO AUTOCONTENIDOS ========== */
+    const SVG_ICONS = {
+      charger: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="80" y="42" width="80" height="76" rx="14" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
+        <rect x="80" y="42" width="80" height="17" rx="6" fill="#047857"/>
+        <rect x="98" y="22" width="8" height="20" rx="2" fill="#064e3b"/>
+        <rect x="134" y="22" width="8" height="20" rx="2" fill="#064e3b"/>
+        <path d="M124 72L112 90H122L116 107L132 88H121L124 72Z" fill="#f59e0b"/>
+        <text x="120" y="140" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">CRESO TECH</text>
+      </svg>`,
+      earbuds: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="88" cy="64" r="21" fill="#ffffff" stroke="#047857" stroke-width="2.5"/>
+        <circle cx="88" cy="64" r="9" fill="#0284c7"/>
+        <circle cx="152" cy="64" r="21" fill="#ffffff" stroke="#047857" stroke-width="2.5"/>
+        <circle cx="152" cy="64" r="9" fill="#0284c7"/>
+        <path d="M88 85V112C88 124 120 124 120 135M152 85V112C152 124 120 124 120 135" stroke="#047857" stroke-width="4" stroke-linecap="round"/>
+        <rect x="112" y="132" width="16" height="14" rx="3" fill="#f59e0b"/>
+        <text x="120" y="28" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">AUDIO CRESO</text>
+      </svg>`,
+      headphones: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 92C60 52 180 52 180 92" stroke="#047857" stroke-width="6" stroke-linecap="round"/>
+        <rect x="48" y="84" width="22" height="36" rx="8" fill="#ffffff" stroke="#047857" stroke-width="2.4"/>
+        <rect x="170" y="84" width="22" height="36" rx="8" fill="#ffffff" stroke="#047857" stroke-width="2.4"/>
+        <text x="120" y="142" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">VINCHA WIRELESS</text>
+      </svg>`,
+      cable: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M56 116C56 54 184 54 184 116" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M56 116C56 54 184 54 184 116" stroke="#047857" stroke-width="2.2" stroke-linecap="round"/>
+        <rect x="44" y="104" width="24" height="30" rx="5" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
+        <rect x="172" y="106" width="22" height="26" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2.2"/>
+        <text x="120" y="34" fill="#064e3b" font-size="11.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">CABLE / CONVERSOR</text>
+      </svg>`,
+      gamepad: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="52" y="46" width="136" height="72" rx="16" fill="#ffffff" stroke="#047857" stroke-width="2.4"/>
+        <path d="M84 72V92M74 82H94" stroke="#064e3b" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="152" cy="76" r="5" fill="#0284c7"/>
+        <circle cx="166" cy="88" r="5" fill="#f59e0b"/>
+        <text x="120" y="140" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">GADGETS CRESO</text>
+      </svg>`
+    };
+
+    /* ========== CATÁLOGO COMPLETO ACTUALIZADO ========== */
+    const DEFAULT_PRODUCTS = [
+      {
+        "id": "cargador-samsung-45w-pd01",
+        "nombre": "Cargador Samsung 45W Super Charger",
+        "categoria": "cargadores",
+        "desc": "Carga superrápida 2.0 de 45W con cable USB Tipo C a Tipo C.",
+        "precioUnitario": 9000,
+        "precioMayorista": 7500,
+        "minMayorista": 3,
+        "badge": "45W PD",
+        "goldBadge": true,
+        "svgKey": "charger",
+        "customImg": "https://i.ibb.co/zVJ2gp14/20261120-201318.jpg"
+      },
+      {
+        "id": "cargador-samsung-20w-usbc",
+        "nombre": "Cargador Samsung USB-C 20W Power Adapter",
+        "categoria": "cargadores",
+        "desc": "Fuente cargadora de pared USB-C de 20W.",
+        "precioUnitario": 5000,
+        "precioMayorista": 3500,
+        "minMayorista": 3,
+        "badge": "20W USB-C",
+        "goldBadge": false,
+        "svgKey": "charger",
+        "customImg": "https://i.ibb.co/LX3jkDtJ/IMG-20261120-WA0065.jpg"
+      },
+      {
+        "id": "cargador-kosmo-2a-tipoc",
+        "nombre": "Cargador KOSMO 2A Carga Rápida Tipo C",
+        "categoria": "cargadores",
+        "desc": "Cargador de pared 2A con protección inteligente, carga rápida y cable Tipo C.",
+        "precioUnitario": 4500,
+        "precioMayorista": 3000,
+        "minMayorista": 3,
+        "badge": "2A TIPO C",
+        "goldBadge": false,
+        "svgKey": "charger",
+        "customImg": "https://i.ibb.co/p6pL84WH/IMG-20261121-WA0020.jpg"
+      },
+      {
+        "id": "cargador-motorola-50w-turbo",
+        "nombre": "Cargador Motorola 50W Turbo Power",
+        "categoria": "cargadores",
+        "desc": "Cargador Motorola Turbo Power 50W Duo con salida USB-C y USB-A.",
+        "precioUnitario": 9500,
+        "precioMayorista": 7600,
+        "minMayorista": 3,
+        "badge": "50W TURBO",
+        "goldBadge": true,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "cargador-sanci-6-1a-tipoc",
+        "nombre": "Cargador Sanci 6.1A tipo C",
+        "categoria": "cargadores",
+        "desc": "Cargador Sanci Fast Charger Kit 6.1A con salida Tipo C.",
+        "precioUnitario": 5000,
+        "precioMayorista": 4000,
+        "minMayorista": 3,
+        "badge": "6.1A TIPO C",
+        "goldBadge": false,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "auriculares-estilo-pro-blancos",
+        "nombre": "Auriculares Inalámbricos Estilo Pro",
+        "categoria": "audio",
+        "desc": "Auriculares inalámbricos in-ear blancos con estuche de carga.",
+        "precioUnitario": 8000,
+        "precioMayorista": 6000,
+        "minMayorista": 3,
+        "badge": "WIRELESS",
+        "goldBadge": false,
+        "svgKey": "earbuds",
+        "customImg": "https://i.ibb.co/4wDVJgQM/IMG-20261121-WA0030.jpg"
+      },
+      {
+        "id": "ultrapods-max-53",
+        "nombre": "Auriculares Ultrapods Max Wireless 5.3",
+        "categoria": "audio",
+        "desc": "Auriculares inalámbricos True Wireless 5.3 con estuche visor de carga.",
+        "precioUnitario": 10000,
+        "precioMayorista": 7500,
+        "minMayorista": 3,
+        "badge": "BT 5.3",
+        "goldBadge": false,
+        "svgKey": "earbuds",
+        "customImg": "https://i.ibb.co/TFbSqFx/IMG-20261120-WA0055.jpg"
+      },
+      {
+        "id": "auriculares-m10-v53",
+        "nombre": "Auriculares Inalámbricos M10 V5.3",
+        "categoria": "audio",
+        "desc": "Auriculares inalámbricos Bluetooth 5.3 con estuche de carga con visor LED.",
+        "precioUnitario": 9000,
+        "precioMayorista": 7500,
+        "minMayorista": 3,
+        "badge": "M10 LED",
+        "goldBadge": false,
+        "svgKey": "earbuds",
+        "customImg": "https://i.ibb.co/VY9ZG8gj/IMG-20261120-WA0059.jpg"
+      },
+      {
+        "id": "a6s-mipods-53",
+        "nombre": "Auriculares A6S MiPods Wireless 5.3",
+        "categoria": "audio",
+        "desc": "Auriculares inalámbricos True Wireless Headset 5.3 con estuche negro.",
+        "precioUnitario": 7000,
+        "precioMayorista": 5000,
+        "minMayorista": 3,
+        "badge": "A6S",
+        "goldBadge": false,
+        "svgKey": "earbuds",
+        "customImg": "https://i.ibb.co/xSNhKgHN/IMG-20261120-WA0063.jpg"
+      },
+      {
+        "id": "auriculares-p47-vincha",
+        "nombre": "Auriculares Vincha Inalámbricos P47",
+        "categoria": "audio",
+        "desc": "Auriculares inalámbricos tipo vincha P47 con botones de control y reproductor.",
+        "precioUnitario": 7000,
+        "precioMayorista": 5000,
+        "minMayorista": 3,
+        "badge": "P47",
+        "goldBadge": false,
+        "svgKey": "headphones",
+        "customImg": "https://i.ibb.co/Xr7fB5BH/IMG-20261120-WA0061.jpg"
+      },
+      {
+        "id": "auriculares-handsfree-samsung",
+        "nombre": "Auriculares Handsfree Estilo Samsung",
+        "categoria": "audio",
+        "desc": "Auriculares con cable manos libres (Handsfree).",
+        "precioUnitario": 3000,
+        "precioMayorista": 2000,
+        "minMayorista": 3,
+        "badge": "HANDSFREE",
+        "goldBadge": false,
+        "svgKey": "earbuds",
+        "customImg": "https://i.ibb.co/gLvSpMDx/IMG-20261120-WA0078.jpg"
+      },
+      {
+        "id": "microfono-corbatero-lambo-d17019",
+        "nombre": "Micrófono corbatero Lambo D-17019",
+        "categoria": "audio",
+        "desc": "Micrófono corbatero Lambo Tech modelo D-17019 con ficha USB-C y ficha Lightning.",
+        "precioUnitario": 7800,
+        "precioMayorista": 6200,
+        "minMayorista": 3,
+        "badge": "CORBATERO",
+        "goldBadge": false,
+        "svgKey": "earbuds",
+        "customImg": ""
+      },
+      {
+        "id": "cable-lambo-hdtv-lt26003",
+        "nombre": "Cable Lambo Tech Tipo C a HDTV LT-26003",
+        "categoria": "cables",
+        "desc": "Cable Type C a HDTV 4K 30Hz, modelo LT-26003.",
+        "precioUnitario": 12000,
+        "precioMayorista": 9000,
+        "minMayorista": 3,
+        "badge": "4K HDTV",
+        "goldBadge": false,
+        "svgKey": "cable",
+        "customImg": "https://i.ibb.co/3yVJXsTs/IMG-20261120-WA0076.jpg"
+      },
+      {
+        "id": "cable-lambo-4en1-lt26052",
+        "nombre": "Cable Lambo Tech 4 en 1 Turbo LT-26052",
+        "categoria": "cables",
+        "desc": "Cable turbo 4 en 1 de 1 metro con conectores intercambiables (65W/27W), modelo LT-26052.",
+        "precioUnitario": 4000,
+        "precioMayorista": 3000,
+        "minMayorista": 3,
+        "badge": "4 EN 1",
+        "goldBadge": false,
+        "svgKey": "cable",
+        "customImg": "https://i.ibb.co/354NJnnS/IMG-20261120-WA0069.jpg"
+      },
+      {
+        "id": "cable-otawa-30w-dtl083",
+        "nombre": "Cable de Datos OTAWA 30W C a C DTL-083",
+        "categoria": "cables",
+        "desc": "Cable de datos y carga flash 30W, conector C a C, modelo DTL-083.",
+        "precioUnitario": 3000,
+        "precioMayorista": 2500,
+        "minMayorista": 3,
+        "badge": "30W C-C",
+        "goldBadge": false,
+        "svgKey": "cable",
+        "customImg": "https://i.ibb.co/7NK5d9L5/IMG-20261120-WA0072.jpg"
+      },
+      {
+        "id": "cable-otawa-30w-dtl082",
+        "nombre": "Cable de Datos OTAWA 30W Tipo C DTL-082",
+        "categoria": "cables",
+        "desc": "Cable de datos y carga flash 30W, conector TYPE-C, modelo DTL-082.",
+        "precioUnitario": 3000,
+        "precioMayorista": 2500,
+        "minMayorista": 3,
+        "badge": "30W TYPE-C",
+        "goldBadge": false,
+        "svgKey": "cable",
+        "customImg": "https://i.ibb.co/fYfWfkmM/IMG-20261120-WA0074.jpg"
+      },
+      {
+        "id": "cable-hdmi-1-5m",
+        "nombre": "Cable HDMI 1,5m",
+        "categoria": "cables",
+        "desc": "Cable HDMI de 1,5 metros para TV, monitor o decodificador.",
+        "precioUnitario": 3400,
+        "precioMayorista": 2700,
+        "minMayorista": 3,
+        "badge": "HDMI 1.5M",
+        "goldBadge": false,
+        "svgKey": "cable",
+        "customImg": ""
+      },
+      {
+        "id": "cable-hdmi-3m",
+        "nombre": "Cable HDMI 3m",
+        "categoria": "cables",
+        "desc": "Cable HDMI mallado de 3 metros para TV, monitor y consola.",
+        "precioUnitario": 5400,
+        "precioMayorista": 4300,
+        "minMayorista": 3,
+        "badge": "HDMI 3M",
+        "goldBadge": false,
+        "svgKey": "cable",
+        "customImg": ""
+      },
+      {
+        "id": "conversor-hdmi-av-elemax",
+        "nombre": "Conversor HDMI-AV Elemax",
+        "categoria": "cables",
+        "desc": "Conversor Mini HDMI2AV Up Scaler 1080P Full HD.",
+        "precioUnitario": 11200,
+        "precioMayorista": 9000,
+        "minMayorista": 3,
+        "badge": "HDMI2AV",
+        "goldBadge": false,
+        "svgKey": "cable",
+        "customImg": ""
+      },
+      {
+        "id": "consola-game-box-plus",
+        "nombre": "Consola Portátil Game Box Plus",
+        "categoria": "gadgets",
+        "desc": "Consola portátil Game Box Plus con pantalla y soporte para gamepad externo.",
+        "precioUnitario": 15000,
+        "precioMayorista": 11000,
+        "minMayorista": 3,
+        "badge": "GAME BOX",
+        "goldBadge": false,
+        "svgKey": "gamepad",
+        "customImg": "https://i.ibb.co/G3xsVKKF/IMG-20261120-WA0080.jpg"
+      },
+      {
+        "id": "lampara-led-giratoria-3w",
+        "nombre": "Lámpara LED giratoria 3W",
+        "categoria": "gadgets",
+        "desc": "Lámpara LED RGB giratoria de 3W, ideal para ambientación y comercios.",
+        "precioUnitario": 3000,
+        "precioMayorista": 2400,
+        "minMayorista": 3,
+        "badge": "LED 3W",
+        "goldBadge": false,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "mouse-optico-gtc-mog107",
+        "nombre": "Mouse Óptico Luminoso GTC MOG-107",
+        "categoria": "gadgets",
+        "desc": "Mouse óptico USB luminoso GTC modelo MOG-107.",
+        "precioUnitario": 3600,
+        "precioMayorista": 2900,
+        "minMayorista": 3,
+        "badge": "GTC USB",
+        "goldBadge": false,
+        "svgKey": "gamepad",
+        "customImg": ""
+      },
+      {
+        "id": "luz-navidad-osr-100-led-dtnv55",
+        "nombre": "Luz Navidad OSR 100 LED Multicolor DTNV55",
+        "categoria": "gadgets",
+        "desc": "Luces LED decorativas OSR 100 LED multicolor con distintos modos de iluminación.",
+        "precioUnitario": 5400,
+        "precioMayorista": 4300,
+        "minMayorista": 3,
+        "badge": "100 LED RGB",
+        "goldBadge": false,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "mini-ventilador-hc804-1-5w",
+        "nombre": "HC804 Mini Ventilador 1.5W 13CM",
+        "categoria": "gadgets",
+        "desc": "Mini ventilador portátil de mano con base y cable de carga, 1.5W 13cm.",
+        "precioUnitario": 7400,
+        "precioMayorista": 5900,
+        "minMayorista": 3,
+        "badge": "MINI FAN",
+        "goldBadge": true,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "smart-watch-noga",
+        "nombre": "Smart Watch Noga",
+        "categoria": "gadgets",
+        "desc": "Smartwatch Noga BT Health / Fitness con malla siliconada.",
+        "precioUnitario": 11000,
+        "precioMayorista": 8800,
+        "minMayorista": 3,
+        "badge": "NOGA WATCH",
+        "goldBadge": true,
+        "svgKey": "gamepad",
+        "customImg": ""
+      },
+      {
+        "id": "tira-led-rgb-5m",
+        "nombre": "Tira LED RGB 5m",
+        "categoria": "gadgets",
+        "desc": "Tira LED RGB de 5 metros 12V con control remoto y fuente de alimentación.",
+        "precioUnitario": 11400,
+        "precioMayorista": 9100,
+        "minMayorista": 3,
+        "badge": "LED 5M",
+        "goldBadge": false,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "tira-led-neon-rgb-5m",
+        "nombre": "Tira LED NEON RGB 5m",
+        "categoria": "gadgets",
+        "desc": "Tira LED Neón RGB flexible de 5 metros 12V con transformador incluido.",
+        "precioUnitario": 13500,
+        "precioMayorista": 10800,
+        "minMayorista": 3,
+        "badge": "NEON 5M",
+        "goldBadge": true,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "pava-electrica-maxon-mx117-1-8l",
+        "nombre": "Pava eléctrica Maxon MX117 1.8L",
+        "categoria": "gadgets",
+        "desc": "Hervidora / pava eléctrica Maxon modelo MX117 de 1.8 litros acero y negro.",
+        "precioUnitario": 15800,
+        "precioMayorista": 12800,
+        "minMayorista": 3,
+        "badge": "1.8 LITROS",
+        "goldBadge": false,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "aro-de-luz-rgb-mj26",
+        "nombre": "Aro de luz RGB MJ-26",
+        "categoria": "gadgets",
+        "desc": "Aro de luz LED RGB MJ-26 de 10 pulgadas con soporte para celular.",
+        "precioUnitario": 16500,
+        "precioMayorista": 13200,
+        "minMayorista": 3,
+        "badge": "ARO 10\"",
+        "goldBadge": true,
+        "svgKey": "charger",
+        "customImg": ""
+      },
+      {
+        "id": "tv-box-hati-12k",
+        "nombre": "TV Box HATI 12K",
+        "categoria": "gadgets",
+        "desc": "Smart TV Box HATI 12K Ultra HD QuadCore con control remoto y StreamFlix.",
+        "precioUnitario": 36000,
+        "precioMayorista": 30000,
+        "minMayorista": 3,
+        "badge": "HATI 12K",
+        "goldBadge": true,
+        "svgKey": "gamepad",
+        "customImg": ""
+      },
+      {
+        "id": "camara-domo-sk-cam15-ditron",
+        "nombre": "Cámara Domo SK-CAM15",
+        "categoria": "gadgets",
+        "desc": "Cámara domo Ditron SK-CAM15 con control remoto desde app y visualización en línea.",
+        "precioUnitario": 39000,
+        "precioMayorista": 32000,
+        "minMayorista": 3,
+        "badge": "DOMO CAM",
+        "goldBadge": true,
+        "svgKey": "gamepad",
+        "customImg": ""
+      },
+      {
+        "id": "proyector-4k-2-joysticks",
+        "nombre": "Proyector 4K con 2 joysticks",
+        "categoria": "gadgets",
+        "desc": "Proyector inalámbrico WiFi 6 4K 2 en 1 con control remoto y 2 joysticks.",
+        "precioUnitario": 115000,
+        "precioMayorista": 95000,
+        "minMayorista": 3,
+        "badge": "4K + 2 JOY",
+        "goldBadge": true,
+        "svgKey": "gamepad",
+        "customImg": ""
+      },
+      {
+        "id": "auto-stereo-pantalla-7018b",
+        "nombre": "Auto Stereo con pantalla 7018B",
+        "categoria": "gadgets",
+        "desc": "Autoestéreo con pantalla, MP5, FM, USB/TF y control remoto (45Wx4).",
+        "precioUnitario": 99000,
+        "precioMayorista": 84000,
+        "minMayorista": 3,
+        "badge": "7018B",
+        "goldBadge": false,
+        "svgKey": "gamepad",
+        "customImg": ""
+      }
+    ];
+
+    let state = {
+      whatsapp: "5491133667793",
+      products: JSON.parse(JSON.stringify(DEFAULT_PRODUCTS))
+    };
+
+    try {
+      const saved = localStorage.getItem("creso_store_brand_v7");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.whatsapp) state.whatsapp = parsed.whatsapp;
+        if (Array.isArray(parsed.products) && parsed.products.length) {
+          state.products = parsed.products.map(p => ({ ...p, minMayorista: p.minMayorista || 3 }));
+        }
+      }
+    } catch (e) {}
+
+    let cart = {};
+    let currentCategory = "todos";
+
+    function persistState() {
+      try { localStorage.setItem("creso_store_brand_v7", JSON.stringify(state)); } catch (e) {}
+    }
+
+    function showToast(msg, icon = "✅") {
+      const c = document.getElementById("toastContainer");
+      const t = document.createElement("div");
+      t.className = "toast";
+      t.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-text">${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+      c.appendChild(t);
+      requestAnimationFrame(() => t.classList.add("show"));
+      setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 380); }, 2600);
+    }
+
+    function setCategory(cat, el) {
+      playClickSound();
+      currentCategory = cat;
+      document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+      if (el) el.classList.add("active");
+      renderProducts();
+    }
+
+    function getTotalCartUnits() {
+      return Object.values(cart).reduce((sum, item) => sum + (item.cantidad || 0), 0);
+    }
+
+    function isWholesaleActiveForCart() {
+      return getTotalCartUnits() >= MIXED_WHOLESALE_MIN;
+    }
+
+    function getEffectiveUnitPrice(p, qty) {
+      const minMay = p.minMayorista || MIXED_WHOLESALE_MIN;
+      if (qty >= minMay || isWholesaleActiveForCart()) {
+        return p.precioMayorista;
+      }
+      return p.precioUnitario;
+    }
+
+    function escapeAttr(val) {
+      return String(val || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+    }
+
+    function getProductVisual(p) {
+      const cleanUrl = (p.customImg || "").trim();
+      if (cleanUrl) {
+        return `<img src="${escapeAttr(cleanUrl)}" alt="${escapeAttr(p.nombre)}" loading="eager">`;
+      }
+      return SVG_ICONS[p.svgKey] || SVG_ICONS.cable;
+    }
+
+    function renderProducts() {
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+      const sort = document.getElementById("sortSelect").value;
+      const grid = document.getElementById("productsGrid");
+      const totalUnits = getTotalCartUnits();
+      const wholesaleMixActive = totalUnits >= MIXED_WHOLESALE_MIN;
+
+      let list = state.products.filter(p => {
+        const matchCat = currentCategory === "todos" || p.categoria === currentCategory;
+        const matchQ = !q || p.nombre.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+        return matchCat && matchQ;
+      });
+
+      if (sort === "price-asc") list.sort((a, b) => a.precioUnitario - b.precioUnitario);
+      if (sort === "price-desc") list.sort((a, b) => b.precioUnitario - a.precioUnitario);
+
+      if (!list.length) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px 16px; color:var(--text-secondary);">Sin resultados para "${escapeAttr(q)}".</div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(p => {
+        const minMay = p.minMayorista || MIXED_WHOLESALE_MIN;
+        const qty = cart[p.id] ? cart[p.id].cantidad : 0;
+        const rem = Math.max(0, MIXED_WHOLESALE_MIN - totalUnits);
+        const pct = Math.min(100, (totalUnits / MIXED_WHOLESALE_MIN) * 100);
+        const unlocked = wholesaleMixActive || qty >= minMay;
+        const shownPrice = unlocked ? p.precioMayorista : p.precioUnitario;
+
+        let statusLeft = `Mayorista ${MIXED_WHOLESALE_MIN}+ u. (cualquier mezcla)`;
+        if (unlocked) {
+          statusLeft = qty > 0 ? `✓ Mayorista activo (${qty} u.)` : "✓ Mayorista activo en tu pedido";
+        } else if (totalUnits > 0) {
+          statusLeft = `${totalUnits} u. en pedido (${qty} de este)`;
         }
 
-        function playClickSound() {
-            if (!soundEnabled) return;
-            const ctx = getAudioContext();
-            if (!ctx) return;
-            const now = ctx.currentTime;
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = "sine";
-            osc.frequency.setValueAtTime(580, now);
-            osc.frequency.exponentialRampToValueAtTime(860, now + 0.05);
-            gain.gain.setValueAtTime(0.055, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(now);
-            osc.stop(now + 0.06);
+        return `
+        <article class="card" id="card-${p.id}">
+          ${p.badge ? `<span class="badge ${p.goldBadge ? "gold-badge" : ""}">${p.badge}</span>` : ""}
+          <div class="card-visual">${getProductVisual(p)}</div>
+          <div class="card-body">
+            <span class="card-cat">${p.categoria}</span>
+            <h3 class="card-title">${p.nombre}</h3>
+            <p class="card-desc">${p.desc}</p>
+            <div class="price-row">
+              <span class="price-main">$${shownPrice.toLocaleString("es-AR")}</span>
+              <span class="price-wholesale">${minMay}+: $${p.precioMayorista.toLocaleString("es-AR")}</span>
+            </div>
+            <div class="progress-mini">
+              <div class="progress-label ${unlocked ? "done" : ""}">
+                <span>${statusLeft}</span>
+                <span>${unlocked ? "" : `Faltan ${rem}`}</span>
+              </div>
+              <div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div>
+            </div>
+            <div class="card-actions">
+              <button class="btn-add" id="btn-${p.id}" onclick="addToCart('${p.id}', 1)">➕ Agregar</button>
+              <button class="btn-pack" onclick="addToCart('${p.id}', ${minMay})">+${minMay}</button>
+            </div>
+          </div>
+        </article>`;
+      }).join("");
+    }
+
+    function addToCart(id, qty) {
+      const p = state.products.find(item => item.id === id);
+      if (!p) return;
+      cart[id] = cart[id] ? { id, cantidad: cart[id].cantidad + qty } : { id, cantidad: qty };
+      playAddSound();
+
+      const card = document.getElementById(`card-${id}`);
+      if (card) { card.classList.remove("added-anim"); void card.offsetWidth; card.classList.add("added-anim"); }
+
+      const btn = document.getElementById(`btn-${id}`);
+      if (btn && qty === 1) {
+        btn.textContent = "✓ Sumado";
+        btn.classList.add("added");
+        setTimeout(() => { btn.textContent = "➕ Agregar"; btn.classList.remove("added"); }, 1000);
+      }
+
+      const totalUnits = getTotalCartUnits();
+      if (totalUnits >= MIXED_WHOLESALE_MIN) {
+        showToast(`¡${totalUnits} unidades en total: precio mayorista activo!`, "💰");
+      } else {
+        const faltan = MIXED_WHOLESALE_MIN - totalUnits;
+        showToast(`¡${p.nombre} agregado! Sumá ${faltan} más para mayorista`, "🛒");
+      }
+
+      animateFab();
+      renderProducts();
+      updateCartUI();
+    }
+
+    function animateFab() {
+      const fab = document.getElementById("cartFab");
+      const badge = document.getElementById("cartFabBadge");
+      fab.classList.remove("bounce"); void fab.offsetWidth; fab.classList.add("bounce");
+      badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
+    }
+
+    function updateQty(id, delta) {
+      if (!cart[id]) return;
+      playClickSound();
+      cart[id].cantidad += delta;
+      if (cart[id].cantidad <= 0) delete cart[id];
+      renderProducts();
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const entries = Object.values(cart);
+      const container = document.getElementById("cartItems");
+      if (!entries.length) {
+        container.innerHTML = `<div style="text-align:center; padding:28px 12px; color:var(--text-secondary);">Tu carrito está vacío. Agregá productos para armar tu pedido.</div>`;
+        document.getElementById("savingsContainer").innerHTML = "";
+        document.getElementById("cartFabBadge").textContent = "0";
+        document.getElementById("cartFabTotal").textContent = "$0";
+        document.getElementById("totalPrice").textContent = "Total: $0";
+        return;
+      }
+
+      let units = 0, regularSum = 0, finalSum = 0;
+      const mixActive = isWholesaleActiveForCart();
+
+      container.innerHTML = entries.map(e => {
+        const p = state.products.find(x => x.id === e.id);
+        if (!p) return "";
+        const minMay = p.minMayorista || MIXED_WHOLESALE_MIN;
+        const isMayItem = mixActive || e.cantidad >= minMay;
+        const unitP = getEffectiveUnitPrice(p, e.cantidad);
+        const sub = unitP * e.cantidad;
+        units += e.cantidad;
+        regularSum += p.precioUnitario * e.cantidad;
+        finalSum += sub;
+
+        return `
+        <div class="cart-item">
+          <div class="cart-item-left">
+            <div class="cart-item-thumb">${getProductVisual(p)}</div>
+            <div class="cart-item-info">
+              <h4>${p.nombre}</h4>
+              <div class="cart-item-meta">$${unitP.toLocaleString("es-AR")} c/u ${isMayItem ? "• MAYORISTA" : ""}</div>
+            </div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="updateQty('${p.id}', -1)">−</button>
+            <span>${e.cantidad}</span>
+            <button class="qty-btn" onclick="updateQty('${p.id}', 1)">+</button>
+          </div>
+          <strong style="min-width:74px; text-align:right; font-size:0.9rem;">$${sub.toLocaleString("es-AR")}</strong>
+        </div>`;
+      }).join("");
+
+      const saved = regularSum - finalSum;
+      if (mixActive && saved > 0) {
+        document.getElementById("savingsContainer").innerHTML = `<div class="savings-banner">🎉 Mayorista activo por llevar ${units} unidades (ahorrás $${saved.toLocaleString("es-AR")})</div>`;
+      } else if (mixActive) {
+        document.getElementById("savingsContainer").innerHTML = `<div class="savings-banner">✓ Mayorista activo por llevar ${units} unidades en total</div>`;
+      } else {
+        const faltan = MIXED_WHOLESALE_MIN - units;
+        document.getElementById("savingsContainer").innerHTML = `<div class="savings-banner">💡 Sumá ${faltan} ${faltan === 1 ? "unidad más" : "unidades más"} (de cualquier producto) para activar precio mayorista</div>`;
+      }
+
+      document.getElementById("cartFabBadge").textContent = units;
+      document.getElementById("cartFabTotal").textContent = `$${finalSum.toLocaleString("es-AR")}`;
+      document.getElementById("totalPrice").textContent = `Total: $${finalSum.toLocaleString("es-AR")}`;
+    }
+
+    function toggleCart() { document.getElementById("cartDrawerOverlay").classList.toggle("active"); }
+
+    function toggleDireccionField() {
+      const v = document.getElementById("clienteEntrega").value;
+      document.getElementById("direccionGroup").style.display = v === "Retiro a coordinar" ? "none" : "block";
+    }
+
+    function sendOrder() {
+      const entries = Object.values(cart);
+      if (!entries.length) { showToast("Agregá algún producto primero", "🛒"); return; }
+
+      const nombre = document.getElementById("clienteNombre").value.trim();
+      const tel = document.getElementById("clienteTel").value.trim();
+      const entrega = document.getElementById("clienteEntrega").value;
+      const pago = document.getElementById("clientePago").value;
+      const dir = document.getElementById("clienteDireccion").value.trim();
+      const notas = document.getElementById("clienteNotas").value.trim();
+
+      if (!nombre || !tel) { showToast("Completá nombre y teléfono", "⚠️"); return; }
+      if (entrega === "Envío a coordinar" && !dir) { showToast("Completá dirección o zona", "📍"); return; }
+
+      playAddSound();
+      let total = 0;
+      const mixActive = isWholesaleActiveForCart();
+      let msg = `*PEDIDO CRESO*\n👤 *Cliente:* ${nombre}\n📱 *Tel:* ${tel}\n🚚 *Entrega:* ${entrega}\n`;
+      if (entrega === "Envío a coordinar") msg += `📍 *Dirección:* ${dir}\n`;
+      msg += `💳 *Pago:* ${pago}\n\n*DETALLE:*\n`;
+
+      entries.forEach(e => {
+        const p = state.products.find(x => x.id === e.id);
+        if (!p) return;
+        const minMay = p.minMayorista || MIXED_WHOLESALE_MIN;
+        const isMayItem = mixActive || e.cantidad >= minMay;
+        const uPrice = getEffectiveUnitPrice(p, e.cantidad);
+        const sub = uPrice * e.cantidad;
+        total += sub;
+        msg += `• ${e.cantidad}x ${p.nombre}${isMayItem ? " [Mayorista]" : ""} — $${sub.toLocaleString("es-AR")}\n`;
+      });
+
+      msg += `\n💰 *Total (${pago}): $${total.toLocaleString("es-AR")}*`;
+      if (notas) msg += `\n📝 *Notas:* ${notas}`;
+
+      const phone = state.whatsapp.replace(/\D/g, "") || "5491133667793";
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+    }
+
+    function closeAdminDrawer() {
+      document.getElementById("adminDrawerOverlay").classList.remove("active");
+    }
+
+    function toggleAdmin() {
+      const ov = document.getElementById("adminDrawerOverlay");
+      if (ov.classList.contains("active")) {
+        closeAdminDrawer();
+        return;
+      }
+      if (!adminUnlocked) {
+        const pass = prompt("Ingresá la contraseña de administrador de CRESO:");
+        if (pass === null) return;
+        if (pass.trim() !== ADMIN_PASS) {
+          showToast("Contraseña incorrecta", "🔒");
+          return;
         }
+        adminUnlocked = true;
+      }
+      ov.classList.add("active");
+      renderAdmin();
+    }
 
-        function playAddSound() {
-            if (!soundEnabled) return;
-            const ctx = getAudioContext();
-            if (!ctx) return;
-            const now = ctx.currentTime;
-            [587.33, 880].forEach((freq, i) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = "triangle";
-                const t = now + i * 0.065;
-                osc.frequency.setValueAtTime(freq, t);
-                gain.gain.setValueAtTime(0.075, t);
-                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(t);
-                osc.stop(t + 0.12);
-            });
-        }
+    function getDefaultSvgForCategory(cat) {
+      if (cat === "cargadores") return "charger";
+      if (cat === "audio") return "earbuds";
+      if (cat === "cables") return "cable";
+      return "gamepad";
+    }
 
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const btn = document.getElementById("soundToggleBtn");
-            btn.textContent = soundEnabled ? "🔊" : "🔇";
-            btn.classList.toggle("active-sound", soundEnabled);
-            if (soundEnabled) { playAddSound(); showToast("Sonido activado", "🔊"); }
-            else { showToast("Sonido silenciado", "🔇"); }
-        }
+    function addNewProduct() {
+      playAddSound();
+      const newId = "prod-" + Date.now();
+      state.products.unshift({
+        id: newId,
+        nombre: "Nuevo producto CRESO",
+        categoria: "gadgets",
+        desc: "Descripción del producto...",
+        precioUnitario: 5000,
+        precioMayorista: 4000,
+        minMayorista: 3,
+        badge: "NUEVO",
+        goldBadge: true,
+        svgKey: "gamepad",
+        customImg: ""
+      });
+      persistState();
+      renderProducts();
+      renderAdmin();
+      showToast("Producto nuevo agregado arriba de la lista", "➕");
+    }
 
-        /* ========== GRÁFICOS SVG AUTOCONTENIDOS ========== */
-        const SVG_ICONS = {
-            cableBlack: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="30" y="36" width="180" height="88" rx="14" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
-                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#a7f3d0" stroke-width="10"/>
-                <path d="M64 80C64 58 176 58 176 80C176 102 64 102 64 80Z" stroke="#047857" stroke-width="2.5" stroke-dasharray="5 4"/>
-                <rect x="46" y="68" width="24" height="24" rx="4" fill="#0f172a"/>
-                <rect x="170" y="71" width="22" height="18" rx="3" fill="#0284c7"/>
-                <text x="120" y="142" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">MICRO-USB 0.3M</text>
-            </svg>`,
-            cableWhite: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M56 116C56 54 184 54 184 116" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
-                <path d="M56 116C56 54 184 54 184 116" stroke="#047857" stroke-width="2.2" stroke-linecap="round"/>
-                <rect x="44" y="104" width="24" height="30" rx="5" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
-                <rect x="172" y="106" width="22" height="26" rx="5" fill="#ffffff" stroke="#0284c7" stroke-width="2.2"/>
-                <text x="120" y="34" fill="#064e3b" font-size="11.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">CARGA RÁPIDA • 1M</text>
-            </svg>`,
-            charger: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="80" y="42" width="80" height="76" rx="14" fill="#ffffff" stroke="#047857" stroke-width="2.2"/>
-                <rect x="80" y="42" width="80" height="17" rx="6" fill="#047857"/>
-                <rect x="98" y="22" width="8" height="20" rx="2" fill="#064e3b"/>
-                <rect x="134" y="22" width="8" height="20" rx="2" fill="#064e3b"/>
-                <path d="M124 72L112 90H122L116 107L132 88H121L124 72Z" fill="#f59e0b"/>
-                <text x="120" y="140" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">FUENTE 2A + CABLE</text>
-            </svg>`,
-            earphones: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="88" cy="64" r="21" fill="#ffffff" stroke="#047857" stroke-width="2.5"/>
-                <circle cx="88" cy="64" r="9" fill="#0284c7"/>
-                <circle cx="152" cy="64" r="21" fill="#ffffff" stroke="#047857" stroke-width="2.5"/>
-                <circle cx="152" cy="64" r="9" fill="#0284c7"/>
-                <path d="M88 85V112C88 124 120 124 120 135M152 85V112C152 124 120 124 120 135" stroke="#047857" stroke-width="4" stroke-linecap="round"/>
-                <rect x="112" y="132" width="16" height="14" rx="3" fill="#f59e0b"/>
-                <text x="120" y="28" fill="#0369a1" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">TYPE-C STEREO</text>
-            </svg>`,
-            auxCable: `<svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M54 110C54 46 186 46 186 110" stroke="#047857" stroke-width="8" stroke-linecap="round"/>
-                <rect x="46" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#064e3b" stroke-width="2.2"/>
-                <rect x="178" y="102" width="16" height="22" rx="3" fill="#ffffff" stroke="#064e3b" stroke-width="2.2"/>
-                <text x="120" y="142" fill="#064e3b" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">AUX 3.5MM • 2 METROS</text>
-            </svg>`
-        };
+    function deleteProduct(i) {
+      const item = state.products[i];
+      if (!item) return;
+      if (!confirm(`¿Eliminar "${item.nombre}" del catálogo?`)) return;
+      playClickSound();
+      delete cart[item.id];
+      state.products.splice(i, 1);
+      persistState();
+      renderProducts();
+      updateCartUI();
+      renderAdmin();
+      showToast("Producto eliminado", "🗑️");
+    }
 
-        /* ========== CATÁLOGO CRESO ========== */
-        const DEFAULT_PRODUCTS = [
-            { id: "bb-micro", nombre: "Cable BlackBerry Micro-USB 0.3m", categoria: "cables", desc: "Cable corto reforzado de 30 cm (ASY-28109-001).", precioUnitario: 900, precioMayorista: 650, minMayorista: 10, badge: "30CM", goldBadge: false, svgKey: "cableBlack", customImg: "" },
-            { id: "stark-micro", nombre: "Cable STARK Micro-USB 3.1A (1m)", categoria: "cables", desc: "Carga rápida 3.1A y datos. Cable blanco TPE 1m.", precioUnitario: 1400, precioMayorista: 1000, minMayorista: 10, badge: "3.1A", goldBadge: false, svgKey: "cableWhite", customImg: "" },
-            { id: "x95-lightning", nombre: "Cable CHARGE X95 USB a Lightning", categoria: "cables", desc: "Carga 2A para iPhone/iPad, diseño reforzado.", precioUnitario: 1200, precioMayorista: 800, minMayorista: 10, badge: "10+ OFF", goldBadge: true, svgKey: "cableWhite", customImg: "" },
-            { id: "wk-lightning", nombre: "Cable WK Design Fullspeed Lightning (1m)", categoria: "cables", desc: "Modelo WDC-072i 2.1A, 1000 mm de largo.", precioUnitario: 1400, precioMayorista: 1000, minMayorista: 10, badge: "2.1A", goldBadge: false, svgKey: "cableWhite", customImg: "" },
-            { id: "kos-tipoc", nombre: "Cargador KOS 2A Carga Rápida Tipo C", categoria: "cargadores", desc: "Fuente de pared 2A + cable Tipo C incluido.", precioUnitario: 2800, precioMayorista: 2000, minMayorista: 10, badge: "TIPO C", goldBadge: false, svgKey: "charger", customImg: "" },
-            { id: "kos-micro", nombre: "Cargador KOS 2A Carga Rápida Micro-USB", categoria: "cargadores", desc: "Fuente de pared 2A + cable Micro-USB incluido.", precioUnitario: 2800, precioMayorista: 2000, minMayorista: 10, badge: "MICRO-USB", goldBadge: false, svgKey: "charger", customImg: "" },
-            { id: "kosmo-iph", nombre: "Cargador KOSMO 2A Carga Rápida Lightning", categoria: "cargadores", desc: "KOS 2A IPH para iPhone + cable Lightning.", precioUnitario: 2800, precioMayorista: 2000, minMayorista: 10, badge: "IPHONE", goldBadge: false, svgKey: "charger", customImg: "" },
-            { id: "pro21-typec", nombre: "Auriculares pro21 Stereo Type-C", categoria: "audio", desc: "In-ear con micrófono, Extra Bass y ficha Tipo C.", precioUnitario: 3500, precioMayorista: 2500, minMayorista: 10, badge: "TYPE-C", goldBadge: true, svgKey: "earphones", customImg: "" },
-            { id: "aux-2m", nombre: "Cable Auxiliar Audio 2 Metros (4 Pines)", categoria: "audio", desc: "Jack 3.5mm macho-macho (B6309), 2 metros.", precioUnitario: 1400, precioMayorista: 1000, minMayorista: 10, badge: "2 METROS", goldBadge: false, svgKey: "auxCable", customImg: "" }
-        ];
+    function updateCategory(i, val) {
+      state.products[i].categoria = val;
+      state.products[i].svgKey = getDefaultSvgForCategory(val);
+      persistState();
+      renderProducts();
+      playClickSound();
+    }
 
-        let state = {
-            whatsapp: "5491133667793",
-            products: JSON.parse(JSON.stringify(DEFAULT_PRODUCTS))
-        };
+    function renderAdmin() {
+      document.getElementById("adminWhatsapp").value = state.whatsapp;
+      document.getElementById("adminProductsList").innerHTML = state.products.map((p, i) => `
+        <div class="admin-item">
+          <div class="admin-item-top">
+            <span class="admin-item-badge">#${i + 1} • ${p.customImg ? "Con foto" : "Sin foto aún"}</span>
+            <button class="btn-delete-item" onclick="deleteProduct(${i})">🗑️ Eliminar</button>
+          </div>
+          <div class="admin-row-2">
+            <div class="admin-field" style="margin-top:0;">
+              <label>Nombre del producto</label>
+              <input type="text" value="${escapeAttr(p.nombre)}" onchange="updateField(${i}, 'nombre', this.value)">
+            </div>
+            <div class="admin-field" style="margin-top:0;">
+              <label>Categoría</label>
+              <select onchange="updateCategory(${i}, this.value)">
+                <option value="cargadores" ${p.categoria === "cargadores" ? "selected" : ""}>⚡ Cargadores</option>
+                <option value="audio" ${p.categoria === "audio" ? "selected" : ""}>🎧 Audio</option>
+                <option value="cables" ${p.categoria === "cables" ? "selected" : ""}>🔌 Cables</option>
+                <option value="gadgets" ${p.categoria === "gadgets" ? "selected" : ""}>🎮 Gadgets</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-field">
+            <label>Descripción</label>
+            <input type="text" value="${escapeAttr(p.desc)}" onchange="updateField(${i}, 'desc', this.value)">
+          </div>
+          <div class="admin-field">
+            <label>Link de foto (URL directa)</label>
+            <input type="text" value="${escapeAttr(p.customImg || "")}" placeholder="https://... o tocá 📷 Foto abajo" onchange="updateImgUrl(${i}, this.value)">
+          </div>
+          <div class="admin-prices">
+            <div>
+              <label>Precio unidad</label>
+              <input type="number" value="${p.precioUnitario}" onchange="updatePrice(${i}, 'precioUnitario', this.value)">
+            </div>
+            <div>
+              <label>Precio 3+ u. (c/u)</label>
+              <input type="number" value="${p.precioMayorista}" onchange="updatePrice(${i}, 'precioMayorista', this.value)">
+            </div>
+            <label class="btn-photo">📷 Foto<input type="file" accept="image/*" style="display:none;" onchange="uploadPhoto(${i}, this)"></label>
+          </div>
+        </div>
+      `).join("");
+    }
 
-        try {
-            const saved = localStorage.getItem("creso_store_brand_v1");
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (parsed.whatsapp) state.whatsapp = parsed.whatsapp;
-                if (Array.isArray(parsed.products) && parsed.products.length) state.products = parsed.products;
-            }
-        } catch (e) {}
+    function updateField(i, field, val) {
+      state.products[i][field] = val.trim();
+      persistState();
+      renderProducts();
+      updateCartUI();
+      playClickSound();
+    }
 
-        let cart = {};
-        let currentCategory = "todos";
+    function updateImgUrl(i, val) {
+      state.products[i].customImg = val.trim();
+      persistState();
+      renderProducts();
+      updateCartUI();
+      renderAdmin();
+      playClickSound();
+    }
 
-        function persistState() {
-            try { localStorage.setItem("creso_store_brand_v1", JSON.stringify(state)); } catch (e) {}
-        }
+    function saveSettings() {
+      state.whatsapp = document.getElementById("adminWhatsapp").value.trim() || state.whatsapp;
+      persistState();
+      playClickSound();
+      showToast("WhatsApp guardado", "✅");
+    }
 
-        function showToast(msg, icon = "✅") {
-            const c = document.getElementById("toastContainer");
-            const t = document.createElement("div");
-            t.className = "toast";
-            t.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-text">${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
-            c.appendChild(t);
-            requestAnimationFrame(() => t.classList.add("show"));
-            setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 380); }, 2600);
-        }
-
-        function setCategory(cat, el) {
-            playClickSound();
-            currentCategory = cat;
-            document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-            if (el) el.classList.add("active");
-            renderProducts();
-        }
-
-        function getEffectiveUnitPrice(p, qty) {
-            return qty >= p.minMayorista ? p.precioMayorista : p.precioUnitario;
-        }
-
-        function renderProducts() {
-            const q = document.getElementById("searchInput").value.trim().toLowerCase();
-            const sort = document.getElementById("sortSelect").value;
-            const grid = document.getElementById("productsGrid");
-
-            let list = state.products.filter(p => {
-                const matchCat = currentCategory === "todos" || p.categoria === currentCategory;
-                const matchQ = !q || p.nombre.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
-                return matchCat && matchQ;
-            });
-
-            if (sort === "price-asc") list.sort((a, b) => a.precioUnitario - b.precioUnitario);
-            if (sort === "price-desc") list.sort((a, b) => b.precioUnitario - a.precioUnitario);
-
-            if (!list.length) {
-                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px 16px; color:var(--text-secondary);">Sin resultados para "${q}".</div>`;
-                return;
-            }
-
-            grid.innerHTML = list.map(p => {
-                const qty = cart[p.id] ? cart[p.id].cantidad : 0;
-                const rem = Math.max(0, p.minMayorista - qty);
-                const pct = Math.min(100, (qty / p.minMayorista) * 100);
-                const unlocked = qty >= p.minMayorista;
-                const visual = p.customImg ? `<img src="${p.customImg}" alt="${p.nombre}">` : (SVG_ICONS[p.svgKey] || SVG_ICONS.cableWhite);
-
-                return `
-                <article class="card" id="card-${p.id}">
-                    ${p.badge ? `<span class="badge ${p.goldBadge ? "gold-badge" : ""}">${p.badge}</span>` : ""}
-                    <div class="card-visual">${visual}</div>
-                    <div class="card-body">
-                        <span class="card-cat">${p.categoria}</span>
-                        <h3 class="card-title">${p.nombre}</h3>
-                        <p class="card-desc">${p.desc}</p>
-                        <div class="price-row">
-                            <span class="price-main">$${p.precioUnitario.toLocaleString("es-AR")}</span>
-                            <span class="price-wholesale">10+: $${p.precioMayorista.toLocaleString("es-AR")}</span>
-                        </div>
-                        <div class="progress-mini">
-                            <div class="progress-label ${unlocked ? "done" : ""}">
-                                <span>${unlocked ? "✓ Mayorista activo" : (qty > 0 ? `${qty} en carrito` : `Mayorista ${p.minMayorista}+ u.`)}</span>
-                                <span>${unlocked ? "" : `Faltan ${rem}`}</span>
-                            </div>
-                            <div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-add" id="btn-${p.id}" onclick="addToCart('${p.id}', 1)">➕ Agregar</button>
-                            <button class="btn-pack" onclick="addToCart('${p.id}', ${p.minMayorista})">+${p.minMayorista}</button>
-                        </div>
-                    </div>
-                </article>`;
-            }).join("");
-        }
-
-        function addToCart(id, qty) {
-            const p = state.products.find(item => item.id === id);
-            if (!p) return;
-            cart[id] = cart[id] ? { id, cantidad: cart[id].cantidad + qty } : { id, cantidad: qty };
-            playAddSound();
-
-            const card = document.getElementById(`card-${id}`);
-            if (card) { card.classList.remove("added-anim"); void card.offsetWidth; card.classList.add("added-anim"); }
-
-            const btn = document.getElementById(`btn-${id}`);
-            if (btn && qty === 1) {
-                btn.textContent = "✓ Sumado";
-                btn.classList.add("added");
-                setTimeout(() => { btn.textContent = "➕ Agregar"; btn.classList.remove("added"); }, 1000);
-            }
-
-            showToast(qty >= 10 ? `¡Pack x${qty} ${p.nombre} mayorista!` : `¡${p.nombre} agregado!`, "🛒");
-            animateFab();
-            renderProducts();
-            updateCartUI();
-        }
-
-        function animateFab() {
-            const fab = document.getElementById("cartFab");
-            const badge = document.getElementById("cartFabBadge");
-            fab.classList.remove("bounce"); void fab.offsetWidth; fab.classList.add("bounce");
-            badge.classList.remove("pop"); void badge.offsetWidth; badge.classList.add("pop");
-        }
-
-        function updateQty(id, delta) {
-            if (!cart[id]) return;
-            playClickSound();
-            cart[id].cantidad += delta;
-            if (cart[id].cantidad <= 0) delete cart[id];
-            renderProducts();
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const entries = Object.values(cart);
-            const container = document.getElementById("cartItems");
-            if (!entries.length) {
-                container.innerHTML = `<div style="text-align:center; padding:28px 12px; color:var(--text-secondary);">Tu carrito está vacío. Agregá productos para armar tu pedido.</div>`;
-                document.getElementById("savingsContainer").innerHTML = "";
-                document.getElementById("cartFabBadge").textContent = "0";
-                document.getElementById("cartFabTotal").textContent = "$0";
-                document.getElementById("totalPrice").textContent = "Total: $0";
-                return;
-            }
-
-            let units = 0, regularSum = 0, finalSum = 0;
-            container.innerHTML = entries.map(e => {
-                const p = state.products.find(x => x.id === e.id);
-                if (!p) return "";
-                const unitP = getEffectiveUnitPrice(p, e.cantidad);
-                const sub = unitP * e.cantidad;
-                units += e.cantidad;
-                regularSum += p.precioUnitario * e.cantidad;
-                finalSum += sub;
-
-                return `
-                <div class="cart-item">
-                    <div class="cart-item-info">
-                        <h4>${p.nombre}</h4>
-                        <div class="cart-item-meta">$${unitP.toLocaleString("es-AR")} c/u ${e.cantidad >= p.minMayorista ? "• MAYORISTA" : ""}</div>
-                    </div>
-                    <div class="qty-controls">
-                        <button class="qty-btn" onclick="updateQty('${p.id}', -1)">−</button>
-                        <span>${e.cantidad}</span>
-                        <button class="qty-btn" onclick="updateQty('${p.id}', 1)">+</button>
-                    </div>
-                    <strong style="min-width:74px; text-align:right; font-size:0.9rem;">$${sub.toLocaleString("es-AR")}</strong>
-                </div>`;
-            }).join("");
-
-            const saved = regularSum - finalSum;
-            document.getElementById("savingsContainer").innerHTML = saved > 0
-                ? `<div class="savings-banner">🎉 Ahorrás $${saved.toLocaleString("es-AR")} con precio mayorista</div>`
-                : "";
-
-            document.getElementById("cartFabBadge").textContent = units;
-            document.getElementById("cartFabTotal").textContent = `$${finalSum.toLocaleString("es-AR")}`;
-            document.getElementById("totalPrice").textContent = `Total: $${finalSum.toLocaleString("es-AR")}`;
-        }
-
-        function toggleCart() { document.getElementById("cartDrawerOverlay").classList.toggle("active"); }
-        function toggleDireccionField() {
-            const v = document.getElementById("clienteEntrega").value;
-            document.getElementById("direccionGroup").style.display = v === "Retiro a coordinar" ? "none" : "block";
-        }
-
-        function sendOrder() {
-            const entries = Object.values(cart);
-            if (!entries.length) { showToast("Agregá algún producto primero", "🛒"); return; }
-
-            const nombre = document.getElementById("clienteNombre").value.trim();
-            const tel = document.getElementById("clienteTel").value.trim();
-            const entrega = document.getElementById("clienteEntrega").value;
-            const pago = document.getElementById("clientePago").value;
-            const dir = document.getElementById("clienteDireccion").value.trim();
-            const notas = document.getElementById("clienteNotas").value.trim();
-
-            if (!nombre || !tel) { showToast("Completá nombre y teléfono", "⚠️"); return; }
-            if (entrega === "Envío a coordinar" && !dir) { showToast("Completá dirección o zona", "📍"); return; }
-
-            playAddSound();
-            let total = 0;
-            let msg = `*PEDIDO CRESO*\n👤 *Cliente:* ${nombre}\n📱 *Tel:* ${tel}\n🚚 *Entrega:* ${entrega}\n`;
-            if (entrega === "Envío a coordinar") msg += `📍 *Dirección:* ${dir}\n`;
-            msg += `💳 *Pago:* ${pago}\n\n*DETALLE:*\n`;
-
-            entries.forEach(e => {
-                const p = state.products.find(x => x.id === e.id);
-                if (!p) return;
-                const uPrice = getEffectiveUnitPrice(p, e.cantidad);
-                const sub = uPrice * e.cantidad;
-                total += sub;
-                msg += `• ${e.cantidad}x ${p.nombre}${e.cantidad >= p.minMayorista ? " [Mayorista]" : ""} — $${sub.toLocaleString("es-AR")}\n`;
-            });
-
-            msg += `\n💰 *Total (${pago}): $${total.toLocaleString("es-AR")}*`;
-            if (notas) msg += `\n📝 *Notas:* ${notas}`;
-
-            const phone = state.whatsapp.replace(/\D/g, "") || "5491133667793";
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
-        }
-
-        function toggleAdmin() {
-            const ov = document.getElementById("adminDrawerOverlay");
-            ov.classList.toggle("active");
-            if (ov.classList.contains("active")) renderAdmin();
-        }
-
-        function renderAdmin() {
-            document.getElementById("adminWhatsapp").value = state.whatsapp;
-            document.getElementById("adminProductsList").innerHTML = state.products.map((p, i) => `
-                <div class="admin-item">
-                    <strong style="font-size:0.88rem;">${p.nombre}</strong>
-                    <div class="admin-prices">
-                        <div>
-                            <label style="font-size:0.7rem; color:var(--text-secondary);">Unitario</label>
-                            <input type="number" value="${p.precioUnitario}" onchange="updatePrice(${i}, 'precioUnitario', this.value)">
-                        </div>
-                        <div>
-                            <label style="font-size:0.7rem; color:var(--text-secondary);">10+ Mayor</label>
-                            <input type="number" value="${p.precioMayorista}" onchange="updatePrice(${i}, 'precioMayorista', this.value)">
-                        </div>
-                        <label class="btn-photo">📷 Foto<input type="file" accept="image/*" style="display:none;" onchange="uploadPhoto(${i}, this)"></label>
-                    </div>
-                </div>
-            `).join("");
-        }
-
-        function saveSettings() {
-            state.whatsapp = document.getElementById("adminWhatsapp").value.trim() || state.whatsapp;
-            persistState();
-            playClickSound();
-            showToast("WhatsApp guardado", "✅");
-        }
-
-        function updatePrice(i, field, val) {
-            const n = parseInt(val, 10);
-            if (!isNaN(n) && n >= 0) {
-                state.products[i][field] = n;
-                persistState();
-                renderProducts();
-                updateCartUI();
-                playClickSound();
-            }
-        }
-
-        function uploadPhoto(i, input) {
-            const file = input.files && input.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement("canvas");
-                    const max = 520;
-                    let w = img.width, h = img.height;
-                    if (w > max || h > max) {
-                        if (w > h) { h = Math.round(h * max / w); w = max; }
-                        else { w = Math.round(w * max / h); h = max; }
-                    }
-                    canvas.width = w; canvas.height = h;
-                    canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-                    state.products[i].customImg = canvas.toDataURL("image/jpeg", 0.78);
-                    persistState();
-                    renderProducts();
-                    playAddSound();
-                    showToast("Foto guardada en CRESO", "📷");
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function exportStandaloneHTML() {
-            let html = document.documentElement.outerHTML;
-            html = html.replace(/const DEFAULT_PRODUCTS = \[[\s\S]*?\];/, `const DEFAULT_PRODUCTS = ${JSON.stringify(state.products, null, 2)};`);
-            html = html.replace(/whatsapp:\s*"[^"]*"/, `whatsapp: "${state.whatsapp.replace(/"/g, "")}"`);
-            const blob = new Blob(["<!DOCTYPE html>\n" + html], { type: "text/html;charset=utf-8" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url; a.download = "index.html"; a.click();
-            URL.revokeObjectURL(url);
-            playAddSound();
-            showToast("¡index.html descargado!", "💾");
-        }
-
+    function updatePrice(i, field, val) {
+      const n = parseInt(val, 10);
+      if (!isNaN(n) && n >= 0) {
+        state.products[i][field] = n;
+        persistState();
         renderProducts();
         updateCartUI();
-    </script>
+        playClickSound();
+      }
+    }
+
+    function uploadPhoto(i, input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const max = 640;
+          let w = img.width, h = img.height;
+          if (w > max || h > max) {
+            if (w > h) { h = Math.round(h * max / w); w = max; }
+            else { w = Math.round(w * max / h); h = max; }
+          }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+          state.products[i].customImg = canvas.toDataURL("image/jpeg", 0.82);
+          persistState();
+          renderProducts();
+          updateCartUI();
+          renderAdmin();
+          playAddSound();
+          showToast("Foto guardada en CRESO", "📷");
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function exportStandaloneHTML() {
+      const wasAdminOpen = document.getElementById("adminDrawerOverlay").classList.contains("active");
+      const wasCartOpen = document.getElementById("cartDrawerOverlay").classList.contains("active");
+      closeAdminDrawer();
+      document.getElementById("cartDrawerOverlay").classList.remove("active");
+
+      let html = document.documentElement.outerHTML;
+      html = html.replace(/const DEFAULT_PRODUCTS = \[[\s\S]*?\];/, `const DEFAULT_PRODUCTS = ${JSON.stringify(state.products, null, 6)};`);
+      html = html.replace(/whatsapp:\s*"[^"]*"/, `whatsapp: "${state.whatsapp.replace(/"/g, "")}"`);
+
+      if (wasAdminOpen) document.getElementById("adminDrawerOverlay").classList.add("active");
+      if (wasCartOpen) document.getElementById("cartDrawerOverlay").classList.add("active");
+
+      const blob = new Blob(["<!DOCTYPE html>\n" + html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "index.html";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("index.html descargado (con panel cerrado)", "💾");
+    }
+
+    // Inicializar catálogo y carrito al cargar
+    renderProducts();
+    updateCartUI();
+  </script>
 </body>
 </html>
